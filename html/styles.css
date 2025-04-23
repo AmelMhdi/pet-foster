@@ -1,0 +1,91 @@
+/* Global Styles */
+body {
+  background-color: #FBFCF4;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+
+
+
+/* Navbar Styles */
+.navbar {
+  background-color: #FBFCF4;
+}
+
+.navbar-brand {
+  color: #488EBA;
+}
+
+.nav-link {
+  color: #488EBA;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  color: #FF3F4F;
+}
+
+h1 {
+  color: #488EBA;
+}
+
+.container p.custom-border-accueil{
+  border-color: #488EBA;
+}
+
+
+/* Section Animal */
+h2 {
+  color: #FF3F4F;
+  font-size: 2rem;
+}
+
+.card-body {
+  color: #488EBA;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #488EBA;
+}
+
+/* Responsive Images */
+.card-img-top {
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+@media (min-width: 576px) {
+  .card-img-top {
+    height: 200px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-img-top {
+    height: 250px;
+  }
+}
+
+
+
+/* Footer Styles */
+.footer-navbar {
+  background-color: #488EBA;
+
+}
+
+.footer-navbar .nav-link {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.footer-navbar .nav-link:hover {
+  text-decoration: underline;
+  color: #FF3F4F;
+}
