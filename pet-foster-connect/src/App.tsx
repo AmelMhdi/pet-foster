@@ -9,7 +9,7 @@ import NotFound404 from "./pages/NotFound404";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Login from './pages/Login';
+import Login from './pages/login';
 import Register from './pages/Register';
 import AnimalDetails from "./components/AnimalDetails.tsx"
 import MentionsLegales from './pages/Mentions-legales';
