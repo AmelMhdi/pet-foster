@@ -1,133 +1,166 @@
-import '../utils/loadEnv.js'; // <- This comes avant tout !
+import '../utils/loadEnv.js';
 import { sequelize } from '../models/sequelizeClient.js';
 import { User, Animal, Role, Species, Localisation, User_animal } from '../models/index.js';
 
-async function seed() {
-  try {
-    // Insert species
-    const speciesList = ['Chien', 'Chat', 'Lapin'];
-    const speciesInstances = [];
-    for (const name of speciesList) {
-      const species = await Species.create({ name });
-      speciesInstances.push(species);
-    }
+await sequelize.sync({ force: true }); // Reset la DB (optionnel selon contexte)
 
-    // Insert roles
-    const roleList = ['admin', 'user'];
-    const roleInstances = [];
-    for (const name of roleList) {
-      const role = await Role.create({ name });
-      roleInstances.push(role);
-    }
+const roles = [
+  { name: 'admin' },
+  { name: 'moderator' },
+  { name: 'user' },
+  { name: 'guest' }
+];
 
-    // Créer une map pour accéder facilement aux IDs de rôles
-    const roleMap = {};
-    for (const role of roleInstances) {
-      roleMap[role.name] = role.id;
-    }
+const species = [
+  { name: 'Chien' },
+  { name: 'Chat' },
+  { name: 'Lapin' },
+  { name: 'Perroquet' },
+  { name: 'Hamster' }
+];
 
-    // Insert localisations
-    const localisations = [
-      { city: 'Paris', postcode: 75000 },
-      { city: 'Laval', postcode: 53000 },
-    ];
-    const localisationInstances = [];
-    for (const loc of localisations) {
-      const localisation = await Localisation.create(loc);
-      localisationInstances.push(localisation);
-    }
+const localisations = [
+  { city: 'Paris', postcode: 75001 },
+  { city: 'Lyon', postcode: 69002 },
+  { city: 'Marseille', postcode: 13008 },
+  { city: 'Toulouse', postcode: 31000 },
+  { city: 'Nantes', postcode: 44000 }
+];
 
-    // Map des localisations
-    const localisationMap = {};
-    for (const loc of localisationInstances) {
-      localisationMap[loc.city] = loc.id;
-    }
-
-    // Insert users
-    const users = [
-      {
-        firstname: 'Alice',
-        lastname: 'Dupont',
-        password: 'hashedpassword1',
-        email: 'alice@example.com',
-        address: '123 rue de Paris',
-        phone_number: 123456789,
-        rma_number: 'RMA001',
-        role_id: roleMap['admin'],
-      },
-      {
-        firstname: 'Bob',
-        lastname: 'Martin',
-        password: 'hashedpassword2',
-        email: 'bob@example.com',
-        address: '456 avenue des Lilas',
-        phone_number: 987654321,
-        rma_number: 'RMA002',
-        role_id: roleMap['user'],
-      },
-    ];
-    const userInstances = [];
-    for (const user of users) {
-      const newUser = await User.create(user);
-      userInstances.push(newUser);
-    }
-
-    // Map des utilisateurs
-    const userMap = {};
-    for (const user of userInstances) {
-      userMap[user.email] = user.id;
-    }
-
-    // Insert animals
-    const animals = [
-      {
-        name: 'Rex',
-        birthday: new Date('2020-05-20'),
-        description: 'Un chien fidèle et joueur',
-        picture: 'rex.jpg',
-        species_id: speciesInstances[0].id,
-        localisation_id: localisationMap['Paris'],
-        user_id: userMap['alice@example.com'],
-      },
-      {
-        name: 'Mina',
-        birthday: new Date('2019-08-14'),
-        description: 'Chat calme et affectueux',
-        picture: 'mina.jpg',
-        species_id: speciesInstances[1].id,
-        localisation_id: localisationMap['Paris'],
-        user_id: userMap['bob@example.com'],
-      },
-    ];
-    const animalInstances = [];
-    for (const animal of animals) {
-      const newAnimal = await Animal.create(animal);
-      animalInstances.push(newAnimal);
-    }
-
-    // Insert messages (user_animal)
-    const messages = [
-      {
-        message: 'Je voudrais adopter Rex',
-        userId: userMap['alice@example.com'],
-        animalId: animalInstances[0].id,
-      },
-      {
-        message: 'Mina est adorable !',
-        userId: userMap['bob@example.com'],
-        animalId: animalInstances[1].id,
-      },
-    ];
-    for (const msg of messages) {
-      await User_animal.create(msg);
-    }
-
-    console.log('\n✅ Seeding done!\n');
-  } catch (error) {
-    console.error('❌ Seeding failed:', error);
-  } finally {
-    await sequelize.close();
-  }
+// Création des rôles
+const roleInstances = [];
+for (const role of roles) {
+  roleInstances.push(await Role.create(role));
 }
 
-seed();
+// Création des espèces
+const speciesInstances = [];
+for (const s of species) {
+  speciesInstances.push(await Species.create(s));
+}
+
+// Création des localisations
+const localisationInstances = [];
+for (const loc of localisations) {
+  localisationInstances.push(await Localisation.create(loc));
+}
+
+const users = [
+  {
+    firstname: 'Alice',
+    lastname: 'Durand',
+    password: 'hashedpassword1',
+    email: 'alice.durand@example.com',
+    address: '12 rue des Lilas',
+    phone_number: "0612345678",
+    rma_number: 'RMA2024001',
+    postcode: 75001,
+    city: 'Paris',
+    role_id: roleInstances[2].id // user
+  },
+  {
+    firstname: 'Bruno',
+    lastname: 'Martin',
+    password: 'hashedpassword2',
+    email: 'bruno.martin@example.com',
+    address: '34 avenue Victor Hugo',
+    phone_number: "0623456789",
+    rma_number: 'RMA2024002',
+    postcode: 69002,
+    city: 'Lyon',
+    role_id: roleInstances[2].id
+  },
+  {
+    firstname: 'Claire',
+    lastname: 'Petit',
+    password: 'hashedpassword3',
+    email: 'claire.petit@example.com',
+    address: '78 boulevard des Alpes',
+    phone_number: "0634567890",
+    rma_number: 'RMA2024003',
+    postcode: 38000,
+    city: 'Grenoble',
+    role_id: roleInstances[1].id // moderator
+  },
+  {
+    firstname: 'David',
+    lastname: 'Lemoine',
+    password: 'hashedpassword4',
+    email: 'david.lemoine@example.com',
+    address: '9 impasse des Cèdres',
+    phone_number: "0645678901",
+    rma_number: 'RMA2024004',
+    postcode: 13008,
+    city: 'Marseille',
+    role_id: roleInstances[0].id // admin
+  }
+];
+
+const userInstances = [];
+for (const user of users) {
+  userInstances.push(await User.create(user));
+}
+
+const animals = [
+  {
+    name: 'Luna',
+    birthday: new Date('2019-06-15'),
+    description: 'Chienne très affectueuse et joueuse, adore les longues balades.',
+    picture: 'luna.jpg',
+    localisation_id: localisationInstances[0].id,
+    user_id: userInstances[0].id,
+    species_id: speciesInstances[0].id
+  },
+  {
+    name: 'Milo',
+    birthday: new Date('2020-03-22'),
+    description: 'Chat calme et discret, aime observer depuis la fenêtre.',
+    picture: 'milo.png',
+    localisation_id: localisationInstances[1].id,
+    user_id: userInstances[1].id,
+    species_id: speciesInstances[1].id
+  },
+  {
+    name: 'Coco',
+    birthday: new Date('2021-08-10'),
+    description: 'Perroquet bavard, capable de répéter plusieurs mots.',
+    picture: 'coco.jpeg',
+    localisation_id: localisationInstances[2].id,
+    user_id: userInstances[2].id,
+    species_id: speciesInstances[3].id
+  },
+  {
+    name: 'Nala',
+    birthday: new Date('2018-11-05'),
+    description: 'Lapine curieuse qui adore grignoter des légumes frais.',
+    picture: 'nala.jpg',
+    localisation_id: localisationInstances[3].id,
+    user_id: userInstances[3].id,
+    species_id: speciesInstances[2].id
+  }
+];
+
+const animalInstances = [];
+for (const animal of animals) {
+  animalInstances.push(await Animal.create(animal));
+}
+
+// Exemple d'association User_Animal
+const user_animals = [
+  {
+    message: "Je suis très proche de Luna.",
+    user_id: userInstances[0].id,
+    animal_id: animalInstances[0].id
+  },
+  {
+    message: "Milo est un vrai pot de colle.",
+    user_id: userInstances[1].id,
+    animal_id: animalInstances[1].id
+  }
+];
+
+for (const user_animal of user_animals) {
+  await User_animal.create(user_animal);
+}
+
+console.log('✅ Données fictives insérées avec succès !');

@@ -37,9 +37,9 @@ Animal.belongsTo(Species, {
 } );
 
 
-// Animal <--> User (One-to-Many)
+// Animal <--> User (One-to-Many) asso
 User.hasMany(Animal, {
-  as: "animals", // alias, permet de faire les 'include' sans avoir à importer le deuxième modèle. // On choisi la valeur pour cet alias, mais en pratique, répondre à la questio: "quand je requête un user, je veux pouvoir récupérer ses..."
+  as: "animals-asso", // alias, permet de faire les 'include' sans avoir à importer le deuxième modèle. // On choisi la valeur pour cet alias, mais en pratique, répondre à la questio: "quand je requête un user, je veux pouvoir récupérer ses..."
   foreignKey: {
     name: "user_id",
     allowNull: false,
@@ -47,7 +47,7 @@ User.hasMany(Animal, {
   onDelete: "CASCADE"
 });
 Animal.belongsTo(User, {
-  as: "users", // Quand je requête une animal, je veux pouvoir récupérer... ses users
+  as: "asso", // Quand je requête une animal, je veux pouvoir récupérer... ses users
   foreignKey: "user_id" // obligatoire, sinon il créé un champ dont on ne veut pas
 });
 
@@ -62,25 +62,22 @@ Role.hasMany(User, {
   onDelete: "CASCADE"
 });
 User.belongsTo(Role, {
-  as: "roles", // Quand je requête un user, je veux pouvoir récupérer... son role
-  foreignKey: "user_id" // obligatoire, sinon il créé un champ dont on ne veut pas
+  as: "role", // Quand je requête un user, je veux pouvoir récupérer... son role
+  foreignKey: "role_id" // obligatoire, sinon il créé un champ dont on ne veut pas
 });
-
-
 
 // User <--> Animal (Many-to-Many)
 User.belongsToMany(Animal, {
-  as: "users",
-  through: "User_animal",
-  foreignKey: "animal_id"
-});
-
-Animal.belongsToMany(User, {
-  as: "animals",
-  through: "User_animal",
+  as: "animals-family",
+  through: "user_animal",
   foreignKey: "user_id"
 });
 
+Animal.belongsToMany(User, {
+  as: "families",
+  through: "user_animal",
+  foreignKey: "animal_id"
+});
 
 // Exporter nos modèles
 export { User, Role, Animal, Species, Localisation, User_animal,sequelize };
