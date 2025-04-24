@@ -2,7 +2,7 @@ import '../utils/loadEnv.js';
 import { sequelize } from '../models/sequelizeClient.js';
 import { User, Animal, Role, Species, Localisation, User_animal } from '../models/index.js';
 
-await sequelize.sync({ force: true }); // Reset la DB (optionnel selon contexte)
+
 
 const roles = [
   { name: 'admin' },
@@ -97,9 +97,18 @@ const users = [
 ];
 
 const userInstances = [];
-for (const user of users) {
-  userInstances.push(await User.create(user));
+
+// Insérer les utilisateurs avec gestion des erreurs et parallélisme
+try {
+  for (const user of users) {
+ userInstances.push(await User.create(user));
+ }
+
+  console.log("Utilisateurs insérés avec succès !");
+} catch (error) {
+  console.error("Erreur lors de l'insertion des utilisateurs : ", error);
 }
+
 
 const animals = [
   {
@@ -159,8 +168,11 @@ const user_animals = [
   }
 ];
 
-for (const user_animal of user_animals) {
-  await User_animal.create(user_animal);
+try {
+  await Promise.all(user_animals.map(user_animal => User_animal.create(user_animal)));
+  console.log("Associations insérées avec succès !");
+} catch (error) {
+  console.error("Erreur lors de l'insertion des associations : ", error);
 }
 
 console.log('✅ Données fictives insérées avec succès !');

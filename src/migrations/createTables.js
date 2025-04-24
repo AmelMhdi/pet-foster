@@ -1,5 +1,3 @@
-import '../utils/loadEnv.js'; // <- This comes before anything else!
-
 import { sequelize } from "../models/index.js"; // Import du tunnel de connexion (pour fermeture en fin de script)
 // Le sequelize a "conscience" des différents modèles
 console.log( 'PG_URL in createTables:', process.env.PG_URL );

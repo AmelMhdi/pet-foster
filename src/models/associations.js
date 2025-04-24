@@ -39,7 +39,7 @@ Animal.belongsTo(Species, {
 
 // Animal <--> User (One-to-Many) asso
 User.hasMany(Animal, {
-  as: "animals-asso", // alias, permet de faire les 'include' sans avoir à importer le deuxième modèle. // On choisi la valeur pour cet alias, mais en pratique, répondre à la questio: "quand je requête un user, je veux pouvoir récupérer ses..."
+  as: "animals_asso", // alias, permet de faire les 'include' sans avoir à importer le deuxième modèle. // On choisi la valeur pour cet alias, mais en pratique, répondre à la questio: "quand je requête un user, je veux pouvoir récupérer ses..."
   foreignKey: {
     name: "user_id",
     allowNull: false,
@@ -68,14 +68,14 @@ User.belongsTo(Role, {
 
 // User <--> Animal (Many-to-Many)
 User.belongsToMany(Animal, {
-  as: "animals-family",
-  through: "user_animal",
+  as: "animals_family",
+  through: "User_animal",
   foreignKey: "user_id"
 });
 
 Animal.belongsToMany(User, {
   as: "families",
-  through: "user_animal",
+  through: "User_animal",
   foreignKey: "animal_id"
 });
 
