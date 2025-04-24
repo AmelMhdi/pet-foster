@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from './sequelizeClient.js';
+import {sequelize} from './sequelizeClient.js';
 
 export class Animal extends Model {}
 
