@@ -5,7 +5,7 @@ import { Role } from "./Role.js";
 import { Animal } from "./Animal.js";
 import { Localisation } from "./Localisation.js";
 import { Species } from "./Species.js";
-
+import {User_animal} from "./User_animal.js"
 
 // Animal <--> Localisation (One-to-Many)
 Localisation.hasMany(Animal, {
@@ -83,4 +83,4 @@ Animal.belongsToMany(User, {
 
 
 // Exporter nos modèles
-export { User, Role, Animal, Species, Localisation, sequelize };
+export { User, Role, Animal, Species, Localisation, User_animal,sequelize };

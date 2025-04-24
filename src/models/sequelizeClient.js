@@ -1,3 +1,5 @@
+import '../utils/loadEnv.js';
+
 import { Sequelize } from "sequelize";
 
 // Notre client Sequelize
