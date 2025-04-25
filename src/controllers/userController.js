@@ -1,6 +1,6 @@
 import { User } from "../models/index.js";
 import Joi from 'joi';
-import {hash} from "../utils/crypto.js";
+import {hash, compare, generateJwtToken} from "../utils/crypto.js";
 import { Op } from 'sequelize';
 
 // http://localhost:3000/api/users
@@ -30,7 +30,7 @@ export async function register( req, res )
     email:Joi.string().email().required(),
     address:Joi.string().required(),
     phone_number:Joi.string().required(),
-    rma_number:Joi.string().pattern(/^W\d{9}$/).required(),  //w+9chiffres
+    rma_number:Joi.string().pattern(/^W\d{9}$/).required(),  //w+9chiffres  
     role_id:Joi.number().integer().required()
   });
 
@@ -92,29 +92,41 @@ export async function register( req, res )
   }
 }
 
-
-
-
-
-
 /**
  * Fonction qui permet à l'utilisateur de se connecter
  * // http://localhost:3000/api/login
  */
 
 export async function login(req, res) {
-   
-  const {email} = req.body;
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
+  } );
+  
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(401).json({ status: 400, message: error.details[0].message });
+  } 
+
+  const { email, password } = req.body;
 
   const user = await User.findOne({ where: { email }});
   if ( !user ) { return res.status( 400 ).json( { status: 401, message: "Invalid credentials" } ); }
   
+  // Fonction de argon2 stockée dans crypto, pour comparer le mot de passe saisi et celui de la bdd
+  const validPassword = await compare( password, user.password );
   
-  // Log l'utilisateur pour vérifier si le pseudonyme est bien présent
-  console.log('Utilisateur:', user);
-
-  res.status(200).json({ status: 200, userId: user.id });
+  console.log({ validPassword });
+  if (!validPassword) {
+    return res.status(401).json({ status: 401, message: "Invalid credentials" });
+  }
+  console.log( 'Utilisateur connecté, ID:', user.id );  
+  
+  const token = generateJwtToken({ userId: user.id });
+  res.json({ token, expiresIn: "1d" ,firstname:user.firstname});
 }
 
-// "password": "hashedpassword4",
-//     "email": "david.lemoine@example.com",
+// User de test avec le bon format
+// {"email": "zoe.token@example.com",
+//   "password": "teftPaddwford123"
+// }
