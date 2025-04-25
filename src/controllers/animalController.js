@@ -17,23 +17,19 @@ export async function getOneAnimal(req, res) {
 
 export async function deleteAnimal(req, res) {
   const animalId = parseInt(req.params.id);
-
   if (!Number.isInteger(animalId)) {
     return res.status(404).json({ error: "L'animal n'existe pas" });
   }
-
   const animal = await Animal.findByPk(animalId);
-
   if (!animal) {
     return res.status(404).json({ error: "L'animal n'existe pas" });
   }
-
   await animal.destroy();
   console.log(`Animal ${animalId} supprimé`);
-
   res.status(204).end();
 }
 
+// version du createAnimal avec Joi
 // export async function createAnimal(req, res) {
 //   /*
   
@@ -79,7 +75,6 @@ export async function deleteAnimal(req, res) {
 
 export async function createAnimal(req, res) {
   console.log("Requête createAnimal reçue", req.body);
-
   const { name, birthday, description, picture } = req.body;
   
   // On vérifie que les champs requis sont présents
@@ -104,4 +99,52 @@ export async function createAnimal(req, res) {
       message: error.message 
     });
   }
+}
+
+export async function updateAnimal(req, res) {
+  const animalId = parseInt(req.params.id);
+
+  console.log("ID de l'animal : ", animalId);
+
+  if (!Number.isInteger(animalId)) {
+    return res.status(404).json({ error: "L'animal n'existe pas" });
+  }
+
+  const { name, birthday: birthdayInput, description, picture } = req.body;
+
+  console.log("Données reçues : ", req.body);
+
+  if (!name || !birthdayInput || !description || !picture) {
+    return res.status(400).json({ error: "Tous les champs sont requis" });
+  }
+
+  // On vérifie que l'animal existe
+  const animal = await Animal.findByPk(animalId);
+
+  console.log("Animal trouvé:", animal);
+
+  if (!animal) {
+    return res.status(404).json({ error: "L'animal n'existe pas" });
+  }
+
+  // Validation et parsing de la date
+  const birthday = new Date(birthdayInput);
+  if (isNaN(birthday.getTime())) {
+    return res.status(400).json({ error: "La date de naissance est invalide." });
+  }
+
+  // On met à jour l'animal
+  animal.name = name;
+  animal.birthday = birthday;
+  animal.description = description;
+  animal.picture = picture;
+
+  try {
+    await animal.save();
+    res.json(animal);
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de l'animal : ", error);
+    return res.status(500).json({ error: "Erreur interne du serveur" });
+  }
+
 }
