@@ -1,8 +1,16 @@
 import { Router } from "express";
-const router = Router();
+import { router as userRouter } from "./userRouter.js";
+import { router as animalRouter } from "./animalRouter.js";
+import { router as associationRouter } from "./associationRouter.js";
 
-router.get("/", (req, res) => {
-  res.send("Hello World!");
+export const router = Router();
+
+router.use(userRouter);
+router.use(animalRouter);
+router.use(associationRouter);
+
+
+router.use((req, res) => {
+  res.status(404).json({ error: "Ressource not found"});
 });
 
-export default router;
