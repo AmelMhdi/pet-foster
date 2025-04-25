@@ -1,4 +1,4 @@
-import '../utils/loadEnv.js';
+
 import { sequelize } from '../models/sequelizeClient.js';
 import { User, Animal, Role, Species, Localisation, User_animal } from '../models/index.js';
 
