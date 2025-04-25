@@ -8,7 +8,7 @@ User.init(
     firstname: {
       type: DataTypes.STRING,
       allowNull: false,
-         },
+    },
 
     lastname: {
       type: DataTypes.STRING,
@@ -23,17 +23,17 @@ User.init(
       allowNull: false,
       unique: true,  
     },
-      address: {
+    address: {
       type: DataTypes.STRING,
       allowNull: false,
     },
       
-       phone_number: {  
+    phone_number: {  
       type: DataTypes.STRING,
       allowNull: false,
       unique: true, 
     },
-       rma_number: {   
+    rma_number: {   
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,

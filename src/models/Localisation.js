@@ -12,7 +12,7 @@ Localisation.init({
   postcode: {
     type: DataTypes.INTEGER,
     allowNull: false,
-      },
+  },
 
   
 }, {

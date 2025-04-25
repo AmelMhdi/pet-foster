@@ -4,7 +4,7 @@ import { sequelize } from "./sequelizeClient.js";
 export class User_animal extends Model {}
 
 User_animal.init( {
-    user_id: {
+  user_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,

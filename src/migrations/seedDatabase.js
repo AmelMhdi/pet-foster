@@ -1,5 +1,3 @@
-
-import { sequelize } from '../models/sequelizeClient.js';
 import { User, Animal, Role, Species, Localisation, User_animal } from '../models/index.js';
 
 
@@ -101,8 +99,8 @@ const userInstances = [];
 // Insérer les utilisateurs avec gestion des erreurs et parallélisme
 try {
   for (const user of users) {
- userInstances.push(await User.create(user));
- }
+    userInstances.push(await User.create(user));
+  }
 
   console.log("Utilisateurs insérés avec succès !");
 } catch (error) {
