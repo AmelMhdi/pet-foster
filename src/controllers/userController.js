@@ -23,7 +23,7 @@ export async function getAllUsers( req, res ){
 export async function register( req, res, next )
 {
   const error = validate( req );
-  
+  // Si une erreur de validation existe, on la transmet au middleware d'erreur
   if ( error )
   {
     return next(error);
@@ -89,6 +89,21 @@ export async function login(req, res) {
   res.json({ token, expiresIn: "1d" ,firstname:user.firstname});
 }
 
+/**
+ * Fonction qui permet à l'utilisateur de modifier ses informations
+ * // http://localhost:3000/api/users/2
+ */
+
+
+
+
+
+
+
+
+/**
+     * Fonction qui permet de valider les données pour les enregistrements 
+     */
 function validate(req) {
   const schema = Joi.object({
     firstname: Joi.string().min(3).max(30).required(),
@@ -108,6 +123,10 @@ function validate(req) {
     : null;
 }
 
+
+/**
+     * Controler le mot de passe
+     */
 const passwordComplexity = Joi.string()
   .min(12)
   .max(100)
@@ -119,6 +138,10 @@ const passwordComplexity = Joi.string()
   .required()
   ;
 
+
+/**
+     * Fonction qui permet de controler les doublons lors de l'enregistrement
+     */
 async function checkDuplicates(email, phone_number, rma_number) {
   const existingUser = await User.findOne({
     where: {
