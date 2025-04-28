@@ -52,8 +52,7 @@ const users = [
     address: '12 rue des Lilas',
     phone_number: "0612345678",
     rma_number: 'RMA2024001',
-    postcode: 75001,
-    city: 'Paris',
+    localisation_id: localisationInstances[0].id,
     role_id: roleInstances[2].id // user
   },
   {
@@ -64,8 +63,7 @@ const users = [
     address: '34 avenue Victor Hugo',
     phone_number: "0623456789",
     rma_number: 'RMA2024002',
-    postcode: 69002,
-    city: 'Lyon',
+    localisation_id: localisationInstances[1].id,
     role_id: roleInstances[2].id
   },
   {
@@ -76,8 +74,7 @@ const users = [
     address: '78 boulevard des Alpes',
     phone_number: "0634567890",
     rma_number: 'RMA2024003',
-    postcode: 38000,
-    city: 'Grenoble',
+    localisation_id: localisationInstances[2].id,
     role_id: roleInstances[1].id // moderator
   },
   {
@@ -88,8 +85,7 @@ const users = [
     address: '9 impasse des Cèdres',
     phone_number: "0645678901",
     rma_number: 'RMA2024004',
-    postcode: 13008,
-    city: 'Marseille',
+    localisation_id: localisationInstances[3].id,
     role_id: roleInstances[0].id // admin
   }
 ];

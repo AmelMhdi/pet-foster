@@ -6,4 +6,6 @@ export const router = Router();
 
 router.get("/", userController.getAllUsers);
 router.post("/register", userController.register);
-router.post("/login", userController.login);
+router.post( "/login", userController.login );
+
+router.put("/:id", userController.updateUser);
