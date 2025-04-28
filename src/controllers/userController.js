@@ -20,25 +20,13 @@ export async function getAllUsers( req, res ){
  * Fonction qui enregistre un nouvel utilisateur
  * // http://localhost:3000/api/register
  */
-export async function register( req, res )
+export async function register( req, res, next )
 {
-  // bibliotheque de valisation Joi qui permet de valider les donnees reçues en vérifiant le respect du format attendu
-  const schema = Joi.object( {
-    firstname: Joi.string().min(3).max(30).required(),
-    lastname:Joi.string().min(3).max(30).required(),
-    password:Joi.string().required(),
-    email:Joi.string().email().required(),
-    address:Joi.string().required(),
-    phone_number:Joi.string().required(),
-    rma_number:Joi.string().pattern(/^W\d{9}$/).required(),  //w+9chiffres  
-    role_id:Joi.number().integer().required()
-  });
-
-  const { error } = schema.validate(req.body);
+  const error = validate( req );
+  
   if ( error )
   {
-    console.log('Validation Error:', error.details[0].message); 
-    return res.status(400).json({ status: 400, message: error.details[0].message });
+    return next(error);
   }
 
   const { firstname, lastname, email, password, address, phone_number, rma_number, role_id } = req.body;
@@ -126,7 +114,32 @@ export async function login(req, res) {
   res.json({ token, expiresIn: "1d" ,firstname:user.firstname});
 }
 
-// User de test avec le bon format
-// {"email": "zoe.token@example.com",
-//   "password": "teftPaddwford123"
-// }
+function validate(req) {
+  const schema = Joi.object({
+    firstname: Joi.string().min(3).max(30).required(),
+    lastname: Joi.string().min(3).max(30).required(),
+    password: passwordComplexity,
+    email: Joi.string().email().required(),
+    address: Joi.string().required(),
+    phone_number: Joi.string().required(),
+    rma_number: Joi.string().pattern(/^W\d{9}$/).required(),
+    role_id: Joi.number().integer().required()
+  });
+
+  const error = schema.validate(req.body, { abortEarly: false }).error;
+
+  return error
+    ? { statusCode: 400, message: error.details.map(detail => detail.message) }
+    : null;
+}
+
+const passwordComplexity = Joi.string()
+  .min(12)
+  .max(100)
+  .pattern(/[A-Z]/, 'majuscule').message('Le mot de passe doit contenir au moins une lettre majuscule')
+  .pattern(/[a-z]/, 'minuscule').message('Le mot de passe doit contenir au moins une lettre minuscule')
+  .pattern(/[0-9]/, 'chiffre').message('Le mot de passe doit contenir au moins un chiffre')
+  .pattern(/[\W_]/, 'symbole').message('Le mot de passe doit contenir au moins un symbole')
+  .pattern(/^\S*$/, 'pas d\'espace').message('Le mot de passe ne doit pas contenir d\'espace')
+  .required()
+  ;
