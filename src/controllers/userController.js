@@ -25,6 +25,30 @@ export async function getAllUsers( req, res ){
   res.json(users);
 }
 
+/**
+ * Fonction  qui supprime (DELETE)tous les utilisateurs
+ * // http://localhost:3000/api/users/1
+ */
+export async function deleteUser(req, res,next) {
+  const userId = parseInt( req.params.id );
+  
+  // Vérifier que cet ID est un entier
+  if (!Number.isInteger(userId)) {
+    return next();
+  }
+  // Récupérer user à supprimer en BDD
+  const user = await User.findByPk(userId);
+  if (!user) {
+    return next();
+  }
+
+  await user.destroy();
+  console.log( `User ${userId} supprimé` );
+  res.status( 204 ).end();
+  
+}
+
+
 
 /**
  * Fonction qui enregistre un nouvel utilisateur
@@ -119,6 +143,11 @@ export async function updateUser( req, res, next )
   const userId = parseInt(req.params.id);  ;
   console.log( "Id récupéré:", userId );
 
+  // Vérifier que cet ID est un entier
+  if (!Number.isInteger(userId)) {
+    return next();
+  }
+
   // Extraction des données nécessaires depuis la requête
   const { firstname, lastname, email, password, address, phone_number, rma_number, role_id } = req.body;
   
@@ -172,8 +201,6 @@ export async function updateUser( req, res, next )
   res.status( 200 ).json( user );
     
 }
-
-
 
 /**
      * Fonction qui permet de valider les données pour les enregistrements 
