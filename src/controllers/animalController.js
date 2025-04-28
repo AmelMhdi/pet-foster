@@ -141,7 +141,7 @@ export async function updateAnimal(req, res) {
 
   try {
     await animal.save();
-    res.json(animal);
+    res.status(200).json({ message: "Animal mis à jour avec succès", animal });
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'animal : ", error);
     return res.status(500).json({ error: "Erreur interne du serveur" });
