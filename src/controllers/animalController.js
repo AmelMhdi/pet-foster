@@ -1,9 +1,28 @@
-import { Animal } from "../models/Animal.js";
+import { Animal, Localisation, Species } from "../models/index.js";
 
 export async function getAllAnimals(req, res) {
-  const animals = await Animal.findAll();
-  console.log(`Récupération des animaux suivants : ${animals}`);
-  res.json(animals);
+  try {
+    const animals = await Animal.findAll({
+      include: [
+        {
+          model: Species,
+          as: "species",
+          attributes: ["id", "name"],
+        },
+        {
+          model: Localisation,
+          as: "localisation",
+          attributes: ["id", "city", "postcode"],
+        }
+      ],
+      attributes: { exclude: ['species_id', 'localisation_id', 'user_id'] }
+    });
+    console.log(`Récupération des animaux effectuée : ${animals}`);
+    res.json(animals);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des animaux:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
+  }
 }
 
 export async function getOneAnimal(req, res) {
@@ -12,7 +31,9 @@ export async function getOneAnimal(req, res) {
     return res.status(400).json({ error: "ID invalide" });
   }
   try {
-    const animal = await Animal.findByPk(animalId);
+    const animal = await Animal.findByPk(animalId, {
+      include: ["species", "localisation"],
+    });
     if (!animal) {
       return res.status(404).json({ error: "Animal introuvable." });
     }

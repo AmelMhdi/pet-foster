@@ -8,6 +8,11 @@ export const api = {
 
 async function fetchAnimals(): Promise<IAnimal[]> {
   const response = await fetch(`${apiBaseUrl}/animals`)
-  const animals = await response.json()
+
+  if (!response.ok) {
+    throw new Error(`Erreur API: ${response.status}`);
+  }
+
+  const animals: IAnimal[] = await response.json();
   return animals;
 }
