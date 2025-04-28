@@ -4,7 +4,7 @@ import * as animalController from "../controllers/animalController.js";
 export const router = Router();
 
 router.get("/animals", animalController.getAllAnimals);
-router.get("/animal/:id", animalController.getOneAnimal);
-router.delete("/animal/:id", animalController.deleteAnimal);
-router.post("/animal", animalController.createAnimal);
-router.put("/animal/:id", animalController.updateAnimal);
+router.get("/animals/:id", animalController.getOneAnimal);
+router.delete("/animals/:id", animalController.deleteAnimal);
+router.post("/animals", animalController.createAnimal);
+router.put("/animals/:id", animalController.updateAnimal);

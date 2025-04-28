@@ -7,5 +7,5 @@ export const app = express();
 
 app.use(express.json());
 
-// Brancher le routeur
-app.use(router);
+// Brancher le routeur avec le préfixe /api
+app.use("/api", router);

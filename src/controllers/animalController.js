@@ -7,18 +7,26 @@ export async function getAllAnimals(req, res) {
 }
 
 export async function getOneAnimal(req, res) {
-  const animalId = parseInt(req.params.id);
-  const animal = await Animal.findByPk(animalId);
-  if (!animal) {
-    return res.status(404).json({ error: "Animal not found."});
+  const animalId = validateAnimalId(req.params.id);
+  if (!Number.isInteger(animalId)) {
+    return res.status(400).json({ error: "ID invalide" });
   }
-  res.json(animal);
+  try {
+    const animal = await Animal.findByPk(animalId);
+    if (!animal) {
+      return res.status(404).json({ error: "Animal introuvable." });
+    }
+    res.json(animal);
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'animal:", error);
+    return res.status(500).json({ error: "Erreur serveur" });
+  }
 }
 
 export async function deleteAnimal(req, res) {
-  const animalId = parseInt(req.params.id);
+  const animalId = validateAnimalId(req.params.id);
   if (!Number.isInteger(animalId)) {
-    return res.status(404).json({ error: "L'animal n'existe pas" });
+    return res.status(400).json({ error: "ID invalide" });
   }
   const animal = await Animal.findByPk(animalId);
   if (!animal) {
@@ -102,12 +110,12 @@ export async function createAnimal(req, res) {
 }
 
 export async function updateAnimal(req, res) {
-  const animalId = parseInt(req.params.id);
+  const animalId = validateAnimalId(req.params.id);
 
   console.log("ID de l'animal : ", animalId);
 
   if (!Number.isInteger(animalId)) {
-    return res.status(404).json({ error: "L'animal n'existe pas" });
+    return res.status(400).json({ error: "ID invalide" });
   }
 
   const { name, birthday: birthdayInput, description, picture } = req.body;
@@ -146,5 +154,12 @@ export async function updateAnimal(req, res) {
     console.error("Erreur lors de la mise à jour de l'animal : ", error);
     return res.status(500).json({ error: "Erreur interne du serveur" });
   }
+}
 
+function validateAnimalId(id) {
+  const animalId = Number(id);
+  if (!Number.isInteger(animalId)) {
+    return null;
+  }
+  return animalId;
 }
