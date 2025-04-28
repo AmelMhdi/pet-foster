@@ -33,32 +33,7 @@ export async function register( req, res, next )
 
   // Vérification email,téléphone,RNA déjà utilisés
   try {
-    const existingUser = await User.findOne( {
-      where: {
-        [Op.or]: [
-          { email },
-          { phone_number },
-          { rma_number }
-        ]
-      }
-    } );
-    
-    if (existingUser) {
-      if (existingUser.email === email) {
-        console.log('📧 Email déjà utilisé :', email);
-        return res.status(409).json({ status: 409, message: "Email already taken" });
-      }
-
-      if (existingUser.phone_number === phone_number) {
-        console.log('📱 Numéro déjà utilisé :', phone_number);
-        return res.status(409).json({ status: 409, message: "Phone number already taken" });
-      }
-
-      if (existingUser.rma_number === rma_number) {
-        console.log('📱 Numéro RNA déjà utilisé :', rma_number);
-        return res.status(409).json({ status: 409, message: "RNA number already taken" });
-      }
-    }
+    await checkDuplicates(email, phone_number, rma_number);
 
     const user = await User.create({
       firstname,
@@ -76,7 +51,7 @@ export async function register( req, res, next )
   }
   catch (error) {
     console.error('Erreur à l\'insertion :', error); 
-    res.status(500).json({ status: 500, message: "Erreur lors de la création de l'utilisateur" });
+    return next(error);
   }
 }
 
@@ -143,3 +118,27 @@ const passwordComplexity = Joi.string()
   .pattern(/^\S*$/, 'pas d\'espace').message('Le mot de passe ne doit pas contenir d\'espace')
   .required()
   ;
+
+async function checkDuplicates(email, phone_number, rma_number) {
+  const existingUser = await User.findOne({
+    where: {
+      [Op.or]: [
+        { email },
+        { phone_number },
+        { rma_number }
+      ]
+    }
+  });
+
+  if (existingUser) {
+    if (existingUser.email === email) {
+      throw { status: 409, message: "Email already taken" };
+    }
+    if (existingUser.phone_number === phone_number) {
+      throw { status: 409, message: "Phone number already taken" };
+    }
+    if (existingUser.rma_number === rma_number) {
+      throw { status: 409, message: "RNA number already taken" };
+    }
+  }
+}
