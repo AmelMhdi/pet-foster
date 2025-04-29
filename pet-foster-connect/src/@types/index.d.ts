@@ -3,7 +3,7 @@ export type IAnimals = IAnimal[];
 export interface IAnimal {
     id: number;
     name: string;
-    date_of_birth: number;
+    birthday: Date;
     description: string;
     picture: string;
     localisation_id: number;
@@ -13,13 +13,13 @@ export interface IAnimal {
 export interface Localisation {
     id: number;
     city: string;
-    postcode: number;
+    postcode: string;
 }
 export interface User {
     id: number;
     first_name: string;
     last_name: string;
-    phone_number: number;
+    phone_number: string;
     password: string;
     email: string;
     address: string;
