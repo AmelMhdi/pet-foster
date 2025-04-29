@@ -1,11 +1,51 @@
 import "dotenv/config";
 import express from "express";
+<<<<<<< HEAD
 import { router } from "./routers/index.js";
+=======
+import router from "./routers/index.js";
+import { notFound, errorHandler } from "./middlewares/errorHandlers.js";
+import cors from "cors";
+import { xss } from "express-xss-sanitizer";
+
+>>>>>>> f048500b89c025ccffee235dd96a9fa5cd6605c4
 
 // Création de l'app Express
 export const app = express();
 
+<<<<<<< HEAD
 app.use(express.json());
 
 // Brancher le routeur avec le préfixe /api
 app.use("/api", router);
+=======
+app.use(xss());
+
+// Brancher le routeur
+app.use( router );
+
+app.use(
+  cors({
+    // On définit certains noms de domaines qu'on veut autoriser (certaines origines de notre appel)
+    origin: (origin, callback) => {
+      // Autoriser toutes les origines "localhost" ou "127.0.0.1", peu importe le port
+      if (
+        !origin ||
+                /^(http:\/\/localhost:\d+|http:\/\/127\.0\.0\.1:\d+)$/.test(
+                  origin
+                )
+      ) {
+        callback(null, true); // Autoriser l'origine
+      } else {
+        callback(new Error("Not allowed by CORS")); // Bloquer l'origine
+      }
+    },
+  })
+);
+
+
+
+app.use( notFound );
+
+app.use(errorHandler);
+>>>>>>> f048500b89c025ccffee235dd96a9fa5cd6605c4
