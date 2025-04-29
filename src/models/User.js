@@ -35,7 +35,7 @@ User.init(
     },
     rma_number: {   
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
   },

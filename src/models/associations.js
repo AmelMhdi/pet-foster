@@ -7,6 +7,7 @@ import { Localisation } from "./Localisation.js";
 import { Species } from "./Species.js";
 import { User_animal } from "./User_animal.js";
 
+
 // Animal <--> Localisation (One-to-Many)
 Localisation.hasMany(Animal, {
   as: "animals", // alias, permet de faire les 'include' sans avoir à importer le deuxième modèle. // On choisi la valeur pour cet alias, mais en pratique, répondre à la questio: "quand je requête une localisation, je veux pouvoir récupérer ses..."
@@ -77,7 +78,26 @@ Animal.belongsToMany(User, {
   as: "families",
   through: "User_animal",
   foreignKey: "animal_id"
+} );
+
+//  User <--> Localisation (One-to-Many)
+Localisation.hasMany(User, {
+  as: "users", 
+  foreignKey: {
+    name: "localisation_id",
+    allowNull: false
+  },
+  onDelete: "CASCADE"
+} );
+
+User.belongsTo(Localisation, {
+  as: "localisation", 
+  foreignKey: "localisation_id" 
 });
+
+
+
+
 
 // Exporter nos modèles
 export { User, Role, Animal, Species, Localisation, User_animal,sequelize };
