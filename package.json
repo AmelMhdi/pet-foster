@@ -25,6 +25,7 @@
   "homepage": "https://github.com/O-clock-Sushi/pet-foster-connect-front#readme",
   "description": "",
   "dependencies": {
+    "bootstrap": "^5.3.5",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
