@@ -1,4 +1,4 @@
-import { User } from "../models/index.js";
+import { User,Role } from "../models/index.js";
 import Joi from 'joi';
 import {hash, compare, generateJwtToken} from "../utils/crypto.js";
 import { Op } from 'sequelize';
@@ -65,6 +65,26 @@ export async function register( req, res, next )
 
   const { firstname, lastname, email, password, address, phone_number, rma_number, role_id,localisation_id } = req.body;
 
+
+  // ----------
+  const roleId = parseInt(req.body.role_id, 10);
+  if (!Number.isInteger(roleId)) {
+    return res.status(400).json({ error: "Le rôle est invalide." });
+  }
+
+  const role = await Role.findByPk(roleId);
+  console.log("Rôle reçu :", role);
+
+  if (!role) {
+    return res.status(400).json({ error: "Le rôle spécifié est inexistant." });
+  }
+
+  if (role.name === "association" && !req.body.rma_number) {
+    return res.status(400).json({ error: "Le numéro RNA est requis pour les associations." });
+  }
+
+  // -----------
+  
   // Vérification email,téléphone,RNA déjà utilisés
   try {
     await checkDuplicates(email, phone_number, rma_number);
@@ -82,6 +102,7 @@ export async function register( req, res, next )
       
     });
     console.log(`📥 Création utilisateur : ${user.firstname} ${user.lastname} - ${user.email}`);
+    console.log("role_id reçu :", req.body.role_id);
 
     res.status(201).json({ status: 201, userId: user.id });
   }
@@ -213,7 +234,7 @@ function validate(req) {
     email: Joi.string().email().required(),
     address: Joi.string().required(),
     phone_number: Joi.string().required(),
-    rma_number: Joi.string().pattern(/^W\d{9}$/).required(),
+    rma_number: Joi.string().pattern(/^W\d{9}$/).optional(),
     role_id: Joi.number().integer().required(),
     localisation_id: Joi.number().integer().required()
   });
@@ -250,7 +271,7 @@ async function checkDuplicates(email, phone_number, rma_number,userId) {
       [Op.or]: [
         { email },
         { phone_number },
-        { rma_number }
+        // { rma_number }
       ]
     }
   });
@@ -262,9 +283,9 @@ async function checkDuplicates(email, phone_number, rma_number,userId) {
     if (existingUser.phone_number === phone_number) {
       throw { status: 409, message: "Phone number already taken" };
     }
-    if (existingUser.rma_number === rma_number) {
-      throw { status: 409, message: "RNA number already taken" };
-    }
+    // if (existingUser.rma_number === rma_number) {
+    //   throw { status: 409, message: "RNA number already taken" };
+    // }
   }
   return null; 
 }

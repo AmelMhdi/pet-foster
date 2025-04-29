@@ -3,10 +3,8 @@ import { User, Animal, Role, Species, Localisation, User_animal } from '../model
 
 
 const roles = [
-  { name: 'admin' },
-  { name: 'moderator' },
-  { name: 'user' },
-  { name: 'guest' }
+  { name: "association"},
+  { name: "famille d'accueil" }  
 ];
 
 const species = [
@@ -53,7 +51,7 @@ const users = [
     phone_number: "0612345678",
     rma_number: 'RMA2024001',
     localisation_id: localisationInstances[0].id,
-    role_id: roleInstances[2].id // user
+    role_id: roleInstances[0].id 
   },
   {
     firstname: 'Bruno',
@@ -64,7 +62,7 @@ const users = [
     phone_number: "0623456789",
     rma_number: 'RMA2024002',
     localisation_id: localisationInstances[1].id,
-    role_id: roleInstances[2].id
+    role_id: roleInstances[1].id
   },
   {
     firstname: 'Claire',
@@ -75,7 +73,7 @@ const users = [
     phone_number: "0634567890",
     rma_number: 'RMA2024003',
     localisation_id: localisationInstances[2].id,
-    role_id: roleInstances[1].id // moderator
+    role_id: roleInstances[0].id 
   },
   {
     firstname: 'David',
@@ -86,7 +84,7 @@ const users = [
     phone_number: "0645678901",
     rma_number: 'RMA2024004',
     localisation_id: localisationInstances[3].id,
-    role_id: roleInstances[0].id // admin
+    role_id: roleInstances[1].id 
   }
 ];
 

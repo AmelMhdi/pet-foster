@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(xss());
 
 // Brancher le routeur
-app.use( router );
+app.use('/api', router);
 
 app.use(
   cors({

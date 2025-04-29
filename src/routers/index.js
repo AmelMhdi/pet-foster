@@ -5,7 +5,7 @@ import { router as userRouter } from "./userRouter.js";
 
 export const router = Router();
 
-router.use("/api/users",userRouter);
+router.use("/users",userRouter);
 // router.use(animalRouter);
 // router.use(associationRouter);
 
