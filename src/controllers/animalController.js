@@ -1,4 +1,4 @@
-import { Animal, Localisation, Species } from "../models/index.js";
+import { Animal, Localisation, Species, User_animal } from "../models/index.js";
 
 export async function getAllAnimals(req, res) {
   try {
@@ -184,3 +184,25 @@ function validateAnimalId(id) {
   }
   return animalId;
 }
+
+export async function getMessages(req, res) {
+  try {
+    const messages = await User_animal.findAll({
+    });
+    res.json(messages);
+  } catch(error) {
+    console.error("Erreur lors de la récupération des animaux:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
+  }
+};
+
+export async function createOneMessage(req, res) {
+  const { animalId, userId} = req.params;
+  const { message } = req.body;
+  const newMessage = await User_animal.create({
+    animal_id: parseInt(animalId),
+    user_id: parseInt(userId),
+    message
+  });
+  res.status(201).json(newMessage);
+};

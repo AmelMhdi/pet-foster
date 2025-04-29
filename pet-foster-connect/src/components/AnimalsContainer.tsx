@@ -55,10 +55,6 @@ export default function AnimalsContainer() {
                     <p className="card-text">
                       {animal.name}
                       <br />
-                      Né le : {animal.birthday || "Inconnu"}
-                      <br />
-                      Espèce : {animal.species.name || "Inconnue"}
-                      <br />
                       Ville : {animal.localisation.city || "Inconnue"}
                       <br />
                     </p>
