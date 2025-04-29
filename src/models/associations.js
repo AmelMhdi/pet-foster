@@ -5,7 +5,7 @@ import { Role } from "./Role.js";
 import { Animal } from "./Animal.js";
 import { Localisation } from "./Localisation.js";
 import { Species } from "./Species.js";
-import {User_animal} from "./User_animal.js"
+import { User_animal } from "./User_animal.js";
 
 // Animal <--> Localisation (One-to-Many)
 Localisation.hasMany(Animal, {
