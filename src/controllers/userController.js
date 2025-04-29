@@ -4,8 +4,8 @@ import {hash, compare, generateJwtToken} from "../utils/crypto.js";
 import { Op } from 'sequelize';
 
 /**
- * Fonction qui récupère tous les users
- * // http://localhost:3000/api/users
+ * Fonction qui récupère tous les roles
+ * 
  */
 export async function getRoles(req, res, next) {
   try {
@@ -19,7 +19,7 @@ export async function getRoles(req, res, next) {
 
 /**
  * Fonction qui récupère toutes les localisations
- * // http://localhost:3000/api/users
+ * 
  */
 export async function getLocalisations(req, res, next) {
   try {
@@ -91,9 +91,9 @@ export async function register( req, res, next )
   const { firstname, lastname, email, password, address, phone_number, rma_number, role_id,localisation_id } = req.body;
 
 
-  // Vérification email,téléphone déjà utilisés
+  // Vérification email,téléphone, RNA déjà utilisés
   try {
-    await checkDuplicates(email, phone_number);
+    await checkDuplicates(email, phone_number, rma_number);
 
     const user = await User.create({
       firstname,
@@ -110,7 +110,7 @@ export async function register( req, res, next )
     console.log(`📥 Création utilisateur : ${user.firstname} ${user.lastname} - ${user.email}`);
     console.log("role_id reçu :", req.body.role_id);
 
-    res.status(201).json({ status: 201, userId: user.id });
+    res.status(201).json({ status: 201, user });
   }
   catch (error) {
     console.error('Erreur à l\'insertion :', error); 
@@ -272,14 +272,14 @@ const passwordComplexity = Joi.string()
      * Fonction qui permet de controler les doublons lors de l'enregistrement
      */
 
-// TODO mettre un check de doublon de RNA
-async function checkDuplicates(email, phone_number,userId) {
+// TODO mettre un check de doublon de RNA sinon erreur 500
+async function checkDuplicates(email, phone_number,rma_number,userId) {
   const existingUser = await User.findOne({
     where: {
       [Op.or]: [
         { email },
         { phone_number },
-        
+        { rma_number }
       ]
     }
   });
@@ -290,6 +290,9 @@ async function checkDuplicates(email, phone_number,userId) {
     }
     if (existingUser.phone_number === phone_number) {
       throw { status: 409, message: "Phone number already taken" };
+    }
+    if (existingUser.rma_number === rma_number) {
+      throw { status: 409, message: "RNA number already taken" };
     }
    
   }

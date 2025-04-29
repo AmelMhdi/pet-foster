@@ -18,32 +18,17 @@ async function fetchAnimals(): Promise<IAnimal[]> {
   return animals;
 }
 
+
+/**
+ * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur
+ * 
+ */
 // créer un user, on envoie email et password on attend un nouveau user POST/users
-export async function createUser(
-  lastname: string,
-  firstname: string,
-  email: string,
-  password: string,
-  address: string,
-  localisationId: number,  
-  phone_number: string,
-  roleId: number, 
-   rma_number?: string  
-): Promise<IUser | null>{
+export async function createUser(userData:IUser): Promise<IUser | null>{
   try {
 
-    // on donne aux données le nom attendu par l'api
-    const data = { lastname, 
-      firstname, 
-      email, 
-      password, 
-      address, 
-      phone_number, 
-      rma_number, 
-      role_id: roleId,     
-      localisation_id: localisationId  };
     console.log("📤 Envoi de la requête...");
-    console.log("➡️ Données envoyées :", data);
+    console.log("➡️ Données envoyées :", userData);
 
     // Envoi des données converties en JSON vers l'API
     const response = await fetch(apiBaseUrl + "/users/register" ,{
@@ -51,7 +36,7 @@ export async function createUser(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(userData),
     });
 
     console.log("📥 Réponse reçue !");
@@ -73,6 +58,10 @@ export async function createUser(
   }
 }
 
+/**
+ * Fonction qui récupère tous les roles qui proviennet de l'api
+ * 
+ */
 export async function getRolesFromApi(){
   try {
     const response = await fetch(apiBaseUrl + "/users/roles");
@@ -87,6 +76,10 @@ export async function getRolesFromApi(){
   }
 }
 
+/**
+ * Fonction qui récupère toutes les localisations qui proviennent de l'api
+ * 
+ */
 export async function getLocalisationsFromApi(){
   try {
     const response = await fetch(apiBaseUrl + "/users/localisations");

@@ -19,7 +19,7 @@ export interface IUser {
   password: string;
   address: string;
   phone_number: string;
-  rma_number?: string;  
+  rma_number?: string | null;  
   role_id: number;   
   localisation_id: number; 
 }

@@ -4,6 +4,8 @@ import { IRole, ILocalisation, IUser } from "../types"
 
 import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/api"; 
 
+
+
 export default function Register() {
     const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
     const [city, setCity] = useState<string>("");
@@ -12,6 +14,7 @@ export default function Register() {
     const [roles, setRoles] = useState<IRole[]>([]);
     const [roleId, setRoleId] = useState<number>();
 
+    // TODO : factoriser les useState
     const [lastname, setLastname] = useState("");
     const [firstname, setFirstname] = useState("");
     const [email, setEmail] = useState("");
@@ -21,21 +24,10 @@ export default function Register() {
     const [rma_number, setRma_number] = useState("");
    
     //création du compte
-    const handleRegister = async (lastname: string,
-        firstname: string,
-        email: string,
-        password: string,
-        address: string,
-        localisationId: number,
-        phone_number: string,
-        roleId: number,
-        rma_number?: string) => {
-        
+    const handleRegister = async (userData: IUser) =>{
+          
         // Appel de la fonction pour créer l'utilisateur 
-        const response = await createUser(lastname, firstname, email, password, address, localisationId,
-            phone_number,
-            roleId,
-            rma_number || "");
+        const response = await createUser(userData);
         console.log("📥 Réponse API :", response);
 
         if (!response) {
@@ -63,9 +55,23 @@ export default function Register() {
             alert("❌ Vous devez sélectionner un rôle.");
             return;
         }
+
+        // TODO : envoyer un message si tel existe déja, email aussi, sil faut renvoyer , si RNA existe déja
               
-           
-        await handleRegister(lastname, firstname, email, password, address, selectedLocalisation.id, phone_number, roleId, rma_number)
+        const userData: IUser = {
+        lastname,
+        firstname,
+        email,
+        password,
+        address,
+        localisation_id: selectedLocalisation.id,
+        phone_number,
+        role_id: roleId,
+        ...(roleId === 1 && rma_number.trim() !== "" && { rma_number }) // Ajout conditionnel
+        };  
+
+        console.log("🔎 Données envoyées :", userData);
+        await handleRegister(userData)
     }
 
  // Charger les rôles et les localisations
