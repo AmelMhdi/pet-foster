@@ -1,10 +1,35 @@
-import { User,Role } from "../models/index.js";
+import { User,Role, Localisation } from "../models/index.js";
 import Joi from 'joi';
 import {hash, compare, generateJwtToken} from "../utils/crypto.js";
 import { Op } from 'sequelize';
 
-// http://localhost:3000/api/users
+/**
+ * Fonction qui récupère tous les users
+ * // http://localhost:3000/api/users
+ */
+export async function getRoles(req, res, next) {
+  try {
+    const roles = await Role.findAll();
+    res.status(200).json(roles);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des rôles :', error);
+    return next(error);
+  }
+}
 
+/**
+ * Fonction qui récupère toutes les localisations
+ * // http://localhost:3000/api/users
+ */
+export async function getLocalisations(req, res, next) {
+  try {
+    const localisations = await Localisation.findAll();
+    res.status(200).json(localisations);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des localisations :', error);
+    return next(error);
+  }
+}
 
 /**
  * Fonction qui récupère tous les utilisateurs
@@ -66,28 +91,9 @@ export async function register( req, res, next )
   const { firstname, lastname, email, password, address, phone_number, rma_number, role_id,localisation_id } = req.body;
 
 
-  // ----------
-  const roleId = parseInt(req.body.role_id, 10);
-  if (!Number.isInteger(roleId)) {
-    return res.status(400).json({ error: "Le rôle est invalide." });
-  }
-
-  const role = await Role.findByPk(roleId);
-  console.log("Rôle reçu :", role);
-
-  if (!role) {
-    return res.status(400).json({ error: "Le rôle spécifié est inexistant." });
-  }
-
-  if (role.name === "association" && !req.body.rma_number) {
-    return res.status(400).json({ error: "Le numéro RNA est requis pour les associations." });
-  }
-
-  // -----------
-  
-  // Vérification email,téléphone,RNA déjà utilisés
+  // Vérification email,téléphone déjà utilisés
   try {
-    await checkDuplicates(email, phone_number, rma_number);
+    await checkDuplicates(email, phone_number);
 
     const user = await User.create({
       firstname,
@@ -265,13 +271,15 @@ const passwordComplexity = Joi.string()
 /**
      * Fonction qui permet de controler les doublons lors de l'enregistrement
      */
-async function checkDuplicates(email, phone_number, rma_number,userId) {
+
+// TODO mettre un check de doublon de RNA
+async function checkDuplicates(email, phone_number,userId) {
   const existingUser = await User.findOne({
     where: {
       [Op.or]: [
         { email },
         { phone_number },
-        // { rma_number }
+        
       ]
     }
   });
@@ -283,9 +291,7 @@ async function checkDuplicates(email, phone_number, rma_number,userId) {
     if (existingUser.phone_number === phone_number) {
       throw { status: 409, message: "Phone number already taken" };
     }
-    // if (existingUser.rma_number === rma_number) {
-    //   throw { status: 409, message: "RNA number already taken" };
-    // }
+   
   }
   return null; 
 }
