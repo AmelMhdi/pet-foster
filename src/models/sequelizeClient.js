@@ -1,6 +1,7 @@
-
-
+import dotenv from 'dotenv';
 import { Sequelize } from "sequelize";
+
+dotenv.config();
 
 // Notre client Sequelize
 export const sequelize = new Sequelize(process.env.PG_URL, {
@@ -8,7 +9,9 @@ export const sequelize = new Sequelize(process.env.PG_URL, {
     createdAt: "created_at",
     updatedAt: "updated_at"
   },
-  // logging: false
+
   logging: false
+  // logging: true
+ 
 }); 
 

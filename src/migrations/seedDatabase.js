@@ -107,7 +107,7 @@ const animals = [
     name: 'Luna',
     birthday: new Date('2019-06-15'),
     description: 'Chienne très affectueuse et joueuse, adore les longues balades.',
-    picture: 'luna.jpg',
+    picture: 'https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     localisation_id: localisationInstances[0].id,
     user_id: userInstances[0].id,
     species_id: speciesInstances[0].id
@@ -116,7 +116,7 @@ const animals = [
     name: 'Milo',
     birthday: new Date('2020-03-22'),
     description: 'Chat calme et discret, aime observer depuis la fenêtre.',
-    picture: 'milo.png',
+    picture: 'https://media.istockphoto.com/id/1443562748/fr/photo/mignon-chat-gingembre.jpg?s=612x612&w=0&k=20&c=ygNVVnqLk9V8BWu4VQ0D21u7-daIyHUoyKlCcx3K1E8=',
     localisation_id: localisationInstances[1].id,
     user_id: userInstances[1].id,
     species_id: speciesInstances[1].id
@@ -125,7 +125,7 @@ const animals = [
     name: 'Coco',
     birthday: new Date('2021-08-10'),
     description: 'Perroquet bavard, capable de répéter plusieurs mots.',
-    picture: 'coco.jpeg',
+    picture: 'https://images.pexels.com/photos/1463295/pexels-photo-1463295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     localisation_id: localisationInstances[2].id,
     user_id: userInstances[2].id,
     species_id: speciesInstances[3].id
@@ -134,7 +134,7 @@ const animals = [
     name: 'Nala',
     birthday: new Date('2018-11-05'),
     description: 'Lapine curieuse qui adore grignoter des légumes frais.',
-    picture: 'nala.jpg',
+    picture: 'https://images.pexels.com/photos/104373/pexels-photo-104373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     localisation_id: localisationInstances[3].id,
     user_id: userInstances[3].id,
     species_id: speciesInstances[2].id

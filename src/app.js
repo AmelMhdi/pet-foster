@@ -1,21 +1,16 @@
 import "dotenv/config";
-
 import express from "express";
-import {router} from "./routers/index.js";
+<
+import { router } from "./routers/index.js";
 import { notFound, errorHandler } from "./middlewares/errorHandlers.js";
 import cors from "cors";
 import { xss } from "express-xss-sanitizer";
 
-
 // Création de l'app Express
 export const app = express();
 
-app.use(express.json());
 
 app.use(xss());
-
-// Brancher le routeur
-app.use('/api', router);
 
 app.use(
   cors({
@@ -24,9 +19,9 @@ app.use(
       // Autoriser toutes les origines "localhost" ou "127.0.0.1", peu importe le port
       if (
         !origin ||
-                /^(http:\/\/localhost:\d+|http:\/\/127\.0\.0\.1:\d+)$/.test(
-                  origin
-                )
+          /^(http:\/\/localhost:\d+|http:\/\/127\.0\.0\.1:\d+)$/.test(
+            origin
+          )
       ) {
         callback(null, true); // Autoriser l'origine
       } else {
@@ -36,8 +31,11 @@ app.use(
   })
 );
 
+// Brancher le routeur
+app.use("/api", router);
 
 
-app.use( notFound );
+
+app.use(notFound);
 
 app.use(errorHandler);
