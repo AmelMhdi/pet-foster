@@ -1,91 +1,160 @@
-/* Global Styles */
+
+:root {
+  --primary-red: #E75561;
+  --light-cream: #FBFCF4;
+  --light-blue: #C4EEEF;
+  --medium-blue: #488EBA;
+  --dark-blue: #203656;
+}
+
 body {
-  background-color: #FBFCF4;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  background-color: var(--light-cream);
+  color: var(--dark-blue);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
-
-
-/* Navbar Styles */
+/* ===== NAVBAR STYLES ===== */
+/* Navbar container */
 .navbar {
-  background-color: #FBFCF4;
+  background-color: var(--dark-blue);
+  padding: 0.8rem 1rem;
 }
 
+/* Title and logo */
 .navbar-brand {
-  color: #488EBA;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--light-cream);
+  font-size: 2.5rem;
 }
 
-.nav-link {
-  color: #488EBA;
-  transition: color 0.3s ease;
+.brand-text {
+  padding-left: .5rem;
 }
 
-.nav-link:hover {
-  text-decoration: underline;
+.brand-text:hover {
   color: #FF3F4F;
 }
 
-h1 {
-  color: #488EBA;
+/* Navbar toggler (hamburger) */
+.navbar-toggler {
+  border-color: var(--primary-red);
+  background-color: transparent;
+  padding: 0.5rem;
 }
 
-.container p.custom-border-accueil{
-  border-color: #488EBA;
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-red);
 }
 
+/* burger menu icon color */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 63, 79, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
 
-/* Section Animal */
-h2 {
-  color: #FF3F4F;
-  font-size: 2rem;
+/* Nav links */
+.navbar-nav .nav-item {
+  margin: 0 8px;
+}
+
+.navbar-nav .nav-link {
+  color: var(--light-cream);
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--light-blue);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus,
+.navbar-brand .brand-text:hover,
+.navbar-brand .brand-text:focus {
+  color: var(--primary-red);
+  text-decoration: none;
+}
+
+/* ===== HEADER TITLE STYLES ===== */
+h2.text-center.mb-4.fw-bold.text-primary {
+  font-size: 2.5rem;
+  color: var(--medium-blue) !important;
+  padding-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+/* ===== ANIMALS CONTAINER STYLES ===== */
+main {
+  padding: 2rem 0;
+}
+
+/* Title for animals section */
+main h1 {
+  color: var(--medium-blue);
+  font-weight: 700;
+  margin-bottom: 2rem !important;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+/* Animal cards */
+.card {
+  border-color: var(--medium-blue);
+  background-color: var(--light-cream);
 }
 
 .card-body {
-  color: #488EBA;
-  font-weight: bold;
+  padding: 1.25rem;
+  border-radius: 0 0 12px 12px; 
 }
 
 .card-text {
-  font-size: 1rem;
-  color: #488EBA;
+  color: var(--dark-blue);
+  font-weight: 500;
+  font-size: 1.1rem;
 }
 
-/* Responsive Images */
+/* footer */
+footer {
+  background-color: var(--dark-blue);
+  color: var(--light-cream);
+}
+
+footer a {
+  color: var(--light-blue);
+}
+
+footer a:hover {
+  color: var(--medium-blue);
+}
+
+/* responsive images */
 .card-img-top {
   border-radius: 10px;
   object-fit: cover;
-}
-
-@media (min-width: 576px) {
-  .card-img-top {
-    height: 200px;
-  }
 }
 
 @media (min-width: 768px) {
   .card-img-top {
     height: 250px;
   }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+  
+  .navbar-brand img {
+    height: 32px;
+  }
 }
 
-
-
-/* Footer Styles */
-.footer-navbar {
-  background-color: #488EBA;
-
-}
-
-.footer-navbar .nav-link {
-  color: white;
-  transition: color 0.3s ease;
-}
-
-.footer-navbar .nav-link:hover {
-  text-decoration: underline;
-  color: #FF3F4F;
+@media (min-width: 576px) {
+  .card-img-top {
+    height: 200px;
+  }
 }
