@@ -1,12 +1,18 @@
 
 import { useEffect, useState } from "react";
 import { IRole, ILocalisation, IUser } from "../types"
+import { useNavigate } from "react-router";
+
 
 import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/api"; 
 
 
 
 export default function Register() {
+
+// utilisavtion du hook useNavigate
+     const navigate = useNavigate();
+    
     const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
     const [city, setCity] = useState<string>("");
     const [postcode, setPostcode] = useState<number | "">("");
@@ -37,6 +43,8 @@ export default function Register() {
 
         // TODO mettre un message de feedback 
         alert("✅ Inscription réussie !");
+
+        navigate("/se-connecter")
     };
          
 

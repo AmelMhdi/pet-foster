@@ -93,6 +93,7 @@ export async function register( req, res, next )
 
   // Vérification email,téléphone, RNA déjà utilisés
   try {
+    // await checkDuplicates(email, phone_number, rma_number);
     await checkDuplicates(email, phone_number, rma_number);
 
     const user = await User.create({
@@ -273,13 +274,14 @@ const passwordComplexity = Joi.string()
      */
 
 // TODO mettre un check de doublon de RNA sinon erreur 500
-async function checkDuplicates(email, phone_number,rma_number,userId) {
+// si je rajoute le check de RNA, je dois renseigner le RNA pour la famille
+async function checkDuplicates(email, phone_number,userId) {
   const existingUser = await User.findOne({
     where: {
       [Op.or]: [
         { email },
         { phone_number },
-        { rma_number }
+        // { rma_number }
       ]
     }
   });
@@ -291,9 +293,9 @@ async function checkDuplicates(email, phone_number,rma_number,userId) {
     if (existingUser.phone_number === phone_number) {
       throw { status: 409, message: "Phone number already taken" };
     }
-    if (existingUser.rma_number === rma_number) {
-      throw { status: 409, message: "RNA number already taken" };
-    }
+    // if (existingUser.rma_number === rma_number) {
+    //   throw { status: 409, message: "RNA number already taken" };
+    // }
    
   }
   return null; 
