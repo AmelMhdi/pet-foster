@@ -1,10 +1,8 @@
 export default function MainContainer() {
   return (
     <div className="container mt-5">
-      <div className="row justify-content-center">
+      <div className="row justify-content-center border border-secondary-subtle border-1 rounded p-3">
         
-
-      <p className="text-justify text-center border border-secondary-subtle border-1 rounded p-3">
       <div className="col-lg-10">
         <h2 className="text-center mb-4 fw-bold text-primary">Bienvenue sur Pet Foster Connect</h2>
 
@@ -31,8 +29,6 @@ export default function MainContainer() {
           <button className="btn btn-outline-success">Devenir famille d'accueil</button>
         </div> */}
       </div>
-      </p>
-
       </div>
     </div>
   );
