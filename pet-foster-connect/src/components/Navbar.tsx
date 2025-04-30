@@ -25,10 +25,10 @@ export default function Navbar() {
                 <Link className="nav-link" to="/">Accueil</Link>
               </li>
               <li className="nav-item mx-2">
-                <Link className="nav-link" to="/a-propos">Associations</Link>
+                <Link className="nav-link" to="/associations">Associations</Link>
               </li>
               <li className="nav-item mx-2">
-                <Link className="nav-link" to="/nos-animaux">Animaux</Link>
+                <Link className="nav-link" to="/animals">Animaux</Link>
               </li>
             </ul>
 

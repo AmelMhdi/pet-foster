@@ -101,10 +101,10 @@ export async function register( req, res, next )
       localisation_id
       
     });
-    console.log(`📥 Création utilisateur : ${user.firstname} ${user.lastname} - ${user.email}`);
+    console.log(`Création utilisateur : ${user.firstname} ${user.lastname} - ${user.email}`);
     console.log("role_id reçu :", req.body.role_id);
 
-    res.status(201).json({ status: 201, userId: user.id });
+    res.status(201).json({ status: 201, user });
   }
   catch (error) {
     console.error('Erreur à l\'insertion :', error); 

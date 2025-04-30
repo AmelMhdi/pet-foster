@@ -23,3 +23,22 @@ export interface IUser {
   role_id: number;   
   localisation_id: number; 
 }
+
+export interface IAnimal {
+  id: number;
+  name: string;
+  birthday?: string;
+  description?: string;
+  picture?: string;
+  species: {
+    id: number;
+    name: string;
+  };
+  localisation: {
+    id: number;
+    city: string;
+    postcode: number;
+  };
+}
+
+export type IAnimals = IAnimal
