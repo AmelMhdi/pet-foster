@@ -4,7 +4,7 @@ import { IRole, ILocalisation, IUser } from "../types"
 import { useNavigate } from "react-router";
 
 
-import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/api"; 
+import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/usersApi"; 
 
 
 
@@ -13,6 +13,7 @@ export default function Register() {
 // utilisavtion du hook useNavigate
      const navigate = useNavigate();
     
+        // Partie à revoir
     const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
     const [city, setCity] = useState<string>("");
     const [postcode, setPostcode] = useState<number | "">("");
@@ -20,7 +21,7 @@ export default function Register() {
     const [roles, setRoles] = useState<IRole[]>([]);
     const [roleId, setRoleId] = useState<number>();
 
-    // TODO : factoriser les useState
+    // TODO : factoriser les useState 
     const [lastname, setLastname] = useState("");
     const [firstname, setFirstname] = useState("");
     const [email, setEmail] = useState("");
