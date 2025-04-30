@@ -3,10 +3,8 @@ import { User, Animal, Role, Species, Localisation, User_animal } from '../model
 
 
 const roles = [
-  { name: 'admin' },
-  { name: 'moderator' },
-  { name: 'user' },
-  { name: 'guest' }
+  { name: "association"},
+  { name: "famille d'accueil" }  
 ];
 
 const species = [
@@ -52,9 +50,8 @@ const users = [
     address: '12 rue des Lilas',
     phone_number: "0612345678",
     rma_number: 'RMA2024001',
-    postcode: 75001,
-    city: 'Paris',
-    role_id: roleInstances[2].id // user
+    localisation_id: localisationInstances[0].id,
+    role_id: roleInstances[0].id 
   },
   {
     firstname: 'Bruno',
@@ -64,9 +61,8 @@ const users = [
     address: '34 avenue Victor Hugo',
     phone_number: "0623456789",
     rma_number: 'RMA2024002',
-    postcode: 69002,
-    city: 'Lyon',
-    role_id: roleInstances[2].id
+    localisation_id: localisationInstances[1].id,
+    role_id: roleInstances[1].id
   },
   {
     firstname: 'Claire',
@@ -76,9 +72,8 @@ const users = [
     address: '78 boulevard des Alpes',
     phone_number: "0634567890",
     rma_number: 'RMA2024003',
-    postcode: 38000,
-    city: 'Grenoble',
-    role_id: roleInstances[1].id // moderator
+    localisation_id: localisationInstances[2].id,
+    role_id: roleInstances[0].id 
   },
   {
     firstname: 'David',
@@ -88,9 +83,8 @@ const users = [
     address: '9 impasse des Cèdres',
     phone_number: "0645678901",
     rma_number: 'RMA2024004',
-    postcode: 13008,
-    city: 'Marseille',
-    role_id: roleInstances[0].id // admin
+    localisation_id: localisationInstances[3].id,
+    role_id: roleInstances[1].id 
   }
 ];
 

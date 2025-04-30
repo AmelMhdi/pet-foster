@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
+import { Link } from 'react-router-dom';
 
 type Animal = {
   id: number;
@@ -25,7 +26,6 @@ export default function AnimalsContainer() {
     async function getAnimals() {
       try {
         const fetchedAnimals = await api.fetchAnimals();
-        console.log(fetchedAnimals) 
         setAnimals(fetchedAnimals);
       } catch (error) {
         console.error("Erreur lors de la récupération des animaux :", error);
@@ -39,30 +39,36 @@ export default function AnimalsContainer() {
       <main>
 
         <div className="container mt-5">
-          <h1 className="mb-4 text-center">Nos animaux</h1>
+          <div className='d-flex justify-content-center mb-4'>
+            <h1 className="mb-4 text-center">Nos animaux</h1>
+          </div>
+          
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
           
             {animals.map((animal) => (
               <div key={animal.id} className="col">
-                <div className="card border-0 bg-transparent text-center">
+                <div className="card animal-card h-100 text-center shadow-sm">
                   <img 
                     src={animal.picture}
                     alt={animal.name}
-                    className="card-img-top img-fluid rounded"
+                    className="card-img-top img-fluid rounded-top"
                   />
 
-                  <div className="card-body">
-                    <p className="card-text">
-                      {animal.name}
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <p className="card-text mb-3">
+                      <strong>{animal.name}</strong>
                       <br />
-                      Ville : {animal.localisation.city || "Inconnue"}
-                      <br />
+                      {/* <span>Ville : {animal.localisation.city || "Inconnue"}</span> */}
                     </p>
+                    <Link to={`/animals/${animal.id}`} className="btn btn-outline-primary mt-auto">
+                      Voir détails
+                    </Link>
                   </div>
 
                 </div>
               </div>
             ))}
+
           </div>
         </div>
       </main>

@@ -4,10 +4,11 @@ import { router } from "./routers/index.js";
 import { notFound, errorHandler } from "./middlewares/errorHandlers.js";
 import cors from "cors";
 import { xss } from "express-xss-sanitizer";
-import path from "path";
 
 // Création de l'app Express
 export const app = express();
+
+app.use(express.json());
 
 app.use(xss());
 
@@ -33,7 +34,7 @@ app.use(
 // Brancher le routeur
 app.use("/api", router);
 
-app.use("/images", express.static(path.join(process.cwd(), "public/images")));
+
 
 app.use(notFound);
 
