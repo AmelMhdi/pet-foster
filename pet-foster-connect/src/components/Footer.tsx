@@ -30,6 +30,8 @@ export default function Footer() {
             </li>
           </ul>
         </div>
+
+        
       </nav>
     </>
   ); 

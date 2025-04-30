@@ -33,14 +33,10 @@ export default function Navbar() {
             </ul>
 
           {/* right nav links */}
-          <ul className="navbar-nav mb-2 mb-lg-0 ms-lg-4">
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/creer-compte">Créer un compte</Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/se-connecter">Se connecter</Link>
-            </li>
-          </ul>
+          <div className="d-flex">
+            <button className="btn btn-light me-2">Connexion</button>
+            <button className="btn custom-inscription-btn">Inscription</button>
+          </div>
 
         </div>
       </div>

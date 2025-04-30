@@ -80,6 +80,16 @@ body {
   text-decoration: none;
 }
 
+.custom-inscription-btn {
+  background-color: var(--primary-red);
+  color: var(--light-cream);
+}
+
+.custom-inscription-btn:hover {
+  background-color: var(--primary-red);
+  
+}
+
 /* ===== HEADER TITLE STYLES ===== */
 h2.text-center.mb-4.fw-bold.text-primary {
   font-size: 2.5rem;
