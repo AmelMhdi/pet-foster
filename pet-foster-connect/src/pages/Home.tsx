@@ -1,4 +1,3 @@
-// import AnimalDetails from "../components/AnimalDetails";
 import AnimalsContainer from "../components/AnimalsContainer";
 import MainContainer from "../components/MainContainer";
 
@@ -7,7 +6,6 @@ export default function Home() {
     <>
       <MainContainer />
       <AnimalsContainer />
-      {/* <AnimalDetails /> */}
     </>
   )
 }

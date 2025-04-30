@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <>
-
     <nav className="navbar navbar-expand-lg">
       <div className="container">
         
@@ -13,10 +12,10 @@ export default function Navbar() {
           type="button" 
           data-bs-toggle="collapse" 
           data-bs-target="#navbarNav"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-    <nav className="navbar navbar-expand-lg navbar-light">
-      <div className="container">
-      
         {/* collapsible navbar */}
         <div className="collapse navbar-collapse" id="navbarNav">
           {/* left nav links */}

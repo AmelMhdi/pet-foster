@@ -14,13 +14,13 @@ body {
 }
 
 /* ===== NAVBAR STYLES ===== */
-/* Navbar container */
+/* navbar container */
 .navbar {
   background-color: var(--dark-blue);
   padding: 0.8rem 1rem;
 }
 
-/* Title and logo */
+/* title and logo */
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -37,7 +37,7 @@ body {
   color: #FF3F4F;
 }
 
-/* Navbar toggler (hamburger) */
+/* navbar toggler (hamburger) */
 .navbar-toggler {
   border-color: var(--primary-red);
   background-color: transparent;
@@ -53,7 +53,7 @@ body {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 63, 79, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* Nav links */
+/* nav links */
 .navbar-nav .nav-item {
   margin: 0 8px;
 }
@@ -87,7 +87,6 @@ body {
 
 .custom-inscription-btn:hover {
   background-color: var(--primary-red);
-  
 }
 
 /* ===== HEADER TITLE STYLES ===== */
@@ -103,30 +102,44 @@ main {
   padding: 2rem 0;
 }
 
-/* Title for animals section */
+/* title for animals section */
 main h1 {
   color: var(--medium-blue);
   font-weight: 700;
-  margin-bottom: 2rem !important;
+  margin-bottom: 2rem;
   display: inline-block;
   padding-bottom: 0.5rem;
 }
 
-/* Animal cards */
-.card {
-  border-color: var(--medium-blue);
-  background-color: var(--light-cream);
+/* animal cards */
+.animal-card {
+  border: none;
+  border-radius: .5rem;
+  overflow: hidden;
+  background-color: var(--light-blue);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card-body {
-  padding: 1.25rem;
-  border-radius: 0 0 12px 12px; 
+.animal-card .card-body {
+  padding: 1.5rem;
+  background-color: var(--light-cream); 
+  border-top: 1px solid var(--primary-red);
 }
 
-.card-text {
+.animal-card .card-text {
   color: var(--dark-blue);
   font-weight: 500;
   font-size: 1.1rem;
+}
+
+.animal-card .btn-outline-primary {
+  border-color: var(--primary-red);
+  color: var(--primary-red);
+}
+
+.animal-card .btn-outline-primary:hover {
+  background-color: var(--primary-red);
+  color: white;
 }
 
 /* footer */
@@ -145,7 +158,6 @@ footer a:hover {
 
 /* responsive images */
 .card-img-top {
-  border-radius: 10px;
   object-fit: cover;
 }
 

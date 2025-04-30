@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer"
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-// import AnimalDetails from './components/AnimalDetails';
+import AnimalDetails from './components/AnimalDetails';
 import AnimalsContainer from './components/AnimalsContainer';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/animals" element={<AnimalsContainer />} />
-          {/* <Route path="/animal/:id" element={<AnimalDetails />} /> */}
+          <Route path="/animals/:id" element={<AnimalDetails />} />
         </Routes>
       <Footer/>
     </>
