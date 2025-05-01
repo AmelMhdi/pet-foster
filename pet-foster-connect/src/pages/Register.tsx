@@ -7,21 +7,13 @@ import { useNavigate } from "react-router";
 import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/usersApi"; 
 
 
-
+/**
+ * Fonction qui permet à l'utilisateur de créer un compte.
+  */
 export default function Register() {
 
-// utilisavtion du hook useNavigate
-     const navigate = useNavigate();
+    const navigate = useNavigate();
     
-        // Partie à revoir
-    const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
-    const [city, setCity] = useState<string>("");
-    const [postcode, setPostcode] = useState<number | "">("");
-  
-    const [roles, setRoles] = useState<IRole[]>([]);
-    const [roleId, setRoleId] = useState<number>();
-
-    // TODO : factoriser les useState 
     const [lastname, setLastname] = useState("");
     const [firstname, setFirstname] = useState("");
     const [email, setEmail] = useState("");
@@ -29,11 +21,14 @@ export default function Register() {
     const [address, setAddress] = useState("");
     const [phone_number, setPhone_number] = useState("");
     const [rma_number, setRma_number] = useState("");
+    const [city, setCity] = useState<string>("");
+    const [postcode, setPostcode] = useState<number | "">("");
+    const [roleId, setRoleId] = useState<number>();
    
-    //création du compte
+    const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
+    const [roles, setRoles] = useState<IRole[]>([]);
+
     const handleRegister = async (userData: IUser) =>{
-          
-        // Appel de la fonction pour créer l'utilisateur 
         const response = await createUser(userData);
         console.log("📥 Réponse API :", response);
 
@@ -42,13 +37,10 @@ export default function Register() {
             return;
         }
 
-        // TODO mettre un message de feedback 
         alert("✅ Inscription réussie !");
-
         navigate("/se-connecter")
     };
          
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
  
@@ -65,8 +57,6 @@ export default function Register() {
             return;
         }
 
-        // TODO : envoyer un message si tel existe déja, email aussi, sil faut renvoyer , si RNA existe déja
-              
         const userData: IUser = {
         lastname,
         firstname,
@@ -76,14 +66,13 @@ export default function Register() {
         localisation_id: selectedLocalisation.id,
         phone_number,
         role_id: roleId,
-        ...(roleId === 1 && rma_number.trim() !== "" && { rma_number }) // Ajout conditionnel
+        ...(roleId === 1 && rma_number.trim() !== "" && { rma_number }) 
         };  
 
         console.log("🔎 Données envoyées :", userData);
         await handleRegister(userData)
     }
 
- // Charger les rôles et les localisations
     useEffect(() => {
         const loadData = async () => {
             const rolesData = await getRolesFromApi();
@@ -95,7 +84,6 @@ export default function Register() {
         loadData();
     }, []);
 
-        // Extraire les villes et les codes postaux distincts
         const cities = Array.from(new Set(localisations.map((loc) => loc.city)));
         const postcodes = Array.from(new Set(localisations.map((loc) => loc.postcode)));
         const selectedRole = roles.find((role) => role.id === roleId);

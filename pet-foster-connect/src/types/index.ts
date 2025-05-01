@@ -11,7 +11,6 @@ export interface ILocalisation
     postcode: number;
 }
 
-
 export interface IUser {
   firstname: string;
   lastname: string;
@@ -29,16 +28,13 @@ export interface IloginRequest {
     password: string;
 };
 
+
 export interface ILoginResponse {
-   user: {
-    id: number;
-    email: string;
-    firstname: string;
-    // etc.
-  };
-}
-
-
+   firstname: string;  
+   expiresIn: string;       
+  token: string;    
+  email: string 
+};
 
 export interface IPublicUser {
   id: number;
@@ -59,4 +55,18 @@ export interface IPublicUser {
     city: string;
     postcode: number;
   };
+}
+
+export interface IUserT{
+    email: string;
+  token: string  // 
+    firstname: string;
+}
+
+
+export interface IUserStore {
+  user: IUserT | null;
+   login: ( email: string, token: string, firstname:string) => void; 
+  logout: () => void;
+  hydrate: () => void;
 }

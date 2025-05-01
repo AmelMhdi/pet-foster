@@ -1,4 +1,4 @@
-import { IUser, IloginRequest, ILoginResponse, IPublicUser } from '../types';  
+import { IUser, IloginRequest, ILoginResponse, IPublicUser, ILoginRequest } from '../types';  
 
 const apiBaseUrl = "http://localhost:3001/api";
 
@@ -97,13 +97,13 @@ export async function getUsersFromApi(): Promise<IUser[]> {
   }
 }
 
-//  Amodifier en ILoginRequest ensuite
-export async function loginFromApi(body:IloginRequest): Promise<IPublicUser> {
+export async function loginFromApi(body:IloginRequest): Promise<ILoginRequest> {
   const response = await fetch(apiBaseUrl + "/users/login", {
-     method: "POST",
+    method: "POST",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" },
   })
+  
 
   if (!response.ok) {
     throw new Error("Erreur lors de l'authentification");

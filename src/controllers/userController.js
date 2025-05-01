@@ -149,8 +149,10 @@ export async function login(req, res) {
   }
   console.log( 'Utilisateur connecté, ID:', user.id );  
   
-  const token = generateJwtToken({ userId: user.id });
-  res.json({ token, expiresIn: "1d" ,firstname:user.firstname});
+  const token = generateJwtToken( { userId: user.id } );
+  
+  //c'est ce qui sera stocké dans la fonction login côté front
+  res.json({ token, expiresIn: "1d" ,firstname:user.firstname, email: user.email});
 }
 
 

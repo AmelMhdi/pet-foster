@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
+import { IAnimal } from '../@types';
 
 type Animal = {
   id: number;
@@ -25,7 +26,7 @@ export default function AnimalsContainer() {
     async function getAnimals() {
       try {
         const fetchedAnimals = await api.fetchAnimals();
-        console.log(fetchedAnimals) 
+        // console.log(fetchedAnimals) 
         setAnimals(fetchedAnimals);
       } catch (error) {
         console.error("Erreur lors de la récupération des animaux :", error);
