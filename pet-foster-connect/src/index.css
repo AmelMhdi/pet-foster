@@ -35,6 +35,12 @@ h1 {
   line-height: 1.1;
 }
 
+.btn-primary {
+  background-color: var(--medium-blue) !important;
+  color: var(--light-cream) !important; /* Couleur du texte */
+  border: none !important;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
