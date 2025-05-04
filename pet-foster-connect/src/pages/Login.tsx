@@ -4,28 +4,35 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import { useUserStore } from "../store";
-import { ILoginResponse } from "../types";
+import { ILoginResponse, IUserT } from "../types";
 
-
-/**
- * Fonction qui permet à l'utilisateur de se connecter.
-  */
 export default function Login() {
-    const navigate = useNavigate();
+    // hook qui permet de naviguer par porgrammation et de rediriger vers une autre page
+     const navigate = useNavigate();
 
+    // on définit l'état des champs du formulaire
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
+    // On récupère ici la fonction login depuis le store pour s'en servir après l'appel API. Connection avec Zustand
     const login = useUserStore((state) => state.login);
 
+    // Soumission du formulaire
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
          event.preventDefault();
         try {
             const response: ILoginResponse = await loginFromApi({ email, password });
             console.log('Réponse API :', response);
-            
-            if (response && response.token) {
-                login(response.email, response.token, response.firstname);
+            // ✅ Si la réponse est OK, on connecte l'utilisateur dans le store
+            if (response?.token ) {
+                const user: IUserT = {
+                email,
+                token: response.token,
+                firstname: response.firstname,
+                id: response.id, 
+                role: response.role
+};
+                login(user);
                 console.log("📥 Réponse API :", response);
                 alert("✅ Connexion réussie !");
                 navigate("/")

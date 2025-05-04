@@ -8,15 +8,16 @@ export const useUserStore = create<IUserStore>((set) => {
     return ({
         user: null,
 
-        login: (email: string, token: string, firstname: string) => {
-            if (!token) {
-                console.error('Le token JWT est manquant ou invalide');
-                return;
-            }
-            const user: IUserT = { email, token, firstname };
-            set({ user });
-            localStorage.setItem('user', JSON.stringify(user));
-        },
+       login: (user: IUserT) => {
+        if (!user.token) {
+            console.error('Le token JWT est manquant ou invalide');
+            return;
+        }
+        console.log('Utilisateur connecté :', user);
+
+        set({ user });
+        localStorage.setItem('user', JSON.stringify(user));
+    },
 
         logout: () => {
             set({ user: null });

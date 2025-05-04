@@ -1,12 +1,12 @@
-import { IUser, IloginRequest, ILoginResponse, IPublicUser, ILoginRequest } from '../types';  
+import { IUser, ILoginRequest, ILoginResponse } from '../types';  
 
 const apiBaseUrl = "http://localhost:3001/api";
 
 
 /**
  * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur
- * 
  */
+
 // créer un user, on envoie email et password on attend un nouveau user POST/users
 export async function createUser(userData:IUser): Promise<IUser | null>{
   try {
@@ -97,17 +97,21 @@ export async function getUsersFromApi(): Promise<IUser[]> {
   }
 }
 
-export async function loginFromApi(body:IloginRequest): Promise<ILoginRequest> {
+export async function loginFromApi(body:ILoginRequest): Promise<ILoginResponse> {
   const response = await fetch(apiBaseUrl + "/users/login", {
     method: "POST",
     body: JSON.stringify(body),
     headers: { "Content-Type": "application/json" },
   })
   
+console.log("Réponse API avant retour : ", response);  
 
   if (!response.ok) {
     throw new Error("Erreur lors de l'authentification");
   }
-  return await response.json();
+const data = await response.json();
+  console.log("Réponse API (données JSON) : ", data);
+
+  return data;
   
 }

@@ -33,7 +33,6 @@ export async function getLocalisations(req, res, next) {
 
 /**
  * Fonction qui récupère tous les utilisateurs
- * // http://localhost:3000/api/users
  */
 export async function getAllUsers( req, res ){
   const users = await User.findAll(
@@ -51,9 +50,9 @@ export async function getAllUsers( req, res ){
 }
 
 /**
- * Fonction  qui supprime (DELETE)tous les utilisateurs
- * // http://localhost:3000/api/users/1
+ * Fonction  qui supprime tous les utilisateurs
  */
+
 export async function deleteUser(req, res,next) {
   const userId = parseInt( req.params.id );
   
@@ -76,9 +75,8 @@ export async function deleteUser(req, res,next) {
 
 
 /**
- * Fonction qui enregistre un nouvel utilisateur
- * // http://localhost:3000/api/register
- */
+* Fonction qui enregistre un nouvel utilisateur
+*/
 export async function register( req, res, next )
 {
   const error = validate( req );
@@ -121,7 +119,7 @@ export async function register( req, res, next )
 
 /**
  * Fonction qui permet à l'utilisateur de se connecter
- * // http://localhost:3000/api/login
+ 
  */
 
 export async function login(req, res) {
@@ -137,7 +135,8 @@ export async function login(req, res) {
 
   const { email, password } = req.body;
 
-  const user = await User.findOne({ where: { email }});
+  const user = await User.findOne( { where: { email }, include: "role" } );
+ 
   if ( !user ) { return res.status( 400 ).json( { status: 401, message: "Invalid credentials" } ); }
   
   // Fonction de argon2 stockée dans crypto, pour comparer le mot de passe saisi et celui de la bdd
@@ -149,16 +148,14 @@ export async function login(req, res) {
   }
   console.log( 'Utilisateur connecté, ID:', user.id );  
   
-  const token = generateJwtToken( { userId: user.id } );
-  
-  //c'est ce qui sera stocké dans la fonction login côté front
-  res.json({ token, expiresIn: "1d" ,firstname:user.firstname, email: user.email});
+  const token = generateJwtToken({ userId: user.id });
+  res.json({ token, expiresIn: "1d" ,firstname:user.firstname, role :user.role, id:user.id, email:user.email});
 }
 
 
 /**
  * Fonction qui permet à l'utilisateur mettre à jour ses informations
- * // http://localhost:3000/api/users/id
+ * 
  */
 export async function updateUser( req, res, next )
 {
@@ -182,7 +179,7 @@ export async function updateUser( req, res, next )
   const { firstname, lastname, email, password, address, phone_number, rma_number, role_id } = req.body;
   
   // Vérification email,téléphone,RNA déjà utilisés
-  await checkDuplicates(email, phone_number, rma_number, userId);
+  await checkDuplicates(email, phone_number, userId);
   // Récupérer user en BDD
   const user = await User.findByPk( userId,
     {include:[ "role", "localisation" ]}
@@ -229,12 +226,12 @@ export async function updateUser( req, res, next )
   
   // On renvoie user modifié 200 = succès
   res.status( 200 ).json( user );
-    
 }
 
+
 /**
-     * Fonction qui permet de valider les données pour les enregistrements 
-     */
+* Shema de validation Joi
+*/
 function validate(req) {
   const schema = Joi.object({
     firstname: Joi.string().min(3).max(30).required(),
@@ -255,10 +252,6 @@ function validate(req) {
     : null;
 }
 
-
-/**
-     * Controler le mot de passe
-     */
 const passwordComplexity = Joi.string()
   .min(12)
   .max(100)
@@ -272,19 +265,16 @@ const passwordComplexity = Joi.string()
 
 
 /**
-     * Fonction qui permet de controler les doublons lors de l'enregistrement
-     */
-
-// TODO mettre un check de doublon de RNA sinon erreur 500
-// si je rajoute le check de RNA, je dois renseigner le RNA pour la famille
-async function checkDuplicates(email, phone_number,userId) {
+* Fonction qui permet de controler les doublons lors de l'enregistrement de l'utilisateur
+*/
+async function checkDuplicates(email, phone_number, userId) {
   const existingUser = await User.findOne({
     where: {
       [Op.or]: [
         { email },
         { phone_number },
         // { rma_number }
-      ]
+      ],
     }
   });
 
@@ -298,7 +288,6 @@ async function checkDuplicates(email, phone_number,userId) {
     // if (existingUser.rma_number === rma_number) {
     //   throw { status: 409, message: "RNA number already taken" };
     // }
-   
   }
   return null; 
 }

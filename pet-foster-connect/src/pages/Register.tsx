@@ -7,13 +7,21 @@ import { useNavigate } from "react-router";
 import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/usersApi"; 
 
 
-/**
- * Fonction qui permet à l'utilisateur de créer un compte.
-  */
+
 export default function Register() {
 
-    const navigate = useNavigate();
+// utilisavtion du hook useNavigate
+     const navigate = useNavigate();
     
+        // localisations et role
+    const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
+    const [city, setCity] = useState<string>("");
+    const [postcode, setPostcode] = useState<number | "">("");
+  
+    const [roles, setRoles] = useState<IRole[]>([]);
+    const [roleId, setRoleId] = useState<number>();
+
+    // TODO : factoriser les useState 
     const [lastname, setLastname] = useState("");
     const [firstname, setFirstname] = useState("");
     const [email, setEmail] = useState("");
@@ -21,14 +29,11 @@ export default function Register() {
     const [address, setAddress] = useState("");
     const [phone_number, setPhone_number] = useState("");
     const [rma_number, setRma_number] = useState("");
-    const [city, setCity] = useState<string>("");
-    const [postcode, setPostcode] = useState<number | "">("");
-    const [roleId, setRoleId] = useState<number>();
    
-    const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
-    const [roles, setRoles] = useState<IRole[]>([]);
-
+    //création du compte
     const handleRegister = async (userData: IUser) =>{
+          
+        // Appel de la fonction pour créer l'utilisateur 
         const response = await createUser(userData);
         console.log("📥 Réponse API :", response);
 
@@ -37,10 +42,13 @@ export default function Register() {
             return;
         }
 
+        // TODO mettre un message de feedback 
         alert("✅ Inscription réussie !");
+
         navigate("/se-connecter")
     };
          
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
  
@@ -57,6 +65,8 @@ export default function Register() {
             return;
         }
 
+        // TODO : envoyer un message si tel existe déja, email aussi, sil faut renvoyer , si RNA existe déja
+              
         const userData: IUser = {
         lastname,
         firstname,
@@ -66,13 +76,14 @@ export default function Register() {
         localisation_id: selectedLocalisation.id,
         phone_number,
         role_id: roleId,
-        ...(roleId === 1 && rma_number.trim() !== "" && { rma_number }) 
+        ...(roleId === 1 && rma_number.trim() !== "" && { rma_number }) // Ajout conditionnel
         };  
 
         console.log("🔎 Données envoyées :", userData);
         await handleRegister(userData)
     }
 
+ // Charger les rôles et les localisations
     useEffect(() => {
         const loadData = async () => {
             const rolesData = await getRolesFromApi();
@@ -84,6 +95,7 @@ export default function Register() {
         loadData();
     }, []);
 
+        // Extraire les villes et les codes postaux distincts
         const cities = Array.from(new Set(localisations.map((loc) => loc.city)));
         const postcodes = Array.from(new Set(localisations.map((loc) => loc.postcode)));
         const selectedRole = roles.find((role) => role.id === roleId);
@@ -92,15 +104,41 @@ export default function Register() {
             <div className="container mt-5">
                 <h1>Créer un compte</h1>
 
+                <fieldset className="mb-4">
+                            <legend className="form-label h4">Rôle</legend>
+                            {roles.map((role) => (
+                                <div key={role.id} className="form-check">
+                                    <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        id={`role-${role.id}`}
+                                        name="role"
+                                        value={role.id}
+                                        checked={roleId === role.id}
+                                        onChange={(e) => setRoleId(Number(e.target.value))}
+                                        required
+                                    />
+                                    <label className="form-check-label" htmlFor={`role-${role.id}`}>
+                                        {role.name}
+                                    </label>
+                                </div>
+                            ))}
+                </fieldset>
+
+
                 <form method="post" onSubmit={handleSubmit}>
                     <div>
-                        <label className="form-label h4" htmlFor="lastname">Nom</label>
+                        <label className="form-label h4" htmlFor="lastname">
+                        {selectedRole?.name === "association" ? "Nom de l'association" : "Nom"}
+                        </label>
                         <input
-                            className="form-control mb-4"
+                            className="form-control border border-secondary mb-4  focus:border-danger"
                             type="text"
                             id="lastname"
                             name="lastname"
-                            placeholder="Nom"
+                            placeholder={selectedRole?.name === "association" 
+                            ? "Nom de l'organisation" 
+                            : "Nom de famille"}
                             required
                             autoComplete="family-name"
                             value={lastname}
@@ -108,13 +146,17 @@ export default function Register() {
                         />
                 
                
-                        <label className="form-label h4" htmlFor="firstname">Prénom</label>
+                        <label className="form-label h4" htmlFor="firstname">
+                        {selectedRole?.name === "association" ? "Nom du représentant" : "Prénom"}
+                        </label>
                         <input
-                            className="form-control mb-4"
+                            className="form-control border border-secondary mb-4"
                             type="text"
                             id="firstname"
                             name="firstname"
-                            placeholder="Prénom"
+                            placeholder={selectedRole?.name === "association" 
+                            ? "Nom du contact" 
+                            : "Prénom"}
                             required
                             autoComplete="given-name"
                             value={firstname}
@@ -123,7 +165,7 @@ export default function Register() {
 
                         <label className="form-label h4" htmlFor="email">Email</label>
                         <input
-                            className="form-control mb-4"
+                            className="form-control border border-secondary mb-4"
                             type="email"
                             id="email"
                             name="email"
@@ -136,7 +178,7 @@ export default function Register() {
 
                         <label className="form-label h4" htmlFor="password">Mot de passe</label>
                         <input
-                            className="form-control"
+                            className="form-control border border-secondary mb-4"
                             type="password"
                             id="password"
                             name="password"
@@ -149,7 +191,7 @@ export default function Register() {
 
                         <label className="form-label h4" htmlFor="confirm">Confirmation du mot de passe</label>
                         <input
-                            className="form-control"
+                            className="form-control border border-secondary mb-4"
                             type="password"
                             id="confirm"
                             name="confirm"
@@ -160,7 +202,7 @@ export default function Register() {
 
                         <label className="form-label h4" htmlFor="address">Adresse</label>
                         <input
-                            className="form-control"
+                            className="form-control border border-secondary mb-4"
                             type="text"
                             id="address"
                             name="address"
@@ -173,7 +215,7 @@ export default function Register() {
 
                         <label className="form-label h4" htmlFor="phone_number">Telephone</label>
                         <input
-                            className="form-control"
+                            className="form-control border border-secondary mb-4"
                             type="text"
                             id="phone_number"
                             name="phone_number"
@@ -187,7 +229,7 @@ export default function Register() {
                         <label className="form-label h4" htmlFor="postcode">Code Postal</label>
                         <select
                             id="postcode"
-                            className="form-control mb-4"
+                            className="form-control border border-secondary mb-4"
                             value={postcode}
                             onChange={(e) => setPostcode(e.target.value ? Number(e.target.value) : "")}
 
@@ -204,7 +246,7 @@ export default function Register() {
                         <label className="form-label h4" htmlFor="city">Ville</label>
                         <select
                             id="city"
-                            className="form-control mb-4"
+                            className="form-control border border-secondary mb-4"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                             required
@@ -216,7 +258,7 @@ export default function Register() {
                                 </option>
                             ))}
                         </select>
-
+{/* 
                         <label className="form-label h4" htmlFor="role">Rôle</label>
                         <select
                             className="form-control mb-4"
@@ -233,7 +275,13 @@ export default function Register() {
                                     {role.name}
                                 </option>
                             ))}
-                        </select>
+                        </select> */}
+
+                      
+
+
+
+
                     
                         {selectedRole?.name === "association" && (
                             <>
