@@ -22,12 +22,7 @@ export default function MainContainer() {
         <p className="text-center">
           Pet Foster Connect n'est pas qu'une application, c'est un mouvement solidaire où chaque geste compte pour construire un monde plus bienveillant.
         </p>
-
-        {/* boutons à implémenter */}
-        {/* <div className="text-center mt-4">
-          <button className="btn btn-primary me-2">Découvrir les animaux</button>
-          <button className="btn btn-outline-success">Devenir famille d'accueil</button>
-        </div> */}
+        
       </div>
       </div>
     </div>
