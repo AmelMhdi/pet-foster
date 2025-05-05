@@ -304,6 +304,7 @@ const animals = [
     species_id: speciesInstances[1].id
   }
 ];
+// pulled from react/bootstrap
 
 const animalInstances = [];
 for (const animal of animals) {
