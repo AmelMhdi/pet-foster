@@ -52,12 +52,12 @@ export default function Navbar() {
           {user ? (
             <>
               <li className="nav-item mx-2">
-              <span className="nav-link">
+                <span className="nav-link no-hover">
                   Bonjour, {user.firstname}, vous êtes connecté.e avec l'adresse {user.email}.
                 </span>
               </li>
               <li className="nav-item mx-2">
-                <button onClick={logout} className="btn btn-link nav-link">
+                <button onClick={logout} className="btn-primary logout-btn">
                   Déconnexion
                 </button>
               </li>

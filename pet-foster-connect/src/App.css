@@ -191,6 +191,21 @@ main h1 {
   color: var(--light-cream);
 }
 
+button.logout-btn {
+  background-color: var(--primary-red);
+  color: var(--light-cream);
+  border-radius: 0.3rem;
+  font-weight: 500;
+  padding: .4rem .8rem;
+  font-size: .9rem;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+button.logout-btn:hover {
+  background-color: var(--primary-red);
+  opacity: .9;
+}
+
 /* footer */
 footer {
   background-color: var(--dark-blue);
@@ -199,12 +214,19 @@ footer {
   font-size: 0.9rem;
 }
 
-footer a {
-  color: var(--light-blue);
+.footer-link {
+  color: var(--light-cream);
+  text-decoration: none;
+  padding: .5rem .6rem;
+  transition: all .3s ease;
+  font-weight: 500;
+  font-size: 1rem;
 }
 
-footer a:hover {
-  color: var(--medium-blue);
+.footer-link:hover {
+  color: var(--light-blue);
+  background-color: var(--grey);
+  border-radius: .3rem;
 }
 
 /* responsive images */
@@ -232,6 +254,13 @@ footer a:hover {
     padding: .5rem .7rem;
   }
   
+  .no-hover:hover {
+    background-color: transparent !important;
+    color: var(--light-cream);
+    cursor: default;
+    text-decoration: none;
+  }
+
   .custom-inscription-btn {
     font-size: 1rem;
     padding: .5rem 1rem;

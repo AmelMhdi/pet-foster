@@ -17,15 +17,15 @@ function App() {
     <>
       <Header />
       <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/animals" element={<AnimalsContainer />} />
-          <Route path="/animals/:id" element={<AnimalDetails />} />
-          <Route path="/se-connecter" element={<Login />} />
-          <Route path="/creer-compte" element={<Register />} />
-          <Route path="/a-propos" element={<About />} />
-          <Route path="/mentions-legales" element={<LegalMentions />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/animals" element={<AnimalsContainer />} />
+        <Route path="/animals/:id" element={<AnimalDetails />} />
+        <Route path="/se-connecter" element={<Login />} />
+        <Route path="/creer-compte" element={<Register />} />
+        <Route path="/a-propos" element={<About />} />
+        <Route path="/mentions-legales" element={<LegalMentions />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
       <Footer/>
     </>
   )
