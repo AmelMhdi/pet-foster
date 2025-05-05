@@ -6,7 +6,7 @@ import { router as userRouter } from "./userRouter.js";
 import { router as animalRouter } from "./animalRouter.js";
 
 
-// import { router as associationRouter } from "./associationRouter.js";
+import { router as associationRouter } from "./associationRouter.js";
 
 export const router = Router();
 
@@ -17,10 +17,11 @@ router.use("/users",userRouter);
 router.use(animalRouter);
 
 
-// router.use(associationRouter);
+router.use("/associations",associationRouter);
 
 
-router.use((req, res) => {
-  res.status(404).json({ error: "Ressource not found"});
-});
+// A enlever car deja géré par le middleware global
+// router.use((req, res) => {
+//   res.status(404).json({ error: "Ressource not found"});
+// });
 
