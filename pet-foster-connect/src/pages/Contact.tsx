@@ -8,7 +8,7 @@ export default function Contact() {
   });
 
   // mettre à jour les champs du formulaire
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setForm(prevForm => ({
       ...prevForm,
@@ -17,7 +17,7 @@ export default function Contact() {
   };
   
   // gérer la soumission du formulaire
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     
     // test pour afficher les données du formulaire (à enlever dans la version finale)
