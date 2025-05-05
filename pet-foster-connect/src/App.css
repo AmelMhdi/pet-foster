@@ -243,6 +243,13 @@ footer a:hover {
 }
 
 /* medium devices */
+
+@media (max-width: 385px) {
+  .brand-text {
+    display: none;
+  }
+}
+
 @media (min-width: 768px) {
   .navbar-brand {
     font-size: 1.8rem;
