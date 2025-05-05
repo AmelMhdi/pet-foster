@@ -48,7 +48,7 @@ export default function Navbar() {
         )}
 
         {/* right nav links */}
-        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex justify-content-center">
           {user ? (
             <>
               <li className="nav-item mx-2">
