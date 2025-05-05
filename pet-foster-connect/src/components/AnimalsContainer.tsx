@@ -1,26 +1,10 @@
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { Link } from 'react-router-dom';
-
-type Animal = {
-  id: number;
-  name: string;
-  birthday?: string;
-  description?: string;
-  picture?: string;
-  species: {
-    id: number;
-    name: string;
-  };
-  localisation: {
-    id: number;
-    city: string;
-    postcode: number;
-  };
-};
+import { IAnimal } from '../@types'; 
 
 export default function AnimalsContainer() {
-  const [animals, setAnimals] = useState<Animal[]>([]);
+  const [animals, setAnimals] = useState<IAnimal[]>([]);
 
   useEffect(() => {
     async function getAnimals() {
@@ -58,10 +42,11 @@ export default function AnimalsContainer() {
                     <p className="card-text mb-3">
                       <strong>{animal.name}</strong>
                       <br />
-                      {/* <span>Ville : {animal.localisation.city || "Inconnue"}</span> */}
                     </p>
-                    <Link to={`/animals/${animal.id}`} className="btn btn-outline-primary mt-auto">
-                      Voir détails
+                    <Link 
+                      to={`/animals/${animal.id}`} 
+                      className="btn btn-outline-primary mt-auto">
+                        Voir détails
                     </Link>
                   </div>
 

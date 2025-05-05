@@ -4,20 +4,24 @@
   --light-cream: #FBFCF4;
   --light-blue: #C4EEEF;
   --medium-blue: #488EBA;
+  --medium-blue-2: #3b779c;
   --dark-blue: #203656;
+  --grey: #FFFFFF26;
 }
 
 body {
   background-color: var(--light-cream);
   color: var(--dark-blue);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 /* ===== NAVBAR STYLES ===== */
 /* navbar container */
 .navbar {
   background-color: var(--dark-blue);
-  padding: 0.8rem 1rem;
+  padding: .8rem 1rem;
 }
 
 /* title and logo */
@@ -26,7 +30,12 @@ body {
   align-items: center;
   font-weight: 600;
   color: var(--light-cream);
-  font-size: 2.5rem;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand img {
+  height: 28px;
 }
 
 .brand-text {
@@ -34,18 +43,18 @@ body {
 }
 
 .brand-text:hover {
-  color: #FF3F4F;
+  color: var(--primary-red);
 }
 
 /* navbar toggler (hamburger) */
 .navbar-toggler {
   border-color: var(--primary-red);
   background-color: transparent;
-  padding: 0.5rem;
+  padding: .5rem;
 }
 
 .navbar-toggler:focus {
-  box-shadow: 0 0 0 0.2rem var(--primary-red);
+  box-shadow: 0 0 0 .2rem var(--primary-red);
 }
 
 /* burger menu icon color */
@@ -55,21 +64,22 @@ body {
 
 /* nav links */
 .navbar-nav .nav-item {
-  margin: 0 8px;
+  margin: 0 .3rem;
 }
 
 .navbar-nav .nav-link {
   color: var(--light-cream);
   text-decoration: none;
-  padding: 0.5rem 0.8rem;
-  transition: all 0.3s ease;
+  padding: .5rem .6rem;
+  transition: all .3s ease;
   font-weight: 500;
+  font-size: .9rem;
 }
 
 .navbar-nav .nav-link:hover {
   color: var(--light-blue);
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background-color: var(--grey);
+  border-radius: .3rem;
 }
 
 .navbar-brand:hover,
@@ -83,32 +93,36 @@ body {
 .custom-inscription-btn {
   background-color: var(--primary-red);
   color: var(--light-cream);
+  font-size: .9rem;
+  padding: .4rem .8rem;
 }
 
 .custom-inscription-btn:hover {
   background-color: var(--primary-red);
+  opacity: .9;
 }
 
 /* ===== HEADER TITLE STYLES ===== */
 h2.text-center.mb-4.fw-bold.text-primary {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: var(--medium-blue) !important;
-  padding-bottom: 0.5rem;
+  padding-bottom: .5rem;
   font-weight: 700;
 }
 
 /* ===== ANIMALS CONTAINER STYLES ===== */
 main {
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
 /* title for animals section */
 main h1 {
   color: var(--medium-blue);
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   display: inline-block;
-  padding-bottom: 0.5rem;
+  padding-bottom: .5rem;
+  font-size: 1.8rem;
 }
 
 /* animal cards */
@@ -117,24 +131,32 @@ main h1 {
   border-radius: .5rem;
   overflow: hidden;
   background-color: var(--light-blue);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform .2s ease, box-shadow .2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.animal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px var(--grey);
 }
 
 .animal-card .card-body {
-  padding: 1.5rem;
-  background-color: var(--light-cream); 
+  padding: 1.2rem;
+  background-color: var(--light-cream);
   border-top: 1px solid var(--primary-red);
 }
 
 .animal-card .card-text {
   color: var(--dark-blue);
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .animal-card .btn-outline-primary {
   border-color: var(--primary-red);
   color: var(--primary-red);
+  font-size: .9rem;
+  padding: .4rem .8rem;
 }
 
 .animal-card .btn-outline-primary:hover {
@@ -142,10 +164,26 @@ main h1 {
   color: white;
 }
 
+/* buttons */
+.btn-primary {
+  background-color: var(--medium-blue);
+  color: var(--light-cream);
+  border: none;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--medium-blue-2);
+  color: var(--light-cream);
+}
+
 /* footer */
 footer {
   background-color: var(--dark-blue);
   color: var(--light-cream);
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
 }
 
 footer a {
@@ -161,22 +199,224 @@ footer a:hover {
   object-fit: cover;
 }
 
-@media (min-width: 768px) {
-  .card-img-top {
-    height: 250px;
+/* ===== MEDIA QUERIES ===== */
+/* small devices */
+@media (min-width: 576px) {
+  body {
+    font-size: 16px;
   }
-
+  
   .navbar-brand {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
+  }
+  
+  .navbar-brand img {
+    height: 30px;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    padding: .5rem .7rem;
+  }
+  
+  .custom-inscription-btn {
+    font-size: 1rem;
+    padding: .5rem 1rem;
+  }
+  
+  h2.text-center.mb-4.fw-bold.text-primary {
+    font-size: 2rem;
+  }
+  
+  main h1 {
+    font-size: 2rem;
+  }
+  
+  .animal-card .card-text {
+    font-size: 1rem;
+  }
+  
+  .card-img-top {
+    height: 200px;
+  }
+  
+}
+
+/* medium devices */
+
+@media (max-width: 385px) {
+  .brand-text {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-brand {
+    font-size: 1.8rem;
   }
   
   .navbar-brand img {
     height: 32px;
   }
+  
+  .navbar-nav .nav-item {
+    margin: 0 6px;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 1.1rem;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    width: 100%;
+    display: block;
+  }
+
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .nav-btn {
+    text-decoration: none;
+    color: var(--light-cream);
+  }
+
+  .navbar-collapse {
+    padding: .8rem;
+    background-color: var(--dark-blue);
+    border-radius: 0 0 8px 8px;
+    margin-top: .5rem;
+  }
+
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 0;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+  
+  h2.text-center.mb-4.fw-bold.text-primary {
+    font-size: 2.2rem;
+  }
+  
+  main {
+    padding: 1.5rem 0;
+  }
+  
+  main h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1.8rem;
+  }
+  
+  .animal-card .card-body {
+    padding: 1.4rem;
+  }
+  
+  .animal-card .card-text {
+    font-size: 1.05rem;
+  }
+  
+  .card-img-top {
+    height: 220px;
+  }
 }
 
-@media (min-width: 576px) {
+
+/* large devices */
+@media (min-width: 992px) {
+  body {
+    font-size: 17px;
+  }
+  
+  .navbar-brand {
+    font-size: 2.2rem;
+  }
+  
+  .navbar-brand img {
+    height: 36px;
+  }
+  
+  .navbar-nav .nav-item {
+    margin: 0 8px;
+  }
+  
+  .navbar-nav .nav-link {
+    font-size: 1.1rem;
+  }
+  
+  h2.text-center.mb-4.fw-bold.text-primary {
+    font-size: 2.3rem;
+  }
+  
+  main {
+    padding: 2rem 0;
+  }
+  
+  main h1 {
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+  }
+  
+  .animal-card .card-text {
+    font-size: 1.1rem;
+  }
+  
   .card-img-top {
-    height: 200px;
+    height: 250px;
+  }
+  
+  .btn-primary,
+  .animal-card .btn-outline-primary,
+  .custom-inscription-btn {
+    font-size: 1.1rem;
+    padding: .5rem 1.2rem;
+  }
+}
+
+/* very large devices */
+@media (min-width: 1200px) {
+  .navbar-brand {
+    font-size: 2.5rem;
+  }
+  
+  .navbar-brand img {
+    height: 40px;
+  }
+  
+  h2.text-center.mb-4.fw-bold.text-primary {
+    font-size: 2.5rem;
+  }
+  
+  main h1 {
+    font-size: 2.5rem;
+  }
+  
+  .card-img-top {
+    height: 280px;
+  }
+}
+
+
+/* extra large devices */
+@media (min-width: 1400px) {
+  body {
+    font-size: 18px;
+  }
+  
+  .card-img-top {
+    height: 300px;
+  }
+  
+  .container {
+    max-width: 1320px;
   }
 }

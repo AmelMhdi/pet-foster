@@ -1,0 +1,83 @@
+export interface IRole {
+  id: number;
+  name: string;
+}
+
+export interface ILocalisation {
+  id: number;
+  city: string;
+  postcode: number;
+}
+
+// Structure un User, id en ? car sert pour creation (id) et mise à jour (pas d'id), on pourrrait créer 2 interfaces
+export interface IUser {
+  id?:number,
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  address: string;
+  phone_number: string;
+  rma_number?: string | null;  
+  role_id: number;   
+  localisation_id: number; 
+}
+
+export interface ILoginRequest {
+  email: string;
+  password: string;
+};
+
+// Structure la réponse API qu'on retrouve dans la fonction logi du back dans res.json (). Format vient de UserController fonction login
+export interface ILoginResponse {
+  firstname: string;  
+  expiresIn: string;       
+  token: string;    
+  email: string;
+  id: number; 
+  role: {
+    id: number;
+    name: string;
+  };
+};
+
+// Affiche les infos si User connecté
+export interface IPublicUser {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  address: string;
+  phone_number: string;
+  rma_number?: string;
+
+  role: {
+    id: number;
+    name: string;
+  };
+
+  localisation: {
+    id: number;
+    city: string;
+    postcode: number;
+  };
+}
+
+export interface IUserT{
+  email: string;
+  token: string; 
+  firstname: string;
+  id: number;
+  role: {
+    id: number;
+    name: string;
+  };
+}
+
+export interface IUserStore {
+  user: IUserT | null;
+  // login: (email: string, token: string, id: number, firstname: string, role: { id: number; name: string }) => void; 
+  login: (user: IUserT) => void;
+  logout: () => void;
+  hydrate: () => void;
+}

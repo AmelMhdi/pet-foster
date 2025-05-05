@@ -1,47 +1,91 @@
 import { Link } from "react-router-dom";
+import { useUserStore } from "../store";
 
 export default function Navbar() {
+  const user = useUserStore((state) => state.user);
+  const logout = useUserStore((state) => state.logout);
+
   return (
     <>
-    <nav className="navbar navbar-expand-lg">
-      <div className="container">
-        
-        {/* menu toggler for mobile  */}
-        <button 
-          className="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navbarNav"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+      {/* menu toggler for mobile  */}
+      <button 
+        className="navbar-toggler custom-toggler ms-auto" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbarNav"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
 
-        {/* collapsible navbar */}
-        <div className="collapse navbar-collapse" id="navbarNav">
-          {/* left nav links */}
+      {/* collapsible navbar */}
+      <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
 
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        {/* left nav links */}
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item mx-2">
+              <Link className="nav-link" to="/">Accueil</Link>
+            </li>
+            <li className="nav-item mx-2">
+              <Link className="nav-link" to="/associations">Associations</Link>
+            </li>
+            <li className="nav-item mx-2">
+              <Link className="nav-link" to="/animals">Animaux</Link>
+            </li>
+          </ul>
+
+        {/* affichage conditionnel pour les associations */}
+        {user?.role?.name === "association" && (
+          <>
+            <li className="nav-item mx-2">
+              <Link 
+                className="nav-link" 
+                to={`/profil-association/${user.id}`}
+              >
+                Informations association
+              </Link>
+            </li>
+          </>
+        )}
+
+        {/* right nav links */}
+        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+          {user ? (
+            <>
               <li className="nav-item mx-2">
-                <Link className="nav-link" to="/">Accueil</Link>
+              <span className="nav-link">
+                  Bonjour, {user.firstname}, vous êtes connecté.e avec l'adresse {user.email}.
+                </span>
               </li>
               <li className="nav-item mx-2">
-                <Link className="nav-link" to="/associations">Associations</Link>
+                <button onClick={logout} className="btn btn-link nav-link">
+                  Déconnexion
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item mx-2 d-flex justify-content-center">
+                <Link className="nav-btn" to="/creer-compte">
+                <button className="btn btn-light me-2">Connexion</button> 
+                </Link>
               </li>
               <li className="nav-item mx-2">
-                <Link className="nav-link" to="/animals">Animaux</Link>
+                <Link className="nav-btn" to="/se-connecter">
+                  <button className="btn custom-inscription-btn">
+                    Inscription
+                  </button>
+                </Link>
               </li>
-            </ul>
+            </>
+          )}
+        </ul>
 
-          {/* right nav links */}
-          <div className="d-flex">
-            <button className="btn btn-light me-2">Connexion</button>
-            <button className="btn custom-inscription-btn">Inscription</button>
-          </div>
+        {/* <div className="d-flex justify-content-center">
+          <button className="btn btn-light me-2">Connexion</button>
+          <button className="btn custom-inscription-btn">Inscription</button>
+        </div> */}
 
-        </div>
       </div>
-
-    </nav>
     </>
   )
 }
