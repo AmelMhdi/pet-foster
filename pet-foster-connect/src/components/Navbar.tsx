@@ -39,17 +39,13 @@ export default function Navbar() {
               <li className="nav-item mx-2">
                 <Link className="nav-link" to="/nos-animaux">Animaux</Link>
               </li>
-                      </ul>
-                      
-            {/* 🔒 Affichage conditionnel pour les associations */}
+                                
             {user?.role?.name === "association" && (
-              <>
-                <li className="nav-item mx-2">
-                  <Link className="nav-link" to={`/profil-association/${user.id}`}> Informations association</Link>
-                </li>
-                
-              </>
-            )}
+    <li className="nav-item mx-2">
+      <Link className="nav-link" to={`/profil-association/${user.id}`}>Informations association</Link>
+    </li>
+  )}
+</ul>
           
           {/* right nav links */}
           <ul className="navbar-nav mb-2 mb-lg-0 ms-lg-4">

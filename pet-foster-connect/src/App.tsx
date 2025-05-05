@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import Login from './pages/Login';
 import Register from './pages/Register';
 
+ import Profile from './pages/Profile';
+
 
 function App() {
     
@@ -22,7 +24,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/se-connecter" element={<Login />} />
-         <Route path="/creer-compte" element={<Register />} />
+        <Route path="/creer-compte" element={<Register />} />
+          <Route path="/profil-association/:id" element={<Profile />} />
         </Routes>
       <Footer/>
     </>
