@@ -6,7 +6,7 @@ export default function Navbar() {
     <>
       {/* menu toggler for mobile  */}
       <button 
-        className="navbar-toggler ms-auto" 
+        className="navbar-toggler custom-toggler ms-auto" 
         type="button" 
         data-bs-toggle="collapse" 
         data-bs-target="#navbarNav"
@@ -15,10 +15,10 @@ export default function Navbar() {
       </button>
 
       {/* collapsible navbar */}
-      <div className="collapse navbar-collapse" id="navbarNav">
+      <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
 
         {/* left nav links */}
-        <ul className="navbar-nav me-auto mt-2 mb-2 mb-lg-0">
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item mx-2">
               <Link className="nav-link" to="/">Accueil</Link>
             </li>
