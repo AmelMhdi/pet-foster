@@ -29,5 +29,5 @@ export async function getAllAnimalsByAssociation( req, res, next )
 
   // Les renvoyer au format JSON
   // res.status( 200 ).json( user );
-  res.status(200).json(user);
+  res.status(200).json(user.animals_asso);
 }

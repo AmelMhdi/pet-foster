@@ -86,3 +86,19 @@ export interface IUserStore {
   logout: () => void;
   hydrate: () => void;
 }
+
+export interface IUserAnimal {
+  user_id: number;
+  id: number;
+  name: string;
+  birthday: string;
+  description: string;
+  picture: string;
+  created_at: string;
+  updated_at: string;
+  localisation_id: number;
+  species_id: number;
+  species: {
+    name: string;
+  };
+}

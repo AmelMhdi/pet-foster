@@ -17,7 +17,7 @@ router.use("/users",userRouter);
 router.use(animalRouter);
 
 
-router.use("/associations",associationRouter);
+router.use(associationRouter);
 
 
 // A enlever car deja géré par le middleware global

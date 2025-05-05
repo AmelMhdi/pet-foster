@@ -1,6 +1,5 @@
 import './App.css'
-import { useEffect } from "react";
-import { useUserStore } from "./store"; 
+
 
 
 import Header from "./components/Header";
@@ -25,7 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/se-connecter" element={<Login />} />
         <Route path="/creer-compte" element={<Register />} />
-          <Route path="/profil-association/:id" element={<Profile />} />
+          <Route path="/profil-association/:id" element={<Profile/>} />
         </Routes>
       <Footer/>
     </>
