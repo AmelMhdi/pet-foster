@@ -1,14 +1,38 @@
-import { User,Role } from "../models/index.js";
+import { User,Role, Localisation } from "../models/index.js";
 import Joi from 'joi';
 import {hash, compare, generateJwtToken} from "../utils/crypto.js";
 import { Op } from 'sequelize';
 
-// http://localhost:3000/api/users
+/**
+ * Fonction qui récupère tous les roles
+ * 
+ */
+export async function getRoles(req, res, next) {
+  try {
+    const roles = await Role.findAll();
+    res.status(200).json(roles);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des rôles :', error);
+    return next(error);
+  }
+}
 
+/**
+ * Fonction qui récupère toutes les localisations
+ * 
+ */
+export async function getLocalisations(req, res, next) {
+  try {
+    const localisations = await Localisation.findAll();
+    res.status(200).json(localisations);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des localisations :', error);
+    return next(error);
+  }
+}
 
 /**
  * Fonction qui récupère tous les utilisateurs
- * // http://localhost:3000/api/users
  */
 export async function getAllUsers( req, res ){
   const users = await User.findAll(
@@ -26,9 +50,9 @@ export async function getAllUsers( req, res ){
 }
 
 /**
- * Fonction  qui supprime (DELETE)tous les utilisateurs
- * // http://localhost:3000/api/users/1
+ * Fonction  qui supprime tous les utilisateurs
  */
+
 export async function deleteUser(req, res,next) {
   const userId = parseInt( req.params.id );
   
@@ -51,9 +75,8 @@ export async function deleteUser(req, res,next) {
 
 
 /**
- * Fonction qui enregistre un nouvel utilisateur
- * // http://localhost:3000/api/register
- */
+* Fonction qui enregistre un nouvel utilisateur
+*/
 export async function register( req, res, next )
 {
   const error = validate( req );
@@ -66,27 +89,9 @@ export async function register( req, res, next )
   const { firstname, lastname, email, password, address, phone_number, rma_number, role_id,localisation_id } = req.body;
 
 
-  // ----------
-  const roleId = parseInt(req.body.role_id, 10);
-  if (!Number.isInteger(roleId)) {
-    return res.status(400).json({ error: "Le rôle est invalide." });
-  }
-
-  const role = await Role.findByPk(roleId);
-  console.log("Rôle reçu :", role);
-
-  if (!role) {
-    return res.status(400).json({ error: "Le rôle spécifié est inexistant." });
-  }
-
-  if (role.name === "association" && !req.body.rma_number) {
-    return res.status(400).json({ error: "Le numéro RNA est requis pour les associations." });
-  }
-
-  // -----------
-  
-  // Vérification email,téléphone,RNA déjà utilisés
+  // Vérification email,téléphone, RNA déjà utilisés
   try {
+    // await checkDuplicates(email, phone_number, rma_number);
     await checkDuplicates(email, phone_number, rma_number);
 
     const user = await User.create({
@@ -104,7 +109,7 @@ export async function register( req, res, next )
     console.log(`📥 Création utilisateur : ${user.firstname} ${user.lastname} - ${user.email}`);
     console.log("role_id reçu :", req.body.role_id);
 
-    res.status(201).json({ status: 201, userId: user.id });
+    res.status(201).json({ status: 201, user });
   }
   catch (error) {
     console.error('Erreur à l\'insertion :', error); 
@@ -114,7 +119,7 @@ export async function register( req, res, next )
 
 /**
  * Fonction qui permet à l'utilisateur de se connecter
- * // http://localhost:3000/api/login
+ 
  */
 
 export async function login(req, res) {
@@ -130,7 +135,8 @@ export async function login(req, res) {
 
   const { email, password } = req.body;
 
-  const user = await User.findOne({ where: { email }});
+  const user = await User.findOne( { where: { email }, include: "role" } );
+ 
   if ( !user ) { return res.status( 400 ).json( { status: 401, message: "Invalid credentials" } ); }
   
   // Fonction de argon2 stockée dans crypto, pour comparer le mot de passe saisi et celui de la bdd
@@ -143,13 +149,13 @@ export async function login(req, res) {
   console.log( 'Utilisateur connecté, ID:', user.id );  
   
   const token = generateJwtToken({ userId: user.id });
-  res.json({ token, expiresIn: "1d" ,firstname:user.firstname});
+  res.json({ token, expiresIn: "1d" ,firstname:user.firstname, role :user.role, id:user.id, email:user.email});
 }
 
 
 /**
  * Fonction qui permet à l'utilisateur mettre à jour ses informations
- * // http://localhost:3000/api/users/id
+ * 
  */
 export async function updateUser( req, res, next )
 {
@@ -173,7 +179,7 @@ export async function updateUser( req, res, next )
   const { firstname, lastname, email, password, address, phone_number, rma_number, role_id } = req.body;
   
   // Vérification email,téléphone,RNA déjà utilisés
-  await checkDuplicates(email, phone_number, rma_number, userId);
+  await checkDuplicates(email, phone_number, userId);
   // Récupérer user en BDD
   const user = await User.findByPk( userId,
     {include:[ "role", "localisation" ]}
@@ -220,12 +226,12 @@ export async function updateUser( req, res, next )
   
   // On renvoie user modifié 200 = succès
   res.status( 200 ).json( user );
-    
 }
 
+
 /**
-     * Fonction qui permet de valider les données pour les enregistrements 
-     */
+* Shema de validation Joi
+*/
 function validate(req) {
   const schema = Joi.object({
     firstname: Joi.string().min(3).max(30).required(),
@@ -246,10 +252,6 @@ function validate(req) {
     : null;
 }
 
-
-/**
-     * Controler le mot de passe
-     */
 const passwordComplexity = Joi.string()
   .min(12)
   .max(100)
@@ -263,16 +265,16 @@ const passwordComplexity = Joi.string()
 
 
 /**
-     * Fonction qui permet de controler les doublons lors de l'enregistrement
-     */
-async function checkDuplicates(email, phone_number, rma_number,userId) {
+* Fonction qui permet de controler les doublons lors de l'enregistrement de l'utilisateur
+*/
+async function checkDuplicates(email, phone_number, userId) {
   const existingUser = await User.findOne({
     where: {
       [Op.or]: [
         { email },
         { phone_number },
         // { rma_number }
-      ]
+      ],
     }
   });
 

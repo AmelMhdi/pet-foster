@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+
 import { router } from "./routers/index.js";
 import { notFound, errorHandler } from "./middlewares/errorHandlers.js";
 import cors from "cors";
@@ -8,6 +9,7 @@ import { xss } from "express-xss-sanitizer";
 // Création de l'app Express
 export const app = express();
 
+app.use(express.json()); 
 
 app.use(xss());
 

@@ -1,5 +1,6 @@
 import { IAnimal } from "../@types";
 
+
 const apiBaseUrl = "http://localhost:3001/api";
 
 export const api = {
@@ -16,3 +17,4 @@ async function fetchAnimals(): Promise<IAnimal[]> {
   const animals: IAnimal[] = await response.json();
   return animals;
 }
+

@@ -1,4 +1,8 @@
 
+
+
+/* Navbar Styles */
+
 :root {
   --primary-red: #E75561;
   --light-cream: #FBFCF4;
@@ -11,6 +15,9 @@ body {
   background-color: var(--light-cream);
   color: var(--dark-blue);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 /* ===== NAVBAR STYLES ===== */
