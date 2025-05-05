@@ -239,6 +239,7 @@ footer a:hover {
   .card-img-top {
     height: 200px;
   }
+  
 }
 
 /* medium devices */
@@ -279,7 +280,7 @@ footer a:hover {
 
   .navbar-nav {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     gap: 0.8rem;
     padding: 1rem 0;
