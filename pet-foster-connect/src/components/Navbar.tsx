@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 import { useUserStore } from "../store";
 
 
@@ -8,8 +9,6 @@ export default function Navbar() {
       const user = useUserStore((state) => state.user);
       const logout = useUserStore((state) => state.logout);
     
-    //  console.log('user =', user);
-
   return (
     <>
     <nav className="navbar navbar-expand-lg">
@@ -34,6 +33,7 @@ export default function Navbar() {
                 <Link className="nav-link" to="/">Accueil</Link>
               </li>
               <li className="nav-item mx-2">
+
                 <Link className="nav-link" to="/associations">Associations</Link>
               </li>
               <li className="nav-item mx-2">
@@ -76,8 +76,8 @@ export default function Navbar() {
                 </li>
               </>
             )}
-          </ul>
-
+            </ul>
+       
         </div>
       </div>
 

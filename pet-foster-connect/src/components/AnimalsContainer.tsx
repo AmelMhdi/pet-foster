@@ -26,7 +26,6 @@ export default function AnimalsContainer() {
     async function getAnimals() {
       try {
         const fetchedAnimals = await api.fetchAnimals();
-        // console.log(fetchedAnimals) 
         setAnimals(fetchedAnimals);
       } catch (error) {
         console.error("Erreur lors de la récupération des animaux :", error);
@@ -40,7 +39,10 @@ export default function AnimalsContainer() {
       <main>
 
         <div className="container mt-5">
-          <h1 className="mb-4 text-center">Nos animaux</h1>
+          <div className='d-flex justify-content-center mb-4'>
+            <h1 className="mb-4 text-center">Nos animaux</h1>
+          </div>
+          
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
           
             {animals.map((animal) => (
