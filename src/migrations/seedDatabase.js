@@ -253,7 +253,7 @@ const animals = [
     name: 'Simba',
     birthday: new Date('2019-11-30'),
     description: 'Chien croisé très sociable avec ses congénères.',
-    picture: 'https://images.pexels.com/photos/372166/pexels-photo-372166.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: 'https://images.pexels.com/photos/1954515/pexels-photo-1954515.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     localisation_id: localisationInstances[4].id,
     user_id: userInstances[8].id,
     species_id: speciesInstances[0].id
