@@ -64,27 +64,23 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <li className="nav-item mx-2 d-flex justify-content-center">
-                <Link className="nav-btn" to="/creer-compte">
-                <button className="btn btn-light me-2">Connexion</button> 
-                </Link>
-              </li>
-              <li className="nav-item mx-2">
-                <Link className="nav-btn" to="/se-connecter">
-                  <button className="btn custom-inscription-btn">
-                    Inscription
-                  </button>
-                </Link>
-              </li>
+              <div className="d-flex justify-content-center">
+                <li className="nav-item mx-2">
+                  <Link className="nav-btn" to="/se-connecter">
+                  <button className="btn btn-light me-2">Connexion</button> 
+                  </Link>
+                </li>
+                <li className="nav-item mx-2">
+                  <Link className="nav-btn" to="/creer-compte">
+                    <button className="btn custom-inscription-btn">
+                      Inscription
+                    </button>
+                  </Link>
+                </li>
+              </div>
             </>
           )}
         </ul>
-
-        {/* <div className="d-flex justify-content-center">
-          <button className="btn btn-light me-2">Connexion</button>
-          <button className="btn custom-inscription-btn">Inscription</button>
-        </div> */}
-
       </div>
     </>
   )
