@@ -3,7 +3,11 @@ import { api } from '../services/api';
 import { Link } from 'react-router-dom';
 import { IAnimal } from '../@types'; 
 
-export default function AnimalsContainer() {
+type Props = {
+  limit?: number;
+};
+
+export default function AnimalsContainer({ limit }: Props) {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
   const [showAll, setShowAll] = useState(false); // state to manage the display of all animals
 
@@ -20,13 +24,13 @@ export default function AnimalsContainer() {
   }, []);
 
   // limit the number of displayed animals
-  const displayedAnimals = showAll ? animals : animals.slice(0, 3);
+  const displayedAnimals = limit ? animals.slice(0, limit) : animals;
 
   return (
     <>
       <main>
 
-        <div className="container mt-5">
+        <div className="container mt-5 fade-in">
           <div className='d-flex justify-content-center mb-4'>
             <h1 className="mb-4 text-center">Nos animaux</h1>
           </div>
@@ -57,12 +61,12 @@ export default function AnimalsContainer() {
           </div>
 
           {/* button to see all animals */}
-          {animals.length > 3 && !showAll && (
+          {limit && (
             <div className="text-center mt-4">
-              <button className="btn btn-primary" onClick={() => setShowAll(true)}>
-                Voir tous les animaux
-              </button>
-            </div>
+            <Link to="/animals" className="btn btn-primary">
+              Voir tous les animaux
+            </Link>
+          </div>
           )}
 
           {showAll && (

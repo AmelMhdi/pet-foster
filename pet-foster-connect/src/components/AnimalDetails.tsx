@@ -32,7 +32,7 @@ export default function AnimalDetails() {
   }
 
 return (
-  <div className="container mt-5">
+  <div className="container mt-5 fade-in">
     <div className="d-flex justify-content-center mb-4">
       <h1 className="mb-4 text-center">{animal.name}</h1>
     </div>
