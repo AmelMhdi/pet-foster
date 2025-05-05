@@ -278,6 +278,11 @@ footer a:hover {
     transform: translateY(-2px);
   }
 
+  .nav-btn {
+    text-decoration: none;
+    color: var(--light-cream);
+  }
+
   .navbar-collapse {
     padding: .8rem;
     background-color: var(--dark-blue);
