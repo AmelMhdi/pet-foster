@@ -1,4 +1,3 @@
-
 :root {
   --primary-red: #E75561;
   --light-cream: #FBFCF4;
@@ -162,6 +161,20 @@ main h1 {
 .animal-card .btn-outline-primary:hover {
   background-color: var(--primary-red);
   color: white;
+}
+
+/* register page */
+.custom-login-link {
+  text-decoration: none;
+  color: var(--medium-blue);
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.custom-login-link:hover {
+  color: var(--primary-red);
+  text-decoration: none;
+  font-weight: 600;
 }
 
 /* buttons */

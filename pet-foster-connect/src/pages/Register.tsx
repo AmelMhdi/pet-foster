@@ -284,13 +284,15 @@ export default function Register() {
             </>
           )}
           <input
-            className="btn btn-primary d-block my-4 mx-auto"
+            className="btn btn-primary d-block my-4 mx-auto px- py-2 fs-6"
             type="submit"
             value="S'inscrire"
           />
         </div>
       </form>
-      <p className="my-1">Vous avez déjà un compte ? <a href="/login">Connectez-vous ici</a></p>
+      <p className="my-1">
+        Vous avez déjà un compte ? <a href="/login" className="custom-login-link">Connectez-vous ici</a>
+      </p>
     </div>
   );
 }
