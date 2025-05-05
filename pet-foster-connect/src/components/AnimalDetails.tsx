@@ -39,28 +39,25 @@ return (
 
     <div className="row">
       <div className="col-md-6 mb-3">
-        <img src={animal?.picture} alt={animal?.name} className="img-fluid rouded" />
+        <img src={animal?.picture} alt={animal?.name} className="img-fluid rounded" />
       </div>
 
       <div className="col-md-6">
-        <div className="card">
+        <div className="card info-card shadow-sm">
           <div className="card-body">
-            <h5 className="card-title">Informations</h5>
-            <p className="card-text">
-              <strong>Date de naissance :</strong> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-              <br /> 
-              <strong>Espèce :</strong> {animal.species.name}
-              <br />
-              <strong>Description :</strong> {animal.description} 
-              <br /> 
-              <strong>Ville : </strong>{animal.localisation.city}
-            </p>
+            <h5 className="card-title mb-3 fw-bold">Informations</h5>
+            <div className="card-text info-text">
+              <div><span className="fw-bold">Date de naissance :</span> {new Date(animal.birthday).toLocaleDateString("fr-FR")}</div>
+              <div><span className="fw-bold">Espèce :</span> {animal.species.name}</div>
+              <div><span className="fw-bold">Description :</span> {animal.description}</div>
+              <div><span className="fw-bold">Ville :</span> {animal.localisation.city}</div>
+            </div>
+            <button className="btn btn-primary mt-4 foster-request-btn">Faire une demande d'accueil</button>
           </div>
         </div>
       </div>
 
     </div>
-
   </div>
 );
 }

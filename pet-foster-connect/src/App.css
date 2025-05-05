@@ -163,6 +163,43 @@ main h1 {
   color: white;
 }
 
+/* animal details page */
+
+.card-title {
+  font-size: 2rem;
+  color: var(--medium-blue);
+  font-weight: 700;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: var(--dark-blue);
+  line-height: 1.6;
+}
+.info-card {
+  background-color: var(--light-blue);
+  border-radius: 0.5rem;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px var(--grey);
+}
+
+.foster-request-btn {
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 0.4rem;
+  box-shadow: 0 4px 6px var(--grey);
+}
+
+.foster-request-btn:hover {
+  background-color: var(--medium-blue-2);
+}
+
 /* register page */
 .custom-login-link {
   text-decoration: none;
