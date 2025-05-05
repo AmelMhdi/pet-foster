@@ -5,6 +5,7 @@ import { IAnimal } from '../@types';
 
 export default function AnimalsContainer() {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
+  const [showAll, setShowAll] = useState(false); // state to manage the display of all animals
 
   useEffect(() => {
     async function getAnimals() {
@@ -18,6 +19,9 @@ export default function AnimalsContainer() {
     getAnimals();
   }, []);
 
+  // limit the number of displayed animals
+  const displayedAnimals = showAll ? animals : animals.slice(0, 3);
+
   return (
     <>
       <main>
@@ -28,8 +32,7 @@ export default function AnimalsContainer() {
           </div>
           
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-          
-            {animals.map((animal) => (
+            {displayedAnimals.map((animal) => (
               <div key={animal.id} className="col">
                 <div className="card animal-card h-100 text-center shadow-sm">
                   <img 
@@ -37,7 +40,6 @@ export default function AnimalsContainer() {
                     alt={animal.name}
                     className="card-img-top img-fluid rounded-top"
                   />
-
                   <div className="card-body d-flex flex-column justify-content-between">
                     <p className="card-text mb-3">
                       <strong>{animal.name}</strong>
@@ -49,12 +51,27 @@ export default function AnimalsContainer() {
                         Voir détails
                     </Link>
                   </div>
-
                 </div>
               </div>
             ))}
-
           </div>
+
+          {/* button to see all animals */}
+          {animals.length > 3 && !showAll && (
+            <div className="text-center mt-4">
+              <button className="btn btn-primary" onClick={() => setShowAll(true)}>
+                Voir tous les animaux
+              </button>
+            </div>
+          )}
+
+          {showAll && (
+            <div className="text-center mt-4">
+              <button className="btn btn-secondary" onClick={() => setShowAll(false)}>
+                Réduire
+              </button>
+            </div>
+          )}
         </div>
       </main>
     </>
