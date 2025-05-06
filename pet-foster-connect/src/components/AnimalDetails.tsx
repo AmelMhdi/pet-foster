@@ -82,81 +82,72 @@ export default function AnimalDetails() {
       </div>
 
       <div className="row">
-        <div className="col-md-6 mb-3">
-          <img src={animal?.picture} alt={animal?.name} className="img-fluid rounded" />
-        </div>
+  {/* --- Partie Informations --- */}
+  <div className="col-md-6 mb-3">
+    <img src={animal?.picture} alt={animal?.name} className="img-fluid rounded" />
+  </div>
 
-        <div className="col-md-6">
-          <div className="card info-card shadow-sm">
-            <div className="card-body">
-              <h5 className="card-title mb-3 fw-bold">Informations</h5>
-              <div className="card-text info-text">
-                <div>
-                  <span className="fw-bold">Date de naissance :</span> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-                </div>
-                <div>
-                  <span className="fw-bold">Espèce :</span> {animal.species?.name || "Information non disponible"}
-                </div>
-                <div>
-                  <span className="fw-bold">Description :</span> {animal.description}
-                </div>
-                <div>
-                  <span className="fw-bold">Ville :</span> {animal.localisation?.city || "Information non disponible"}
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <h5 className="mb-3">Faire une demande d'accueil</h5>
-
-                {successMessage && (
-                  <div className="alert alert-success">{successMessage}</div>
-                )}
-
-                {errorMessage && (
-                  <div className="alert alert-danger">{errorMessage}</div>
-                )}
-
-                <div className="form-group">
-                  <label 
-                    htmlFor="userMessageInput"
-                    className="form-label"
-                  >
-                    Votre message :
-                  </label>
-                  <textarea 
-                    id="userMessageInput"
-                    className="form-control"
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    rows={4}
-                    placeholder="Expliquez pourquoi vous souhaitez accueillir cet animal..."
-                  />
-                </div>
-
-                <button 
-                  className="btn btn-primary mt-3 w-100"
-                  onClick={handleSubmit}
-                  disabled={isLoading || !user}
-                >
-                  {isLoading ? (
-                    <>
-                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    </>
-                  ) : (
-                    "Envoyer ma demande d'accueil"
-                  )}
-                </button>
-
-                {!user && (
-                  <div className="alert alert-warning mt-3">
-                    Vous devez être connecté.e pour envoyer une demande d'accueil.
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+  <div className="col-md-6">
+    <div className="card info-card shadow-sm mb-4">
+      <div className="card-body">
+        <h5 className="card-title mb-3 fw-bold">Informations</h5>
+        <div className="card-text info-text">
+          <div><strong>Date de naissance :</strong> {new Date(animal.birthday).toLocaleDateString("fr-FR")}</div>
+          <div><strong>Espèce :</strong> {animal.species?.name || "Information non disponible"}</div>
+          <div><strong>Description :</strong> {animal.description}</div>
+          <div><strong>Ville :</strong> {animal.localisation?.city || "Information non disponible"}</div>
         </div>
       </div>
+    </div>
+
+    {/* --- Partie Demande d'accueil --- */}
+    <div className="card shadow-sm foster-request-card">
+      <div className="card-body">
+        <h5 className="card-title mb-3 fw-bold">Demande d'accueil</h5>
+
+        {successMessage && (
+          <div className="alert alert-success">{successMessage}</div>
+        )}
+        {errorMessage && (
+          <div className="alert alert-danger">{errorMessage}</div>
+        )}
+
+        <div className="mb-3">
+          <label htmlFor="userMessageInput" className="form-label">
+            Votre message :
+          </label>
+          <textarea
+            id="userMessageInput"
+            className="form-control"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            rows={4}
+            placeholder="Expliquez pourquoi vous souhaitez accueillir cet animal..."
+          />
+        </div>
+
+        <button
+          className="btn btn-foster-request w-100"
+          onClick={handleSubmit}
+          disabled={isLoading || !user}
+        >
+          {isLoading ? (
+            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          ) : (
+            "Envoyer ma demande d'accueil"
+          )}
+        </button>
+
+        {!user && (
+          <div className="alert alert-warning mt-3">
+            Vous devez être connecté.e pour envoyer une demande d'accueil.
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
     </div>
   );
 }
