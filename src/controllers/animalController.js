@@ -196,6 +196,29 @@ export async function getMessages(req, res) {
   }
 };
 
+export async function getOneMessage(req, res) {
+  const { userId, animalId } = req.params;
+
+  try {
+    // recherche du message dans la table user_animal pour le bon couple user_id + animal_id
+    const message = await User_animal.findOne({
+      where: {
+        user_id: userId,
+        animal_id: animalId
+      }
+    });
+
+    if (message) {
+      res.json({ message: message.message });
+    } else {
+      res.status(404).json({ error: "Message non trouvé" });
+    }
+  } catch (error) {
+    console.error("Erreur lors de la récupération du message:", error);
+    return res.status(500).json({ error: "Erreur serveur" });
+  }
+}
+
 export async function createOneMessage(req, res) {
   const { animalId, userId} = req.params;
   const { message } = req.body;
