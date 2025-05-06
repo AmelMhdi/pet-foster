@@ -21,38 +21,30 @@ export default function Navbar() {
       <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
 
         {/* left nav links */}
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/">Accueil</Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/associations">Associations</Link>
-            </li>
-            <li className="nav-item mx-2">
-              <Link className="nav-link" to="/nos-animaux">Animaux</Link>
-            </li>
-            {user?.role?.name === "association" && (
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <li className="nav-item mx-2">
+            <Link className="nav-link" to="/">Accueil</Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link className="nav-link" to="/associations">Associations</Link>
+          </li>
+          <li className="nav-item mx-2">
+            <Link className="nav-link" to="/nos-animaux">Animaux</Link>
+          </li>
+          {/* affichage conditionnel pour les associations */}
+          {user?.role?.name === "association" && (
+            <>
               <li className="nav-item mx-2">
-                {/* <Link className="nav-link" to={/profil-association/${user.id}}>
+                <Link 
+                  className="nav-link" 
+                  to={`/profil-association/${user.id}`}
+                >
                   Informations association
-                </Link> */}
+                </Link>
               </li>
-            )}
-          </ul>
-
-        {/* affichage conditionnel pour les associations */}
-        {user?.role?.name === "association" && (
-          <>
-            <li className="nav-item mx-2">
-              <Link 
-                className="nav-link" 
-                to={`/profil-association/${user.id}`}
-              >
-                Informations association
-              </Link>
-            </li>
-          </>
-        )}
+            </>
+          )}
+        </ul>
 
         {/* right nav links */}
         <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex justify-content-center">
