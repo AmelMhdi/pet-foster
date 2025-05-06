@@ -119,7 +119,8 @@ export interface IUserUpdateForm {
   address: string;
   phone_number: string;
   localisation_id: number;
-   password?: string;
+  password?: string;
+  role_id:number
 }
 
 // creer un animal

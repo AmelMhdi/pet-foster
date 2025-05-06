@@ -9,6 +9,7 @@ import { useUserStore } from "../store";
 export default function UpdateProfilAssociation() {
   const navigate = useNavigate();
   const user = useUserStore((state) => state.user);
+console.log("User connecté :", user);
 
 
   const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
@@ -26,9 +27,23 @@ export default function UpdateProfilAssociation() {
  
      //modificaition du compte
         const handleRegister = async (data: IUserUpdateForm) =>{
-              
+          
+          
+          if (!user || typeof user.id !== "number") {
+  console.error("Utilisateur non connecté ou ID invalide");
+  return;
+          }
+          
+          //on copie les informations de user et l'id de user connecté en localstorage pour avoir l'url 
+            const dataWithId: IUserUpdateForm = {
+    ...data,
+              id: user?.id,
+              role_id: 1
+  };
+
+
             // Appel de la fonction pour créer l'utilisateur 
-            const response = await updateAssociation(data);
+            const response = await updateAssociation(dataWithId);
             console.log("Réponse API :", response);
     
             if (!response) {
@@ -52,10 +67,10 @@ export default function UpdateProfilAssociation() {
 
 
     if (!selectedLocalisation) {
-      alert("❌ Localisation invalide.");
+      alert(" Localisation invalide.");
       return;
     }
- 
+//  construction du user
           const userData: IUserUpdateForm = {
        
           lastname,
@@ -65,9 +80,12 @@ export default function UpdateProfilAssociation() {
           address,
           localisation_id: selectedLocalisation.id,
           phone_number,
-                   };  
+          role_id:1,
+          ...(password && password.trim() !== "" ? { password } : {})
+        };  
+        
   
-          console.log("🔎 Données envoyées :", userData);
+          console.log("Données envoyées :", userData);
           await handleRegister(userData)
   };
 

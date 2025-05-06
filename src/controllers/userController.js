@@ -169,7 +169,7 @@ export async function login(req, res) {
 
 /**
  * Fonction qui permet à l'utilisateur mettre à jour ses informations
- * 
+ * // quand on verifie avec un PUT attention à l'id renseigné exemple Bruno=> id=2 http://localhost:3001/api/users/2
  */
 export async function updateUser( req, res, next )
 {

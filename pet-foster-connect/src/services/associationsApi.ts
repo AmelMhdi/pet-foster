@@ -25,31 +25,29 @@ const response = await fetch(`${apiBaseUrl}/associations/${id}/animaux`);
  * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur. Ce type représente les données User envoyées à l’API IUserUpdateForm pour mettre à jour un utilisateur IPublicUser
  * 
  */
-// créer un user, on envoie email et password on attend un nouveau user POST/users
 export async function updateAssociation(userData:IUserUpdateForm): Promise<IPublicUser | null>{
   try {
+
+  // 🔹 On extrait l'id et on garde le reste dans userDataSansId
+    const { id, ...userDataSansId } = userData;
+
+    // 🔹 Vérification
+    if (!id) {
+      throw new Error("ID utilisateur manquant pour la mise à jour.");
+    }
+
+    console.log("Données envoyées SANS id :", userDataSansId);
+
 
     console.log("Envoi de la requête...");
     console.log("Données envoyées :", userData);
 
-     // Transformation simple à la volée
-    const { localisation_id, ...rest } = userData;
-
-    const payload = {
-      ...rest,
-      localisation: { id: localisation_id },
-    };
-
-    console.log("Payload envoyé :", payload);
-
-
-    // Envoi des données converties en JSON vers l'API
-    const response = await fetch(`${apiBaseUrl}/users/${userData.id}` ,{
+    const response = await fetch(`${apiBaseUrl}/users/${id}` ,{
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(userDataSansId),
     });
 
     console.log("Réponse reçue !");
@@ -60,7 +58,6 @@ export async function updateAssociation(userData:IUserUpdateForm): Promise<IPubl
       throw new Error(`Erreur ${response.status}: ${response.statusText}`);
     }
 
-  // objet retourné par fetch, la methode json  lit le corps de la réponse et le convertit en objet JS
     const jsonResponse = await response.json();
     console.log("Réponse JSON :", jsonResponse);
 
