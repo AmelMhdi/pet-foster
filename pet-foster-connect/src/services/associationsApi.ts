@@ -28,7 +28,7 @@ const response = await fetch(`${apiBaseUrl}/associations/${id}/animaux`);
 export async function updateAssociation(userData:IUserUpdateForm): Promise<IPublicUser | null>{
   try {
 
-  // 🔹 On extrait l'id et on garde le reste dans userDataSansId
+  // 🔹 On extrait l'id et on garde le reste dans userDataSansId, nécessaire sinon bad request
     const { id, ...userDataSansId } = userData;
 
     // 🔹 Vérification

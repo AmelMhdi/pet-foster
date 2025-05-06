@@ -65,7 +65,6 @@ console.log("User connecté :", user);
   (loc) => loc.city === city && loc.postcode === Number(postcode)
 );
 
-
     if (!selectedLocalisation) {
       alert(" Localisation invalide.");
       return;
