@@ -1,21 +1,19 @@
-import { IUser, ILoginRequest, ILoginResponse } from '../types';  
+import { ILoginRequest, ILoginResponse, IUser } from "../@types/user-index";
 
 const apiBaseUrl = "http://localhost:3001/api";
-
 
 /**
  * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur
  */
 
-// créer un user, on envoie email et password on attend un nouveau user POST/users
+// crée un user, on envoie email et password, on attend un nouveau user POST/users
 export async function createUser(userData:IUser): Promise<IUser | null>{
   try {
-
-    console.log("📤 Envoi de la requête...");
-    console.log("➡️ Données envoyées :", userData);
+    console.log("Envoi de la requête...");
+    console.log("Données envoyées :", userData);
 
     // Envoi des données converties en JSON vers l'API
-    const response = await fetch(apiBaseUrl + "/users/register" ,{
+    const response = await fetch(apiBaseUrl + "/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,27 +21,27 @@ export async function createUser(userData:IUser): Promise<IUser | null>{
       body: JSON.stringify(userData),
     });
 
-    console.log("📥 Réponse reçue !");
-    console.log("ℹ️ Statut HTTP :", response.status, response.statusText);
+    console.log("Réponse reçue !");
+    console.log("ℹStatut HTTP :", response.status, response.statusText);
 
     if (!response.ok) {
-      console.error("❌ Erreur HTTP détectée !");
+      console.error("Erreur HTTP détectée !");
       throw new Error(`Erreur ${response.status}: ${response.statusText}`);
     }
 
-  // objet retourné par fetch, la methode json  lit le corps de la réponse et le convertit en objet JS
+    // objet retourné par fetch, la methode json lit le corps de la réponse et le convertit en objet JS
     const jsonResponse = await response.json();
-    console.log("✅ Réponse JSON :", jsonResponse);
+    console.log("Réponse JSON :", jsonResponse);
 
-     return jsonResponse;
+    return jsonResponse;
   } catch (error) {
-    console.error("🚨 Erreur lors de la création :", error);
+    console.error("Erreur lors de la création :", error);
     return null;
   }
 }
 
 /**
- * Fonction qui récupère tous les roles qui proviennet de l'api
+ * Fonction qui récupère tous les roles qui proviennent de l'api
  * 
  */
 export async function getRolesFromApi(){
@@ -82,7 +80,6 @@ export async function getLocalisationsFromApi(){
  * Fonction qui récupère tous les users
  * 
  */
-
 export async function getUsersFromApi(): Promise<IUser[]> {
   try {
     const response = await fetch(apiBaseUrl + "/users");
@@ -104,14 +101,13 @@ export async function loginFromApi(body:ILoginRequest): Promise<ILoginResponse> 
     headers: { "Content-Type": "application/json" },
   })
   
-console.log("Réponse API avant retour : ", response);  
+  console.log("Réponse API avant retour : ", response);  
 
   if (!response.ok) {
     throw new Error("Erreur lors de l'authentification");
   }
-const data = await response.json();
-  console.log("Réponse API (données JSON) : ", data);
 
+  const data = await response.json();
+  console.log("Réponse API (données JSON) : ", data);
   return data;
-  
 }

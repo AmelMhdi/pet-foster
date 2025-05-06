@@ -3,12 +3,15 @@ export type IAnimals = IAnimal[];
 export interface IAnimal {
     id: number;
     name: string;
-    birthday: Date;
+    birthday: string;
     description: string;
     picture: string;
-    localisation_id: number;
-    user_id: number;
-    species_id:number;
+    localisation: {
+      city: string;
+    };
+    species: {
+      name: string;
+    };
 }
 export interface Localisation {
     id: number;

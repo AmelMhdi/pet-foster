@@ -9,7 +9,7 @@ import { xss } from "express-xss-sanitizer";
 // Création de l'app Express
 export const app = express();
 
-app.use(express.json()); 
+app.use(express.json());
 
 app.use(xss());
 
