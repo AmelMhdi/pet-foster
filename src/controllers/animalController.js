@@ -200,19 +200,22 @@ export async function getOneMessage(req, res) {
   const { userId, animalId } = req.params;
 
   try {
-    // recherche du message dans la table user_animal pour le bon couple user_id + animal_id
     const message = await User_animal.findOne({
       where: {
-        user_id: userId,
-        animal_id: animalId
+        user_id: parseInt(userId, 10),
+        animal_id: parseInt(animalId, 10)
       }
     });
 
-    if (message) {
-      res.json({ message: message.message });
-    } else {
-      res.status(404).json({ error: "Message non trouvé" });
+    if (!message) {
+      return res.status(404).json({ 
+        error: "Aucun message trouvé pour cet utilisateur et cet animal" 
+      });
     }
+
+    return res.status(200).json({ 
+      data: message
+    });
   } catch (error) {
     console.error("Erreur lors de la récupération du message:", error);
     return res.status(500).json({ error: "Erreur serveur" });
@@ -220,18 +223,26 @@ export async function getOneMessage(req, res) {
 }
 
 export async function createOneMessage(req, res) {
-  const { animalId, userId} = req.params;
+  const { userId, animalId } = req.params;
   const { message } = req.body;
 
   try {
-    const [userAnimal, created] = await User_animal.upsert({
-      user_id: userId,
-      animal_id: animalId,
+    // vérification du message
+    if (!message || message.trim().length === 0) {
+      return res.status(400).json({ error: "Le message ne peut pas être vide" });
+    }
+    
+    // Création du message dans la base de données
+    const newMessage = await User_animal.create({
+      user_id: parseInt(userId, 10),
+      animal_id: parseInt(animalId, 10),
       message
-    }, {
-      returning: true
     });
-    res.status(200).json({ message: userAnimal.message });
+    
+    return res.status(201).json({ 
+      message: "Message créé avec succès", 
+      data: newMessage 
+    });    
   } catch (error) {
     console.error("Erreur création message :", error);
     res.status(500).json({ error: "Erreur serveur" });

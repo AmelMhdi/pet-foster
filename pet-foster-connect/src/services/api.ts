@@ -33,10 +33,19 @@ async function getAnimal(id: number): Promise<IAnimal> {
 
 export async function getUserMessageFromApi(userId: number, animalId: number): Promise<string | null> {
   try {
-    const response = await fetch(`${apiBaseUrl}/request/animals/${animalId}/users/${userId}`);
-    
+    const response = await fetch(`${apiBaseUrl}/request/animals/${animalId}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 404) {
+      return null;
+    }
+
     if (!response.ok) {
-      throw new Error(`Erreur API: ${response.status}`);
+      throw new Error(`Erreur lors de la récupération du message: ${response.status}`);
     }
 
     const data = await response.json();
@@ -51,21 +60,21 @@ export async function getUserMessageFromApi(userId: number, animalId: number): P
 export async function postUserMessageToApi(userId: number, animalId: number, message: string): Promise<string | null> {
   try {
     const response = await fetch(`${apiBaseUrl}/request/animals/${animalId}/users/${userId}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ message }),
     });
 
     if (!response.ok) {
-      throw new Error(`Erreur API: ${response.status}`);
+      throw new Error(`Erreur lors de l'envoi du message: ${response.status}`);
     }
 
     const data = await response.json();
-    return data.message || null;
+    return data;
   } catch (error) {
-    console.error("Erreur lors de l'envoi du message :", error);
-    return null;
+    console.error("Erreur API:", error);
+    throw error;
   }
 }

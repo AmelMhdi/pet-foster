@@ -9,98 +9,154 @@ export default function AnimalDetails() {
   const { id } = useParams();
   const [animal, setAnimal] = useState<IAnimal | null>(null);
   const [newMessage, setNewMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // éviter de cliquer plusieurs fois sur le bouton "envoyer" pendant que le message est en cours d’envoi
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSendMessage = async () => {
+  const handleSubmit = async () => {
     const trimmedMessage = newMessage.trim();
-    console.log("Message à envoyer :", trimmedMessage);
-
     if (!trimmedMessage) {
-      alert("Le message ne peut pas être vide.");
-      return
+      setErrorMessage("Le message ne peut pas être vide.");
+      return;
     }
 
-    if (user && animal) {
-      const message = await api.postUserMessageToApi(user.id, animal.id, trimmedMessage);
-      console.log("Message envoyé :", message);
-      setNewMessage("");
+    if (!user) {
+      setErrorMessage("Vous devez être connecté.e pour envoyer un message.");
+      return;
     }
+
+    if (!animal) {
+      setErrorMessage("Informations sur l'animal non disponibles.");
+      return;
+    }
+
+    setIsLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+  
+    try {
+      const response = await api.postUserMessageToApi(user.id, animal.id, trimmedMessage);
+      console.log("Message envoyé :", response);
+      setNewMessage(""); 
+      setSuccessMessage("Votre demande d'accueil a été envoyée avec succès.");
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du message :", error);
+      setErrorMessage("Une erreur est survenue lors de l'envoi du message.");
+    }
+    setIsLoading(false);
   };
   
   useEffect(() => {
     const loadData = async () => {
+      if (!id) return;
+
       try {
-        if (!id) return;
-  
         const parsedId = parseInt(id, 10);
         const newAnimal = await api.getAnimal(parsedId);
         setAnimal(newAnimal);
-        
+
+        if (user?.id) {
+          try {
+            const message = await api.getUserMessageFromApi(user.id, parsedId);
+            if (message) {
+              setNewMessage(message);
+            }
+          } catch (msgError) {
+            console.error("Erreur lors du chargement du message :", msgError);
+          }
+        }         
       } catch (error) {
-        console.error("Erreur :", error);
+        console.error("Erreur lors du chargement des données :", error);
       }
     };
-  
     loadData();
-  }, [id]);
-  
+  }, [id, user]);
 
-// en cas d'erreur 404 :
-// créer <Navigate to="/404" replace />;
-if (!id) return <div>Erreur : ID manquant.</div>;
-if (!animal) return <div>Chargement...</div>;
+  if (!id) return <div className="alert alert-danger">Erreur : ID manquant.</div>;
+  if (!animal) return <div className="d-flex justify-content-center p-5"><div className="spinner-border" role="status"></div></div>;
 
-return (
-  <div className="container mt-5 fade-in">
-    <div className="d-flex justify-content-center mb-4">
-      <h1 className="mb-4 text-center">{animal.name}</h1>
-    </div>
-
-    <div className="row">
-      <div className="col-md-6 mb-3">
-        <img src={animal?.picture} alt={animal?.name} className="img-fluid rounded" />
+  return (
+    <div className="container mt-5 fade-in">
+      <div className="d-flex justify-content-center mb-4">
+        <h1 className="mb-4 text-center">{animal.name}</h1>
       </div>
 
-      <div className="col-md-6">
-        <div className="card info-card shadow-sm">
-          <div className="card-body">
-            <h5 className="card-title mb-3 fw-bold">Informations</h5>
-            <div className="card-text info-text">
-              <div>
-                <span className="fw-bold">Date de naissance :</span> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-              </div>
-              <div>
-                <span className="fw-bold">Espèce :</span> {animal.species?.name || "Information non disponible"}
-              </div>
-              <div>
-                <span className="fw-bold">Description :</span> {animal.description}
-              </div>
-              <div>
-                <span className="fw-bold">Ville :</span> {animal.localisation?.city || "Information non disponible"}
-              </div>
-            </div>
+      <div className="row">
+        <div className="col-md-6 mb-3">
+          <img src={animal?.picture} alt={animal?.name} className="img-fluid rounded" />
+        </div>
 
-            <div className="mt-3">
-              <label htmlFor="userMessageInput" className="form-label">
-                Votre message :
-              </label>
-              <textarea
-                id="userMessageInput"
-                className="form-control"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-              />
-              <button 
-                className="btn btn-primary mt-4 foster-request-btn" 
-                onClick={handleSendMessage}
-              >
-                Faire une demande d'accueil
-              </button>
+        <div className="col-md-6">
+          <div className="card info-card shadow-sm">
+            <div className="card-body">
+              <h5 className="card-title mb-3 fw-bold">Informations</h5>
+              <div className="card-text info-text">
+                <div>
+                  <span className="fw-bold">Date de naissance :</span> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
+                </div>
+                <div>
+                  <span className="fw-bold">Espèce :</span> {animal.species?.name || "Information non disponible"}
+                </div>
+                <div>
+                  <span className="fw-bold">Description :</span> {animal.description}
+                </div>
+                <div>
+                  <span className="fw-bold">Ville :</span> {animal.localisation?.city || "Information non disponible"}
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <h5 className="mb-3">Faire une demande d'accueil</h5>
+
+                {successMessage && (
+                  <div className="alert alert-success">{successMessage}</div>
+                )}
+
+                {errorMessage && (
+                  <div className="alert alert-danger">{errorMessage}</div>
+                )}
+
+                <div className="form-group">
+                  <label 
+                    htmlFor="userMessageInput"
+                    className="form-label"
+                  >
+                    Votre message :
+                  </label>
+                  <textarea 
+                    id="userMessageInput"
+                    className="form-control"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    rows={4}
+                    placeholder="Expliquez pourquoi vous souhaitez accueillir cet animal..."
+                  />
+                </div>
+
+                <button 
+                  className="btn btn-primary mt-3 w-100"
+                  onClick={handleSubmit}
+                  disabled={isLoading || !user}
+                >
+                  {isLoading ? (
+                    <>
+                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </>
+                  ) : (
+                    "Envoyer ma demande d'accueil"
+                  )}
+                </button>
+
+                {!user && (
+                  <div className="alert alert-warning mt-3">
+                    Vous devez être connecté.e pour envoyer une demande d'accueil.
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
-  </div>
-);
+  );
 }
