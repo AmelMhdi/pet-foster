@@ -21,7 +21,7 @@ export default function Navbar() {
       <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
 
         {/* left nav links */}
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item mx-2">
               <Link className="nav-link" to="/">Accueil</Link>
             </li>
@@ -29,8 +29,15 @@ export default function Navbar() {
               <Link className="nav-link" to="/associations">Associations</Link>
             </li>
             <li className="nav-item mx-2">
-              <Link className="nav-link" to="/animals">Animaux</Link>
+              <Link className="nav-link" to="/nos-animaux">Animaux</Link>
             </li>
+            {user?.role?.name === "association" && (
+              <li className="nav-item mx-2">
+                {/* <Link className="nav-link" to={/profil-association/${user.id}}>
+                  Informations association
+                </Link> */}
+              </li>
+            )}
           </ul>
 
         {/* affichage conditionnel pour les associations */}
