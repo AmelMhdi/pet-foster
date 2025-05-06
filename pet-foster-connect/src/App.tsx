@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
  import Profile from './pages/Profile';
+import UpdateProfilAssociation from './pages/UpdateProfilAssociation';
 
 
 function App() {
@@ -24,7 +25,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/se-connecter" element={<Login />} />
         <Route path="/creer-compte" element={<Register />} />
-          <Route path="/profil-association/:id" element={<Profile/>} />
+        <Route path="/profil-association/:id" element={<Profile />} />
+                <Route path="/modifier-profil/:id" element={<UpdateProfilAssociation />} />
+
         </Routes>
       <Footer/>
     </>

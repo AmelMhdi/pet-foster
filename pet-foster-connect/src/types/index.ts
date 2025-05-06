@@ -67,13 +67,20 @@ export interface IPublicUser {
 }
 
 export interface IUserT{
+   id: number;
   email: string;
-  token: string; 
+  token: string;
   firstname: string;
-  id: number;
   role: {
     id: number;
     name: string;
+  };
+  lastname?: string;
+  address?: string;
+  phone_number?: string;
+  localisation?: {
+    postcode?: string;
+    city?: string;
   };
 }
 
@@ -101,4 +108,16 @@ export interface IUserAnimal {
   species: {
     name: string;
   };
+}
+
+// pour mettre à jour les informations de l'association
+export interface IUserUpdateForm {
+  id?: number; 
+  firstname: string;
+  lastname: string;
+  email: string;
+  address: string;
+  phone_number: string;
+  localisation_id: number;
+   password?: string;
 }

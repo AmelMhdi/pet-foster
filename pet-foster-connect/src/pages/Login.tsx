@@ -23,19 +23,12 @@ export default function Login() {
         try {
             const response: ILoginResponse = await loginFromApi({ email, password });
             console.log('Réponse API :', response);
-            // ✅ Si la réponse est OK, on connecte l'utilisateur dans le store
-            if (response?.token ) {
-                const user: IUserT = {
-                email,
-                token: response.token,
-                firstname: response.firstname,
-                id: response.id, 
-                role: response.role
-};
-                login(user);
-                console.log("📥 Réponse API :", response);
-                alert("✅ Connexion réussie !");
-                navigate("/")
+            // Si la réponse est OK, on connecte l'utilisateur dans le store
+           if (response?.token) {
+            login(response); 
+            console.log("📥 Réponse API :", response);
+            alert("✅ Connexion réussie !");
+            navigate("/");
             }
             else {
                 console.log("Identifiants invalides");

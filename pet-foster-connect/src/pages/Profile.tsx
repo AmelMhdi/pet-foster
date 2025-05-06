@@ -1,5 +1,6 @@
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { IUserAnimal } from "../types";
 import { getAnimalsByAssociationFromApi } from "../services/associationsApi"
@@ -50,11 +51,22 @@ const user = useUserStore((state) => state.user);
                         </div>))}
                 </div>
             </section>            
+      
+               <section className="navbar navbar-expand-lg">
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item mx-2">
+                <Link className="nav-link" to={`/modifier-profil/${user.id}`} >Modifiez votre profil</Link>
+              </li>
+              <li className="nav-item mx-2">
+                <Link className="nav-link" to={`/creer-animal/${user.id}`}>   Créer un animal  </Link>
+              </li>
+              <li className="nav-item mx-2">
+                <Link className="nav-link" to="/nos-animaux">Animaux</Link>
+              </li>
+                      </ul>
+   
+        </section>
 
-           
-                
-         
-            
         
 
 

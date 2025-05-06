@@ -149,7 +149,21 @@ export async function login(req, res) {
   console.log( 'Utilisateur connecté, ID:', user.id );  
   
   const token = generateJwtToken({ userId: user.id });
-  res.json({ token, expiresIn: "1d" ,firstname:user.firstname, role :user.role, id:user.id, email:user.email});
+  res.json({
+    token,
+    expiresIn: "1d",
+    id: user.id,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    email: user.email,
+    address: user.address,
+    phone_number: user.phone_number,
+    localisation: user.localisation,
+    role: {
+      id: user.role.id,
+      name: user.role.name
+    }
+  });
 }
 
 
