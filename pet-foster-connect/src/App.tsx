@@ -11,6 +11,7 @@ import Register from './pages/Register';
 
  import Profile from './pages/Profile';
 import UpdateProfilAssociation from './pages/UpdateProfilAssociation';
+import CreateAnimal from './pages/CreateAnimal'
 
 
 function App() {
@@ -26,7 +27,8 @@ function App() {
         <Route path="/se-connecter" element={<Login />} />
         <Route path="/creer-compte" element={<Register />} />
         <Route path="/profil-association/:id" element={<Profile />} />
-                <Route path="/modifier-profil/:id" element={<UpdateProfilAssociation />} />
+        <Route path="/modifier-profil/:id" element={<UpdateProfilAssociation />} />
+         <Route path="/creer-animal/:id" element={<CreateAnimal/>} />
 
         </Routes>
       <Footer/>

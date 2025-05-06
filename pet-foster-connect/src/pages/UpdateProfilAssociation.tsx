@@ -29,7 +29,7 @@ export default function UpdateProfilAssociation() {
               
             // Appel de la fonction pour créer l'utilisateur 
             const response = await updateAssociation(data);
-            console.log("📥 Réponse API :", response);
+            console.log("Réponse API :", response);
     
             if (!response) {
                 console.error("La réponse de l'API est null.");
@@ -37,7 +37,7 @@ export default function UpdateProfilAssociation() {
             }
               
             // TODO mettre un message de feedback 
-            alert("✅ Modification réussie !");
+            alert("Modification réussie !");
     
             navigate("/")
         };
@@ -80,7 +80,7 @@ export default function UpdateProfilAssociation() {
     loadData();
   }, []);
     
-    // 👇 Ajoute ceci juste après
+   
     useEffect(() => {
       console.log("🧾 user dans le useEffect :", user);
 
@@ -94,7 +94,7 @@ export default function UpdateProfilAssociation() {
     setPostcode(user.localisation?.postcode?.toString() || "");
     setCity(user.localisation?.city || "");
 
-    console.log("✅ Initialisation faite :");
+    console.log(" Initialisation faite :");
     console.log("Ville :", user.localisation?.city);
     console.log("Code postal :", user.localisation?.postcode?.toString());
   }

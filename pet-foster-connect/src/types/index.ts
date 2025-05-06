@@ -121,3 +121,21 @@ export interface IUserUpdateForm {
   localisation_id: number;
    password?: string;
 }
+
+// creer un animal
+export interface ISpecies {
+  id: number;
+  name: string;
+  
+}
+
+// creer un animal
+export interface INewAnimal {
+  name: string;
+  birthday: string; 
+  description: string;
+  picture: string;
+  localisation_id: number;
+  species_id: number;
+  user_id: number; 
+}

@@ -1,4 +1,4 @@
-import { Animal, Localisation, Species, User_animal } from "../models/index.js";
+import { Animal, Localisation, Species, User_animal,User } from "../models/index.js";
 
 export async function getAllAnimals(req, res) {
   try {
@@ -102,33 +102,33 @@ export async function deleteAnimal(req, res) {
 //   }
 // }
 
-export async function createAnimal(req, res) {
-  console.log("Requête createAnimal reçue", req.body);
-  const { name, birthday, description, picture } = req.body;
+// export async function createAnimal(req, res) {
+//   console.log("Requête createAnimal reçue", req.body);
+//   const { name, birthday, description, picture } = req.body;
   
-  // On vérifie que les champs requis sont présents
-  if (!name || !birthday || !description || !picture) {
-    return res.status(400).json({ error: "Tous les champs sont requis" });
-  }
+//   // On vérifie que les champs requis sont présents
+//   if (!name || !birthday || !description || !picture) {
+//     return res.status(400).json({ error: "Tous les champs sont requis" });
+//   }
   
-  try {
-    const newAnimal = await Animal.create({
-      name,
-      birthday,
-      description,
-      picture
-    });
-    res.status(201).json(newAnimal);
-  } catch (error) {
-    console.error("Erreur lors de la création de l'animal:", error);
+//   try {
+//     const newAnimal = await Animal.create({
+//       name,
+//       birthday,
+//       description,
+//       picture
+//     });
+//     res.status(201).json(newAnimal);
+//   } catch (error) {
+//     console.error("Erreur lors de la création de l'animal:", error);
     
-    // Gestion des erreurs Sequelize
-    return res.status(500).json({ 
-      error: "Erreur lors de la création de l'animal", 
-      message: error.message 
-    });
-  }
-}
+//     // Gestion des erreurs Sequelize
+//     return res.status(500).json({ 
+//       error: "Erreur lors de la création de l'animal", 
+//       message: error.message 
+//     });
+//   }
+// }
 
 export async function updateAnimal(req, res) {
   const animalId = validateAnimalId(req.params.id);
@@ -206,3 +206,41 @@ export async function createOneMessage(req, res) {
   });
   res.status(201).json(newMessage);
 };
+
+
+export async function createAnimal(req, res) {
+  console.log("Requête createAnimal reçue", req.body);
+  const { name, birthday, description, picture,species_id,  localisation_id, user_id } = req.body;
+  
+  // On vérifie que les champs requis sont présents
+  if (!name || !birthday || !description || !picture) {
+    return res.status(400).json({ error: "Tous les champs sont requis" });
+  }
+
+  // Vérifier si l'utilisateur existe (l'association qui possède l'animal)
+  const user = await User.findByPk(user_id);
+  if (!user) {
+    return res.status(404).json({ error: 'Utilisateur non trouvé !' });
+  }
+  
+  try {
+    const newAnimal = await Animal.create({
+      name,
+      birthday,
+      description,
+      picture,
+      species_id,
+      localisation_id,
+      user_id // l'association qui possède l'animal
+    });
+    res.status(201).json(newAnimal);
+  } catch (error) {
+    console.error("Erreur lors de la création de l'animal:", error);
+    
+    // Gestion des erreurs Sequelize
+    return res.status(500).json({ 
+      error: "Erreur lors de la création de l'animal", 
+      message: error.message 
+    });
+  }
+}
