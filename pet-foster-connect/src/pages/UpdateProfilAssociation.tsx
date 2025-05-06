@@ -26,15 +26,13 @@ console.log("User connecté :", user);
 
  
      //modificaition du compte
-        const handleRegister = async (data: IUserUpdateForm) =>{
-          
-          
-          if (!user || typeof user.id !== "number") {
-  console.error("Utilisateur non connecté ou ID invalide");
-  return;
+  const handleRegister = async (data: IUserUpdateForm) => {
+    if (!user || typeof user.id !== "number") {
+      console.error("Utilisateur non connecté ou ID invalide");
+      return;
           }
           
-          //on copie les informations de user et l'id de user connecté en localstorage pour avoir l'url 
+          //on copie les informations de user et l'id de user connecté en localstorage pour avoir l'url, fonction nommée ??
             const dataWithId: IUserUpdateForm = {
     ...data,
               id: user?.id,
@@ -71,11 +69,9 @@ console.log("User connecté :", user);
     }
 //  construction du user
           const userData: IUserUpdateForm = {
-       
           lastname,
           firstname,
           email,
-          password,
           address,
           localisation_id: selectedLocalisation.id,
           phone_number,

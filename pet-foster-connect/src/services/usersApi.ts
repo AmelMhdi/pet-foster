@@ -1,6 +1,6 @@
 import { IUser, ILoginRequest, ILoginResponse } from '../types';  
 
-const apiBaseUrl = "http://localhost:3001/api";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 
 /**
@@ -11,8 +11,8 @@ const apiBaseUrl = "http://localhost:3001/api";
 export async function createUser(userData:IUser): Promise<IUser | null>{
   try {
 
-    console.log("📤 Envoi de la requête...");
-    console.log("➡️ Données envoyées :", userData);
+    console.log("Envoi de la requête...");
+    console.log("Données envoyées :", userData);
 
     // Envoi des données converties en JSON vers l'API
     const response = await fetch(apiBaseUrl + "/users/register" ,{
@@ -23,21 +23,21 @@ export async function createUser(userData:IUser): Promise<IUser | null>{
       body: JSON.stringify(userData),
     });
 
-    console.log("📥 Réponse reçue !");
-    console.log("ℹ️ Statut HTTP :", response.status, response.statusText);
+    console.log("Réponse reçue !");
+    console.log("ℹStatut HTTP :", response.status, response.statusText);
 
     if (!response.ok) {
-      console.error("❌ Erreur HTTP détectée !");
+      console.error(" Erreur HTTP détectée !");
       throw new Error(`Erreur ${response.status}: ${response.statusText}`);
     }
 
   // objet retourné par fetch, la methode json  lit le corps de la réponse et le convertit en objet JS
     const jsonResponse = await response.json();
-    console.log("✅ Réponse JSON :", jsonResponse);
+    console.log(" Réponse JSON :", jsonResponse);
 
      return jsonResponse;
   } catch (error) {
-    console.error("🚨 Erreur lors de la création :", error);
+    console.error(" Erreur lors de la création :", error);
     return null;
   }
 }

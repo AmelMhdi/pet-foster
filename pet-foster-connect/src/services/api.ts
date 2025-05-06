@@ -2,7 +2,7 @@ import { IAnimal } from "../@types";
 import { ISpecies } from "../types";
 
 
-const apiBaseUrl = "http://localhost:3001/api";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const api = {
   fetchAnimals,

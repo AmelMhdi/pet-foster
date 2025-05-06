@@ -173,7 +173,7 @@ export async function login(req, res) {
  */
 export async function updateUser( req, res, next )
 {
-  const error = validate( req );
+  const error = validateUpdatedFields( req );
   // Si une erreur de validation existe, on la transmet au middleware d'erreur
   if ( error )
   {
@@ -244,7 +244,7 @@ export async function updateUser( req, res, next )
 
 
 /**
-* Shema de validation Joi
+* Shema de validation Joi de l'enregistrement d'un compte
 */
 function validate(req) {
   const schema = Joi.object({
@@ -305,3 +305,38 @@ async function checkDuplicates(email, phone_number, userId) {
   }
   return null; 
 }
+
+
+/**
+* Shema de validation Joi
+*/
+function validateUpdatedFields(req) {
+  const schema = Joi.object({
+    firstname: Joi.string().min(3).max(30).optional(),
+    lastname: Joi.string().min(3).max(30).optional(),
+    password: updatedPasswordComplexity,
+    email: Joi.string().email().optional(),
+    address: Joi.string().optional(),
+    phone_number: Joi.string().optional(),
+    rma_number: Joi.string().pattern(/^W\d{9}$/).optional(),
+    role_id: Joi.number().integer().optional(),
+    localisation_id: Joi.number().integer().optional(),
+  });
+
+  const error = schema.validate(req.body, { abortEarly: false }).error;
+
+  return error
+    ? { statusCode: 400, message: error.details.map(detail => detail.message) }
+    : null;
+}
+
+const updatedPasswordComplexity = Joi.string()
+  .min(12)
+  .max(100)
+  .pattern(/[A-Z]/, 'majuscule').message('Le mot de passe doit contenir au moins une lettre majuscule')
+  .pattern(/[a-z]/, 'minuscule').message('Le mot de passe doit contenir au moins une lettre minuscule')
+  .pattern(/[0-9]/, 'chiffre').message('Le mot de passe doit contenir au moins un chiffre')
+  .pattern(/[\W_]/, 'symbole').message('Le mot de passe doit contenir au moins un symbole')
+  .pattern(/^\S*$/, 'pas d\'espace').message('Le mot de passe ne doit pas contenir d\'espace')
+  .optional()
+  ;
