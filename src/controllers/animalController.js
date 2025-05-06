@@ -222,10 +222,18 @@ export async function getOneMessage(req, res) {
 export async function createOneMessage(req, res) {
   const { animalId, userId} = req.params;
   const { message } = req.body;
-  const newMessage = await User_animal.create({
-    animal_id: parseInt(animalId),
-    user_id: parseInt(userId),
-    message
-  });
-  res.status(201).json(newMessage);
+
+  try {
+    const [userAnimal, created] = await User_animal.upsert({
+      user_id: userId,
+      animal_id: animalId,
+      message
+    }, {
+      returning: true
+    });
+    res.status(200).json({ message: userAnimal.message });
+  } catch (error) {
+    console.error("Erreur création message :", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
 };

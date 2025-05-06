@@ -8,33 +8,46 @@ export default function AnimalDetails() {
   const user = useUserStore((state) => state.user);
   const { id } = useParams();
   const [animal, setAnimal] = useState<IAnimal | null>(null);
-  const [userMessage, setUserMessage] = useState<string | null>(null);
+  const [newMessage, setNewMessage] = useState("");
 
+  const handleSendMessage = async () => {
+    const trimmedMessage = newMessage.trim();
+    console.log("Message à envoyer :", trimmedMessage);
+
+    if (!trimmedMessage) {
+      alert("Le message ne peut pas être vide.");
+      return
+    }
+
+    if (user && animal) {
+      const message = await api.postUserMessageToApi(user.id, animal.id, trimmedMessage);
+      console.log("Message envoyé :", message);
+      setNewMessage("");
+    }
+  };
+  
   useEffect(() => {
     const loadData = async () => {
       try {
         if (!id) return;
-
+  
         const parsedId = parseInt(id, 10);
         const newAnimal = await api.getAnimal(parsedId);
         setAnimal(newAnimal);
-
-        if (user?.id) {
-          const message = await api.getUserMessageFromApi(user.id, parsedId);
-          setUserMessage(message);
-        }
+        
       } catch (error) {
         console.error("Erreur :", error);
       }
     };
-
+  
     loadData();
-  }, [id, user]);
+  }, [id]);
+  
 
-  // en cas d'erreur 404 :
-  // créer <Navigate to="/404" replace />;
-  if (!id) return <div>Erreur : ID manquant.</div>;
-  if (!animal) return <div>Chargement...</div>;
+// en cas d'erreur 404 :
+// créer <Navigate to="/404" replace />;
+if (!id) return <div>Erreur : ID manquant.</div>;
+if (!animal) return <div>Chargement...</div>;
 
 return (
   <div className="container mt-5 fade-in">
@@ -64,11 +77,25 @@ return (
               <div>
                 <span className="fw-bold">Ville :</span> {animal.localisation?.city || "Information non disponible"}
               </div>
-              <div>
-                <span className="fw-bold">Message du propriétaire :</span> {userMessage || "Aucun message trouvé"}
-              </div>
             </div>
-            <button className="btn btn-primary mt-4 foster-request-btn">Faire une demande d'accueil</button>
+
+            <div className="mt-3">
+              <label htmlFor="userMessageInput" className="form-label">
+                Votre message :
+              </label>
+              <textarea
+                id="userMessageInput"
+                className="form-control"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+              />
+              <button 
+                className="btn btn-primary mt-4 foster-request-btn" 
+                onClick={handleSendMessage}
+              >
+                Faire une demande d'accueil
+              </button>
+            </div>
           </div>
         </div>
       </div>
