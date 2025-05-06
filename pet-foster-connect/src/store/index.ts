@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { IUserT, IUserStore } from '../types/index';
+import { IUserStore, IUserT } from '../@types/user-index';
 
 /**
  * Fonction qui crée un store Zustand pour gérer l'utilisateur connecté.
