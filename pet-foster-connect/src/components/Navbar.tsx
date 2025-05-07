@@ -52,7 +52,7 @@ export default function Navbar() {
             <>
               <li className="nav-item mx-2">
                 <span className="nav-link no-hover">
-                  Bonjour, {user.firstname}, vous êtes connecté.e avec l'adresse {user.email}.
+                  Bonjour, {user.firstname}.
                 </span>
               </li>
               <li className="nav-item mx-2">
