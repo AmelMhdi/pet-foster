@@ -61,36 +61,38 @@ export default function Navbar() {
                 </button>
               </li>
                                 
-            {user?.role?.name === "association" && (
-        <li className="nav-item mx-2">
-          <Link className="nav-link" to={`/profil-association/${user.id}`}>Informations association</Link>
-        </li>
-      )}
-    </ul>
+              {user?.role?.name === "association" && (
+                <li className="nav-item mx-2">
+                  <Link className="nav-link" to={`/profil-association/${user.id}`}>Informations association</Link>
+                </li>
+              )}
+            </>
+          ) : null}
+        </ul>
 
-          {/* right nav links */}
-          <ul className="navbar-nav mb-2 mb-lg-0 ms-lg-4">
-            {user ? (
-              <>
-            </>
-          ) : (
+        {/* right nav links */}
+        <ul className="navbar-nav mb-2 mb-lg-0 ms-lg-4">
+          {user ? (
             <>
-              <div className="d-flex justify-content-center">
-                <li className="nav-item mx-2">
-                  <Link className="nav-btn" to="/se-connecter">
-                  <button className="btn btn-light me-2">Connexion</button> 
-                  </Link>
-                </li>
-                <li className="nav-item mx-2">
-                  <Link className="nav-btn" to="/creer-compte">
-                    <button className="btn custom-inscription-btn">
-                      Inscription
-                    </button>
-                  </Link>
-                </li>
-              </div>
-            </>
-          )}
+          </>
+        ) : (
+          <>
+            <div className="d-flex justify-content-center">
+              <li className="nav-item mx-2">
+                <Link className="nav-btn" to="/se-connecter">
+                <button className="btn btn-light me-2">Connexion</button> 
+                </Link>
+              </li>
+              <li className="nav-item mx-2">
+                <Link className="nav-btn" to="/creer-compte">
+                  <button className="btn custom-inscription-btn">
+                    Inscription
+                  </button>
+                </Link>
+              </li>
+            </div>
+          </>
+        )}
         </ul>
       </div>
     </>

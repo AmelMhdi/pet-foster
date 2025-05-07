@@ -1,4 +1,4 @@
-import {  IUserAnimal,IPublicUser, IUserUpdateForm } from '../types';  
+import { IPublicUser, IUserAnimal, IUserUpdateForm } from "../@types/user-index";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 

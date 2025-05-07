@@ -1,10 +1,8 @@
-
 import { useUserStore } from "../store";
 import {  useState, useEffect } from 'react';
 import { getLocalisationsFromApi } from "../services/usersApi";
 import { api } from "../services/api"
 import { ILocalisation, INewAnimal, ISpecies } from "../@types/user-index";
-
 
 export default function CreateAnimal() {
 
@@ -56,9 +54,8 @@ export default function CreateAnimal() {
       user_id: user.id,
     };
 
-     console.log("📦 Données envoyées :", newAnimal); 
+    console.log("📦 Données envoyées :", newAnimal); 
 
-     
     await fetch("http://localhost:3001/api/animals", {
       method: "POST",
       headers: {

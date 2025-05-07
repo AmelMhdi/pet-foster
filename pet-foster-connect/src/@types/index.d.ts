@@ -13,12 +13,12 @@ export interface IAnimal {
       name: string;
     };
 }
-export interface Localisation {
+export interface ILocalisation {
     id: number;
     city: string;
     postcode: string;
 }
-export interface User {
+export interface IUser {
     id: number;
     first_name: string;
     last_name: string;
@@ -29,7 +29,7 @@ export interface User {
     RNA_number: string;
     role_id: number;
 }
-export interface Species {
+export interface ISpecies {
     id: number;
     name: string;
 }

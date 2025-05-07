@@ -18,7 +18,7 @@ export async function getAllAnimals(req, res) {
       attributes: { exclude: ['species_id', 'localisation_id', 'user_id'] }
     });
     console.log(`Récupération des animaux effectuée : ${animals}`);
-    res.json(animals);
+    return res.json(animals);
   } catch (error) {
     console.error("Erreur lors de la récupération des animaux:", error);
     res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
@@ -233,7 +233,6 @@ export async function createOneMessage(req, res) {
   res.status(201).json(newMessage);
 };
 
-
 export async function createAnimal(req, res) {
   console.log("Requête createAnimal reçue", req.body);
   const { name, birthday, description, picture,species_id,  localisation_id, user_id } = req.body;
@@ -270,27 +269,3 @@ export async function createAnimal(req, res) {
     });
   }
 }
-
-  try {
-    // vérification du message
-    if (!message || message.trim().length === 0) {
-      return res.status(400).json({ error: "Le message ne peut pas être vide" });
-    }
-    
-    // Création du message dans la base de données
-    const newMessage = await User_animal.create({
-      user_id: parseInt(userId, 10),
-      animal_id: parseInt(animalId, 10),
-      message
-    });
-    
-    return res.status(201).json({ 
-      message: "Message créé avec succès", 
-      data: newMessage 
-    });    
-  } catch (error) {
-    console.error("Erreur création message :", error);
-    res.status(500).json({ error: "Erreur serveur" });
-  }
-};
-

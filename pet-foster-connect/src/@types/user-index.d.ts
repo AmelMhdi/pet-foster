@@ -132,7 +132,5 @@ export interface INewAnimal {
   picture: string;
   localisation_id: number;
   species_id: number;
-  user_id: number; 
-  logout: () => void;
-  hydrate: () => void;
+  user_id: number
 }
