@@ -135,7 +135,7 @@ export async function login(req, res) {
 
   const { email, password } = req.body;
 
-  const user = await User.findOne( { where: { email }, include: "role" } );
+  const user = await User.findOne( { where: { email }, include: ["role", "localisation"]} );
  
   if ( !user ) { return res.status( 400 ).json( { status: 401, message: "Invalid credentials" } ); }
   
@@ -149,17 +149,30 @@ export async function login(req, res) {
   console.log( 'Utilisateur connecté, ID:', user.id );  
   
   const token = generateJwtToken({ userId: user.id });
-  res.json({ token, expiresIn: "1d" ,firstname:user.firstname, role :user.role, id:user.id, email:user.email});
+  res.json({
+    token,
+    expiresIn: "1d",
+    id: user.id,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    email: user.email,
+    address: user.address,
+    phone_number: user.phone_number,
+    localisation: user.localisation,
+    role: {
+      id: user.role.id,
+      name: user.role.name
+    }
+  });
 }
-
 
 /**
  * Fonction qui permet à l'utilisateur mettre à jour ses informations
- * 
+ * // quand on verifie avec un PUT attention à l'id renseigné exemple Bruno=> id=2 http://localhost:3001/api/users/2
  */
 export async function updateUser( req, res, next )
 {
-  const error = validate( req );
+  const error = validateUpdatedFields( req );
   // Si une erreur de validation existe, on la transmet au middleware d'erreur
   if ( error )
   {
@@ -230,7 +243,7 @@ export async function updateUser( req, res, next )
 
 
 /**
-* Shema de validation Joi
+* Shema de validation Joi de l'enregistrement d'un compte
 */
 function validate(req) {
   const schema = Joi.object({
@@ -291,3 +304,38 @@ async function checkDuplicates(email, phone_number, userId) {
   }
   return null; 
 }
+
+
+/**
+* Shema de validation Joi
+*/
+function validateUpdatedFields(req) {
+  const schema = Joi.object({
+    firstname: Joi.string().min(3).max(30).optional(),
+    lastname: Joi.string().min(3).max(30).optional(),
+    password: updatedPasswordComplexity,
+    email: Joi.string().email().optional(),
+    address: Joi.string().optional(),
+    phone_number: Joi.string().optional(),
+    rma_number: Joi.string().pattern(/^W\d{9}$/).optional(),
+    role_id: Joi.number().integer().optional(),
+    localisation_id: Joi.number().integer().optional(),
+  });
+
+  const error = schema.validate(req.body, { abortEarly: false }).error;
+
+  return error
+    ? { statusCode: 400, message: error.details.map(detail => detail.message) }
+    : null;
+}
+
+const updatedPasswordComplexity = Joi.string()
+  .min(12)
+  .max(100)
+  .pattern(/[A-Z]/, 'majuscule').message('Le mot de passe doit contenir au moins une lettre majuscule')
+  .pattern(/[a-z]/, 'minuscule').message('Le mot de passe doit contenir au moins une lettre minuscule')
+  .pattern(/[0-9]/, 'chiffre').message('Le mot de passe doit contenir au moins un chiffre')
+  .pattern(/[\W_]/, 'symbole').message('Le mot de passe doit contenir au moins un symbole')
+  .pattern(/^\S*$/, 'pas d\'espace').message('Le mot de passe ne doit pas contenir d\'espace')
+  .optional()
+  ;

@@ -1,10 +1,12 @@
 import { IAnimal } from "../@types";
+import { ISpecies } from "../types";
 
 
-const apiBaseUrl = "http://localhost:3001/api";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const api = {
   fetchAnimals,
+  getSpeciesFromApi
   getAnimal,
   getUserMessageFromApi,
   postUserMessageToApi
@@ -19,9 +21,13 @@ async function fetchAnimals(): Promise<IAnimal[]> {
   const animals: IAnimal[] = await response.json();
   return animals;
 }
+async function getSpeciesFromApi(): Promise<ISpecies[]> {
+  const response = await fetch(`${apiBaseUrl}/animals/species`)
+  }
 
 async function getAnimal(id: number): Promise<IAnimal> {
   const response = await fetch(`${apiBaseUrl}/animals/${id}`)
+
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
   }

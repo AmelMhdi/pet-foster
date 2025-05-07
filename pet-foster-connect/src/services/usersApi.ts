@@ -1,6 +1,6 @@
 import { ILoginRequest, ILoginResponse, IUser } from "../@types/user-index";
 
-const apiBaseUrl = "http://localhost:3001/api";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 /**
  * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur
@@ -25,8 +25,8 @@ export async function createUser(userData:IUser): Promise<IUser | null>{
     console.log("ℹStatut HTTP :", response.status, response.statusText);
 
     if (!response.ok) {
-      console.error("Erreur HTTP détectée !");
-      throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+    console.error("Erreur HTTP détectée !");
+    throw new Error(`Erreur ${response.status}: ${response.statusText}`);
     }
 
     // objet retourné par fetch, la methode json lit le corps de la réponse et le convertit en objet JS

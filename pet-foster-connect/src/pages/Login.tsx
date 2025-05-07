@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 import { useUserStore } from "../store";
 import { ILoginResponse, IUserT } from "../@types/user-index";
 
-
 export default function Login() {
   // hook qui permet de naviguer par programmation et de rediriger vers une autre page
   const navigate = useNavigate();

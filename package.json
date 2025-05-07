@@ -4,6 +4,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "start": "node --env-file=.env index.js",
+    "build": "npm run build --prefix pet-foster-connect",
     "commit": "navi commit",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index.js",
