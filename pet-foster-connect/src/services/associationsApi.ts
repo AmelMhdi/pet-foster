@@ -1,4 +1,4 @@
-import { IPublicUser, IUserAnimal, IUserUpdateForm } from "../@types/user-index";
+import { IPublicUser, IUserAnimal, IUserUpdateForm, IUserAnimalMessage } from "../@types/user-index";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -65,5 +65,36 @@ export async function updateAssociation(userData:IUserUpdateForm): Promise<IPubl
   } catch (error) {
     console.error("Erreur lors de la mise à jour :", error);
     return null;
+  }
+}
+
+/**
+ * Fonction qui permet de récupérer un objet qui contient le message reçu par l'association avec le nom de la famille et de l'animal * 
+ */
+
+export async function getUserMessagesApi(userId: number): Promise<IUserAnimalMessage[]> {
+  try {
+    const response = await fetch(`${apiBaseUrl}/associations/request/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 404) {
+      return [];
+    }
+
+    if (!response.ok) {
+      throw new Error(`Erreur lors de la récupération du message: ${response.status}`);
+    }
+
+    const data: IUserAnimalMessage[]= await response.json();
+    console.log("Données récupérées :", data);
+    return data || [];
+    
+  } catch (error) {
+    console.error("Erreur lors de la récupération des messages :", error);
+    return [];
   }
 }

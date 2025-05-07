@@ -134,3 +134,13 @@ export interface INewAnimal {
   species_id: number;
   user_id: number
 }
+
+interface IUserAnimalMessage {
+  message: string;
+  userId: number;
+  prenom: string;
+  nom: string;
+  email: string;
+  animal: string;
+ createdAt: Date
+}
