@@ -29,7 +29,7 @@ export default function Navbar() {
             <Link className="nav-link" to="/associations">Associations</Link>
           </li>
           <li className="nav-item mx-2">
-            <Link className="nav-link" to="/nos-animaux">Animaux</Link>
+            <Link className="nav-link" to="/animals">Animaux</Link>
           </li>
           {/* affichage conditionnel pour les associations */}
           {user?.role?.name === "association" && (
@@ -52,7 +52,7 @@ export default function Navbar() {
             <>
               <li className="nav-item mx-2">
                 <span className="nav-link no-hover">
-                  Bonjour, {user.firstname}, vous êtes connecté.e avec l'adresse {user.email}.
+                  Bonjour, {user.firstname}.
                 </span>
               </li>
               <li className="nav-item mx-2">

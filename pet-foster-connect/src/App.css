@@ -1,3 +1,5 @@
+/* FICHIER A SUPPRIMER */
+
 :root {
   --primary-red: #E75561;
   --light-cream: #FBFCF4;
@@ -176,7 +178,14 @@ main h1 {
   color: var(--dark-blue);
   line-height: 1.6;
 }
-.info-card {
+
+.form-label {
+  font-size: 1rem;
+  color: var(--dark-blue);
+  font-weight: 600;
+}
+
+.info-card, .foster-request-card {
   background-color: var(--light-blue);
   border-radius: 0.5rem;
   border: none;
@@ -188,16 +197,58 @@ main h1 {
   box-shadow: 0 6px 15px var(--grey);
 }
 
+.foster-request-title {
+  font-size: 1.2rem;
+  color: var(--medium-blue);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
 .foster-request-btn {
-  padding: 0.5rem 1rem;
+  background-color: var(--medium-blue);
   font-weight: 600;
-  font-size: 1rem;
-  border-radius: 0.4rem;
-  box-shadow: 0 4px 6px var(--grey);
+  border-radius: .4rem;
 }
 
 .foster-request-btn:hover {
   background-color: var(--medium-blue-2);
+}
+
+.form-control {
+  background-color: var(--light-cream);
+  border: 1px solid var(--medium-blue);
+  border-radius: .4rem;
+  color: var(--dark-blue)
+}
+
+/* override bootstrap's alert style */
+.alert {
+  padding: 1rem 1.2rem;
+  border: none;
+}
+
+/* success alert */
+.alert-success {
+  background-color: var(--light-cream);
+  color: var(--primary-red);
+}
+
+/* error alert */
+.alert-danger {
+  background-color: var(--primary-red);
+  color: var(--light-cream);
+}
+
+/* alert (unidentified user) */
+.alert-warning {
+  background-color: #fff3cd;
+  color: var(--dark-blue);
+}
+
+.btn.btn-foster-request {
+  background-color: var(--dark-blue);
+  color: var(--light-cream);
+  font-size: 1rem;
 }
 
 /* register page */

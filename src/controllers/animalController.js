@@ -196,13 +196,55 @@ export async function getMessages(req, res) {
   }
 };
 
+export async function getOneMessage(req, res) {
+  const { userId, animalId } = req.params;
+
+  try {
+    const message = await User_animal.findOne({
+      where: {
+        user_id: parseInt(userId, 10),
+        animal_id: parseInt(animalId, 10)
+      }
+    });
+
+    if (!message) {
+      return res.status(404).json({ 
+        error: "Aucun message trouvé pour cet utilisateur et cet animal" 
+      });
+    }
+
+    return res.status(200).json({ 
+      data: message
+    });
+  } catch (error) {
+    console.error("Erreur lors de la récupération du message:", error);
+    return res.status(500).json({ error: "Erreur serveur" });
+  }
+}
+
 export async function createOneMessage(req, res) {
-  const { animalId, userId} = req.params;
+  const { userId, animalId } = req.params;
   const { message } = req.body;
-  const newMessage = await User_animal.create({
-    animal_id: parseInt(animalId),
-    user_id: parseInt(userId),
-    message
-  });
-  res.status(201).json(newMessage);
+
+  try {
+    // vérification du message
+    if (!message || message.trim().length === 0) {
+      return res.status(400).json({ error: "Le message ne peut pas être vide" });
+    }
+    
+    // Création du message dans la base de données
+    const newMessage = await User_animal.create({
+      user_id: parseInt(userId, 10),
+      animal_id: parseInt(animalId, 10),
+      message
+    });
+    
+    return res.status(201).json({ 
+      message: "Message créé avec succès", 
+      data: newMessage 
+    });    
+  } catch (error) {
+    console.error("Erreur création message :", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
 };

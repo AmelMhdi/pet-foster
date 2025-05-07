@@ -1,0 +1,44 @@
+/* Animal cards */
+.animal-card {
+  border: none;
+  border-radius: .5rem;
+  background-color: var(--light-blue);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.animal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px var(--grey);
+}
+
+.animal-card .card-body {
+  padding: 1.2rem;
+  background-color: var(--light-cream);
+  border-top: 1px solid var(--primary-red);
+}
+
+.animal-card .card-text {
+  color: var(--dark-blue);
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+/* Info & foster request cards */
+.info-card, .foster-request-card {
+  background-color: var(--light-blue);
+  border-radius: 0.5rem;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px var(--grey);
+}
+
+.foster-request-title {
+  font-size: 1.2rem;
+  color: var(--medium-blue);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
