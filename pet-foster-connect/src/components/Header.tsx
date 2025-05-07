@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <>
       <nav className="navbar navbar-expand-lg">
-        <div className="container">
+        <div className="container d-flex align-items-center">
         <Link className="navbar-brand" to="/">
           <img 
             src="./paw-print.svg" 

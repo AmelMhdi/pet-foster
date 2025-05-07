@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <MainContainer />
-      <AnimalsContainer />
+      <AnimalsContainer limit={3} />
     </>
   )
 }

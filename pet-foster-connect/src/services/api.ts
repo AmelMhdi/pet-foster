@@ -7,11 +7,13 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 export const api = {
   fetchAnimals,
   getSpeciesFromApi
+  getAnimal,
+  getUserMessageFromApi,
+  postUserMessageToApi
 }
 
 async function fetchAnimals(): Promise<IAnimal[]> {
   const response = await fetch(`${apiBaseUrl}/animals`)
-
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
   }
@@ -19,14 +21,66 @@ async function fetchAnimals(): Promise<IAnimal[]> {
   const animals: IAnimal[] = await response.json();
   return animals;
 }
-
 async function getSpeciesFromApi(): Promise<ISpecies[]> {
   const response = await fetch(`${apiBaseUrl}/animals/species`)
+  }
+
+async function getAnimal(id: number): Promise<IAnimal> {
+  const response = await fetch(`${apiBaseUrl}/animals/${id}`)
 
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
   }
 
-  const animals: IAnimal[] = await response.json();
-  return animals;
+  const animal: IAnimal = await response.json();
+  console.log(animal);
+  return animal;
+}
+
+export async function getUserMessageFromApi(userId: number, animalId: number): Promise<string | null> {
+  try {
+    const response = await fetch(`${apiBaseUrl}/request/animals/${animalId}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 404) {
+      return null;
+    }
+
+    if (!response.ok) {
+      throw new Error(`Erreur lors de la récupération du message: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Données récupérées :", data);
+    return data.message || null;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des messages :", error);
+    return null;
+  }
+}
+
+export async function postUserMessageToApi(userId: number, animalId: number, message: string): Promise<string | null> {
+  try {
+    const response = await fetch(`${apiBaseUrl}/request/animals/${animalId}/users/${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur lors de l'envoi du message: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur API:", error);
+    throw error;
+  }
 }

@@ -1,14 +1,12 @@
-export interface IRole
-{
-   id: number;
+export interface IRole {
+  id: number;
   name: string;
 }
 
-export interface ILocalisation
-{
-   id: number;
+export interface ILocalisation {
+  id: number;
   city: string;
-    postcode: number;
+  postcode: number;
 }
 
 // Structure un User, id en ? car sert pour creation (id) et mise à jour (pas d'id), on pourrrait créer 2 interfaces
@@ -30,19 +28,18 @@ export interface ILoginRequest {
     password: string;
 };
 
-// Structure la réponse API qu'on retrouve dans la fonction logi du back dans res.json (). Format vient de UserCOntroleer fonction login
+// Structure la réponse API qu'on retrouve dans la fonction logi du back dans res.json (). Format vient de UserController fonction login
 export interface ILoginResponse {
-   firstname: string;  
-   expiresIn: string;       
+  firstname: string;  
+  expiresIn: string;       
   token: string;    
   email: string;
   id: number; 
-    role: {
+  role: {
     id: number;
     name: string;
   };
 };
-
 
 // Affiche les infos si User connecté
 export interface IPublicUser {
@@ -67,10 +64,10 @@ export interface IPublicUser {
 }
 
 export interface IUserT{
-   id: number;
   email: string;
-  token: string;
+  token: string; 
   firstname: string;
+  id: number;
   role: {
     id: number;
     name: string;
@@ -84,12 +81,10 @@ export interface IUserT{
   };
 }
 
-
 export interface IUserStore {
   user: IUserT | null;
   // login: (email: string, token: string, id: number, firstname: string, role: { id: number; name: string }) => void; 
   login: (user: IUserT) => void;
-
   logout: () => void;
   hydrate: () => void;
 }
@@ -127,7 +122,6 @@ export interface IUserUpdateForm {
 export interface ISpecies {
   id: number;
   name: string;
-  
 }
 
 // creer un animal
@@ -139,4 +133,6 @@ export interface INewAnimal {
   localisation_id: number;
   species_id: number;
   user_id: number; 
+  logout: () => void;
+  hydrate: () => void;
 }

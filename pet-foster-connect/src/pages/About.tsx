@@ -1,10 +1,14 @@
-//  Pour lier cette page il faut l'indiquer à app.tsx (lien et nom du composant) et mettre le lien dans le fichier qui envoie vers la page About, ici c'est Sidebar
-
 export default function About() {
-    return (
-        <div>
-            <h1>À propos de nous</h1>
-            <p>Nous sommes juste une application React, mais nous avons de grandes ambitions.</p>
-        </div>
-    );
+  return (
+    <div className="container mt-5">
+    <h1 className="text-center">À propos</h1>
+    <p>
+      Nous sommes une association dédiée à la protection des animaux abandonnés.
+      Notre mission est de leur offrir une seconde chance, en leur fournissant un foyer sûr et aimant, en partenariat avec des familles d'accueil et des associations.
+    </p>
+    <p>
+      Notre équipe est composée de passionnés qui oeuvrent chaque jour pour améliorer le bien-être de nos compagnons à quatre pattes.
+    </p>
+  </div>
+  );
 }

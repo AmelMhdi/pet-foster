@@ -1,0 +1,21 @@
+footer {
+  background-color: var(--dark-blue);
+  color: var(--light-cream);
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.footer-link {
+  color: var(--light-cream);
+  text-decoration: none;
+  padding: .5rem .6rem;
+  transition: all .3s ease;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.footer-link:hover {
+  color: var(--light-blue);
+  background-color: var(--grey);
+  border-radius: .3rem;
+}

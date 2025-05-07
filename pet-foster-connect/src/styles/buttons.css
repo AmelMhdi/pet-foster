@@ -1,0 +1,39 @@
+/* Boutons personnalisés */
+.btn {
+  border-radius: .3rem;
+  font-weight: 500;
+  padding: .4rem .8rem;
+}
+
+.btn-primary {
+  background-color: var(--medium-blue);
+  color: var(--light-cream);
+  border: none;
+  font-size: 0.9rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--medium-blue-2);
+}
+
+.btn.btn-foster-request {
+  background-color: var(--medium-blue-2);
+  color: var(--light-cream);
+  font-size: 1rem;
+}
+
+.btn.btn-foster-request:hover {
+  background-color: var(--medium-blue-2);
+  color: var(--light-cream);
+}
+
+/* Autres boutons */
+.btn-outline-primary {
+  border-color: var(--primary-red);
+  color: var(--primary-red);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-red);
+  color: white;
+}
