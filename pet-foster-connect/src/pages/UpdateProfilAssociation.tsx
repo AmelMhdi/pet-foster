@@ -25,35 +25,34 @@ console.log("User connecté :", user);
   const [phone_number, setPhone_number] = useState("");
 
  
-     //modificaition du compte
-  const handleRegister = async (data: IUserUpdateForm) => {
+     //modification du compte
+    const handleRegister = async (data: IUserUpdateForm) => {
     if (!user || typeof user.id !== "number") {
       console.error("Utilisateur non connecté ou ID invalide");
       return;
-          }
-          
-          //on copie les informations de user et l'id de user connecté en localstorage pour avoir l'url, fonction nommée ??
-            const dataWithId: IUserUpdateForm = {
-    ...data,
-              id: user?.id,
-              role_id: 1
-  };
+    }
+    //on copie les informations de user et l'id de user connecté en localstorage pour avoir l'url, fonction nommée ??
+    const dataWithId: IUserUpdateForm = {
+      ...data,
+      id: user?.id,
+      role_id: 1
+    };
 
 
-            // Appel de la fonction pour créer l'utilisateur 
-            const response = await updateAssociation(dataWithId);
-            console.log("Réponse API :", response);
-    
-            if (!response) {
-                console.error("La réponse de l'API est null.");
-                return;
-            }
-              
-            // TODO mettre un message de feedback 
-            alert("Modification réussie !");
-    
-            navigate("/")
-        };
+    // Appel de la fonction pour créer l'utilisateur 
+    const response = await updateAssociation(dataWithId);
+    console.log("Réponse API :", response);
+
+    if (!response) {
+        console.error("La réponse de l'API est null.");
+        return;
+    }
+      
+    // TODO mettre un message de feedback 
+    alert("Modification réussie !");
+
+      navigate("/")
+    };
     
       const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,7 +83,7 @@ console.log("User connecté :", user);
           await handleRegister(userData)
   };
 
-  // Charger rôles et localisations
+  // Localisations possibles
   useEffect(() => {
     const loadData = async () => {
       const localisationsData = await getLocalisationsFromApi();
@@ -123,7 +122,7 @@ console.log("User connecté :", user);
         <form onSubmit={handleSubmit}>
         <div>
           <label className="form-label h4" htmlFor="lastname">
-                         "Nom de l'association"
+                         Nom de l'association
               
           </label>
           <input
@@ -136,8 +135,7 @@ console.log("User connecté :", user);
           />
 
           <label className="form-label h4" htmlFor="firstname">
-                           "Nom du représentant"
-              "Prénom"
+                           Nom du représentant
           </label>
           <input
             className="form-control mb-4"

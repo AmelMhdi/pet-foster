@@ -135,7 +135,7 @@ export async function login(req, res) {
 
   const { email, password } = req.body;
 
-  const user = await User.findOne( { where: { email }, include: "role" } );
+  const user = await User.findOne( { where: { email }, include: ["role", "localisation"]} );
  
   if ( !user ) { return res.status( 400 ).json( { status: 401, message: "Invalid credentials" } ); }
   
@@ -165,7 +165,6 @@ export async function login(req, res) {
     }
   });
 }
-
 
 /**
  * Fonction qui permet à l'utilisateur mettre à jour ses informations
