@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { ILocalisation, IUserUpdateForm } from "../types";
+
 import { useNavigate } from "react-router-dom";
 
 import {getLocalisationsFromApi} from "../services/usersApi";
 import { updateAssociation} from "../services/associationsApi";
 import { useUserStore } from "../store";
+import { ILocalisation, IUserUpdateForm } from "../@types/user-index";
 
 export default function UpdateProfilAssociation() {
   const navigate = useNavigate();

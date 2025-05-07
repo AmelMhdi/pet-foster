@@ -1,10 +1,11 @@
 
 import { useEffect, useState } from "react";
-import { IRole, ILocalisation, IUser } from "../types"
+
 import { useNavigate } from "react-router";
 
 
 import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/usersApi"; 
+import { ILocalisation, IRole, IUser } from "../@types/user-index";
 
 
 

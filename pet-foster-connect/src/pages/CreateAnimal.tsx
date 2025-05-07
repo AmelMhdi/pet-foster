@@ -1,9 +1,10 @@
-import { INewAnimal } from "../types";
+
 import { useUserStore } from "../store";
 import {  useState, useEffect } from 'react';
 import { getLocalisationsFromApi } from "../services/usersApi";
 import { api } from "../services/api"
-import { ILocalisation, ISpecies } from "../types";
+import { ILocalisation, INewAnimal, ISpecies } from "../@types/user-index";
+
 
 export default function CreateAnimal() {
 

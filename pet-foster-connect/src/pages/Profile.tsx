@@ -2,9 +2,10 @@ import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { IUserAnimal } from "../types";
+
 import { getAnimalsByAssociationFromApi } from "../services/associationsApi"
 import { Navigate } from "react-router-dom";
+import { IUserAnimal } from "../@types/user-index";
 
 
 export default function Profile() {
