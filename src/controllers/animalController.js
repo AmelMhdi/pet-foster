@@ -1,4 +1,4 @@
-import { Animal, Localisation, Species, User_animal,User } from "../models/index.js";
+import { Animal, Localisation, Species, User_animal, User } from "../models/index.js";
 
 export async function getAllAnimals(req, res) {
   try {
@@ -225,12 +225,28 @@ export async function getOneMessage(req, res) {
 export async function createOneMessage(req, res) {
   const { userId, animalId } = req.params;
   const { message } = req.body;
-  const newMessage = await User_animal.create({
-    animal_id: parseInt(animalId),
-    user_id: parseInt(userId),
-    message
-  });
-  res.status(201).json(newMessage);
+
+  try {
+    // vérification du message
+    if (!message || message.trim().length === 0) {
+      return res.status(400).json({ error: "Le message ne peut pas être vide" });
+    }
+    
+    // Création du message dans la base de données
+    const newMessage = await User_animal.upsert({
+      user_id: parseInt(userId, 10),
+      animal_id: parseInt(animalId, 10),
+      message
+    });
+    
+    return res.status(201).json({ 
+      message: "Message créé avec succès", 
+      data: newMessage 
+    });    
+  } catch (error) {
+    console.error("Erreur création message :", error.name, error.message, error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
 };
 
 export async function createAnimal(req, res) {
