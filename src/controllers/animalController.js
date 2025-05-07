@@ -168,31 +168,31 @@ export async function getMessages(req, res) {
   }
 };
 
-export async function getOneMessage(req, res) {
-  const { userId, animalId } = req.params;
+// export async function getOneMessage(req, res) {
+//   const { userId, animalId } = req.params;
 
-  try {
-    const message = await User_animal.findOne({
-      where: {
-        user_id: parseInt(userId, 10),
-        animal_id: parseInt(animalId, 10)
-      }
-    });
+//   try {
+//     const message = await User_animal.findOne({
+//       where: {
+//         user_id: parseInt(userId, 10),
+//         animal_id: parseInt(animalId, 10)
+//       }
+//     });
 
-    if (!message) {
-      return res.status(404).json({ 
-        error: "Aucun message trouvé pour cet utilisateur et cet animal" 
-      });
-    }
+//     if (!message) {
+//       return res.status(404).json({ 
+//         error: "Aucun message trouvé pour cet utilisateur et cet animal" 
+//       });
+//     }
 
-    return res.status(200).json({ 
-      data: message
-    });
-  } catch (error) {
-    console.error("Erreur lors de la récupération du message:", error);
-    return res.status(500).json({ error: "Erreur serveur" });
-  }
-}
+//     return res.status(200).json({ 
+//       data: message
+//     });
+//   } catch (error) {
+//     console.error("Erreur lors de la récupération du message:", error);
+//     return res.status(500).json({ error: "Erreur serveur" });
+//   }
+// }
 
 export async function createOneMessage(req, res) {
   const { userId, animalId } = req.params;
@@ -220,3 +220,40 @@ export async function createOneMessage(req, res) {
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
+
+/**
+ * Fonction qui permet de récuperer un message de user en fonction de l'animal 
+ *
+ *  http://localhost:3001/api/request/animals/2/users/2
+ */
+
+export async function getOneMessage( req, res, next )
+{
+  const { animalId, userId } = req.params;
+    
+  const getMessage = await User_animal.findOne( 
+    {
+      where: {
+        user_id: userId,
+        animal_id: animalId
+      },
+      include: [ "user", "animal" ],
+    
+    } );
+
+  if (!getMessage) {
+    return next();
+  }
+  
+  return res.status(200).json({
+    message: getMessage.message,
+    user: {
+      firstname: getMessage.user.firstname,
+      lastname: getMessage.user.lastname
+    },
+    animal: {
+      name: getMessage.animal.name
+    },
+    created_at: getMessage.created_at
+  });
+}

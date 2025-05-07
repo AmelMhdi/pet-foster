@@ -95,9 +95,15 @@ User.belongsTo(Localisation, {
   foreignKey: "localisation_id" 
 });
 
+User_animal.belongsTo(User, {
+  as: "user",
+  foreignKey: "user_id"
+});
 
-
-
+User_animal.belongsTo(Animal, {
+  as: "animal",
+  foreignKey: "animal_id"
+});
 
 // Exporter nos modèles
 export { User, Role, Animal, Species, Localisation, User_animal,sequelize };
