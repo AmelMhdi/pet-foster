@@ -1,4 +1,4 @@
-import { IAnimal, ISpecies } from "../@types";
+import { IAnimal, ISpecies, IUser } from "../@types";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -7,7 +7,9 @@ export const api = {
   getSpeciesFromApi,
   getAnimal,
   getUserMessageFromApi,
-  postUserMessageToApi
+  postUserMessageToApi,
+  fetchAssociations,
+  fetchAssociationById
 }
 
 async function fetchAnimals(): Promise<IAnimal[]> {
@@ -88,4 +90,23 @@ export async function postUserMessageToApi(userId: number, animalId: number, mes
     console.error("Erreur API:", error);
     throw error;
   }
+}
+
+async function fetchAssociations(): Promise<IUser[]> {
+  const response = await fetch(`${apiBaseUrl}/associations`)
+  if (!response.ok) {
+    throw new Error(`Erreur API: ${response.status}`);
+  }
+
+  const associations: IUser[] = await response.json();
+  return associations;
+};
+
+async function fetchAssociationById(id: number): Promise<IUser> {
+  const response = await fetch(`${apiBaseUrl}/association/${id}`); 
+  if (!response.ok) {
+    throw new Error(`Erreur API: ${response.status}`);
+  }
+  const association: IUser = await response.json();
+  return association;
 }

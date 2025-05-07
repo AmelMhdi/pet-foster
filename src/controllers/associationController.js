@@ -31,3 +31,41 @@ export async function getAllAnimalsByAssociation( req, res, next )
   // res.status( 200 ).json( user );
   res.status(200).json(user.animals_asso);
 }
+
+export async function getAllAssociations(req, res) {
+  try {
+    const associations = await User.findAll({
+      include: [
+        {
+          association: "role",
+          where: { id: 1 } 
+        },
+        {
+          association: "localisation"
+        }
+      ]
+    });
+    res.json(associations);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erreur lors de la récupération des associations." });
+  }
+};
+
+export async function getOneAssociation(req, res) {
+  try {
+    const associationId = parseInt(req.params.id);
+    const association = await User.findByPk(associationId, {
+      include: {
+        association: "animals_asso",
+        include: {
+          association: "localisation"
+        }
+      }
+    });
+    res.json(association);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erreur lors de la récupération d'une association"});
+  }
+};

@@ -20,14 +20,18 @@ export interface ILocalisation {
 }
 export interface IUser {
     id: number;
-    first_name: string;
-    last_name: string;
+    firstname: string;
+    lastname: string;
     phone_number: string;
     password: string;
     email: string;
     address: string;
     RNA_number: string;
     role_id: number;
+    localisation: {
+      city: string,
+      postcode: string
+    };
 }
 export interface ISpecies {
     id: number;
