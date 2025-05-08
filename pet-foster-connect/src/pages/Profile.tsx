@@ -48,30 +48,66 @@ const user = useUserStore((state) => state.user);
   return <Navigate to="/" replace />;
 }
 
-    return(
-        <>
-                  <section id="animaux">
-          <h2>Animaux que vous proposez à l'adoption : </h2>
-          <ul>
-                
-                    {animals.map((animal) => (
-                        <li key={animal.id}>
-                            le {animal.species.name} {animal.name} 
-                        </li>))}
-            
-            </ul>
-        </section>         
+    return (
+    <div className="container my-4">
+      {/* Section animaux */}
+      
+      <section id="animaux" className="mb-5">
+  <h3 className="mb-4">Animaux proposés :</h3>
+
+  {animals.length === 0 ? (
+    <p className="text-muted">Aucun animal pour le moment.</p>
+  ) : (
+    <div className="row g-4">
+      {animals.map((animal) => (
+        <div key={animal.id} className="col-md-4">
+          <div className="card shadow-sm h-100">
+            {animal.picture && (
+              <img
+                src={animal.picture}
+                alt={animal.name}
+                className="card-img-top object-fit-cover"
+              />
+            )}
+            <div className="card-body">
+              <h5 className="card-title">{animal.name}</h5>
+              <p className="card-text fw-bold">Espèce : {animal.species.name}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
         
-        <section id="messages">
-              <h2>Messages Reçus</h2>
-              <ul>
-            {messages.map((message) => (
-              <li key={`${message.userId}`}>
-                Message de {message.prenom } {message.nom} : {message.message}le date.
-              </li>))}
-             
-              </ul>
-            </section>
+        <section id="messages" className="mb-5">
+  <h2 className="mb-4">Messages reçus</h2>
+  {messages.length === 0 ? (
+    <p className="text-muted">Aucun message pour le moment.</p>
+  ) : (
+    <div className="row g-3">
+                {messages.map((message) => (
+      //  pour creer une clé unique on associe famille et animal choisi
+  <div
+    key={`${message.userId}-${message.animal}`}
+    className="col-md-6"
+  >
+    <div className="card shadow-sm">
+      <div className="card-body">
+        <h5 className="card-title fs-3">
+          De {message.prenom} {message.nom} :
+        </h5>
+        <p className="card-text fs-5">{message.message}</p>
+        <p className="card-text">
+          <span className="fs-6">Reçu récemment</span>
+        </p>
+      </div>
+    </div>
+  </div>
+))}
+    </div>
+  )}
+</section>
 
 
 
@@ -94,6 +130,6 @@ const user = useUserStore((state) => state.user);
         
 
 
-        </>
+        </div>
     )
 }

@@ -15,6 +15,8 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import UpdateProfilAssociation from './pages/UpdateProfilAssociation';
 import CreateAnimal from './pages/CreateAnimal'
+import NotFound404 from './pages/NotFound404.tsx'
+
 
 function App() {
     return (
@@ -32,6 +34,8 @@ function App() {
         <Route path="/a-propos" element={<About />} />
         <Route path="/mentions-legales" element={<LegalMentions />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound404/>} />
+
       </Routes>
       <Footer/>
     </>

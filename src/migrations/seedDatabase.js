@@ -316,25 +316,24 @@ const user_animals = [
   {
     message: "Je suis très proche de Luna.",
     user_id: userInstances[1].id,
-    animal_id: animalInstances[ 0 ].id,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    animal_id: animalInstances[0].id,
+    createdAt: new Date("2024-05-01T10:00:00Z"),
+    updatedAt: new Date("2024-05-01T10:00:00Z")
   },
   {
     message: "Milo est un vrai pot de colle.",
     user_id: userInstances[3].id, 
-    animal_id: animalInstances[ 0 ].id,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    animal_id: animalInstances[0].id,
+    createdAt: new Date("2024-05-01T10:01:00Z"),
+    updatedAt: new Date("2024-05-01T10:01:00Z")
   },
   {
     message: "Misty a l'air adorable.",
     user_id: userInstances[1].id,
-    animal_id: animalInstances[ 5 ].id,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    animal_id: animalInstances[5].id,
+    createdAt: new Date("2024-05-01T10:02:00Z"),
+    updatedAt: new Date("2024-05-01T10:02:00Z")
   }
-
 ];
 
 try {

@@ -84,7 +84,7 @@ export default function CreateAnimal() {
       <label>Description</label>
       <textarea className="form-control mb-3" value={description} onChange={(e) => setDescription(e.target.value)} required />
 
-      <label>Image (URL ou nom de fichier)</label>
+      <label>Image </label>
       <input className="form-control mb-3" value={picture} onChange={(e) => setPicture(e.target.value)} required />
 
       <label>Code Postal</label>
