@@ -257,3 +257,17 @@ export async function getOneMessage( req, res, next )
     created_at: getMessage.created_at
   });
 }
+
+/**
+ * Fonction qui permet de récuperer les espèces d'un animal
+ */
+export async function getSpecies(req, res) {
+  try {
+    const messages = await Species.findAll({
+    });
+    res.json(messages);
+  } catch(error) {
+    console.error("Erreur lors de la récupération des animaux:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
+  }
+};

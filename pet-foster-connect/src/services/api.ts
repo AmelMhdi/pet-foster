@@ -1,5 +1,5 @@
 import { IAnimal, ISpecies } from "../@types";
-
+import { INewAnimal } from "../@types/user-index";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const api = {
@@ -90,6 +90,38 @@ export async function postUserMessageToApi(userId: number, animalId: number, mes
   }
 }
 
+export async function createAnimalFromApi(animalData: INewAnimal): Promise<IAnimal | null>{
+  try {
+    console.log("Envoi de la requête...");
+    console.log("Données envoyées :", animalData);
+
+    // Envoi des données converties en JSON vers l'API
+    const response = await fetch(apiBaseUrl + "/animals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify(animalData),
+    });
+
+    console.log("Réponse reçue !");
+    console.log("ℹStatut HTTP :", response.status, response.statusText);
+
+    if (!response.ok) {
+    console.error("Erreur HTTP détectée !");
+    throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+    }
+
+    const jsonResponse = await response.json();
+    console.log("Réponse JSON :", jsonResponse);
+
+    return jsonResponse;
+  } catch (error) {
+    console.error("Erreur lors de la création :", error);
+    return null;
+  }
+}
 
 
 

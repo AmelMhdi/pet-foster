@@ -17,7 +17,6 @@ export default function Register() {
   const [roles, setRoles] = useState<IRole[]>([]);
   const [roleId, setRoleId] = useState<number>();
 
-  // TODO : factoriser les useState 
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
