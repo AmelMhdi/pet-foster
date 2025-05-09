@@ -138,9 +138,10 @@ export interface INewAnimal {
 interface IUserAnimalMessage {
   message: string;
   userId: number;
-  prenom: string;
-  nom: string;
+  firstname: string;
+  name: string;
+  phone: string;
   email: string;
   animal: string;
- createdAt: Date
+ createdAt: string
 }

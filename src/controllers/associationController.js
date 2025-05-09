@@ -94,15 +94,19 @@ export async function getMessagesForAssociation( req, res, next )
   }
 
   // Mapper pour obtenir le format souhaité : un tableau d'objet
-  const formatted = getMessages.map((demande) => {
+  const formatted = getMessages.map( ( demande ) =>
+  {
+    console.log("USER DEBUG:", demande.user);
+
     return {
       message: demande.message,
       userId: demande.user.id,
-      prenom: demande.user.firstname,
-      nom: demande.user.lastname,
+      firstname: demande.user.firstname,
+      name: demande.user.lastname,
       email: demande.user.email,
+      phone :demande.user.phone_number,
       animal: demande.animal.name,
-      createdAt: demande.createdAt ? demande.createdAt.toISOString() : null 
+      createdAt: new Date(demande.created_at).toLocaleDateString('fr-FR',{timeZone: 'UTC' })
     };
   });
 
