@@ -16,6 +16,7 @@ import UpdateProfilAssociation from './pages/UpdateProfilAssociation';
 import CreateAnimal from './pages/CreateAnimal'
 import Associations from './pages/Associations';
 import AssociationDetails from './components/AssociationDetails'
+import NotFound404 from "./pages/NotFound404";
 
 function App() {
   return (

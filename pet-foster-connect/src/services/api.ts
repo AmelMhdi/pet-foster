@@ -50,7 +50,7 @@ async function getAnimal(id: number): Promise<IAnimal> {
   return animal;
 }
 
-export async function getUserMessageFromApi(
+async function getUserMessageFromApi(
   userId: number,
   animalId: number
 ): Promise<string | null> {
@@ -84,7 +84,7 @@ export async function getUserMessageFromApi(
   }
 }
 
-export async function postUserMessageToApi(
+async function postUserMessageToApi(
   userId: number,
   animalId: number,
   message: string
@@ -112,9 +112,6 @@ export async function postUserMessageToApi(
     throw error;
   }
 }
-
-export async function fetchAssociations(): Promise<IUser[]> {
-  const response = await fetch(`${apiBaseUrl}/associations`)
 
 export async function createAnimalFromApi(
   animalData: INewAnimal
