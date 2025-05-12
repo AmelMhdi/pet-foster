@@ -1,26 +1,24 @@
-import { User, User_animal} from "../models/index.js";
+import { User, User_animal } from "../models/index.js";
 // import { User_animal } from "../models/index.js";
 
-
 /**
- * Fonction qui permet de récuperer les animaux en fonction d'une association 
+ * Fonction qui permet de récuperer les animaux en fonction d'une association
  * // http://localhost:3001/api/associations/:id/animaux
  */
 
-export async function getAllAnimalsByAssociation( req, res, next )
-{
-  const userId = parseInt( req.params.id );
+export async function getAllAnimalsByAssociation(req, res, next) {
+  const userId = parseInt(req.params.id);
   if (!Number.isInteger(userId)) {
     return next;
   }
-    
-  const user = await User.findByPk( userId, {
+
+  const user = await User.findByPk(userId, {
     include: {
       association: "animals_asso", // alias exact défini dans User.hasMany(Animal)
       include: {
-        association: "species" // alias exact défini dans Animal.belongsTo(Species)
-      }
-    }
+        association: "species", // alias exact défini dans Animal.belongsTo(Species)
+      },
+    },
   });
 
   if (!user) {
@@ -32,14 +30,13 @@ export async function getAllAnimalsByAssociation( req, res, next )
   res.status(200).json(user.animals_asso);
 }
 
-
 // export async function getOneMessage( req, res, next )
 // {
 //   const userId = parseInt( req.params.id );
 //   if (!Number.isInteger(userId)) {
 //     return next;
 //   }
-    
+
 //   const getMessageByAssociation = await User.findByPk( userId, {
 //     include: {
 //       association: "User_animal",
@@ -53,7 +50,7 @@ export async function getAllAnimalsByAssociation( req, res, next )
 //   if (!getMessageByAssociation) {
 //     return next();
 //   }
-  
+
 //   return res.status( 200 ).json([
 //     {
 //       message: getMessageByAssociation.message,
@@ -70,32 +67,28 @@ export async function getAllAnimalsByAssociation( req, res, next )
 // }
 
 // // http://localhost:3001/api/associations/request/users/1
-export async function getMessagesForAssociation( req, res, next )
-{
-  const associationId = parseInt( req.params.id);
+export async function getMessagesForAssociation(req, res, next) {
+  const associationId = parseInt(req.params.id);
   if (!Number.isInteger(associationId)) {
     return next;
   }
-    
-  const getMessages = await User_animal.findAll(
-    {
-      include: [
-        {association:"animal",
-          where: { user_id: associationId } // animaux de l'association
-        },
-        { association :"user", // c’est la famille qui a envoyé la demande
-         
-        }
-      ]
-    });
+  const getMessages = await User_animal.findAll({
+    include: [
+      {
+        association: "animal",
+        where: { user_id: associationId }, // animaux de l'association
+      },
+      {
+        association: "user", // c’est la famille qui a envoyé la demande
+      },
+    ],
+  });
 
   if (!getMessages) {
     return next();
   }
 
-  // Mapper pour obtenir le format souhaité : un tableau d'objet
-  const formatted = getMessages.map( ( demande ) =>
-  {
+  const formatted = getMessages.map((demande) => {
     console.log("USER DEBUG:", demande.user);
 
     return {
@@ -104,12 +97,13 @@ export async function getMessagesForAssociation( req, res, next )
       firstname: demande.user.firstname,
       name: demande.user.lastname,
       email: demande.user.email,
-      phone :demande.user.phone_number,
+      phone: demande.user.phone_number,
       animal: demande.animal.name,
-      createdAt: new Date(demande.created_at).toLocaleDateString('fr-FR',{timeZone: 'UTC' })
+      createdAt: new Date(demande.created_at).toLocaleDateString("fr-FR", {
+        timeZone: "UTC",
+      }),
     };
   });
 
   return res.status(200).json(formatted);
 }
-

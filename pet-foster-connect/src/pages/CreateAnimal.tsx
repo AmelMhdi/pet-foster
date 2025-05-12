@@ -31,7 +31,7 @@ export default function CreateAnimal() {
     setIsSending(true);
     await new Promise((res) => setTimeout(res, 5000));
     const response = await createAnimalFromApi(animalData);
-    
+
     if (!response) {
       console.error("La réponse de l'API est null.");
       return;
@@ -50,7 +50,9 @@ export default function CreateAnimal() {
     setFeedback("Animal créé avec succès !");
     setIsSending(false);
     setTimeout(() => {
-      navigate(`/profil-association/${user.id}`);
+      if (user) {
+        navigate(`/profil-association/${user.id}`);
+      }
     }, 1000);
   };
 
@@ -117,7 +119,7 @@ export default function CreateAnimal() {
         <div className="alert alert-info text-center my-3" role="alert">
           {feedback}
         </div>
-      )}  
+      )}
       <form method="post" onSubmit={handleSubmit}>
         <div>
           <label className="form-label h4" htmlFor="name">
@@ -128,7 +130,7 @@ export default function CreateAnimal() {
             type="text"
             id="name"
             value={name}
-            onChange={(e) => setName(e.target.value)}            
+            onChange={(e) => setName(e.target.value)}
           />
 
           <label className="form-label h4" htmlFor="birthday">
@@ -139,7 +141,7 @@ export default function CreateAnimal() {
             type="date"
             id="birthday"
             value={birthday}
-            onChange={(e) => setBirthday(e.target.value)}            
+            onChange={(e) => setBirthday(e.target.value)}
           />
 
           <label className="form-label h4" htmlFor="description">
@@ -149,7 +151,7 @@ export default function CreateAnimal() {
             className="form-control border border-secondary mb-4"
             id="description"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}           
+            onChange={(e) => setDescription(e.target.value)}
           />
 
           <label className="form-label h4" htmlFor="picture">
@@ -160,7 +162,7 @@ export default function CreateAnimal() {
             type="text"
             id="picture"
             value={picture}
-            onChange={(e) => setPicture(e.target.value)}            
+            onChange={(e) => setPicture(e.target.value)}
           />
 
           <label className="form-label h4" htmlFor="postcode">
@@ -170,7 +172,7 @@ export default function CreateAnimal() {
             id="postcode"
             className="form-control border border-secondary mb-4"
             value={postcode}
-            onChange={(e) => setPostcode(Number(e.target.value))}           
+            onChange={(e) => setPostcode(Number(e.target.value))}
           >
             <option value="">-- Choisir un code postal --</option>
             {postcodes.map((pc, index) => (
@@ -187,7 +189,7 @@ export default function CreateAnimal() {
             id="city"
             className="form-control border border-secondary mb-4"
             value={city}
-            onChange={(e) => setCity(e.target.value)}           
+            onChange={(e) => setCity(e.target.value)}
           >
             <option value="">-- Choisir une ville --</option>
             {cities.map((c, index) => (
@@ -204,7 +206,7 @@ export default function CreateAnimal() {
             id="species"
             className="form-control border border-secondary mb-4"
             value={speciesId}
-            onChange={(e) => setSpeciesId(Number(e.target.value))}           
+            onChange={(e) => setSpeciesId(Number(e.target.value))}
           >
             <option value="">-- Choisir une espèce --</option>
             {speciesList.map((s) => (

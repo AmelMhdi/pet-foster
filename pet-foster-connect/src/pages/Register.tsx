@@ -33,7 +33,7 @@ export default function Register() {
   const handleRegister = async (userData: IUser) => {
     setFeedback("Création du compte en cours...");
     setIsSending(true);
-    await new Promise((res) => setTimeout(res, 5000));
+    await new Promise((res) => setTimeout(res, 1000));
     const response = await createUser(userData);
 
     if ("error" in response) {
