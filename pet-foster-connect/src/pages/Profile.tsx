@@ -10,8 +10,6 @@ import { IUserAnimal, IUserAnimalMessage } from "../@types/user-index";
 import { deleteAnimalApi } from "../services/api";
 import { deleteUserFromApi } from "../services/usersApi";
 
-// import { IAnimal } from "../@types";
-
 export default function Profile() {
   const navigate = useNavigate();
   const [feedback, setFeedback] = useState<string>("");
