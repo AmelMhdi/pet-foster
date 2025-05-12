@@ -6,30 +6,39 @@ import {
   User_animal,
   User,
 } from "../models/index.js";
+import { Sequelize } from "sequelize";
 
-export async function getAllAnimals(req, res, next) {
+export async function getAllAnimals(req, res) {
+  const { limit, random } = req.query;
+  const queryOptions = {
+    include: [
+      {
+        model: Species,
+        as: "species",
+        attributes: ["id", "name"],
+      },
+      {
+        model: Localisation,
+        as: "localisation",
+        attributes: ["id", "city", "postcode"],
+      }
+    ],
+    attributes: { exclude: ['species_id', 'localisation_id', 'user_id'] }
+  };
+  if (limit) {
+    queryOptions.limit = parseInt(limit, 10);
+  }
+  
+  if (random && random === 'true') {
+    queryOptions.order = [Sequelize.literal('RANDOM()')];
+  }
   try {
-    const animals = await Animal.findAll({
-      include: [
-        {
-          model: Species,
-          as: "species",
-          attributes: ["id", "name"],
-        },
-        {
-          model: Localisation,
-          as: "localisation",
-          attributes: ["id", "city", "postcode"],
-        },
-      ],
-      attributes: { exclude: ["species_id", "localisation_id", "user_id"] },
-    });
-    console.log(`Récupération des animaux effectuée : ${animals}`);
+    const animals = await Animal.findAll(queryOptions);
+    console.log(`Récupération d'animaux : ${animals.length}`);
     return res.json(animals);
   } catch (error) {
-    error.statusCode = 500;
-    error.message = "Erreur lors de la récupération des animaux";
-    next(error);
+    console.error("Erreur lors de la récupération des animaux:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
   }
 }
 

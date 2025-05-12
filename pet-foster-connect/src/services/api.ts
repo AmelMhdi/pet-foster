@@ -13,14 +13,16 @@ export const api = {
   fetchAssociationById
 }
 
-async function fetchAnimals(): Promise<IAnimal[]> {
-  const response = await fetch(`${apiBaseUrl}/animals`)
+async function fetchAnimals(limit?: number, random?: boolean): Promise<IAnimal[]> {
+  const params = new URLSearchParams();
+  if (limit) params.append("limit", limit.toString());
+  if (random) params.append("random", "true");
+
+  const response = await fetch(`${apiBaseUrl}/animals?${params.toString()}`);
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
   }
-
-  const animals: IAnimal[] = await response.json();
-  return animals;
+  return response.json();
 }
 
 async function getSpeciesFromApi(): Promise<ISpecies[]> {
