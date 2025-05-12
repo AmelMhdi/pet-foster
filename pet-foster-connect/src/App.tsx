@@ -1,6 +1,5 @@
 import "./App.css";
 import "./main.css";
-
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
@@ -25,6 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/animals" element={<AnimalsContainer />} />
         <Route path="/animals/:id" element={<AnimalDetails />} />
+        <Route path="/associations" element={<Associations />} />
         <Route path="/se-connecter" element={<Login />} />
         <Route path="/creer-compte" element={<Register />} />
         <Route path="/profil-association/:id" element={<Profile />} />

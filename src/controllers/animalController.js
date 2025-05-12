@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { Animal, Localisation, Species, User_animal, User } from "../models/index.js";
 
-export async function getAllAnimals(req, res) {
+export async function getAllAnimals(req, res, next) {
   try {
     const animals = await Animal.findAll({
       include: [
@@ -21,12 +21,13 @@ export async function getAllAnimals(req, res) {
     console.log(`Récupération des animaux effectuée : ${animals}`);
     return res.json(animals);
   } catch (error) {
-    console.error("Erreur lors de la récupération des animaux:", error);
-    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
+    error.statusCode = 500;
+    error.message = "Erreur lors de la récupération des animaux";
+    next(error);
   }
 }
 
-export async function getOneAnimal(req, res) {
+export async function getOneAnimal(req, res, next) {
   const animalId = validateAnimalId(req.params.id);
   if (!Number.isInteger(animalId)) {
     return res.status(400).json({ error: "ID invalide" });
@@ -40,26 +41,36 @@ export async function getOneAnimal(req, res) {
     }
     res.json(animal);
   } catch (error) {
-    console.error("Erreur lors de la récupération de l'animal:", error);
-    return res.status(500).json({ error: "Erreur serveur" });
+    error.statusCode = 500;
+    error.message = "Erreur serveur";
+    next(error);
   }
 }
 
-export async function deleteAnimal(req, res) {
+export async function deleteAnimal(req, res, next) {
   const animalId = validateAnimalId(req.params.id);
   if (!Number.isInteger(animalId)) {
-    return res.status(400).json({ error: "ID invalide" });
+    const error = new Error("ID invalide");
+    error.statusCode = 400;
+    return next(error);
   }
-  const animal = await Animal.findByPk(animalId);
-  if (!animal) {
-    return res.status(404).json({ error: "L'animal n'existe pas" });
+  try {
+    const animal = await Animal.findByPk(animalId);
+    if (!animal) {
+      const error = new Error("L'animal n'existe pas");
+      error.statusCode = 404;
+      return next(error);
+    }
+    await animal.destroy();
+    res.status(204).end();
+  } catch (error) {
+    error.statusCode = 500;
+    error.message = "Erreur lors de la suppression de l'animal";
+    next(error);
   }
-  await animal.destroy();
-  console.log(`Animal ${animalId} supprimé`);
-  res.status(204).end();
 }
 
-export async function createAnimal(req, res) {
+export async function createAnimal(req, res, next) {
   const animalSchema = Joi.object({
     name: Joi.string().required(),
     birthday: Joi.date().iso().required(),
@@ -73,8 +84,9 @@ export async function createAnimal(req, res) {
   const { error, value } = animalSchema.validate(req.body);
 
   if (error) {
-    console.error("Erreur de validation:", error.details);
-    return res.status(400).json({ error: "Données invalides" });
+    const err = new Error(error.details.map(d => d.message));
+    err.statusCode = 400;
+    return next(err);
   }
 
   const { name, birthday, description, picture, species_id, localisation_id, user_id } = value;
@@ -82,7 +94,9 @@ export async function createAnimal(req, res) {
   try {
     const user = await User.findByPk(user_id);
     if (!user) {
-      return res.status(404).json({ error: "Utilisateur non trouvé" });
+      const error = new Error("Utilisateur non trouvé");
+      error.statusCode = 404;
+      return next(error);
     }
 
     const newAnimal = await Animal.create({
@@ -97,117 +111,108 @@ export async function createAnimal(req, res) {
 
     res.status(201).json(newAnimal);
   } catch (error) {
-    console.error("Erreur lors de la création de l'animal:", error);
-    return res.status(500).json({ error: "Erreur lors de la création de l'animal" });
+    error.statusCode = 500;
+    error.message = "Erreur lors de la création de l'animal";
+    next(error);
   }
 }
 
-export async function updateAnimal(req, res) {
+export async function updateAnimal(req, res, next) {
   const animalId = validateAnimalId(req.params.id);
-
-  console.log("ID de l'animal : ", animalId);
-
   if (!Number.isInteger(animalId)) {
-    return res.status(400).json({ error: "ID invalide" });
+    const error = new Error("ID invalide");
+    error.statusCode = 400;
+    return next(error);
   }
 
   const { name, birthday: birthdayInput, description, picture } = req.body;
 
-  console.log("Données reçues : ", req.body);
-
   if (!name || !birthdayInput || !description || !picture) {
-    return res.status(400).json({ error: "Tous les champs sont requis" });
+    const error = new Error("Tous les champs sont requis");
+    error.statusCode = 400;
+    return next(error);
   }
-
-  // On vérifie que l'animal existe
-  const animal = await Animal.findByPk(animalId);
-
-  console.log("Animal trouvé:", animal);
-
-  if (!animal) {
-    return res.status(404).json({ error: "L'animal n'existe pas" });
-  }
-
-  // Validation et parsing de la date
-  const birthday = new Date(birthdayInput);
-  if (isNaN(birthday.getTime())) {
-    return res.status(400).json({ error: "La date de naissance est invalide." });
-  }
-
-  // On met à jour l'animal
-  animal.name = name;
-  animal.birthday = birthday;
-  animal.description = description;
-  animal.picture = picture;
 
   try {
+    const animal = await Animal.findByPk(animalId);
+    if (!animal) {
+      const error = new Error("L'animal n'existe pas");
+      error.statusCode = 404;
+      return next(error);
+    }
+    const birthday = new Date(birthdayInput);
+    if (isNaN(birthday.getTime())) {
+      const error = new Error("La date de naissance est invalide.");
+      error.statusCode = 400;
+      return next(error);
+    }
+    animal.name = name;
+    animal.birthday = birthday;
+    animal.description = description;
+    animal.picture = picture;
+
     await animal.save();
     res.status(200).json({ message: "Animal mis à jour avec succès", animal });
   } catch (error) {
-    console.error("Erreur lors de la mise à jour de l'animal : ", error);
-    return res.status(500).json({ error: "Erreur interne du serveur" });
+    error.statusCode = 500;
+    error.message = "Erreur interne du serveur";
+    next(error);
   }
 }
 
-function validateAnimalId(id) {
-  const animalId = Number(id);
-  if (!Number.isInteger(animalId)) {
-    return null;
-  }
-  return animalId;
-}
-
-export async function getMessages(req, res) {
+export async function getMessages(req, res, next) {
   try {
     const messages = await User_animal.findAll({
     });
     res.json(messages);
   } catch(error) {
-    console.error("Erreur lors de la récupération des messages:", error);
-    res.status(500).json({ error: "Erreur lors de la récupération des messages" });
+    error.statusCode = 500;
+    error.message = "Erreur lors de la récupération des messages";
+    next(error);
   }
 };
 
-// export async function getOneMessage(req, res) {
-//   const { userId, animalId } = req.params;
+export async function getOneMessage(req, res, next) {
+  const { animalId, userId } = req.params;
 
-//   try {
-//     const message = await User_animal.findOne({
-//       where: {
-//         user_id: parseInt(userId, 10),
-//         animal_id: parseInt(animalId, 10)
-//       }
-//     });
+  try {
+    const message = await User_animal.findOne({
+      where: {
+        animal_id: parseInt(animalId, 10),
+        user_id: parseInt(userId, 10)
+      }
+    });
 
-//     if (!message) {
-//       return res.status(404).json({ 
-//         error: "Aucun message trouvé pour cet utilisateur et cet animal" 
-//       });
-//     }
+    if (!message) {
+      const error = new Error("Aucun message trouvé pour cet utilisateur et cet animal");
+      error.statusCode = 404;
+      return next(error);
+    }
 
-//     return res.status(200).json({ 
-//       data: message
-//     });
-//   } catch (error) {
-//     console.error("Erreur lors de la récupération du message:", error);
-//     return res.status(500).json({ error: "Erreur serveur" });
-//   }
-// }
+    return res.status(200).json({ 
+      data: message
+    });
+  } catch (error) {
+    error.statusCode = 500;
+    error.message = "Erreur serveur";
+    next(error);
+  }
+}
 
-export async function createOneMessage(req, res) {
-  const { userId, animalId } = req.params;
+export async function createOneMessage(req, res, next) {
+  const { animalId, userId } = req.params;
   const { message } = req.body;
 
   try {
-    // vérification du message
     if (!message || message.trim().length === 0) {
-      return res.status(400).json({ error: "Le message ne peut pas être vide" });
+      const error = new Error("Le message ne peut pas être vide");
+      error.statusCode = 400;
+      return next(error);
     }
     
-    // Création du message dans la base de données
     const newMessage = await User_animal.upsert({
-      user_id: parseInt(userId, 10),
       animal_id: parseInt(animalId, 10),
+      user_id: parseInt(userId, 10),
       message
     });
     
@@ -216,17 +221,15 @@ export async function createOneMessage(req, res) {
       data: newMessage 
     });    
   } catch (error) {
-    console.error("Erreur création message :", error.name, error.message, error);
-    res.status(500).json({ error: "Erreur serveur" });
+    error.statusCode = 500;
+    error.message = "Erreur serveur";
+    next(error);
   }
 };
 
 /**
  * Fonction qui permet de récuperer un message de user en fonction de l'animal 
- *
- *  http://localhost:3001/api/request/animals/2/users/2
  */
-
 export async function getOneMessage( req, res, next )
 {
   const { animalId, userId } = req.params;
@@ -271,3 +274,13 @@ export async function getSpecies(req, res) {
     res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
   }
 };
+}
+
+function validateAnimalId(id) {
+  const animalId = Number(id);
+  if (!Number.isInteger(animalId)) {
+    return null;
+  }
+  return animalId;
+}
+

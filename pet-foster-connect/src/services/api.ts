@@ -1,5 +1,6 @@
-import { IAnimal, ISpecies } from "../@types";
-import { INewAnimal } from "../@types/user-index";
+
+import { INewAnimal } from "../@types/user-index"
+import { IAnimal, ISpecies, IUser } from "../@types";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const api = {
@@ -7,7 +8,9 @@ export const api = {
   getSpeciesFromApi,
   getAnimal,
   getUserMessageFromApi,
-  postUserMessageToApi
+  postUserMessageToApi,
+  fetchAssociations,
+  fetchAssociationById
 }
 
 async function fetchAnimals(): Promise<IAnimal[]> {
@@ -131,7 +134,6 @@ export async function createAnimalFromApi(animalData: INewAnimal): Promise<IAnim
   }
 }
 
-
 export async function deleteAnimalApi(animalId: number) {
   const response = await fetch(`${apiBaseUrl}/animals/${animalId}`,{
     method: "DELETE",
@@ -142,5 +144,22 @@ export async function deleteAnimalApi(animalId: number) {
   }
 }
 
+async function fetchAssociations(): Promise<IUser[]> {
+  const response = await fetch(`${apiBaseUrl}/associations`)
+  if (!response.ok) {
+    throw new Error(`Erreur API: ${response.status}`);
+  }
 
+  const associations: IUser[] = await response.json();
+  return associations;
+};
+
+async function fetchAssociationById(id: number): Promise<IUser> {
+  const response = await fetch(`${apiBaseUrl}/association/${id}`); 
+  if (!response.ok) {
+    throw new Error(`Erreur API: ${response.status}`);
+  }
+  const association: IUser = await response.json();
+  return association;
+}
 
