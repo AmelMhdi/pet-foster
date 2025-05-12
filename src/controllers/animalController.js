@@ -185,33 +185,6 @@ export async function getMessages(req, res, next) {
   }
 }
 
-// export async function getOneMessage(req, res, next) {
-//   const { animalId, userId } = req.params;
-
-//   try {
-//     const message = await User_animal.findOne({
-//       where: {
-//         animal_id: parseInt(animalId, 10),
-//         user_id: parseInt(userId, 10)
-//       }
-//     });
-
-//     if (!message) {
-//       const error = new Error("Aucun message trouvé pour cet utilisateur et cet animal");
-//       error.statusCode = 404;
-//       return next(error);
-//     }
-
-//     return res.status(200).json({
-//       data: message
-//     });
-//   } catch (error) {
-//     error.statusCode = 500;
-//     error.message = "Erreur serveur";
-//     next(error);
-//   }
-// }
-
 export async function createOneMessage(req, res, next) {
   const { animalId, userId } = req.params;
   const { message } = req.body;
