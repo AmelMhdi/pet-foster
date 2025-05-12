@@ -16,7 +16,7 @@ export const useUserStore = create<IUserStore>()(
           console.error("Le token JWT est manquant ou invalide");
           return;
         }
-        console.log("Utilisateur connecté :", user);
+        console.log("Utilisateur connecté :", user.token);
         set({ user });
       },
 

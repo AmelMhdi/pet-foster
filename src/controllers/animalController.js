@@ -21,16 +21,16 @@ export async function getAllAnimals(req, res) {
         model: Localisation,
         as: "localisation",
         attributes: ["id", "city", "postcode"],
-      }
+      },
     ],
-    attributes: { exclude: ['species_id', 'localisation_id', 'user_id'] }
+    attributes: { exclude: ["species_id", "localisation_id", "user_id"] },
   };
   if (limit) {
     queryOptions.limit = parseInt(limit, 10);
   }
-  
-  if (random && random === 'true') {
-    queryOptions.order = [Sequelize.literal('RANDOM()')];
+
+  if (random && random === "true") {
+    queryOptions.order = [Sequelize.literal("RANDOM()")];
   }
   try {
     const animals = await Animal.findAll(queryOptions);
@@ -38,7 +38,9 @@ export async function getAllAnimals(req, res) {
     return res.json(animals);
   } catch (error) {
     console.error("Erreur lors de la récupération des animaux:", error);
-    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des animaux" });
   }
 }
 
@@ -87,8 +89,19 @@ export async function deleteAnimal(req, res, next) {
 
 export async function createAnimal(req, res, next) {
   const animalSchema = Joi.object({
-    name: Joi.string().required(),
-    birthday: Joi.date().iso().required(),
+    name: Joi.string().min(3).max(30).required().messages({
+      "string.base": "Le nom doit être une chaîne de caractères",
+      "string.min": "Le nom doit contenir au moins 3 caractères",
+      "string.max": "Le nom doit contenir au maximum 30 caractères",
+    }),
+    birthday: Joi.string()
+      .pattern(/^\d{2}-\d{2}-\d{4}$/)
+      .required()
+      .messages({
+        "string.pattern.base":
+          "La date doit être au format JJ-MM-AAAA, par ex : 01-05-2025",
+        "any.required": "La date est obligatoire",
+      }),
     description: Joi.string().required(),
     picture: Joi.string().uri().required(),
     species_id: Joi.number().integer().required(),
@@ -99,9 +112,10 @@ export async function createAnimal(req, res, next) {
   const { error, value } = animalSchema.validate(req.body);
 
   if (error) {
-    const err = new Error(error.details.map((d) => d.message));
-    err.statusCode = 400;
-    return next(err);
+    return res.status(400).json({
+      statusCode: 400,
+      message: error.details.map((detail) => detail.message),
+    });
   }
 
   const {
@@ -114,30 +128,25 @@ export async function createAnimal(req, res, next) {
     user_id,
   } = value;
 
-  try {
-    const user = await User.findByPk(user_id);
-    if (!user) {
-      const error = new Error("Utilisateur non trouvé");
-      error.statusCode = 404;
-      return next(error);
-    }
-
-    const newAnimal = await Animal.create({
-      name,
-      birthday,
-      description,
-      picture,
-      species_id,
-      localisation_id,
-      user_id,
-    });
-
-    res.status(201).json(newAnimal);
-  } catch (error) {
-    error.statusCode = 500;
-    error.message = "Erreur lors de la création de l'animal";
-    next(error);
+  // Vérifier en 1er, route authentifiée
+  const user = await User.findByPk(user_id);
+  if (!user) {
+    // const error = new Error("Utilisateur non trouvé");
+    // error.statusCode = 404;
+    return next();
   }
+
+  const newAnimal = await Animal.create({
+    name,
+    birthday,
+    description,
+    picture,
+    species_id,
+    localisation_id,
+    user_id,
+  });
+
+  res.status(201).json(newAnimal);
 }
 
 export async function updateAnimal(req, res, next) {

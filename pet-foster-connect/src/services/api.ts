@@ -1,7 +1,7 @@
-
-import { INewAnimal } from "../@types/user-index"
+import { INewAnimal } from "../@types/user-index";
 import { IAnimal, ISpecies, IUser } from "../@types";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+import { useUserStore } from "../store";
 
 export const api = {
   fetchAnimals,
@@ -10,10 +10,13 @@ export const api = {
   getUserMessageFromApi,
   postUserMessageToApi,
   fetchAssociations,
-  fetchAssociationById
-}
+  fetchAssociationById,
+};
 
-async function fetchAnimals(limit?: number, random?: boolean): Promise<IAnimal[]> {
+async function fetchAnimals(
+  limit?: number,
+  random?: boolean
+): Promise<IAnimal[]> {
   const params = new URLSearchParams();
   if (limit) params.append("limit", limit.toString());
   if (random) params.append("random", "true");
@@ -36,7 +39,7 @@ async function getSpeciesFromApi(): Promise<ISpecies[]> {
 }
 
 async function getAnimal(id: number): Promise<IAnimal> {
-  const response = await fetch(`${apiBaseUrl}/animals/${id}`)
+  const response = await fetch(`${apiBaseUrl}/animals/${id}`);
 
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
@@ -47,21 +50,29 @@ async function getAnimal(id: number): Promise<IAnimal> {
   return animal;
 }
 
-export async function getUserMessageFromApi(userId: number, animalId: number): Promise<string | null> {
+export async function getUserMessageFromApi(
+  userId: number,
+  animalId: number
+): Promise<string | null> {
   try {
-    const response = await fetch(`${apiBaseUrl}/request/animals/${animalId}/users/${userId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await fetch(
+      `${apiBaseUrl}/request/animals/${animalId}/users/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.status === 404) {
       return null;
     }
 
     if (!response.ok) {
-      throw new Error(`Erreur lors de la récupération du message: ${response.status}`);
+      throw new Error(
+        `Erreur lors de la récupération du message: ${response.status}`
+      );
     }
 
     const data = await response.json();
@@ -73,15 +84,22 @@ export async function getUserMessageFromApi(userId: number, animalId: number): P
   }
 }
 
-export async function postUserMessageToApi(userId: number, animalId: number, message: string): Promise<string | null> {
+export async function postUserMessageToApi(
+  userId: number,
+  animalId: number,
+  message: string
+): Promise<string | null> {
   try {
-    const response = await fetch(`${apiBaseUrl}/request/animals/${animalId}/users/${userId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message }),
-    });
+    const response = await fetch(
+      `${apiBaseUrl}/request/animals/${animalId}/users/${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Erreur lors de l'envoi du message: ${response.status}`);
@@ -95,8 +113,17 @@ export async function postUserMessageToApi(userId: number, animalId: number, mes
   }
 }
 
-export async function createAnimalFromApi(animalData: INewAnimal): Promise<IAnimal | null>{
+export async function createAnimalFromApi(
+  animalData: INewAnimal
+): Promise<IAnimal | null> {
   try {
+    // ✅ Récupération du token depuis Zustand
+    const token = useUserStore.getState().user?.token;
+    if (!token) {
+      console.error("Token non trouvé, utilisateur non connecté ?");
+      throw new Error("Authentification requise");
+    }
+
     // console.log("Envoi de la requête...");
     // console.log("Données envoyées :", animalData);
 
@@ -105,10 +132,12 @@ export async function createAnimalFromApi(animalData: INewAnimal): Promise<IAnim
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-             },
+        // Authorization: `Bearer ${localStorage.getItem()}`,
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(animalData),
     });
-
+    console.log(response);
     // console.log("Réponse reçue !");
     // console.log("ℹStatut HTTP :", response.status, response.statusText);
 
@@ -125,7 +154,7 @@ export async function createAnimalFromApi(animalData: INewAnimal): Promise<IAnim
       const errorMessage = Array.isArray(jsonResponse.error)
         ? jsonResponse.error.join(", ")
         : jsonResponse.error || `Erreur ${response.status}`;
-  
+
       throw new Error(errorMessage);
     }
 
@@ -137,8 +166,18 @@ export async function createAnimalFromApi(animalData: INewAnimal): Promise<IAnim
 }
 
 export async function deleteAnimalApi(animalId: number) {
-  const response = await fetch(`${apiBaseUrl}/animals/${animalId}`,{
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
+  const response = await fetch(`${apiBaseUrl}/animals/${animalId}`, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      // Authorization: `Bearer ${localStorage.getItem()}`,
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
@@ -147,21 +186,20 @@ export async function deleteAnimalApi(animalId: number) {
 }
 
 async function fetchAssociations(): Promise<IUser[]> {
-  const response = await fetch(`${apiBaseUrl}/associations`)
+  const response = await fetch(`${apiBaseUrl}/associations`);
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
   }
 
   const associations: IUser[] = await response.json();
   return associations;
-};
+}
 
 async function fetchAssociationById(id: number): Promise<IUser> {
-  const response = await fetch(`${apiBaseUrl}/association/${id}`); 
+  const response = await fetch(`${apiBaseUrl}/association/${id}`);
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
   }
   const association: IUser = await response.json();
   return association;
 }
-
