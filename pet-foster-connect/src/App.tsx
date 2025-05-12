@@ -16,6 +16,7 @@ import Profile from './pages/Profile';
 import UpdateProfilAssociation from './pages/UpdateProfilAssociation';
 import CreateAnimal from './pages/CreateAnimal'
 import Associations from './pages/Associations';
+import AssociationDetails from './components/AssociationDetails'
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/animals" element={<AnimalsContainer />} />
         <Route path="/animals/:id" element={<AnimalDetails />} />
         <Route path="/associations" element={<Associations />} />
+        <Route path="/associations/:id" element={<AssociationDetails />} />
         <Route path="/se-connecter" element={<Login />} />
         <Route path="/creer-compte" element={<Register />} />
         <Route path="/profil-association/:id" element={<Profile />} />
