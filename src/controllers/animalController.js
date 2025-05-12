@@ -1,5 +1,11 @@
 import Joi from "joi";
-import { Animal, Localisation, Species, User_animal, User } from "../models/index.js";
+import {
+  Animal,
+  Localisation,
+  Species,
+  User_animal,
+  User,
+} from "../models/index.js";
 
 export async function getAllAnimals(req, res, next) {
   try {
@@ -14,9 +20,9 @@ export async function getAllAnimals(req, res, next) {
           model: Localisation,
           as: "localisation",
           attributes: ["id", "city", "postcode"],
-        }
+        },
       ],
-      attributes: { exclude: ['species_id', 'localisation_id', 'user_id'] }
+      attributes: { exclude: ["species_id", "localisation_id", "user_id"] },
     });
     console.log(`Récupération des animaux effectuée : ${animals}`);
     return res.json(animals);
@@ -78,18 +84,26 @@ export async function createAnimal(req, res, next) {
     picture: Joi.string().uri().required(),
     species_id: Joi.number().integer().required(),
     localisation_id: Joi.number().integer().required(),
-    user_id: Joi.number().integer().required()
+    user_id: Joi.number().integer().required(),
   });
 
   const { error, value } = animalSchema.validate(req.body);
 
   if (error) {
-    const err = new Error(error.details.map(d => d.message));
+    const err = new Error(error.details.map((d) => d.message));
     err.statusCode = 400;
     return next(err);
   }
 
-  const { name, birthday, description, picture, species_id, localisation_id, user_id } = value;
+  const {
+    name,
+    birthday,
+    description,
+    picture,
+    species_id,
+    localisation_id,
+    user_id,
+  } = value;
 
   try {
     const user = await User.findByPk(user_id);
@@ -106,7 +120,7 @@ export async function createAnimal(req, res, next) {
       picture,
       species_id,
       localisation_id,
-      user_id
+      user_id,
     });
 
     res.status(201).json(newAnimal);
@@ -162,42 +176,41 @@ export async function updateAnimal(req, res, next) {
 
 export async function getMessages(req, res, next) {
   try {
-    const messages = await User_animal.findAll({
-    });
+    const messages = await User_animal.findAll({});
     res.json(messages);
-  } catch(error) {
+  } catch (error) {
     error.statusCode = 500;
     error.message = "Erreur lors de la récupération des messages";
     next(error);
   }
-};
-
-export async function getOneMessage(req, res, next) {
-  const { animalId, userId } = req.params;
-
-  try {
-    const message = await User_animal.findOne({
-      where: {
-        animal_id: parseInt(animalId, 10),
-        user_id: parseInt(userId, 10)
-      }
-    });
-
-    if (!message) {
-      const error = new Error("Aucun message trouvé pour cet utilisateur et cet animal");
-      error.statusCode = 404;
-      return next(error);
-    }
-
-    return res.status(200).json({ 
-      data: message
-    });
-  } catch (error) {
-    error.statusCode = 500;
-    error.message = "Erreur serveur";
-    next(error);
-  }
 }
+
+// export async function getOneMessage(req, res, next) {
+//   const { animalId, userId } = req.params;
+
+//   try {
+//     const message = await User_animal.findOne({
+//       where: {
+//         animal_id: parseInt(animalId, 10),
+//         user_id: parseInt(userId, 10)
+//       }
+//     });
+
+//     if (!message) {
+//       const error = new Error("Aucun message trouvé pour cet utilisateur et cet animal");
+//       error.statusCode = 404;
+//       return next(error);
+//     }
+
+//     return res.status(200).json({
+//       data: message
+//     });
+//   } catch (error) {
+//     error.statusCode = 500;
+//     error.message = "Erreur serveur";
+//     next(error);
+//   }
+// }
 
 export async function createOneMessage(req, res, next) {
   const { animalId, userId } = req.params;
@@ -209,55 +222,51 @@ export async function createOneMessage(req, res, next) {
       error.statusCode = 400;
       return next(error);
     }
-    
+
     const newMessage = await User_animal.upsert({
       animal_id: parseInt(animalId, 10),
       user_id: parseInt(userId, 10),
-      message
+      message,
     });
-    
-    return res.status(201).json({ 
-      message: "Message créé avec succès", 
-      data: newMessage 
-    });    
+
+    return res.status(201).json({
+      message: "Message créé avec succès",
+      data: newMessage,
+    });
   } catch (error) {
     error.statusCode = 500;
     error.message = "Erreur serveur";
     next(error);
   }
-};
+}
 
 /**
- * Fonction qui permet de récuperer un message de user en fonction de l'animal 
+ * Fonction qui permet de récuperer un message de user en fonction de l'animal
  */
-export async function getOneMessage( req, res, next )
-{
+export async function getOneMessage(req, res, next) {
   const { animalId, userId } = req.params;
-    
-  const getMessage = await User_animal.findOne( 
-    {
-      where: {
-        user_id: userId,
-        animal_id: animalId
-      },
-      include: [ "user", "animal" ],
-    
-    } );
+  const getMessage = await User_animal.findOne({
+    where: {
+      user_id: userId,
+      animal_id: animalId,
+    },
+    include: ["user", "animal"],
+  });
 
   if (!getMessage) {
     return next();
   }
-  
+
   return res.status(200).json({
     message: getMessage.message,
     user: {
       firstname: getMessage.user.firstname,
-      lastname: getMessage.user.lastname
+      lastname: getMessage.user.lastname,
     },
     animal: {
-      name: getMessage.animal.name
+      name: getMessage.animal.name,
     },
-    created_at: getMessage.created_at
+    created_at: getMessage.created_at,
   });
 }
 
@@ -266,14 +275,14 @@ export async function getOneMessage( req, res, next )
  */
 export async function getSpecies(req, res) {
   try {
-    const messages = await Species.findAll({
-    });
+    const messages = await Species.findAll({});
     res.json(messages);
-  } catch(error) {
+  } catch (error) {
     console.error("Erreur lors de la récupération des animaux:", error);
-    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des animaux" });
   }
-};
 }
 
 function validateAnimalId(id) {
@@ -283,4 +292,3 @@ function validateAnimalId(id) {
   }
   return animalId;
 }
-

@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import UpdateProfilAssociation from "./pages/UpdateProfilAssociation";
 import CreateAnimal from "./pages/CreateAnimal";
 import NotFound404 from "./pages/NotFound404.tsx";
+import Associations from "./pages/Associations.tsx";
 
 function App() {
   return (
