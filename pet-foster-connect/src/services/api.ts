@@ -1,5 +1,6 @@
-import { IAnimal, ISpecies, IUser } from "../@types";
 
+import { INewAnimal } from "../@types/user-index"
+import { IAnimal, ISpecies, IUser } from "../@types";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const api = {
@@ -92,6 +93,57 @@ export async function postUserMessageToApi(userId: number, animalId: number, mes
   }
 }
 
+export async function createAnimalFromApi(animalData: INewAnimal): Promise<IAnimal | null>{
+  try {
+    // console.log("Envoi de la requête...");
+    // console.log("Données envoyées :", animalData);
+
+    // Envoi des données converties en JSON vers l'API
+    const response = await fetch(apiBaseUrl + "/animals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+             },
+      body: JSON.stringify(animalData),
+    });
+
+    // console.log("Réponse reçue !");
+    // console.log("ℹStatut HTTP :", response.status, response.statusText);
+
+    // if (!response.ok) {
+    // console.error("Erreur HTTP détectée !");
+    // throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+    // }
+
+    const jsonResponse = await response.json();
+    console.log("Réponse JSON :", jsonResponse);
+
+    if (!response.ok) {
+      console.error("Erreur HTTP détectée !");
+      const errorMessage = Array.isArray(jsonResponse.error)
+        ? jsonResponse.error.join(", ")
+        : jsonResponse.error || `Erreur ${response.status}`;
+  
+      throw new Error(errorMessage);
+    }
+
+    return jsonResponse;
+  } catch (error) {
+    console.error("Erreur lors de la création :", error);
+    return null;
+  }
+}
+
+export async function deleteAnimalApi(animalId: number) {
+  const response = await fetch(`${apiBaseUrl}/animals/${animalId}`,{
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Échec de la suppression de l'animal");
+  }
+}
+
 async function fetchAssociations(): Promise<IUser[]> {
   const response = await fetch(`${apiBaseUrl}/associations`)
   if (!response.ok) {
@@ -110,3 +162,4 @@ async function fetchAssociationById(id: number): Promise<IUser> {
   const association: IUser = await response.json();
   return association;
 }
+

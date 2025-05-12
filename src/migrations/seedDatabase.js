@@ -315,13 +315,24 @@ for (const animal of animals) {
 const user_animals = [
   {
     message: "Je suis très proche de Luna.",
-    user_id: userInstances[0].id,
-    animal_id: animalInstances[0].id
+    user_id: userInstances[1].id,
+    animal_id: animalInstances[0].id,
+    createdAt: "2024-05-01T10:00:00Z",
+    updatedAt: "2024-05-01T10:00:00Z"
   },
   {
     message: "Milo est un vrai pot de colle.",
+    user_id: userInstances[3].id, 
+    animal_id: animalInstances[0].id,
+    createdAt: "2024-05-02T10:01:00Z",
+    updatedAt: "2024-05-02T10:01:00Z"
+  },
+  {
+    message: "Misty a l'air adorable.",
     user_id: userInstances[1].id,
-    animal_id: animalInstances[1].id
+    animal_id: animalInstances[5].id,
+    createdAt: "2024-05-03T10:01:00Z",
+    updatedAt: "2024-05-03T10:01:00Z"
   }
 ];
 
@@ -331,5 +342,6 @@ try {
 } catch (error) {
   console.error("Erreur lors de l'insertion des associations : ", error);
 }
+
 
 console.log('Données fictives insérées avec succès !');

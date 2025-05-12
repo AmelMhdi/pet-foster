@@ -59,13 +59,7 @@ export default function Navbar() {
                 <button onClick={logout} className="btn-primary logout-btn">
                   Déconnexion
                 </button>
-              </li>
-                                
-              {user?.role?.name === "association" && (
-                <li className="nav-item mx-2">
-                  <Link className="nav-link" to={`/profil-association/${user.id}`}>Informations association</Link>
-                </li>
-              )}
+              </li>              
             </>
           ) : null}
         </ul>

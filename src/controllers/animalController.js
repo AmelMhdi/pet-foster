@@ -225,6 +225,55 @@ export async function createOneMessage(req, res, next) {
     error.message = "Erreur serveur";
     next(error);
   }
+};
+
+/**
+ * Fonction qui permet de récuperer un message de user en fonction de l'animal 
+ */
+export async function getOneMessage( req, res, next )
+{
+  const { animalId, userId } = req.params;
+    
+  const getMessage = await User_animal.findOne( 
+    {
+      where: {
+        user_id: userId,
+        animal_id: animalId
+      },
+      include: [ "user", "animal" ],
+    
+    } );
+
+  if (!getMessage) {
+    return next();
+  }
+  
+  return res.status(200).json({
+    message: getMessage.message,
+    user: {
+      firstname: getMessage.user.firstname,
+      lastname: getMessage.user.lastname
+    },
+    animal: {
+      name: getMessage.animal.name
+    },
+    created_at: getMessage.created_at
+  });
+}
+
+/**
+ * Fonction qui permet de récuperer les espèces d'un animal
+ */
+export async function getSpecies(req, res) {
+  try {
+    const messages = await Species.findAll({
+    });
+    res.json(messages);
+  } catch(error) {
+    console.error("Erreur lors de la récupération des animaux:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
+  }
+};
 }
 
 function validateAnimalId(id) {
@@ -234,3 +283,4 @@ function validateAnimalId(id) {
   }
   return animalId;
 }
+
