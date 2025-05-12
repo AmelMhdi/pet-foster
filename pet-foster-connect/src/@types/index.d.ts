@@ -6,12 +6,9 @@ export interface IAnimal {
     birthday: string;
     description: string;
     picture: string;
-    localisation: {
-      city: string;
-    };
-    species: {
-      name: string;
-    };
+    localisation_id: number;
+    species_id: number;
+    user_id: number;
 }
 export interface ILocalisation {
     id: number;

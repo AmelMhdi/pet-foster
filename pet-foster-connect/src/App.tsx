@@ -16,6 +16,7 @@ import UpdateProfilAssociation from "./pages/UpdateProfilAssociation";
 import CreateAnimal from "./pages/CreateAnimal";
 import NotFound404 from "./pages/NotFound404.tsx";
 import Associations from "./pages/Associations.tsx";
+import UpdateAnimal from "./pages/UpdateAnimal.tsx";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           element={<UpdateProfilAssociation />}
         />
         <Route path="/creer-animal/:id" element={<CreateAnimal />} />
+        <Route path="/modifier-animal/:id" element={<UpdateAnimal />} />
         <Route path="/a-propos" element={<About />} />
         <Route path="/mentions-legales" element={<LegalMentions />} />
         <Route path="/contact" element={<Contact />} />
