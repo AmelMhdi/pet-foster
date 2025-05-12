@@ -23,11 +23,7 @@ export interface IUser {
     firstname: string;
     lastname: string;
     phone_number: string;
-    password: string;
-    email: string;
     address: string;
-    RNA_number: string;
-    role_id: number;
     localisation: {
       city: string,
       postcode: string
@@ -38,6 +34,12 @@ export interface ISpecies {
     name: string;
 }
 
-
+export interface IAssociationDetail {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone_number: string;
+  animals_asso: IAnimal[]; 
+  };
 
 

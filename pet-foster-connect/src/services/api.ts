@@ -1,5 +1,5 @@
+import { IAnimal, ISpecies, IUser, IAssociationDetail } from "../@types";
 import { INewAnimal } from "../@types/user-index";
-import { IAnimal, ISpecies, IUser } from "../@types";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 import { useUserStore } from "../store";
 
@@ -113,6 +113,9 @@ export async function postUserMessageToApi(
   }
 }
 
+export async function fetchAssociations(): Promise<IUser[]> {
+  const response = await fetch(`${apiBaseUrl}/associations`)
+
 export async function createAnimalFromApi(
   animalData: INewAnimal
 ): Promise<IAnimal | null> {
@@ -195,11 +198,11 @@ async function fetchAssociations(): Promise<IUser[]> {
   return associations;
 }
 
-async function fetchAssociationById(id: number): Promise<IUser> {
-  const response = await fetch(`${apiBaseUrl}/association/${id}`);
+export async function fetchAssociationById(id: number): Promise<IAssociationDetail> {
+  const response = await fetch(`${apiBaseUrl}/associations/${id}`); 
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
   }
-  const association: IUser = await response.json();
+  const association: IAssociationDetail = await response.json();
   return association;
 }
