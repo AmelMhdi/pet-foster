@@ -1,5 +1,6 @@
 import { Navigate,useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchAssociationById } from '../services/api';
 import { IAssociationDetail } from '../@types';
 
@@ -62,7 +63,7 @@ ou par mail : <span className="fw-bold">{association?.email}</span>
               <div className="row g-4">
                 {association.animals_asso.map((animal) => (
                   <div key={animal.id} className="col-md-4">
-                    <div className="card shadow-sm h-100">
+                    <div className="card animal-card h-100 text-center shadow-sm">
                       {animal.picture && (
                         <img
                           src={animal.picture}
@@ -75,6 +76,11 @@ ou par mail : <span className="fw-bold">{association?.email}</span>
                         <p className="card-text">
                           Espèce : <span className="fw-bold">{animal.species.name}</span>
                         </p>
+                        <Link 
+                          to={`/animals/${animal.id}`} 
+                          className="btn btn-outline-primary mt-auto">
+                          Voir détails
+                        </Link>
                       </div>
                     </div>
                   </div>
