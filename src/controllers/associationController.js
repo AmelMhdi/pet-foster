@@ -145,5 +145,4 @@ export async function getOneAssociation(req, res, next) {
     return next();
   }
   res.json(association);
-}
 };
