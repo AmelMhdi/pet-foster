@@ -10,3 +10,5 @@ router.get( "/associations/:id/animaux", associationController.getAllAnimalsByAs
 router.get("/associations", associationController.getAllAssociations);
 router.get("/associations/:id", associationController.getOneAssociation);
 
+// http://localhost:3001/api/associations/request/users/1
+router.get("/associations/request/users/:id", associationController.getMessagesForAssociation);

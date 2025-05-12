@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <MainContainer />
-      <AnimalsContainer limit={3} />
+      <AnimalsContainer limit={3} random />
     </>
   )
 }

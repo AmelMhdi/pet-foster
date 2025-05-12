@@ -5,26 +5,19 @@ import { IAnimal } from '../@types';
 
 type Props = {
   limit?: number;
+  random?: boolean;
 };
 
-export default function AnimalsContainer({ limit }: Props) {
+export default function AnimalsContainer({ limit, random }: Props) {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
   const [showAll, setShowAll] = useState(false); // state to manage the display of all animals
 
   useEffect(() => {
-    async function getAnimals() {
-      try {
-        const fetchedAnimals = await api.fetchAnimals();
-        setAnimals(fetchedAnimals);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des animaux :", error);
-      }
-    }
-    getAnimals();
-  }, []);
+    api.fetchAnimals(limit, random)
+    .then(setAnimals)
+    .catch(err => console.error("Erreur:", err));
+}, [limit, random]);
 
-  // limit the number of displayed animals
-  const displayedAnimals = limit ? animals.slice(0, limit) : animals;
 
   return (
     <>
@@ -36,7 +29,7 @@ export default function AnimalsContainer({ limit }: Props) {
           </div>
           
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-            {displayedAnimals.map((animal) => (
+            {animals.map((animal) => (
               <div key={animal.id} className="col">
                 <div className="card animal-card h-100 text-center shadow-sm">
                   <img 

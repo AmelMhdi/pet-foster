@@ -1,5 +1,4 @@
-const notFound = ( req, res, next ) =>
-{
+const notFound = (req, res, next) => {
   const error = new Error("Not Found");
   error.statusCode = 404;
   next(error);
@@ -22,7 +21,7 @@ const errorHandler = (error, req, res, next) => {
   // en faisant en sorte qu'il n'y ait pas de différence selon l'erreur relevée.
   res.status(status).json({
     status,
-    error: Array.isArray(error.message) ? error.message : [error.message]
+    error: Array.isArray(error.message) ? error.message : [error.message],
   });
 };
 

@@ -1,34 +1,31 @@
-import { create } from 'zustand';
-import { IUserStore, IUserT } from '../@types/user-index';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { IUserStore, IUserT } from "../@types/user-index";
 
 /**
- * Fonction qui crée un store Zustand pour gérer l'utilisateur connecté.
-  */
-export const useUserStore = create<IUserStore>((set) => {
-  return ({
-    user: null,
+ * Store Zustand pour gérer l'utilisateur connecté,
+ * avec persistance automatique dans le localStorage.
+ */
+export const useUserStore = create<IUserStore>()(
+  persist(
+    (set) => ({
+      user: null,
 
-    login: (user: IUserT) => {
-      if (!user.token) {
-        console.error('Le token JWT est manquant ou invalide');
-        return;
-      }
-      console.log('Utilisateur connecté :', user);
-
-      set({ user });
-      localStorage.setItem('user', JSON.stringify(user));
-    },
-
-    logout: () => {
-        set({ user: null });
-        localStorage.removeItem('user');
-    },
-
-    hydrate: () => {
-        const stored = localStorage.getItem('user');
-        if (!stored) return;
-        const user: IUserT = JSON.parse(stored);
+      login: (user: IUserT) => {
+        if (!user.token) {
+          console.error("Le token JWT est manquant ou invalide");
+          return;
+        }
+        console.log("Utilisateur connecté :", user.token);
         set({ user });
-    },
-  });
-});
+      },
+
+      logout: () => {
+        set({ user: null });
+      },
+    }),
+    {
+      name: "user",
+    }
+  )
+);

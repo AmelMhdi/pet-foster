@@ -11,35 +11,35 @@ export interface ILocalisation {
 
 // Structure un User, id en ? car sert pour creation (id) et mise à jour (pas d'id), on pourrrait créer 2 interfaces
 export interface IUser {
-  id?:number,
+  id?: number;
   firstname: string;
   lastname: string;
   email: string;
   password: string;
   address: string;
   phone_number: string;
-  rma_number?: string | null;  
-  role_id: number;   
-  localisation_id: number; 
+  rma_number?: string | null;
+  role_id: number;
+  localisation_id: number;
 }
 
 export interface ILoginRequest {
-    email: string;
-    password: string;
-};
+  email: string;
+  password: string;
+}
 
 // Structure la réponse API qu'on retrouve dans la fonction logi du back dans res.json (). Format vient de UserController fonction login
 export interface ILoginResponse {
-  firstname: string;  
-  expiresIn: string;       
-  token: string;    
+  firstname: string;
+  expiresIn: string;
+  token: string;
   email: string;
-  id: number; 
+  id: number;
   role: {
     id: number;
     name: string;
   };
-};
+}
 
 // Affiche les infos si User connecté
 export interface IPublicUser {
@@ -63,9 +63,9 @@ export interface IPublicUser {
   };
 }
 
-export interface IUserT{
+export interface IUserT {
   email: string;
-  token: string; 
+  token: string;
   firstname: string;
   id: number;
   role: {
@@ -83,10 +83,8 @@ export interface IUserT{
 
 export interface IUserStore {
   user: IUserT | null;
-  // login: (email: string, token: string, id: number, firstname: string, role: { id: number; name: string }) => void; 
   login: (user: IUserT) => void;
   logout: () => void;
-  hydrate: () => void;
 }
 
 export interface IUserAnimal {
@@ -107,7 +105,7 @@ export interface IUserAnimal {
 
 // pour mettre à jour les informations de l'association
 export interface IUserUpdateForm {
-  id?: number; 
+  id?: number;
   firstname: string;
   lastname: string;
   email: string;
@@ -115,7 +113,7 @@ export interface IUserUpdateForm {
   phone_number: string;
   localisation_id: number;
   password?: string;
-  role_id:number
+  role_id: number;
 }
 
 // creer un animal
@@ -127,10 +125,21 @@ export interface ISpecies {
 // creer un animal
 export interface INewAnimal {
   name: string;
-  birthday: string; 
+  birthday: string;
   description: string;
   picture: string;
   localisation_id: number;
   species_id: number;
-  user_id: number
+  user_id: number;
+}
+
+interface IUserAnimalMessage {
+  message: string;
+  userId: number;
+  firstname: string;
+  name: string;
+  phone: string;
+  email: string;
+  animal: string;
+  createdAt: string;
 }

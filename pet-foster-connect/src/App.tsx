@@ -1,8 +1,7 @@
-import './App.css'
-import './main.css'
-
+import "./App.css";
+import "./main.css";
 import Header from "./components/Header";
-import Footer from "./components/Footer"
+import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import AnimalDetails from './components/AnimalDetails';
@@ -19,7 +18,7 @@ import Associations from './pages/Associations';
 import AssociationDetails from './components/AssociationDetails'
 
 function App() {
-    return (
+  return (
     <>
       <Header />
       <Routes>
@@ -31,15 +30,19 @@ function App() {
         <Route path="/se-connecter" element={<Login />} />
         <Route path="/creer-compte" element={<Register />} />
         <Route path="/profil-association/:id" element={<Profile />} />
-        <Route path="/modifier-profil/:id" element={<UpdateProfilAssociation />} />
-        <Route path="/creer-animal/:id" element={<CreateAnimal/>} />
+        <Route
+          path="/modifier-profil/:id"
+          element={<UpdateProfilAssociation />}
+        />
+        <Route path="/creer-animal/:id" element={<CreateAnimal />} />
         <Route path="/a-propos" element={<About />} />
         <Route path="/mentions-legales" element={<LegalMentions />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound404 />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
