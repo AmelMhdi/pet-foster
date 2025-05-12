@@ -1,5 +1,4 @@
 import { User} from "../models/index.js";
-import { User_animal } from "../models/index.js";
 
 
 /**
