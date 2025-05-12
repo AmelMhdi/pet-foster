@@ -2,6 +2,7 @@ import { User, Role, Localisation } from "../models/index.js";
 import Joi from "joi";
 import { hash, compare, generateJwtToken } from "../utils/crypto.js";
 import { Op } from "sequelize";
+import jwt from "jsonwebtoken";
 
 /**
  * Fonction qui récupère tous les roles *
@@ -137,8 +138,14 @@ export async function login(req, res, next) {
     return res.status(401).json({ error: "Identifiants invalides" });
   }
 
-  const token = generateJwtToken({ userId: user.id });
-  res.json({
+  // const token = generateJwtToken({ userId: user.id });
+  const token = jwt.sign(
+    { userId: user.id }, // données dans le token
+    process.env.JWT_SECRET, // clé secrète (depuis .env)
+    { expiresIn: "1d" } // durée de validité
+  );
+
+  return res.json({
     token,
     expiresIn: "1d",
     id: user.id,
