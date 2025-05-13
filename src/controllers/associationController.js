@@ -123,21 +123,26 @@ export async function getAllAssociations(req, res) {
   }
 };
 
-export async function getOneAssociation(req, res) {
-  try {
-    const associationId = parseInt(req.params.id);
-    const association = await User.findByPk(associationId, {
-      include: {
+export async function getOneAssociation(req, res, next) {
+  const associationId = parseInt(req.params.id);
+  const association = await User.findByPk(associationId, {
+    attributes: ["firstname", "lastname", "email", "phone_number"],
+    include: [
+      {
         association: "animals_asso",
-        include: {
-          association: "localisation"
-        }
-      }
-    });
-    res.json(association);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Erreur lors de la récupération d'une association"});
-  }
-};
+        attributes: ["id", "name", "picture"],
+        include: [
+          {
+            association: "species",
+            attributes: ["name"],
+          },
+        ],
+      },
+    ],
+  });
 
+  if (!association) {
+    return next();
+  }
+  res.json(association);
+};
