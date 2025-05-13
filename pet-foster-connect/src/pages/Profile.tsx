@@ -9,6 +9,10 @@ import {
 import { IUserAnimal, IUserAnimalMessage } from "../@types/user-index";
 import { deleteAnimalApi } from "../services/api";
 import { deleteUserFromApi } from "../services/usersApi";
+import DeleteAnimalModal from "../components/DeleteAnimalModal";
+import DeleteProfileModal from "../components/DeleteProfilModal";
+import AnimalCard from "../components/AnimalsFromAsso";
+import MessageCard from "../components/MessageForAssociation";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -121,50 +125,15 @@ export default function Profile() {
         ) : (
           <div className="row g-4">
             {animals.map((animal) => (
-              <div key={animal.id} className="col-md-4">
-                <div className="card shadow-sm h-100">
-                  {animal.picture && (
-                    <img
-                      src={animal.picture}
-                      alt={animal.name}
-                      className="card-img-top object-fit-cover"
-                    />
-                  )}
-                  <div className="card-body">
-                    <h5 className="card-title">{animal.name}</h5>
-                    <p className="card-text">
-                      Date de naissance :{" "}
-                      <span className="fw-bold">
-                        {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-                      </span>
-                    </p>
-                    <p className="card-text">
-                      Espèce :{" "}
-                      <span className="fw-bold">{animal.species.name}</span>
-                    </p>
-
-                    <div className="d-flex justify-content-between mt-3">
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() =>
-                          navigate(`/modifier-animal/${animal.id}`)
-                        }
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => {
-                          setAnimalToDelete(animal);
-                          setShowDeleteModal(true);
-                        }}
-                      >
-                        Supprimer
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <AnimalCard
+                key={animal.id}
+                animal={animal}
+                onEdit={(id) => navigate(`/modifier-animal/${id}`)}
+                onDelete={(animal) => {
+                  setAnimalToDelete(animal);
+                  setShowDeleteModal(true);
+                }}
+              />
             ))}
           </div>
         )}
@@ -176,126 +145,32 @@ export default function Profile() {
           <p className="text-muted">Aucun message pour le moment.</p>
         ) : (
           <div className="row g-3">
-            {messages.map((message) => {
-              //  pour creer une clé unique on associe famille et animal choisi
-              return (
-                <div
-                  key={`${message.userId}-${message.animal}`}
-                  className="col-md-6"
-                >
-                  <div className="card shadow-sm">
-                    <div className="card-body">
-                      <h5 className="card-title fs-3">
-                        Message de {message.firstname} {message.name} reçu le{" "}
-                        {message.createdAt} pour l'animal {message.animal}:
-                      </h5>
-                      <p className="card-text fs-5">{message.message}</p>
-                      <p className="card-text fs-5">
-                        email : <span className="fw-bold">{message.email}</span>
-                      </p>
-                      <p className="card-text fs-5">
-                        téléphone :{" "}
-                        <span className="fw-bold">{message.phone}</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {messages.map((message) => (
+              <MessageCard
+                key={`${message.userId}-${message.animal}`}
+                message={message}
+              />
+            ))}
           </div>
         )}
       </section>
       {/* ✅ Modale de confirmation */}
       {animalToDelete && showDeleteModal && (
-        <div
-          className="modal fade show"
-          style={{ display: "block" }}
-          tabIndex={-1}
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Confirmation de suppression</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setAnimalToDelete(null);
-                  }}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <p>
-                  Êtes-vous sûr de vouloir supprimer l’animal{" "}
-                  <strong>{animalToDelete.name}</strong> ?
-                </p>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setAnimalToDelete(null);
-                  }}
-                >
-                  Annuler
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => handleDeleteAnimal(animalToDelete.id)} // Passer l'ID de l'animal ici
-                >
-                  Supprimer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <DeleteAnimalModal
+          animalName={animalToDelete.name}
+          onCancel={() => {
+            setShowDeleteModal(false);
+            setAnimalToDelete(null);
+          }}
+          onConfirm={() => handleDeleteAnimal(animalToDelete.id)}
+        />
       )}
 
       {showDeleteProfileModal && (
-        <div
-          className="modal fade show"
-          style={{ display: "block" }}
-          tabIndex={-1}
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Confirmation de suppression</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowDeleteProfileModal(false)}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <p>
-                  Êtes-vous sûr de vouloir supprimer votre profil ? Cette action
-                  est irréversible.
-                </p>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowDeleteProfileModal(false)}
-                >
-                  Annuler
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => handleDeleteProfil(user.id)}
-                >
-                  Supprimer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <DeleteProfileModal
+          onCancel={() => setShowDeleteProfileModal(false)}
+          onConfirm={() => handleDeleteProfil(user.id)}
+        />
       )}
     </div>
   );

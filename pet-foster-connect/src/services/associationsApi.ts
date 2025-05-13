@@ -116,6 +116,7 @@ export async function getUserMessagesApi(
 
     const data: IUserAnimalMessage[] = await response.json();
     console.log("Données récupérées :", data);
+    console.log("Message complet :", data[0]);
     return data || [];
   } catch (error) {
     console.error("Erreur lors de la récupération des messages :", error);

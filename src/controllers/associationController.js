@@ -103,9 +103,7 @@ export async function getMessagesForAssociation(req, res, next) {
       email: demande.user.email,
       phone: demande.user.phone_number,
       animal: demande.animal.name,
-      createdAt: new Date(demande.created_at).toLocaleDateString("fr-FR", {
-        timeZone: "UTC",
-      }),
+      createdAt: new Date(demande.created_at).toISOString(),
     };
   });
 
