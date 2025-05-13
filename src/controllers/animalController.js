@@ -145,9 +145,17 @@ export async function updateAnimal(req, res, next) {
     return next(error);
   }
 
-  const { name, birthday: birthdayInput, description, picture } = req.body;
+  const {
+    name,
+    birthday: birthdayInput,
+    description,
+    picture,
+    localisation_id,
+    species_id,
+    user_id,
+  } = req.body;
 
-  if (!name || !birthdayInput || !description || !picture) {
+  if (!name || !birthdayInput || !description || !picture || !localisation_id || !species_id || !user_id) {
     const error = new Error("Tous les champs sont requis");
     error.statusCode = 400;
     return next(error);
@@ -160,18 +168,29 @@ export async function updateAnimal(req, res, next) {
       error.statusCode = 404;
       return next(error);
     }
+
+    // vérifier que l'utilisateur authentifié est le propriétaire
+    if (req.user?.id !== animal.user_id) {
+      return res.status(403).json({ message: "Action non autorisée" });
+    }
+
     const birthday = new Date(birthdayInput);
     if (isNaN(birthday.getTime())) {
       const error = new Error("La date de naissance est invalide.");
       error.statusCode = 400;
       return next(error);
     }
+
     animal.name = name;
     animal.birthday = birthday;
     animal.description = description;
     animal.picture = picture;
+    animal.localisation_id = localisation_id;
+    animal.species_id = species_id;
+    animal.user_id = user_id;
 
     await animal.save();
+
     res.status(200).json({ message: "Animal mis à jour avec succès", animal });
   } catch (error) {
     error.statusCode = 500;
