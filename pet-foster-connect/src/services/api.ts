@@ -192,12 +192,13 @@ export async function fetchAssociationById(
   return association;
 }
 
-async function updateAnimalFromApi(animalData: IAnimal): Promise<IAnimal | null> {
+async function updateAnimalFromApi(animalData: IAnimal, token: string): Promise<IAnimal | null> {
   try {
     const response = await fetch(`${apiBaseUrl}/animals/${animalData.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify(animalData),
     });
