@@ -109,7 +109,12 @@ export async function createAnimal(req, res, next) {
           "La date doit être au format AAAA-MM-JJ, par ex : 2025-05-01",
         "any.required": "La date est obligatoire",
       }),
-    description: Joi.string().min(10).trim().required(),
+    description: Joi.string().min(10).trim().required().messages({
+      "string.base": "La description doit être un texte.",
+      "string.empty": "La description est obligatoire.",
+      "string.min": "La description doit contenir au moins 10 caractères.",
+      "any.required": "La description est obligatoire.",
+    }),
     picture: Joi.string().uri().required(),
     species_id: Joi.number().integer().required(),
     localisation_id: Joi.number().integer().required(),

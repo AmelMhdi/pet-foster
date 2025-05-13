@@ -16,33 +16,36 @@ export default function Profile() {
   const user = useUserStore((state) => state.user);
   const [animals, setAnimals] = useState<IUserAnimal[]>([]);
   const [messages, setMessages] = useState<IUserAnimalMessage[]>([]);
+  const [animalToDelete, setAnimalToDelete] = useState<IUserAnimal | null>(
+    null
+  );
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadAnimals = async () => {
       if (!user) return;
       try {
         const newAnimals = await getAnimalsByAssociationFromApi(user.id);
-        // console.log("Animaux reçus :", newAnimals);
         setAnimals(newAnimals);
       } catch (error) {
         console.error("Erreur lors du chargement", error);
       }
     };
-    loadData();
+    loadAnimals();
   }, [user]);
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadMessages = async () => {
       if (!user) return;
       try {
         const newMessages = await getUserMessagesApi(user.id);
-        // console.log("Messages reçus:", newMessages);
         setMessages(newMessages);
       } catch (error) {
         console.error("Erreur lors du chargement", error);
       }
     };
-    loadData();
+    loadMessages();
   }, [user]);
 
   useEffect(() => {
@@ -56,12 +59,16 @@ export default function Profile() {
   const handleDeleteAnimal = async (animalId: number) => {
     try {
       await deleteAnimalApi(animalId);
-      const updatedAnimals = animals.filter((animal) => animal.id !== animalId);
-      setAnimals(updatedAnimals);
+      setAnimals((prev) => prev.filter((animal) => animal.id !== animalId));
       setFeedback("Animal supprimé avec succès !");
     } catch (error) {
       console.error("Erreur lors de la suppression de l'animal", error);
-      setFeedback("Une erreur est survenue lors de la suppression.");
+      setFeedback(
+        "Une erreur est survenue lors de la suppression de l'animal."
+      );
+    } finally {
+      setShowDeleteModal(false);
+      setAnimalToDelete(null);
     }
   };
 
@@ -74,6 +81,8 @@ export default function Profile() {
     } catch (error) {
       console.error("Erreur lors de la suppression", error);
       setFeedback("Une erreur est survenue lors de la suppression.");
+    } finally {
+      setShowDeleteProfileModal(false);
     }
   };
 
@@ -88,7 +97,7 @@ export default function Profile() {
           </Link>
           <button
             className="btn btn-danger btn-sm"
-            onClick={() => handleDeleteProfil(user.id)}
+            onClick={() => setShowDeleteProfileModal(true)}
           >
             Supprimer Mon profil
           </button>
@@ -145,7 +154,10 @@ export default function Profile() {
                       </button>
                       <button
                         className="btn btn-danger btn-sm"
-                        onClick={() => handleDeleteAnimal(animal.id)}
+                        onClick={() => {
+                          setAnimalToDelete(animal);
+                          setShowDeleteModal(true);
+                        }}
                       >
                         Supprimer
                       </button>
@@ -193,6 +205,98 @@ export default function Profile() {
           </div>
         )}
       </section>
+      {/* ✅ Modale de confirmation */}
+      {animalToDelete && showDeleteModal && (
+        <div
+          className="modal fade show"
+          style={{ display: "block" }}
+          tabIndex={-1}
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirmation de suppression</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setAnimalToDelete(null);
+                  }}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p>
+                  Êtes-vous sûr de vouloir supprimer l’animal{" "}
+                  <strong>{animalToDelete.name}</strong> ?
+                </p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setAnimalToDelete(null);
+                  }}
+                >
+                  Annuler
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => handleDeleteAnimal(animalToDelete.id)} // Passer l'ID de l'animal ici
+                >
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDeleteProfileModal && (
+        <div
+          className="modal fade show"
+          style={{ display: "block" }}
+          tabIndex={-1}
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirmation de suppression</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowDeleteProfileModal(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p>
+                  Êtes-vous sûr de vouloir supprimer votre profil ? Cette action
+                  est irréversible.
+                </p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowDeleteProfileModal(false)}
+                >
+                  Annuler
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => handleDeleteProfil(user.id)}
+                >
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
