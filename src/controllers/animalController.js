@@ -88,34 +88,37 @@ export async function deleteAnimal(req, res, next) {
 }
 
 export async function createAnimal(req, res, next) {
+  const user_id = req.user?.id;
+  if (!user_id) {
+    const error = new Error("Utilisateur non authentifié");
+    error.statusCode = 401;
+    return next(error);
+  }
+
   const animalSchema = Joi.object({
-    name: Joi.string().min(3).max(30).required().messages({
+    name: Joi.string().min(3).max(30).trim().required().messages({
       "string.base": "Le nom doit être une chaîne de caractères",
       "string.min": "Le nom doit contenir au moins 3 caractères",
       "string.max": "Le nom doit contenir au maximum 30 caractères",
     }),
     birthday: Joi.string()
-      .pattern(/^\d{2}-\d{2}-\d{4}$/)
+      .pattern(/^\d{4}-\d{2}-\d{2}$/)
       .required()
       .messages({
         "string.pattern.base":
-          "La date doit être au format JJ-MM-AAAA, par ex : 01-05-2025",
+          "La date doit être au format AAAA-MM-JJ, par ex : 2025-05-01",
         "any.required": "La date est obligatoire",
       }),
-    description: Joi.string().required(),
+    description: Joi.string().min(10)trim().required(),
     picture: Joi.string().uri().required(),
     species_id: Joi.number().integer().required(),
     localisation_id: Joi.number().integer().required(),
-    user_id: Joi.number().integer().required(),
-  });
+    });
 
   const { error, value } = animalSchema.validate(req.body);
 
   if (error) {
-    return res.status(400).json({
-      statusCode: 400,
-      message: error.details.map((detail) => detail.message),
-    });
+    return res.status(400).json({ error: error.details[0].message });
   }
 
   const {
@@ -125,16 +128,7 @@ export async function createAnimal(req, res, next) {
     picture,
     species_id,
     localisation_id,
-    user_id,
-  } = value;
-
-  // Vérifier en 1er, route authentifiée
-  const user = await User.findByPk(user_id);
-  if (!user) {
-    // const error = new Error("Utilisateur non trouvé");
-    // error.statusCode = 404;
-    return next();
-  }
+     } = value;
 
   const newAnimal = await Animal.create({
     name,

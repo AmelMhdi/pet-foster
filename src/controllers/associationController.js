@@ -12,9 +12,9 @@ export async function getAllAnimalsByAssociation(req, res, next) {
 
   const user = await User.findByPk(userId, {
     include: {
-      association: "animals_asso", 
+      association: "animals_asso",
       include: {
-        association: "species", 
+        association: "species",
       },
     },
   });
@@ -60,7 +60,6 @@ export async function getAllAnimalsByAssociation(req, res, next) {
 //     }
 //   ]);
 // }
-
 
 export async function getMessagesForAssociation(req, res, next) {
   const associationId = parseInt(req.params.id);
@@ -109,19 +108,21 @@ export async function getAllAssociations(req, res) {
       include: [
         {
           association: "role",
-          where: { id: 1 } 
+          where: { id: 1 },
         },
         {
-          association: "localisation"
-        }
-      ]
+          association: "localisation",
+        },
+      ],
     });
     res.json(associations);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Erreur lors de la récupération des associations." });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des associations." });
   }
-};
+}
 
 export async function getOneAssociation(req, res, next) {
   const associationId = parseInt(req.params.id);
@@ -145,4 +146,4 @@ export async function getOneAssociation(req, res, next) {
     return next();
   }
   res.json(association);
-};
+}

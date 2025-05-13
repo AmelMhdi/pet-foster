@@ -29,30 +29,22 @@ export default function CreateAnimal() {
   const handleRegister = async (animalData: INewAnimal) => {
     setFeedback("Création de l'animal en cours...");
     setIsSending(true);
-    await new Promise((res) => setTimeout(res, 5000));
+
+    // try {
+    // Simulation délai API
+    await new Promise((res) => setTimeout(res, 1000));
     const response = await createAnimalFromApi(animalData);
 
-    if (!response) {
-      console.error("La réponse de l'API est null.");
+    if ("error" in response) {
+      setFeedback(response.error);
+      setIsSending(false);
       return;
     }
-
-    // if ("error" in response) {
-    //   setFeedback(response.error);
-    //   setIsSending(false);
-    //   return;
-    // }
-
-    // TODO mettre un message de feedback
-    // alert("creation de l'animal réussie !");
-    // navigate(`/profil-association/${user.id}`);
 
     setFeedback("Animal créé avec succès !");
     setIsSending(false);
     setTimeout(() => {
-      if (user) {
-        navigate(`/profil-association/${user.id}`);
-      }
+      if (user) navigate(`/profil-association/${user.id}`);
     }, 1000);
   };
 
@@ -90,7 +82,7 @@ export default function CreateAnimal() {
       picture,
       localisation_id: selectedLocalisation.id,
       species_id: speciesId,
-      user_id: user.id,
+      // user_id: user.id,
     };
     console.log("📦 Données envoyées :", newAnimal);
     await handleRegister(newAnimal);
@@ -141,6 +133,7 @@ export default function CreateAnimal() {
             type="date"
             id="birthday"
             value={birthday}
+            max={new Date().toISOString().split("T")[0]}
             onChange={(e) => setBirthday(e.target.value)}
           />
 
