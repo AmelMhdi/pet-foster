@@ -140,7 +140,7 @@ export async function login(req, res, next) {
 
   // const token = generateJwtToken({ userId: user.id });
   const token = jwt.sign(
-    { userId: user.id }, // données dans le token
+    { id: user.id }, // données dans le token
     process.env.JWT_SECRET, // clé secrète (depuis .env)
     { expiresIn: "1d" } // durée de validité
   );
