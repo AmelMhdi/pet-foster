@@ -143,7 +143,7 @@ export default function UpdateAnimal() {
           className="form-control mb-3"
           id="birthday"
           type="date"
-          value={birthday}
+          value={birthday ? birthday.slice(0, 10) : ""}
           onChange={(e) => setBirthday(e.target.value)}
         />
 
