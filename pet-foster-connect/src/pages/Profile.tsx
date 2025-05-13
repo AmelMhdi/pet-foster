@@ -175,7 +175,7 @@ export default function Profile() {
                     <div className="card-body">
                       <h5 className="card-title fs-3">
                         Message de {message.firstname} {message.name} reçu le{" "}
-                        {message.createdAt} :
+                        {message.createdAt} pour l'animal {message.animal}:
                       </h5>
                       <p className="card-text fs-5">{message.message}</p>
                       <p className="card-text fs-5">
