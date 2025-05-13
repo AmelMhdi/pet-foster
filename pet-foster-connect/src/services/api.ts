@@ -11,6 +11,7 @@ export const api = {
   postUserMessageToApi,
   fetchAssociations,
   fetchAssociationById,
+  updateAnimalFromApi
 };
 
 async function fetchAnimals(
@@ -38,8 +39,8 @@ async function getSpeciesFromApi(): Promise<ISpecies[]> {
   return species;
 }
 
-async function getAnimal(id: number): Promise<IAnimal> {
-  const response = await fetch(`${apiBaseUrl}/animals/${id}`);
+export async function getAnimal(id: number): Promise<IAnimal> {
+  const response = await fetch(`${apiBaseUrl}/animals/${id}`)
 
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
@@ -202,4 +203,32 @@ export async function fetchAssociationById(id: number): Promise<IAssociationDeta
   }
   const association: IAssociationDetail = await response.json();
   return association;
+}
+
+async function updateAnimalFromApi(animalData: IAnimal): Promise<IAnimal | null> {
+  try {
+    const response = await fetch(`${apiBaseUrl}/animals/${animalData.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(animalData),
+    });
+
+    const jsonResponse = await response.json();
+
+    if (!response.ok) {
+      console.error("Erreur HTTP détectée !");
+      const errorMessage = Array.isArray(jsonResponse.error)
+        ? jsonResponse.error.join(", ")
+        : jsonResponse.error || `Erreur ${response.status}`;
+
+      throw new Error(errorMessage);
+    }
+
+    return jsonResponse;
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour :", error);
+    return null;
+  }
 }
