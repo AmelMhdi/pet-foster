@@ -4,6 +4,7 @@ import {
   IUserUpdateForm,
   IUserAnimalMessage,
 } from "../@types/user-index";
+import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -86,6 +87,11 @@ export async function updateAssociation(
 export async function getUserMessagesApi(
   userId: number
 ): Promise<IUserAnimalMessage[]> {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
   try {
     const response = await fetch(
       `${apiBaseUrl}/associations/request/users/${userId}`,
@@ -93,6 +99,7 @@ export async function getUserMessagesApi(
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );

@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as associationController from "../controllers/associationController.js";
 //import { controllerWrapper as cw } from "./controllerWrapper.js";
 import { validateId } from "../middlewares/validateId.js";
+import { isAuth } from "../middlewares/authentication.middleware.js";
 
 export const router = Router();
 
@@ -16,6 +17,7 @@ router.get("/associations", associationController.getAllAssociations);
 // http://localhost:3001/api/associations/request/users/1
 router.get(
   "/associations/request/users/:id",
+  isAuth,
   associationController.getMessagesForAssociation
 );
 

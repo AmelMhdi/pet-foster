@@ -62,10 +62,20 @@ export async function getAllAnimalsByAssociation(req, res, next) {
 // }
 
 export async function getMessagesForAssociation(req, res, next) {
-  const associationId = parseInt(req.params.id);
-  if (!Number.isInteger(associationId)) {
-    return next;
+  const user_id = req.user?.id;
+  if (!user_id) {
+    const error = new Error("Utilisateur non authentifié");
+    error.statusCode = 401;
+    return next(error);
   }
+
+  if (!/^\d+$/.test(req.params.id)) {
+    const error = new Error("Identifiant d'association invalide");
+    error.statusCode = 400;
+    return next(error);
+  }
+  const associationId = parseInt(req.params.id);
+
   const getMessages = await User_animal.findAll({
     include: [
       {
