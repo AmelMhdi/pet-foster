@@ -35,6 +35,11 @@ export async function getAnimalsByAssociationFromApi(
 export async function updateAssociation(
   userData: IUserUpdateForm
 ): Promise<IPublicUser | { error: string }> {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
   try {
     // On extrait l'id et on garde le reste dans userDataSansId, nécessaire sinon bad request
     const { id, ...userDataSansId } = userData;
@@ -53,6 +58,7 @@ export async function updateAssociation(
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(userDataSansId),
     });
@@ -81,7 +87,7 @@ export async function updateAssociation(
 }
 
 /**
- * Fonction qui permet de récupérer un objet qui contient le message reçu par l'association avec le nom de la famille et de l'animal *
+ * Fonction qui permet de récupérer un objet qui contient le message reçu par l'association avec le nom de la famille et de l'animal
  */
 
 export async function getUserMessagesApi(

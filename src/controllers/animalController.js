@@ -65,6 +65,10 @@ export async function getOneAnimal(req, res, next) {
 }
 
 export async function deleteAnimal(req, res, next) {
+  const user_id = req.user?.id;
+  if (!user_id) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
   const animalId = validateAnimalId(req.params.id);
   if (!Number.isInteger(animalId)) {
     const error = new Error("ID invalide");
@@ -90,9 +94,7 @@ export async function deleteAnimal(req, res, next) {
 export async function createAnimal(req, res, next) {
   const user_id = req.user?.id;
   if (!user_id) {
-    const error = new Error("Utilisateur non authentifié");
-    error.statusCode = 401;
-    return next(error);
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
   }
 
   const animalSchema = Joi.object({
