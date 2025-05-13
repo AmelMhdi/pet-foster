@@ -29,7 +29,7 @@ export async function getAnimalsByAssociationFromApi(
 }
 
 /**
- * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur. Ce type représente les données User envoyées à l’API IUserUpdateForm pour mettre à jour un utilisateur IPublicUser
+ * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur.
  *
  */
 export async function updateAssociation(

@@ -1,34 +1,36 @@
 export type IAnimals = IAnimal[];
 
 export interface IAnimal {
-    id: number;
-    name: string;
-    birthday: string;
-    description: string;
-    picture: string;
-    localisation_id: number;
-    species_id: number;
-    user_id: number;
+  id: number;
+  name: string;
+  birthday: string;
+  description: string;
+  picture: string;
+  localisation_id: number;
+  species_id: number;
+  user_id: number;
+  species: ISpecies;
+  localisation: ILocalisation;
 }
 export interface ILocalisation {
-    id: number;
-    city: string;
-    postcode: string;
+  id: number;
+  city: string;
+  postcode: string;
 }
 export interface IUser {
-    id: number;
-    firstname: string;
-    lastname: string;
-    phone_number: string;
-    address: string;
-    localisation: {
-      city: string,
-      postcode: string
-    };
+  id: number;
+  firstname: string;
+  lastname: string;
+  phone_number: string;
+  address: string;
+  localisation: {
+    city: string;
+    postcode: string;
+  };
 }
 export interface ISpecies {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 }
 
 export interface IAssociationDetail {
@@ -36,7 +38,5 @@ export interface IAssociationDetail {
   lastname: string;
   email: string;
   phone_number: string;
-  animals_asso: IAnimal[]; 
-  };
-
-
+  animals_asso: IAnimal[];
+}

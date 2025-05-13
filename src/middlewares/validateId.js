@@ -1,9 +1,12 @@
+// src/middlewares/validateId.js
 export function validateId(req, res, next) {
-  const { id } = req.params;
-  if (!/^\d+$/.test(id)) {
-    const err = new Error("Paramètre 'id' invalide");
-    err.status = 400;
-    return next(err);
+  const idParam = req.params.id;
+
+  if (!/^\d+$/.test(idParam)) {
+    return res.status(400).json({
+      error: "Paramètre 'id' invalide",
+    });
   }
+
   next();
 }

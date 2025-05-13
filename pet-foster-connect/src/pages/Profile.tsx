@@ -1,6 +1,6 @@
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import {
   getAnimalsByAssociationFromApi,
@@ -25,6 +25,19 @@ export default function Profile() {
   );
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const validateId = () => {
+      if (!id || isNaN(Number(id)) || Number(id) <= 0) {
+        navigate("/404", { replace: true });
+      } else if (user && Number(id) !== user.id) {
+        navigate("/404", { replace: true });
+      }
+    };
+
+    validateId();
+  }, [id, user, navigate]);
 
   useEffect(() => {
     const loadAnimals = async () => {

@@ -134,6 +134,7 @@ export async function getAllAssociations(req, res) {
 
 export async function getOneAssociation(req, res, next) {
   const associationId = parseInt(req.params.id);
+
   const association = await User.findByPk(associationId, {
     attributes: ["firstname", "lastname", "email", "phone_number"],
     include: [
