@@ -109,11 +109,11 @@ export async function createAnimal(req, res, next) {
           "La date doit être au format AAAA-MM-JJ, par ex : 2025-05-01",
         "any.required": "La date est obligatoire",
       }),
-    description: Joi.string().min(10)trim().required(),
+    description: Joi.string().min(10).trim().required(),
     picture: Joi.string().uri().required(),
     species_id: Joi.number().integer().required(),
     localisation_id: Joi.number().integer().required(),
-    });
+  });
 
   const { error, value } = animalSchema.validate(req.body);
 
@@ -121,14 +121,8 @@ export async function createAnimal(req, res, next) {
     return res.status(400).json({ error: error.details[0].message });
   }
 
-  const {
-    name,
-    birthday,
-    description,
-    picture,
-    species_id,
-    localisation_id,
-     } = value;
+  const { name, birthday, description, picture, species_id, localisation_id } =
+    value;
 
   const newAnimal = await Animal.create({
     name,
