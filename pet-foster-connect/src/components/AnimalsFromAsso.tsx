@@ -1,4 +1,4 @@
-import { IUserAnimal } from "../@types/user-index";
+import { IUserAnimal } from "../@types";
 
 interface AnimalCardProps {
   animal: IUserAnimal;
