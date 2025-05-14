@@ -1,9 +1,4 @@
-import {
-  IPublicUser,
-  IUserAnimal,
-  IUserUpdateForm,
-  IUserAnimalMessage,
-} from "../@types/user-index";
+import { IPublicUser, IUserAnimal, IUserAnimalMessage, IUserUpdateForm } from "../@types";
 import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;

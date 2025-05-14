@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getLocalisationsFromApi } from "../services/usersApi";
 import { updateAssociation } from "../services/associationsApi";
 import { useUserStore } from "../store";
-import { ILocalisation, IUserUpdateForm } from "../@types/user-index";
+import { ILocalisation, IUserUpdateForm } from "../@types";
 
 export default function UpdateProfilAssociation() {
   const navigate = useNavigate();
@@ -83,7 +83,7 @@ export default function UpdateProfilAssociation() {
 
     //   Pour que postcode corresponde à ville
     const selectedLocalisation = localisations.find(
-      (loc) => loc.city === city && loc.postcode === Number(postcode)
+      (loc) => loc.city === city && loc.postcode.toString() === postcode
     );
 
     if (!selectedLocalisation) {

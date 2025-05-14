@@ -13,6 +13,7 @@ export default function AnimalDetails() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [notFound, setNotFound] = useState(false);
+  const [isLoadingAnimal, setIsLoadingAnimal] = useState(true);
 
   const handleSubmit = async () => {
     const trimmedMessage = newMessage.trim();
@@ -56,6 +57,8 @@ export default function AnimalDetails() {
     const loadData = async () => {
       if (!id) return;
 
+      setIsLoadingAnimal(true);
+
       try {
         const parsedId = parseInt(id, 10);
         const newAnimal = await api.getAnimal(parsedId);
@@ -75,15 +78,15 @@ export default function AnimalDetails() {
         console.error("Erreur lors du chargement des données :", error);
         setNotFound(true);
       }
+      setIsLoadingAnimal(false); 
     };
     loadData();
   }, [id, user]);
 
-  if(isNaN(Number(id))) {
-    return <Navigate to="/404" replace />;
-  }
-
+  if (isNaN(Number(id))) return <Navigate to="/404" replace />;
   if (!id) return <div className="alert alert-danger">Erreur : ID manquant.</div>;
+  if (notFound) return <Navigate to="/404" replace />;
+  if (isLoadingAnimal) return <div className="text-center mt-5">Chargement des données...</div>;
   if (!animal) return <div className="alert alert-danger">Erreur : animal introuvable.</div>;
 
   return (
@@ -125,7 +128,7 @@ export default function AnimalDetails() {
 
               <div className="mb-3">
                 <label htmlFor="userMessageInput" className="form-label">
-                  Votre message :
+                  Expliquez pourquoi vous souhaitez accueillir cet animal.
                 </label>
                 <textarea
                   id="userMessageInput"
@@ -133,7 +136,6 @@ export default function AnimalDetails() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   rows={4}
-                  placeholder="Expliquez pourquoi vous souhaitez accueillir cet animal..."
                 />
               </div>
 

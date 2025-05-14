@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import { useEffect, useState, useRef } from "react";
 import { getLocalisationsFromApi } from "../services/usersApi";
 import { api, createAnimalFromApi } from "../services/api";
-import { ILocalisation, INewAnimal, ISpecies } from "../@types/user-index";
 import { animalFormSchema } from "../validators/animal.shema";
+import { ILocalisation, INewAnimal, ISpecies } from "../@types";
 
 export default function CreateAnimal() {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { ILoginRequest, ILoginResponse, IUser } from "../@types/user-index";
+import { ILoginRequest, ILoginResponse, IUser } from "../@types";
 import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;

@@ -5,7 +5,7 @@ import {
   getLocalisationsFromApi,
   getRolesFromApi,
 } from "../services/usersApi";
-import { ILocalisation, IRole, IUser } from "../@types/user-index";
+import { ILocalisation, IRole, IUser } from "../@types";
 
 export default function Register() {
   const navigate = useNavigate();
