@@ -6,7 +6,7 @@ interface AnimalCardProps {
   onDelete: (animal: IUserAnimal) => void;
 }
 
-export default function AnimalCard({
+export default function AnimalsFromAsso({
   animal,
   onEdit,
   onDelete,

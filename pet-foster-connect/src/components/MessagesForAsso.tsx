@@ -4,7 +4,7 @@ interface MessageCardProps {
   message: IUserAnimalMessage;
 }
 
-export default function MessageCard({ message }: MessageCardProps) {
+export default function MessagesForAsso({ message }: MessageCardProps) {
   console.log(typeof message.createdAt, message.createdAt);
   return (
     <div className="col-md-6">

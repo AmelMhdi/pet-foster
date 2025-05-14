@@ -9,7 +9,8 @@ export default function Header() {
         <div className="container d-flex align-items-center">
           <Link className="navbar-brand" to="/">
             <img
-              src="./paw-print.svg"
+              // src="./paw-print.svg"
+              src="/paw-print.svg"
               alt="logo"
               height="40"
               className="me-2"

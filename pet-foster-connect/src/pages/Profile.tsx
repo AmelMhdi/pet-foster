@@ -11,8 +11,8 @@ import { deleteAnimalApi } from "../services/api";
 import { deleteUserFromApi } from "../services/usersApi";
 import DeleteAnimalModal from "../components/DeleteAnimalModal";
 import DeleteProfileModal from "../components/DeleteProfilModal";
-import AnimalCard from "../components/AnimalsFromAsso";
-import MessageCard from "../components/MessageForAssociation";
+import AnimalsFromAsso from "../components/AnimalsFromAsso";
+import MessagesForAsso from "../components/MessagesForAsso";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -105,8 +105,6 @@ export default function Profile() {
 
   return (
     <div className="container my-4">
-      {/* Section animaux */}
-
       <section className="my-5">
         <div className="d-flex flex-wrap gap-3">
           <Link className="btn btn-primary" to={`/modifier-profil/${user.id}`}>
@@ -138,7 +136,7 @@ export default function Profile() {
         ) : (
           <div className="row g-4">
             {animals.map((animal) => (
-              <AnimalCard
+              <AnimalsFromAsso
                 key={animal.id}
                 animal={animal}
                 onEdit={(id) => navigate(`/modifier-animal/${id}`)}
@@ -159,7 +157,7 @@ export default function Profile() {
         ) : (
           <div className="row g-3">
             {messages.map((message) => (
-              <MessageCard
+              <MessagesForAsso
                 key={`${message.userId}-${message.animal}`}
                 message={message}
               />
@@ -167,7 +165,6 @@ export default function Profile() {
           </div>
         )}
       </section>
-      {/* ✅ Modale de confirmation */}
       {animalToDelete && showDeleteModal && (
         <DeleteAnimalModal
           animalName={animalToDelete.name}
