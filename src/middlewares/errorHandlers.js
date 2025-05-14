@@ -9,7 +9,9 @@ const notFound = (req, res, next) => {
 //   - Un "statusCode" avec le code HTTP de l'erreur
 //   - Un "message" avec le ou les messages d'erreurs à indiquer au client de notre API pour l'informer du problème qu'il a rencontré.
 const errorHandler = (error, req, res, next) => {
-  const status = error.statusCode || 500;
+  console.error("Error caught in middleware:", error);
+
+  const status = error.statusCode || error.status || 500;
 
   // Ici, on pourrait potentiellement obfusquer le message d'erreur si il contient des données sensibles.
 

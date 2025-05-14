@@ -1,25 +1,25 @@
-import { Navigate,useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { fetchAssociationById } from '../services/api';
-import { IAssociationDetail } from '../@types';
+import { Navigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchAssociationById } from "../services/api";
+import { IAssociationDetail } from "../@types";
 
 export default function ContactAssociation() {
-const { id } = useParams();
- const [association, setAssociation] = useState<IAssociationDetail>();
-const [loading, setLoading] = useState<boolean>(true);
-const [notFound, setNotFound] = useState<boolean>(false);
+  const { id } = useParams();
+  const [association, setAssociation] = useState<IAssociationDetail>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [notFound, setNotFound] = useState<boolean>(false);
 
-    useEffect(() => {
+  useEffect(() => {
     const loadData = async () => {
-           if (!id) {
-      setNotFound(true);
-      return;
-    }
+      if (!id) {
+        setNotFound(true);
+        return;
+      }
 
-       try {
+      try {
         setLoading(true);
-        const associationId = parseInt(id)
+        const associationId = parseInt(id);     
         const oneAssociation = await fetchAssociationById(associationId);
         if (!oneAssociation) {
           setNotFound(true);
@@ -28,34 +28,33 @@ const [notFound, setNotFound] = useState<boolean>(false);
         }
       } catch (error) {
         console.error("Erreur lors du chargement:", error);
-        setNotFound(true); // En cas d'erreur, rediriger aussi vers la page 404
+        setNotFound(true);
       }
-        setLoading(false);
+      setLoading(false);
+
     };
+  
     loadData();
+  }, [id]);
 
-}, [id]);
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
 
-if (notFound) {
-return <Navigate to="/404" replace />;
-}
+  if (isNaN(Number(id)) || notFound) {
+    return <Navigate to="/404" replace />;
+  }
 
-if (loading) {
-return <p>Chargement...</p>;
-}
-
-return (
-<>
-
-<div className="container my-4">
-<div className="mb-4">
-<h2 className="text-center">{association?.lastname}</h2>
-<p className="text-center">
-Contactez-nous au : <span className="fw-bold">{association?.phone_number}</span>{' '}
-ou par mail : <span className="fw-bold">{association?.email}</span>
-</p>
-</div>
-
+  return (
+    <>
+      <div className="container my-4">
+        <div className="mb-4">
+          <h2 className="text-center">{association?.lastname}</h2>
+            <p className="text-center">
+              Contactez-nous au <span className="fw-bold">{association?.phone_number}</span>{' '}
+              ou par mail <span className="fw-bold">{association?.email}</span>
+            </p>
+        </div>
         <div>
           {association?.animals_asso?.length ? (
             <>
@@ -73,9 +72,7 @@ ou par mail : <span className="fw-bold">{association?.email}</span>
                       )}
                       <div className="card-body">
                         <h5 className="card-title">{animal.name}</h5>
-                        <p className="card-text">
-                          Espèce : <span className="fw-bold">{animal.species.name}</span>
-                        </p>
+
                         <Link 
                           to={`/animals/${animal.id}`} 
                           className="btn btn-outline-primary mt-auto">
@@ -93,7 +90,6 @@ ou par mail : <span className="fw-bold">{association?.email}</span>
         </div>
       </div>
     </>
-
-);
-
+  );
 }
+

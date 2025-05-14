@@ -12,9 +12,9 @@ export async function getAllAnimalsByAssociation(req, res, next) {
 
   const user = await User.findByPk(userId, {
     include: {
-      association: "animals_asso", 
+      association: "animals_asso",
       include: {
-        association: "species", 
+        association: "species",
       },
     },
   });
@@ -61,12 +61,14 @@ export async function getAllAnimalsByAssociation(req, res, next) {
 //   ]);
 // }
 
-
 export async function getMessagesForAssociation(req, res, next) {
-  const associationId = parseInt(req.params.id);
-  if (!Number.isInteger(associationId)) {
-    return next;
+  const user_id = req.user?.id;
+  if (!user_id) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
   }
+
+  const associationId = parseInt(req.params.id);
+
   const getMessages = await User_animal.findAll({
     include: [
       {
@@ -94,9 +96,7 @@ export async function getMessagesForAssociation(req, res, next) {
       email: demande.user.email,
       phone: demande.user.phone_number,
       animal: demande.animal.name,
-      createdAt: new Date(demande.created_at).toLocaleDateString("fr-FR", {
-        timeZone: "UTC",
-      }),
+      createdAt: new Date(demande.created_at).toISOString(),
     };
   });
 
@@ -109,22 +109,25 @@ export async function getAllAssociations(req, res) {
       include: [
         {
           association: "role",
-          where: { id: 1 } 
+          where: { id: 1 },
         },
         {
-          association: "localisation"
-        }
-      ]
+          association: "localisation",
+        },
+      ],
     });
     res.json(associations);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Erreur lors de la récupération des associations." });
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la récupération des associations." });
   }
-};
+}
 
 export async function getOneAssociation(req, res, next) {
   const associationId = parseInt(req.params.id);
+
   const association = await User.findByPk(associationId, {
     attributes: ["firstname", "lastname", "email", "phone_number"],
     include: [
@@ -145,4 +148,4 @@ export async function getOneAssociation(req, res, next) {
     return next();
   }
   res.json(association);
-};
+}

@@ -4,6 +4,7 @@ import {
   IUserUpdateForm,
   IUserAnimalMessage,
 } from "../@types/user-index";
+import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,7 +16,7 @@ export async function getAnimalsByAssociationFromApi(
   id: number
 ): Promise<IUserAnimal[]> {
   try {
-    const response = await fetch(`${apiBaseUrl}/associations/${id}/animaux`);
+    const response = await fetch(`${apiBaseUrl}/associations/${id}/animals`);
     if (!response.ok) return [];
 
     const association = await response.json();
@@ -28,12 +29,17 @@ export async function getAnimalsByAssociationFromApi(
 }
 
 /**
- * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur. Ce type représente les données User envoyées à l’API IUserUpdateForm pour mettre à jour un utilisateur IPublicUser
+ * Fonction qui récupère les informations provenant de l'api permettant de créer un utilisateur.
  *
  */
 export async function updateAssociation(
   userData: IUserUpdateForm
 ): Promise<IPublicUser | { error: string }> {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
   try {
     // On extrait l'id et on garde le reste dans userDataSansId, nécessaire sinon bad request
     const { id, ...userDataSansId } = userData;
@@ -52,6 +58,7 @@ export async function updateAssociation(
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(userDataSansId),
     });
@@ -80,12 +87,17 @@ export async function updateAssociation(
 }
 
 /**
- * Fonction qui permet de récupérer un objet qui contient le message reçu par l'association avec le nom de la famille et de l'animal *
+ * Fonction qui permet de récupérer un objet qui contient le message reçu par l'association avec le nom de la famille et de l'animal
  */
 
 export async function getUserMessagesApi(
   userId: number
 ): Promise<IUserAnimalMessage[]> {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
   try {
     const response = await fetch(
       `${apiBaseUrl}/associations/request/users/${userId}`,
@@ -93,6 +105,7 @@ export async function getUserMessagesApi(
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -109,6 +122,7 @@ export async function getUserMessagesApi(
 
     const data: IUserAnimalMessage[] = await response.json();
     console.log("Données récupérées :", data);
+    console.log("Message complet :", data[0]);
     return data || [];
   } catch (error) {
     console.error("Erreur lors de la récupération des messages :", error);

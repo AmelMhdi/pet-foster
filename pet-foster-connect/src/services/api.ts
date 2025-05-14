@@ -11,6 +11,7 @@ export const api = {
   postUserMessageToApi,
   fetchAssociations,
   fetchAssociationById,
+  updateAnimalFromApi
 };
 
 async function fetchAnimals(
@@ -38,8 +39,8 @@ async function getSpeciesFromApi(): Promise<ISpecies[]> {
   return species;
 }
 
-async function getAnimal(id: number): Promise<IAnimal> {
-  const response = await fetch(`${apiBaseUrl}/animals/${id}`);
+export async function getAnimal(id: number): Promise<IAnimal> {
+  const response = await fetch(`${apiBaseUrl}/animals/${id}`)
 
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
@@ -84,11 +85,13 @@ async function getUserMessageFromApi(
   }
 }
 
-async function postUserMessageToApi(
-  userId: number,
-  animalId: number,
-  message: string
-): Promise<string | null> {
+async function postUserMessageToApi(userId: number, animalId: number, message: string): Promise<string | null> {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
+
   try {
     const response = await fetch(
       `${apiBaseUrl}/request/animals/${animalId}/users/${userId}`,
@@ -96,6 +99,7 @@ async function postUserMessageToApi(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({ message }),
       }
@@ -115,37 +119,23 @@ async function postUserMessageToApi(
 
 export async function createAnimalFromApi(
   animalData: INewAnimal
-): Promise<IAnimal | null> {
+): Promise<IAnimal | { error: string }> {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
+
   try {
-    // ✅ Récupération du token depuis Zustand
-    const token = useUserStore.getState().user?.token;
-    if (!token) {
-      console.error("Token non trouvé, utilisateur non connecté ?");
-      throw new Error("Authentification requise");
-    }
-
-    // console.log("Envoi de la requête...");
-    // console.log("Données envoyées :", animalData);
-
-    // Envoi des données converties en JSON vers l'API
     const response = await fetch(apiBaseUrl + "/animals", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${localStorage.getItem()}`,
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(animalData),
     });
     console.log(response);
-    // console.log("Réponse reçue !");
-    // console.log("ℹStatut HTTP :", response.status, response.statusText);
-
-    // if (!response.ok) {
-    // console.error("Erreur HTTP détectée !");
-    // throw new Error(`Erreur ${response.status}: ${response.statusText}`);
-    // }
-
     const jsonResponse = await response.json();
     console.log("Réponse JSON :", jsonResponse);
 
@@ -154,14 +144,14 @@ export async function createAnimalFromApi(
       const errorMessage = Array.isArray(jsonResponse.error)
         ? jsonResponse.error.join(", ")
         : jsonResponse.error || `Erreur ${response.status}`;
-
       throw new Error(errorMessage);
     }
 
     return jsonResponse;
   } catch (error) {
-    console.error("Erreur lors de la création :", error);
-    return null;
+    const err = error as Error;
+    console.error("Erreur lors de la création :", err);
+    return { error: err.message };
   }
 }
 
@@ -175,7 +165,6 @@ export async function deleteAnimalApi(animalId: number) {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${localStorage.getItem()}`,
       Authorization: `Bearer ${token}`,
     },
   });
@@ -195,11 +184,42 @@ async function fetchAssociations(): Promise<IUser[]> {
   return associations;
 }
 
-export async function fetchAssociationById(id: number): Promise<IAssociationDetail> {
-  const response = await fetch(`${apiBaseUrl}/associations/${id}`); 
+export async function fetchAssociationById(
+  id: number
+): Promise<IAssociationDetail> {
+  const response = await fetch(`${apiBaseUrl}/associations/${id}`);
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
   }
   const association: IAssociationDetail = await response.json();
   return association;
+}
+
+async function updateAnimalFromApi(animalData: IAnimal, token: string): Promise<IAnimal | null> {
+  try {
+    const response = await fetch(`${apiBaseUrl}/animals/${animalData.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify(animalData),
+    });
+
+    const jsonResponse = await response.json();
+
+    if (!response.ok) {
+      console.error("Erreur HTTP détectée !");
+      const errorMessage = Array.isArray(jsonResponse.error)
+        ? jsonResponse.error.join(", ")
+        : jsonResponse.error || `Erreur ${response.status}`;
+
+      throw new Error(errorMessage);
+    }
+
+    return jsonResponse;
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour :", error);
+    return null;
+  }
 }

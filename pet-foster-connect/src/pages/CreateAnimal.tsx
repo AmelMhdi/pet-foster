@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { getLocalisationsFromApi } from "../services/usersApi";
 import { api, createAnimalFromApi } from "../services/api";
 import { ILocalisation, INewAnimal, ISpecies } from "../@types/user-index";
+import { animalFormSchema } from "../validators/animal.shema";
 
 export default function CreateAnimal() {
   const navigate = useNavigate();
@@ -29,55 +30,34 @@ export default function CreateAnimal() {
   const handleRegister = async (animalData: INewAnimal) => {
     setFeedback("Création de l'animal en cours...");
     setIsSending(true);
-    await new Promise((res) => setTimeout(res, 5000));
+
+    // try {
+    // Simulation délai API
+    await new Promise((res) => setTimeout(res, 1000));
     const response = await createAnimalFromApi(animalData);
 
-    if (!response) {
-      console.error("La réponse de l'API est null.");
+    if ("error" in response) {
+      setFeedback(response.error);
+      setIsSending(false);
       return;
     }
-
-    // if ("error" in response) {
-    //   setFeedback(response.error);
-    //   setIsSending(false);
-    //   return;
-    // }
-
-    // TODO mettre un message de feedback
-    // alert("creation de l'animal réussie !");
-    // navigate(`/profil-association/${user.id}`);
 
     setFeedback("Animal créé avec succès !");
     setIsSending(false);
     setTimeout(() => {
-      if (user) {
-        navigate(`/profil-association/${user.id}`);
-      }
+      if (user) navigate(`/profil-association/${user.id}`);
     }, 1000);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!user) {
-      alert("Utilisateur non authentifié.");
+      setFeedback("Vous devez être connecté pour créer un animal.");
       return;
     }
     const selectedLocalisation = localisations.find(
       (loc) => loc.city === city && loc.postcode === postcode
     );
-
-    if (
-      !name.trim() ||
-      !birthday.trim() ||
-      !description.trim() ||
-      !picture.trim() ||
-      !city ||
-      !postcode ||
-      !speciesId
-    ) {
-      setFeedback("Veuillez renseigner tous les champs.");
-      return;
-    }
 
     if (!selectedLocalisation) {
       setFeedback("Localisation invalide.");
@@ -89,10 +69,19 @@ export default function CreateAnimal() {
       description,
       picture,
       localisation_id: selectedLocalisation.id,
-      species_id: speciesId,
-      user_id: user.id,
+      species_id: speciesId as number,
     };
-    console.log("📦 Données envoyées :", newAnimal);
+
+    const { error } = animalFormSchema.validate(newAnimal, {
+      abortEarly: true,
+    });
+
+    if (error) {
+      setFeedback(error.details[0].message);
+      return;
+    }
+
+
     await handleRegister(newAnimal);
   };
 
@@ -141,6 +130,7 @@ export default function CreateAnimal() {
             type="date"
             id="birthday"
             value={birthday}
+            max={new Date().toISOString().split("T")[0]}
             onChange={(e) => setBirthday(e.target.value)}
           />
 
@@ -166,7 +156,7 @@ export default function CreateAnimal() {
           />
 
           <label className="form-label h4" htmlFor="postcode">
-            Code Postal
+            Code postal
           </label>
           <select
             id="postcode"
