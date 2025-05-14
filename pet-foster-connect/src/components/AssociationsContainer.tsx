@@ -35,7 +35,7 @@ export default function AssociationsContainer() {
                 <div className="card border-0 bg-transparent text-center">
 
                   <div className="association-card h-100 text-center shadow-sm">
-                    <p className="association-text">
+                    <div className="association-text">
                     <p>{association.firstname} {association.lastname}</p>
                     <p>  {association.localisation?.postcode || "Code postal inconnu"}{" "} 
                       {association.localisation?.city || "Ville inconnue"}
@@ -44,7 +44,7 @@ export default function AssociationsContainer() {
                     className="btn btn-outline-primary mt-auto">
                         Voir détails
                       </Link>
-                    </p>
+                    </div>
 
                   </div>
                 </div>
