@@ -1,4 +1,4 @@
-import { IUserAnimalMessage } from "../@types/user-index";
+import { IUserAnimalMessage } from "../@types";
 
 interface MessageCardProps {
   message: IUserAnimalMessage;

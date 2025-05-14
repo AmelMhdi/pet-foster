@@ -1,5 +1,4 @@
-import { IAnimal, ISpecies, IUser, IAssociationDetail } from "../@types";
-import { INewAnimal } from "../@types/user-index";
+import { IAnimal, ISpecies, IUser, IAssociationDetail, INewAnimal } from "../@types";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 import { useUserStore } from "../store";
 

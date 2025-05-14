@@ -3,8 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../store";
 import { getLocalisationsFromApi } from "../services/usersApi";
 import { api, getAnimal } from "../services/api";
-import { ILocalisation, ISpecies } from "../@types/user-index";
-import { IAnimal } from "../@types";
+import { IAnimal, ILocalisation, ISpecies } from "../@types";
 
 export default function UpdateAnimal() {
   const { id } = useParams();

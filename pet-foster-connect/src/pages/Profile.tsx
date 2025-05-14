@@ -6,13 +6,13 @@ import {
   getAnimalsByAssociationFromApi,
   getUserMessagesApi,
 } from "../services/associationsApi";
-import { IUserAnimal, IUserAnimalMessage } from "../@types/user-index";
 import { deleteAnimalApi } from "../services/api";
 import { deleteUserFromApi } from "../services/usersApi";
 import DeleteAnimalModal from "../components/DeleteAnimalModal";
 import DeleteProfileModal from "../components/DeleteProfilModal";
 import AnimalsFromAsso from "../components/AnimalsFromAsso";
 import MessagesForAsso from "../components/MessagesForAsso";
+import { IUserAnimal, IUserAnimalMessage } from "../@types";
 
 export default function Profile() {
   const navigate = useNavigate();
