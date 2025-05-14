@@ -74,7 +74,7 @@ const users = [
   },
   {
     firstname: 'Claire',
-    lastname: 'Les eclers dorés ',
+    lastname: 'Les amis des bêtes',
     password: 'V6kRsd#defszeffr',
     email: 'claire.petit@example.com',
     address: '78 boulevard des Alpes',
@@ -95,7 +95,7 @@ const users = [
     role_id: roleInstances[1].id 
   },{
     firstname: 'Emma',
-    lastname: 'Leroux',
+    lastname: 'Animalove',
     password: 'V6kRsd#defszeffr',
     email: 'emma.leroux@example.com',
     address: '5 rue des Oliviers',
@@ -117,7 +117,7 @@ const users = [
   },
   {
     firstname: 'Sophie',
-    lastname: 'Garnier',
+    lastname: 'Une patte dans ma main',
     password: 'V6kRsd#defszeffr',
     email: 'sophie.garnier@example.com',
     address: '11 rue Lafayette',
@@ -139,7 +139,7 @@ const users = [
   },
   {
     firstname: 'Julie',
-    lastname: 'Robert',
+    lastname: 'Oeil de chat',
     password: 'V6kRsd#defszeffr',
     email: 'julie.robert@example.com',
     address: '42 avenue des Champs',
@@ -253,7 +253,7 @@ const animals = [
     name: 'Simba',
     birthday: new Date('2019-11-30'),
     description: 'Chien croisé très sociable avec ses congénères.',
-    picture: 'https://images.pexels.com/photos/372166/pexels-photo-372166.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: 'https://images.pexels.com/photos/19333401/pexels-photo-19333401/free-photo-of-le-vieux-chien.jpeg?auto=compress&cs=tinysrgb&w=600',
     localisation_id: localisationInstances[4].id,
     user_id: userInstances[8].id,
     species_id: speciesInstances[0].id
@@ -262,7 +262,7 @@ const animals = [
     name: 'Nemo',
     birthday: new Date('2023-02-10'),
     description: 'Petit hamster très vif, adore courir dans sa roue.',
-    picture: 'https://images.pexels.com/photos/128756/pexels-photo-128756.jpeg',
+    picture: 'https://images.pexels.com/photos/3432929/pexels-photo-3432929.jpeg?auto=compress&cs=tinysrgb&w=600',
     localisation_id: localisationInstances[5].id,
     user_id: userInstances[4].id,
     species_id: speciesInstances[4].id
@@ -289,7 +289,7 @@ const animals = [
     name: 'Twix',
     birthday: new Date('2020-03-03'),
     description: 'Hamster curieux et actif la nuit.',
-    picture: 'https://images.pexels.com/photos/133396/pexels-photo-133396.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: 'https://images.pexels.com/photos/2013665/pexels-photo-2013665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
     localisation_id: localisationInstances[8].id,
     user_id: userInstances[6].id,
     species_id: speciesInstances[4].id
