@@ -15,7 +15,7 @@ export async function getAnimalsByAssociationFromApi(
   id: number
 ): Promise<IUserAnimal[]> {
   try {
-    const response = await fetch(`${apiBaseUrl}/associations/${id}/animaux`);
+    const response = await fetch(`${apiBaseUrl}/associations/${id}/animals`);
     if (!response.ok) return [];
 
     const association = await response.json();
