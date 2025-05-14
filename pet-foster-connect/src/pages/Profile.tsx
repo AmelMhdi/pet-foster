@@ -114,10 +114,10 @@ export default function Profile() {
             className="btn btn-danger btn-sm"
             onClick={() => setShowDeleteProfileModal(true)}
           >
-            Supprimer Mon profil
+            Supprimer mon profil
           </button>
           <Link className="btn btn-primary" to={`/creer-animal/${user.id}`}>
-            Créer un animal
+            Ajouter un animal
           </Link>
         </div>
       </section>
@@ -161,7 +161,7 @@ export default function Profile() {
                 key={`${message.userId}-${message.animal}`}
                 message={message}
               />
-            ))}
+            ))}         
           </div>
         )}
       </section>

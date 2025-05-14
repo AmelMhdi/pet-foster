@@ -85,11 +85,13 @@ async function getUserMessageFromApi(
   }
 }
 
-async function postUserMessageToApi(
-  userId: number,
-  animalId: number,
-  message: string
-): Promise<string | null> {
+async function postUserMessageToApi(userId: number, animalId: number, message: string): Promise<string | null> {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
+
   try {
     const response = await fetch(
       `${apiBaseUrl}/request/animals/${animalId}/users/${userId}`,
@@ -97,6 +99,7 @@ async function postUserMessageToApi(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({ message }),
       }
@@ -192,12 +195,13 @@ export async function fetchAssociationById(
   return association;
 }
 
-async function updateAnimalFromApi(animalData: IAnimal): Promise<IAnimal | null> {
+async function updateAnimalFromApi(animalData: IAnimal, token: string): Promise<IAnimal | null> {
   try {
     const response = await fetch(`${apiBaseUrl}/animals/${animalData.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify(animalData),
     });

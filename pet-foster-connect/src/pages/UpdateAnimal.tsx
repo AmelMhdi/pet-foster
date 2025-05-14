@@ -104,7 +104,7 @@ export default function UpdateAnimal() {
     setFeedback("Mise à jour en cours...");
     setIsSending(true);
 
-    const res = await api.updateAnimalFromApi(updatedAnimal);
+    const res = await api.updateAnimalFromApi(updatedAnimal, user.token);
     if (res) {
       setFeedback("Animal mis à jour avec succès !");
       setTimeout(() => {

@@ -19,7 +19,7 @@ export default function ContactAssociation() {
 
       try {
         setLoading(true);
-        const associationId = parseInt(id);
+        const associationId = parseInt(id);     
         const oneAssociation = await fetchAssociationById(associationId);
         if (!oneAssociation) {
           setNotFound(true);
@@ -31,7 +31,9 @@ export default function ContactAssociation() {
         setNotFound(true);
       }
       setLoading(false);
+
     };
+  
     loadData();
   }, [id]);
 
@@ -48,13 +50,11 @@ export default function ContactAssociation() {
       <div className="container my-4">
         <div className="mb-4">
           <h2 className="text-center">{association?.lastname}</h2>
-          <p className="text-center">
-            Contactez-nous au :{" "}
-            <span className="fw-bold">{association?.phone_number}</span> ou par
-            mail : <span className="fw-bold">{association?.email}</span>
-          </p>
+            <p className="text-center">
+              Contactez-nous au <span className="fw-bold">{association?.phone_number}</span>{' '}
+              ou par mail <span className="fw-bold">{association?.email}</span>
+            </p>
         </div>
-
         <div>
           {association?.animals_asso?.length ? (
             <>
@@ -72,14 +72,10 @@ export default function ContactAssociation() {
                       )}
                       <div className="card-body">
                         <h5 className="card-title">{animal.name}</h5>
-                        <p className="card-text">
-                          Espèce :{" "}
-                          <span className="fw-bold">{animal.species.name}</span>
-                        </p>
-                        <Link
-                          to={`/animals/${animal.id}`}
-                          className="btn btn-outline-primary mt-auto"
-                        >
+
+                        <Link 
+                          to={`/animals/${animal.id}`} 
+                          className="btn btn-outline-primary mt-auto">
                           Voir détails
                         </Link>
                       </div>
@@ -96,3 +92,4 @@ export default function ContactAssociation() {
     </>
   );
 }
+

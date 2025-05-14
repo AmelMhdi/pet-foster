@@ -10,14 +10,19 @@ type Props = {
 
 export default function AnimalsContainer({ limit, random }: Props) {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
-  const [showAll, setShowAll] = useState(false); // state to manage the display of all animals
 
   useEffect(() => {
-    api.fetchAnimals(limit, random)
-    .then(setAnimals)
-    .catch(err => console.error("Erreur:", err));
-}, [limit, random]);
+    const fetchData = async () => {
+      try {
+        const fetchedAnimal = await api.fetchAnimals(limit, random);
+        setAnimals(fetchedAnimal);
+      } catch (error) {
+        console.error("Erreur lors du chargement des animaux :", error);
+      }
+    };
 
+    fetchData();
+  }, [limit, random]);
 
   return (
     <>
@@ -25,7 +30,7 @@ export default function AnimalsContainer({ limit, random }: Props) {
 
         <div className="container mt-5 fade-in">
           <div className='d-flex justify-content-center mb-4'>
-            <h1 className="mb-4 text-center">Nos animaux</h1>
+            <h1 className="mb-4 text-center">Les animaux</h1>
           </div>
           
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
@@ -60,14 +65,6 @@ export default function AnimalsContainer({ limit, random }: Props) {
               Voir tous les animaux
             </Link>
           </div>
-          )}
-
-          {showAll && (
-            <div className="text-center mt-4">
-              <button className="btn btn-secondary" onClick={() => setShowAll(false)}>
-                Réduire
-              </button>
-            </div>
           )}
         </div>
       </main>

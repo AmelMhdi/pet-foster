@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { IAnimal } from "../@types";
 import { api } from "../services/api";
 import { useUserStore } from "../store";
@@ -36,11 +36,12 @@ export default function AnimalDetails() {
     setSuccessMessage("");
 
     try {
-      const response = await api.postUserMessageToApi(
-        user.id,
-        animal.id,
-        trimmedMessage
-      );
+      const response = await api.postUserMessageToApi(user.id, animal.id, trimmedMessage);
+      
+      if (!animal?.id) {
+        setErrorMessage("Informations sur l'animal non disponibles.");
+        return;
+      }      
       console.log("Message envoyé :", response);
       setNewMessage("");
       setSuccessMessage("Votre demande d'accueil a été envoyée avec succès.");
@@ -78,19 +79,12 @@ export default function AnimalDetails() {
     loadData();
   }, [id, user]);
 
-  if (!id)
-    return <div className="alert alert-danger">Erreur : ID manquant.</div>;
-
-  if (notFound || isNaN(Number(id))) {
-    return <Navigate to="/404" replace />; // Redirige vers la page 404 si l'ID est invalide ou l'animal introuvable
+  if(isNaN(Number(id))) {
+    return <Navigate to="/404" replace />;
   }
 
-  if (!animal)
-    return (
-      <div className="d-flex justify-content-center p-5">
-        <div className="spinner-border" role="status"></div>
-      </div>
-    );
+  if (!id) return <div className="alert alert-danger">Erreur : ID manquant.</div>;
+  if (!animal) return <div className="alert alert-danger">Erreur : animal introuvable.</div>;
 
   return (
     <div className="container mt-5 fade-in">
@@ -99,35 +93,20 @@ export default function AnimalDetails() {
       </div>
 
       <div className="row">
-        {/* --- Partie Informations --- */}
-        <div className="col-md-6 mb-3">
-          <img
-            src={animal?.picture}
-            alt={animal?.name}
-            className="img-fluid rounded"
-          />
-        </div>
+      {/* --- Partie Informations --- */}
+      <div className="col-md-6 mb-3">
+        <img src={animal?.picture} alt={animal?.name} className="img-fluid rounded" />
+      </div>
 
         <div className="col-md-6">
           <div className="card info-card shadow-sm mb-4">
             <div className="card-body">
               <h5 className="card-title mb-3 fw-bold">Informations</h5>
               <div className="card-text info-text">
-                <div>
-                  <strong>Date de naissance :</strong>{" "}
-                  {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-                </div>
-                <div>
-                  <strong>Espèce :</strong>{" "}
-                  {animal.species?.name || "Information non disponible"}
-                </div>
-                <div>
-                  <strong>Description :</strong> {animal.description}
-                </div>
-                <div>
-                  <strong>Ville :</strong>{" "}
-                  {animal.localisation.city || "Information non disponible"}
-                </div>
+                <div><strong>Date de naissance :</strong> {new Date(animal.birthday).toLocaleDateString("fr-FR")}</div>
+                <div><strong>Espèce :</strong> {animal.species?.name || "Information non disponible"}</div>
+                <div><strong>Description :</strong> {animal.description}</div>
+                <div><strong>Ville :</strong> {animal.localisation?.city || "Information non disponible"}</div>
               </div>
             </div>
           </div>
@@ -163,15 +142,7 @@ export default function AnimalDetails() {
                 onClick={handleSubmit}
                 disabled={isLoading || !user}
               >
-                {isLoading ? (
-                  <span
-                    className="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                ) : (
-                  "Envoyer ma demande d'accueil"
-                )}
+                Envoyer mon message
               </button>
 
               {!user && (

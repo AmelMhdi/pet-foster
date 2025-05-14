@@ -81,6 +81,7 @@ export default function CreateAnimal() {
       return;
     }
 
+
     await handleRegister(newAnimal);
   };
 
@@ -155,7 +156,7 @@ export default function CreateAnimal() {
           />
 
           <label className="form-label h4" htmlFor="postcode">
-            Code Postal
+            Code postal
           </label>
           <select
             id="postcode"
