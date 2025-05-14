@@ -90,10 +90,10 @@ export default function Profile() {
             className="btn btn-danger btn-sm"
             onClick={() => handleDeleteProfil(user.id)}
           >
-            Supprimer Mon profil
+            Supprimer mon profil
           </button>
           <Link className="btn btn-primary" to={`/creer-animal/${user.id}`}>
-            Créer un animal
+            Ajouter un animal
           </Link>
         </div>
       </section>
@@ -175,16 +175,17 @@ export default function Profile() {
                     <div className="card-body">
                       <h5 className="card-title fs-3">
                         Message de {message.firstname} {message.name} reçu le{" "}
-                        {message.createdAt} :
+                        {message.createdAt}
                       </h5>
                       <p className="card-text fs-5">{message.message}</p>
                       <p className="card-text fs-5">
-                        email : <span className="fw-bold">{message.email}</span>
+                        Email : <span className="fw-bold">{message.email}</span>
                       </p>
                       <p className="card-text fs-5">
-                        téléphone :{" "}
+                        Téléphone :{" "}
                         <span className="fw-bold">{message.phone}</span>
                       </p>
+                      <p>Animal concerné : {message.animal}</p>
                     </div>
                   </div>
                 </div>

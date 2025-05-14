@@ -49,7 +49,7 @@ export default function Login() {
   return (
     <>
       <div className="container mt-5">
-        <h1>Veuillez vous authentifier </h1>
+        <h1>Veuillez vous authentifier</h1>
         {feedback && (
           <div className="alert alert-info text-center my-3" role="alert">
             {feedback}

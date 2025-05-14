@@ -81,10 +81,9 @@ export default function CreateAnimal() {
       description,
       picture,
       localisation_id: selectedLocalisation.id,
-      species_id: speciesId,
-      // user_id: user.id,
+      species_id: speciesId
     };
-    console.log("📦 Données envoyées :", newAnimal);
+    console.log("Données envoyées :", newAnimal);
     await handleRegister(newAnimal);
   };
 
@@ -159,7 +158,7 @@ export default function CreateAnimal() {
           />
 
           <label className="form-label h4" htmlFor="postcode">
-            Code Postal
+            Code postal
           </label>
           <select
             id="postcode"
