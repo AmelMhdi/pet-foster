@@ -85,11 +85,13 @@ async function getUserMessageFromApi(
   }
 }
 
-async function postUserMessageToApi(
-  userId: number,
-  animalId: number,
-  message: string
-): Promise<string | null> {
+async function postUserMessageToApi(userId: number, animalId: number, message: string): Promise<string | null> {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
+
   try {
     const response = await fetch(
       `${apiBaseUrl}/request/animals/${animalId}/users/${userId}`,
@@ -97,6 +99,7 @@ async function postUserMessageToApi(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify({ message }),
       }
