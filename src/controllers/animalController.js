@@ -211,21 +211,38 @@ export async function getMessages(req, res, next) {
 }
 
 export async function createOneMessage(req, res, next) {
-  const { animalId, userId } = req.params;
+  const animalId = parseInt(req.params.animalId, 10);
+  const userId = parseInt(req.params.userId, 10);
   const { message } = req.body;
 
+  if (!Number.isInteger(animalId) || !Number.isInteger(userId)) {
+    const error = new Error("ID invalide");
+    error.statusCode = 400;
+    return next(error);
+  }
+
+  if (!message || message.trim().length === 0) {
+    const error = new Error("Le message ne peut pas être vide");
+    error.statusCode = 400;
+    return next(error);
+  }
+
   try {
-    if (!message || message.trim().length === 0) {
-      const error = new Error("Le message ne peut pas être vide");
-      error.statusCode = 400;
+    const [newMessage, created] = await User_animal.upsert({
+      animal_id: animalId,
+      user_id: userId,
+      message,
+    });
+
+    if (!newMessage) {
+      const error = new Error("Erreur lors de la création du message");
+      error.statusCode = 500;
       return next(error);
     }
 
-    const newMessage = await User_animal.upsert({
-      animal_id: parseInt(animalId, 10),
-      user_id: parseInt(userId, 10),
-      message,
-    });
+    if (req.user?.id !== newMessage.user_id) {
+      return res.status(403).json({ message: "Action non autorisée" });
+    }
 
     return res.status(201).json({
       message: "Message créé avec succès",
