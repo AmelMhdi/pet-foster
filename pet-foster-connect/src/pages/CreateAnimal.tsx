@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { getLocalisationsFromApi } from "../services/usersApi";
 import { api, createAnimalFromApi } from "../services/api";
 import { ILocalisation, INewAnimal, ISpecies } from "../@types/user-index";
+import { animalFormSchema } from "../validators/animal.shema";
 
 export default function CreateAnimal() {
   const navigate = useNavigate();
@@ -51,25 +52,12 @@ export default function CreateAnimal() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!user) {
-      alert("Utilisateur non authentifié.");
+      setFeedback("Vous devez être connecté pour créer un animal.");
       return;
     }
     const selectedLocalisation = localisations.find(
       (loc) => loc.city === city && loc.postcode === postcode
     );
-
-    if (
-      !name.trim() ||
-      !birthday.trim() ||
-      !description.trim() ||
-      !picture.trim() ||
-      !city ||
-      !postcode ||
-      !speciesId
-    ) {
-      setFeedback("Veuillez renseigner tous les champs.");
-      return;
-    }
 
     if (!selectedLocalisation) {
       setFeedback("Localisation invalide.");
@@ -81,9 +69,19 @@ export default function CreateAnimal() {
       description,
       picture,
       localisation_id: selectedLocalisation.id,
-      species_id: speciesId
+      species_id: speciesId as number,
     };
-    console.log("Données envoyées :", newAnimal);
+
+    const { error } = animalFormSchema.validate(newAnimal, {
+      abortEarly: true,
+    });
+
+    if (error) {
+      setFeedback(error.details[0].message);
+      return;
+    }
+
+
     await handleRegister(newAnimal);
   };
 

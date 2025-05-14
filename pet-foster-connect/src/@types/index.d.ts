@@ -9,7 +9,6 @@ export interface IAnimal {
   localisation_id: number;
   species_id: number;
   user_id: number;
-
   species?: ISpecies;
   localisation?: ILocalisation;
   user?: IUser;
@@ -27,7 +26,6 @@ export interface IUser {
   lastname: string;
   phone_number: string;
   address: string;
-
   localisation?: ILocalisation;
 }
 
@@ -41,6 +39,6 @@ export interface IAssociationDetail {
   lastname: string;
   email: string;
   phone_number: string;
-
   animals_asso: IAnimal[];
 };
+

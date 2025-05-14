@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { IAnimal } from "../@types";
-import { api } from '../services/api';
+import { api } from "../services/api";
 import { useUserStore } from "../store";
 
 export default function AnimalDetails() {
@@ -12,6 +12,7 @@ export default function AnimalDetails() {
   const [isLoading, setIsLoading] = useState(false); // éviter de cliquer plusieurs fois sur le bouton "envoyer" pendant que le message est en cours d’envoi
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [notFound, setNotFound] = useState(false);
 
   const handleSubmit = async () => {
     const trimmedMessage = newMessage.trim();
@@ -33,17 +34,16 @@ export default function AnimalDetails() {
     setIsLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
-  
+
     try {
       const response = await api.postUserMessageToApi(user.id, animal.id, trimmedMessage);
       
       if (!animal?.id) {
         setErrorMessage("Informations sur l'animal non disponibles.");
         return;
-      }
-      
+      }      
       console.log("Message envoyé :", response);
-      setNewMessage(""); 
+      setNewMessage("");
       setSuccessMessage("Votre demande d'accueil a été envoyée avec succès.");
     } catch (error) {
       console.error("Erreur lors de l'envoi du message :", error);
@@ -51,7 +51,7 @@ export default function AnimalDetails() {
     }
     setIsLoading(false);
   };
-  
+
   useEffect(() => {
     const loadData = async () => {
       if (!id) return;
@@ -70,9 +70,10 @@ export default function AnimalDetails() {
           } catch (msgError) {
             console.error("Erreur lors du chargement du message :", msgError);
           }
-        }         
+        }
       } catch (error) {
         console.error("Erreur lors du chargement des données :", error);
+        setNotFound(true);
       }
     };
     loadData();

@@ -46,6 +46,10 @@ export async function getAllUsers(req, res) {
  */
 
 export async function deleteUser(req, res, next) {
+  const user_id = req.user?.id;
+  if (!user_id) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
   const userId = parseInt(req.params.id);
 
   // Vérifier que cet ID est un entier
@@ -166,6 +170,11 @@ export async function login(req, res, next) {
  * Fonction qui permet à l'utilisateur mettre à jour ses informations *
  */
 export async function updateUser(req, res, next) {
+  const user_id = req.user?.id;
+  if (!user_id) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
+
   const error = validateUpdatedFields(req);
   if (error) {
     return next(error);

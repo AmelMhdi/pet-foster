@@ -65,6 +65,10 @@ export async function getOneAnimal(req, res, next) {
 }
 
 export async function deleteAnimal(req, res, next) {
+  const user_id = req.user?.id;
+  if (!user_id) {
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  }
   const animalId = validateAnimalId(req.params.id);
   if (!Number.isInteger(animalId)) {
     const error = new Error("ID invalide");
@@ -90,9 +94,7 @@ export async function deleteAnimal(req, res, next) {
 export async function createAnimal(req, res, next) {
   const user_id = req.user?.id;
   if (!user_id) {
-    const error = new Error("Utilisateur non authentifié");
-    error.statusCode = 401;
-    return next(error);
+    return res.status(401).json({ error: "Utilisateur non authentifié" });
   }
 
   const animalSchema = Joi.object({
@@ -109,7 +111,12 @@ export async function createAnimal(req, res, next) {
           "La date doit être au format AAAA-MM-JJ, par ex : 2025-05-01",
         "any.required": "La date est obligatoire",
       }),
-    description: Joi.string().min(10).trim().required(),
+    description: Joi.string().min(10).trim().required().messages({
+      "string.base": "La description doit être un texte.",
+      "string.empty": "La description est obligatoire.",
+      "string.min": "La description doit contenir au moins 10 caractères.",
+      "any.required": "La description est obligatoire.",
+    }),
     picture: Joi.string().uri().required(),
     species_id: Joi.number().integer().required(),
     localisation_id: Joi.number().integer().required(),

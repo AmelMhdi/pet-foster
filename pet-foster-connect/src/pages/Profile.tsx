@@ -1,6 +1,6 @@
 import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import {
   getAnimalsByAssociationFromApi,
@@ -9,6 +9,10 @@ import {
 import { IUserAnimal, IUserAnimalMessage } from "../@types/user-index";
 import { deleteAnimalApi } from "../services/api";
 import { deleteUserFromApi } from "../services/usersApi";
+import DeleteAnimalModal from "../components/DeleteAnimalModal";
+import DeleteProfileModal from "../components/DeleteProfilModal";
+import AnimalsFromAsso from "../components/AnimalsFromAsso";
+import MessagesForAsso from "../components/MessagesForAsso";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -16,33 +20,49 @@ export default function Profile() {
   const user = useUserStore((state) => state.user);
   const [animals, setAnimals] = useState<IUserAnimal[]>([]);
   const [messages, setMessages] = useState<IUserAnimalMessage[]>([]);
+  const [animalToDelete, setAnimalToDelete] = useState<IUserAnimal | null>(
+    null
+  );
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
+  const { id } = useParams();
 
   useEffect(() => {
-    const loadData = async () => {
+    const validateId = () => {
+      if (!id || isNaN(Number(id)) || Number(id) <= 0) {
+        navigate("/404", { replace: true });
+      } else if (user && Number(id) !== user.id) {
+        navigate("/404", { replace: true });
+      }
+    };
+
+    validateId();
+  }, [id, user, navigate]);
+
+  useEffect(() => {
+    const loadAnimals = async () => {
       if (!user) return;
       try {
         const newAnimals = await getAnimalsByAssociationFromApi(user.id);
-        // console.log("Animaux reçus :", newAnimals);
         setAnimals(newAnimals);
       } catch (error) {
         console.error("Erreur lors du chargement", error);
       }
     };
-    loadData();
+    loadAnimals();
   }, [user]);
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadMessages = async () => {
       if (!user) return;
       try {
         const newMessages = await getUserMessagesApi(user.id);
-        // console.log("Messages reçus:", newMessages);
         setMessages(newMessages);
       } catch (error) {
         console.error("Erreur lors du chargement", error);
       }
     };
-    loadData();
+    loadMessages();
   }, [user]);
 
   useEffect(() => {
@@ -56,12 +76,16 @@ export default function Profile() {
   const handleDeleteAnimal = async (animalId: number) => {
     try {
       await deleteAnimalApi(animalId);
-      const updatedAnimals = animals.filter((animal) => animal.id !== animalId);
-      setAnimals(updatedAnimals);
+      setAnimals((prev) => prev.filter((animal) => animal.id !== animalId));
       setFeedback("Animal supprimé avec succès !");
     } catch (error) {
       console.error("Erreur lors de la suppression de l'animal", error);
-      setFeedback("Une erreur est survenue lors de la suppression.");
+      setFeedback(
+        "Une erreur est survenue lors de la suppression de l'animal."
+      );
+    } finally {
+      setShowDeleteModal(false);
+      setAnimalToDelete(null);
     }
   };
 
@@ -74,13 +98,13 @@ export default function Profile() {
     } catch (error) {
       console.error("Erreur lors de la suppression", error);
       setFeedback("Une erreur est survenue lors de la suppression.");
+    } finally {
+      setShowDeleteProfileModal(false);
     }
   };
 
   return (
     <div className="container my-4">
-      {/* Section animaux */}
-
       <section className="my-5">
         <div className="d-flex flex-wrap gap-3">
           <Link className="btn btn-primary" to={`/modifier-profil/${user.id}`}>
@@ -88,7 +112,7 @@ export default function Profile() {
           </Link>
           <button
             className="btn btn-danger btn-sm"
-            onClick={() => handleDeleteProfil(user.id)}
+            onClick={() => setShowDeleteProfileModal(true)}
           >
             Supprimer mon profil
           </button>
@@ -112,47 +136,15 @@ export default function Profile() {
         ) : (
           <div className="row g-4">
             {animals.map((animal) => (
-              <div key={animal.id} className="col-md-4">
-                <div className="card shadow-sm h-100">
-                  {animal.picture && (
-                    <img
-                      src={animal.picture}
-                      alt={animal.name}
-                      className="card-img-top object-fit-cover"
-                    />
-                  )}
-                  <div className="card-body">
-                    <h5 className="card-title">{animal.name}</h5>
-                    <p className="card-text">
-                      Date de naissance :{" "}
-                      <span className="fw-bold">
-                        {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-                      </span>
-                    </p>
-                    <p className="card-text">
-                      Espèce :{" "}
-                      <span className="fw-bold">{animal.species.name}</span>
-                    </p>
-
-                    <div className="d-flex justify-content-between mt-3">
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() =>
-                          navigate(`/modifier-animal/${animal.id}`)
-                        }
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => handleDeleteAnimal(animal.id)}
-                      >
-                        Supprimer
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <AnimalsFromAsso
+                key={animal.id}
+                animal={animal}
+                onEdit={(id) => navigate(`/modifier-animal/${id}`)}
+                onDelete={(animal) => {
+                  setAnimalToDelete(animal);
+                  setShowDeleteModal(true);
+                }}
+              />
             ))}
           </div>
         )}
@@ -164,36 +156,32 @@ export default function Profile() {
           <p className="text-muted">Aucun message pour le moment.</p>
         ) : (
           <div className="row g-3">
-            {messages.map((message) => {
-              //  pour creer une clé unique on associe famille et animal choisi
-              return (
-                <div
-                  key={`${message.userId}-${message.animal}`}
-                  className="col-md-6"
-                >
-                  <div className="card shadow-sm">
-                    <div className="card-body">
-                      <h5 className="card-title fs-3">
-                        Message de {message.firstname} {message.name} reçu le{" "}
-                        {message.createdAt}
-                      </h5>
-                      <p className="card-text fs-5">{message.message}</p>
-                      <p className="card-text fs-5">
-                        Email : <span className="fw-bold">{message.email}</span>
-                      </p>
-                      <p className="card-text fs-5">
-                        Téléphone :{" "}
-                        <span className="fw-bold">{message.phone}</span>
-                      </p>
-                      <p>Animal concerné : {message.animal}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {messages.map((message) => (
+              <MessagesForAsso
+                key={`${message.userId}-${message.animal}`}
+                message={message}
+              />
+            ))}         
           </div>
         )}
       </section>
+      {animalToDelete && showDeleteModal && (
+        <DeleteAnimalModal
+          animalName={animalToDelete.name}
+          onCancel={() => {
+            setShowDeleteModal(false);
+            setAnimalToDelete(null);
+          }}
+          onConfirm={() => handleDeleteAnimal(animalToDelete.id)}
+        />
+      )}
+
+      {showDeleteProfileModal && (
+        <DeleteProfileModal
+          onCancel={() => setShowDeleteProfileModal(false)}
+          onConfirm={() => handleDeleteProfil(user.id)}
+        />
+      )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { ILoginRequest, ILoginResponse, IUser } from "../@types/user-index";
+import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -111,8 +112,18 @@ export async function loginFromApi(
  */
 
 export async function deleteUserFromApi(userId: number) {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    throw new Error("Authentification requise");
+  }
+
   const response = await fetch(`${apiBaseUrl}/users/${userId}`, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {

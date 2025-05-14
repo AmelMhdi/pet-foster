@@ -1,8 +1,8 @@
-import { Navigate,useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { fetchAssociationById } from '../services/api';
-import { IAssociationDetail } from '../@types';
+import { Navigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchAssociationById } from "../services/api";
+import { IAssociationDetail } from "../@types";
 
 export default function ContactAssociation() {
   const { id } = useParams();
@@ -14,18 +14,12 @@ export default function ContactAssociation() {
     const loadData = async () => {
       if (!id) {
         setNotFound(true);
-        setLoading(false);
         return;
       }
-  
-      const associationId = parseInt(id);
-      if (isNaN(associationId)) {
-        setNotFound(true);
-        setLoading(false);
-        return;
-      }
-  
+
       try {
+        setLoading(true);
+        const associationId = parseInt(id);     
         const oneAssociation = await fetchAssociationById(associationId);
         if (!oneAssociation) {
           setNotFound(true);
@@ -35,27 +29,21 @@ export default function ContactAssociation() {
       } catch (error) {
         console.error("Erreur lors du chargement:", error);
         setNotFound(true);
-      } finally {
-        setLoading(false);
       }
+      setLoading(false);
+
     };
   
     loadData();
   }, [id]);
-  
-  if(isNaN(Number(id))) {
-    return <Navigate to="/404" replace />;
-  }
-
-  if (notFound) {
-  return <Navigate to="/404" replace />;
-  }
 
   if (loading) {
     return <p>Chargement...</p>;
   }
 
-  if (!association) return <p>Erreur : association non trouvée.</p>;
+  if (isNaN(Number(id)) || notFound) {
+    return <Navigate to="/404" replace />;
+  }
 
   return (
     <>
@@ -84,6 +72,7 @@ export default function ContactAssociation() {
                       )}
                       <div className="card-body">
                         <h5 className="card-title">{animal.name}</h5>
+
                         <Link 
                           to={`/animals/${animal.id}`} 
                           className="btn btn-outline-primary mt-auto">
@@ -103,3 +92,4 @@ export default function ContactAssociation() {
     </>
   );
 }
+
