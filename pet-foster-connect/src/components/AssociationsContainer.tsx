@@ -33,16 +33,19 @@ export default function AssociationsContainer() {
             {associations.map((association) => (
               <div key={association.id} className="col">
                 <div className="card border-0 bg-transparent text-center">
-                  <div className="card-body">
-                    <p className="card-text">
-                      <Link to={`/associations/${association.id}`}>
-                        {association.firstname} {association.lastname}
+
+                  <div className="association-card h-100 text-center shadow-sm">
+                    <p className="association-text">
+                    <p>{association.firstname} {association.lastname}</p>
+                    <p>  {association.localisation?.postcode || "Code postal inconnu"}{" "} 
+                      {association.localisation?.city || "Ville inconnue"}
+                      </p>
+                    <Link to={`/associations/${association.id}`}
+                    className="btn btn-outline-primary mt-auto">
+                        Voir détails
                       </Link>
                     </p>
-                    <p>
-                      {association.localisation?.postcode || "Code postal inconnu"}{" "}
-                      {association.localisation?.city || "Ville inconnue"}
-                    </p>
+
                   </div>
                 </div>
               </div>
