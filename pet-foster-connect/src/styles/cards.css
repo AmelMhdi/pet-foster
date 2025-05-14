@@ -23,6 +23,15 @@
   font-size: 1.2rem;
 }
 
+.association-card {
+  padding: 1.2rem;
+  background-color: var(--light-cream);
+  border-bottom: 1px solid var(--primary-red);
+  color: var(--dark-blue);
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
 /* Info & foster request cards */
 .info-card, .foster-request-card {
   background-color: var(--light-blue);
@@ -42,3 +51,5 @@
   font-weight: 700;
   margin-bottom: 1rem;
 }
+
+
