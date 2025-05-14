@@ -36,8 +36,8 @@ export default function AssociationsContainer() {
 
                   <div className="association-card h-100 text-center shadow-sm">
                     <div className="association-text">
-                    <p>{association.firstname} {association.lastname}</p>
-                    <p>  {association.localisation?.postcode || "Code postal inconnu"}{" "} 
+                    <p> {association.lastname} </p>
+                    <p> {association.localisation?.postcode || "Code postal inconnu"}{" "} 
                       {association.localisation?.city || "Ville inconnue"}
                       </p>
                     <Link to={`/associations/${association.id}`}
