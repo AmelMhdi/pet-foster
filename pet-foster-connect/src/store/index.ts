@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { IUserStore, IUserT } from "../@types/user-index";
+import { IUserStore, IUserT } from "../@types";
 
 /**
  * Store Zustand pour gérer l'utilisateur connecté,
