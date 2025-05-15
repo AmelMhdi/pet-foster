@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --env-file=.env index.js",
-    "build": "npm run build --prefix pet-foster-connect",
+    "build": "echo 'No build step needed for backend'",
     "commit": "navi commit",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index.js",
@@ -45,5 +45,10 @@
     "navicommit": "^1.0.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3"
+  },
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs18.x"
+    }
   }
 }
