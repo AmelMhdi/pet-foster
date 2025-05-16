@@ -1,11 +1,11 @@
 {
-  "name": "pet-foster-connect-front",
+  "name": "pet-foster-connect-backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node --env-file=.env index.js",
-    "build": "echo 'No build step needed for backend'",
+    "start": "node --env-file=.env api/index.js",
+    "build": "mkdir -p api && cp -r src api/ && cp index.js api/server.js && echo 'Build completed'",
     "commit": "navi commit",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index.js",
@@ -14,18 +14,6 @@
     "db:reset": "npm run db:create && npm run db:seed",
     "db:testDB": "node --env-file=.env src/migrations/testTable.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/O-clock-Sushi/pet-foster-connect-front.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/O-clock-Sushi/pet-foster-connect-front/issues"
-  },
-  "homepage": "https://github.com/O-clock-Sushi/pet-foster-connect-front#readme",
-  "description": "",
   "dependencies": {
     "argon2": "^0.43.0",
     "bootstrap": "^5.3.5",
@@ -45,10 +33,5 @@
     "navicommit": "^1.0.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3"
-  },
-  "functions": {
-    "api/index.js": {
-      "runtime": "nodejs18.x"
-    }
   }
 }
