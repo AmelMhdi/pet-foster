@@ -1,0 +1,16 @@
+{
+  "name": "pet-foster-connect",
+  "version": "1.0.0",
+  "description": "Site de mise en relation entre des personnes qui souhaitent faire garder leur animal de compagnie et des personnes qui souhaitent garder un animal de compagnie.",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "install": "npm install --prefix back && npm install --prefix front",
+    "dev:back": "npm run dev --prefix back",
+    "dev:front": "npm run dev --prefix front"
+  },
+  "keywords": ["pet", "animal", "garde", "foster"],
+  "author": "amel.m20@gmail.com",
+  "license": "ISC"
+}
