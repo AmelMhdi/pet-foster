@@ -1,6 +1,14 @@
 import { IAnimal, ISpecies, IUser, IAssociationDetail, INewAnimal } from "../@types";
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 import { useUserStore } from "../store";
+import { withRelatedProject } from '@vercel/related-projects';
+
+const apiBaseUrl =
+  import.meta.env.DEV || !import.meta.env.VITE_USE_RELATED_PROJECT
+    ? import.meta.env.VITE_API_BASE_URL
+    : withRelatedProject({
+        projectName: "pet-foster",
+        defaultHost: "http://localhost:3001/api"
+      });
 
 export const api = {
   fetchAnimals,

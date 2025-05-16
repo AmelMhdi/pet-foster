@@ -11,5 +11,8 @@
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "start": "cd backend && npm start"
+  },
+  "dependencies": {
+    "@vercel/related-projects": "^1.0.0"
   }
 }
