@@ -16,62 +16,39 @@ import { IUserAnimal, IUserAnimalMessage } from "../@types";
 
 export default function Profile() {
   const navigate = useNavigate();
-  const [feedback, setFeedback] = useState<string>("");
+  const { id } = useParams();
   const user = useUserStore((state) => state.user);
+
   const [animals, setAnimals] = useState<IUserAnimal[]>([]);
   const [messages, setMessages] = useState<IUserAnimalMessage[]>([]);
+  const [feedback, setFeedback] = useState<string>("");
+
   const [animalToDelete, setAnimalToDelete] = useState<IUserAnimal | null>(
     null
   );
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
-  const { id } = useParams();
+
+  const userId = Number(id);
 
   useEffect(() => {
-    const validateId = () => {
-      if (!id || isNaN(Number(id)) || Number(id) <= 0) {
-        navigate("/404", { replace: true });
-      } else if (user && Number(id) !== user.id) {
-        navigate("/404", { replace: true });
-      }
-    };
+    if (!user) return;
 
-    validateId();
-  }, [id, user, navigate]);
-
-  useEffect(() => {
-    const loadAnimals = async () => {
-      if (!user) return;
+    const loadData = async () => {
       try {
-        const newAnimals = await getAnimalsByAssociationFromApi(user.id);
-        setAnimals(newAnimals);
+        const [fetchedAnimals, fetchedMessages] = await Promise.all([
+          getAnimalsByAssociationFromApi(userId), 
+          getUserMessagesApi(userId)
+        ]);
+        setAnimals(fetchedAnimals);
+        setMessages(fetchedMessages);
       } catch (error) {
-        console.error("Erreur lors du chargement", error);
+        logError("Erreur lors du chargement", error);
+        setFeedback("Une erreur est survenue lors du chargement.");
       }
     };
-    loadAnimals();
-  }, [user]);
-
-  useEffect(() => {
-    const loadMessages = async () => {
-      if (!user) return;
-      try {
-        const newMessages = await getUserMessagesApi(user.id);
-        setMessages(newMessages);
-      } catch (error) {
-        console.error("Erreur lors du chargement", error);
-      }
-    };
-    loadMessages();
-  }, [user]);
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/", { replace: true });
-    }
-  }, [user, navigate]);
-
-  if (!user) return null;
+    loadData();
+  }, [user])
 
   const handleDeleteAnimal = async (animalId: number) => {
     try {
@@ -79,29 +56,29 @@ export default function Profile() {
       setAnimals((prev) => prev.filter((animal) => animal.id !== animalId));
       setFeedback("Animal supprimé avec succès !");
     } catch (error) {
-      console.error("Erreur lors de la suppression de l'animal", error);
+      logError("Erreur lors de la suppression de l'animal", error);
       setFeedback(
-        "Une erreur est survenue lors de la suppression de l'animal."
-      );
+        "Une erreur est survenue lors de la suppression de l'animal.")
     } finally {
       setShowDeleteModal(false);
       setAnimalToDelete(null);
     }
   };
 
-  const handleDeleteProfil = async (userId: number) => {
+  const handleDeleteProfile = async (userId: number) => {
     try {
       await deleteUserFromApi(userId);
-      useUserStore.getState().logout();
-      setFeedback("Profil supprimé avec succès !");
+      useUserStore.getState().Logout();
       navigate("/");
     } catch (error) {
-      console.error("Erreur lors de la suppression", error);
+      logError("Erreur lors de la suppression", error);
       setFeedback("Une erreur est survenue lors de la suppression.");
     } finally {
       setShowDeleteProfileModal(false);
     }
   };
+
+  if (!user) return null;
 
   return (
     <div className="container my-4">
@@ -123,18 +100,22 @@ export default function Profile() {
       </section>
 
       {feedback && (
-        <div className="alert alert-info text-center my-3" role="alert">
+        <div 
+          className="alert alert-info text-center my-3" 
+          role="alert" 
+          aria-live="polite"
+        >
           {feedback}
         </div>
       )}
 
       <section id="animaux" className="mb-5">
-        <h3 className="mb-4">Animaux proposés :</h3>
+        <h3 className="mb-4">Animaux proposés</h3>
 
         {animals.length === 0 ? (
           <p className="text-muted">Aucun animal pour le moment.</p>
         ) : (
-          <div className="row g-4">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             {animals.map((animal) => (
               <AnimalsFromAsso
                 key={animal.id}
@@ -165,6 +146,7 @@ export default function Profile() {
           </div>
         )}
       </section>
+
       {animalToDelete && showDeleteModal && (
         <DeleteAnimalModal
           animalName={animalToDelete.name}
@@ -179,7 +161,7 @@ export default function Profile() {
       {showDeleteProfileModal && (
         <DeleteProfileModal
           onCancel={() => setShowDeleteProfileModal(false)}
-          onConfirm={() => handleDeleteProfil(user.id)}
+          onConfirm={() => handleDeleteProfile(user.id)}
         />
       )}
     </div>

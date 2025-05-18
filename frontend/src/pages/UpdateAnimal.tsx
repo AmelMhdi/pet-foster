@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../store";
 import { getLocalisationsFromApi } from "../services/usersApi";
@@ -7,15 +7,13 @@ import { IAnimal, ILocalisation, ISpecies } from "../@types";
 
 export default function UpdateAnimal() {
   const { id } = useParams();
-  const [animal, setAnimal] = useState<IAnimal | null>(null);
-
   const navigate = useNavigate();
   const nameInputRef = useRef<HTMLInputElement>(null);
   const user = useUserStore((state) => state.user);
 
   const [feedback, setFeedback] = useState("");
   const [isSending, setIsSending] = useState(false);
-
+  
   const [name, setName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [description, setDescription] = useState("");
@@ -27,62 +25,55 @@ export default function UpdateAnimal() {
   const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
   const [speciesList, setSpeciesList] = useState<ISpecies[]>([]);
 
-  useEffect(() => {
-    const loadAnimal = async () => {
-      if (id) {
-        const animalData = await getAnimal(Number(id));
-        setAnimal(animalData);
+  useEffect(() =>{
+    const fetchData = async () => {
+      if (!id) return;
+
+      try {
+        const [locs, species, animal] = await Promise.all([
+          getLocalisationsFromApi(),
+          api.getSpeciesFromApi(),
+          api.getAnimal(Number(id)),
+        ]);
+
+        if (!animal) {
+          setFeedback("Animal non trouvé.");
+          return
+        }
+
+        setLocalisations(locs);
+        setSpeciesList(species);
+
+        setName(animal.name);
+        setBirthday(animal.birthday);
+        setDescription(animal.description);
+        setPicture(animal.picture);
+        setSpeciesId(animal.species_id);
+
+        const localisation = locs.find((loc) => loc.id === animal.localisation_id);
+        if (localisation) {
+          setPostcode(localisation.postcode);
+          setCity(localisation.city);
+        }
+
+        nameInputRef.current?.focus();
+      } catch (error) {
+        console.error("Erreur lors du chargement des données :", error);
+        setFeedback("Une erreur est survenue lors du chargement des données.");        
       }
     };
-    loadAnimal();
+    fetchData();
   }, [id]);
 
-  useEffect(() => {
-    if (!animal) return;
-
-    nameInputRef.current?.focus();
-
-    const fetchData = async () => {
-      const [locs, species] = await Promise.all([
-        getLocalisationsFromApi(),
-        api.getSpeciesFromApi()
-      ]);
-      setLocalisations(locs);
-      setSpeciesList(species);
-
-      if (id) {
-        const animal = await api.getAnimal(Number(id));
-        if (animal) {
-          setName(animal.name);
-          setBirthday(animal.birthday);
-          setDescription(animal.description);
-          setPicture(animal.picture);
-          setSpeciesId(animal.species_id);
-
-          const localisation = locs.find((loc: ILocalisation) => loc.id === animal.localisation_id);
-          if (localisation) {
-            setPostcode(localisation.postcode);
-            setCity(localisation.city);
-          }
-        } else {
-          setFeedback("Animal non trouvé.");
-        }
-      }
-    };
-
-    fetchData();
-  }, [id, animal]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!user) {
       alert("Utilisateur non authentifié.");
       return;
     }
 
-    const selectedLoc = localisations.find(
-      (loc) => loc.city === city && loc.postcode === postcode
-    );
+    const selectedLoc = localisations.find((loc) => loc.city === city && loc.postcode === postcode);
 
     if (!selectedLoc || !name || !birthday || !description || !picture || !speciesId) {
       setFeedback("Veuillez remplir tous les champs.");
@@ -100,33 +91,43 @@ export default function UpdateAnimal() {
       user_id: user.id,
     };
 
-    setFeedback("Mise à jour en cours...");
     setIsSending(true);
+    setFeedback("Mise à jour en cours...");
 
-    const res = await api.updateAnimalFromApi(updatedAnimal, user.token);
-    if (res) {
-      setFeedback("Animal mis à jour avec succès !");
-      setTimeout(() => {
-        navigate(`/profil-association/${user.id}`);
-      }, 1000);
-    } else {
-      setFeedback("Erreur lors de la mise à jour.");
+    try {
+      const res = await api.updateAnimalFromApi(updatedAnimal, user.token);
+      if (res) {
+        setFeedback("Animal mis à jour avec succès !");
+        setTimeout(() => navigate(`/profil-association/${user.id}`), 1000);
+      } else {
+        setFeedback("Erreur lors de la mise à jour.");
+      }
+    } catch (error) {
+      console.error(error);
+      setFeedback("Une erreur est survenue.");
+    } finally {
+      setIsSending(false);
     }
-
-    setIsSending(false);
   };
 
-  const cities = Array.from(new Set(localisations.map((l) => l.city)));
-  const postcodes = Array.from(new Set(localisations.map((l) => l.postcode)));
+  const cities = useMemo(
+    () => Array.from(new Set(localisations.map((loc) => loc.city))),
+    [localisations]
+  );
 
-  if (!animal) return <p>Chargement...</p>;
+  const postcodes = useMemo(
+    () => Array.from(new Set(localisations.map((loc) => loc.postcode))),
+    [localisations]
+  );
 
   return (
     <div className="container mt-5">
       <h1 className="mb-4">Modifier l’animal</h1>
+
       {feedback && (
         <div className="alert alert-info text-center my-3">{feedback}</div>
       )}
+
       <form onSubmit={handleSubmit}>
         <label className="form-label h4" htmlFor="name">Nom</label>
         <input
@@ -135,6 +136,7 @@ export default function UpdateAnimal() {
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          disabled={isSending}
         />
 
         <label className="form-label h4" htmlFor="birthday">Date de naissance</label>
@@ -144,6 +146,7 @@ export default function UpdateAnimal() {
           type="date"
           value={birthday ? birthday.slice(0, 10) : ""}
           onChange={(e) => setBirthday(e.target.value)}
+          disabled={isSending}
         />
 
         <label className="form-label h4" htmlFor="description">Description</label>
@@ -152,6 +155,7 @@ export default function UpdateAnimal() {
           id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          disabled={isSending}
         />
 
         <label className="form-label h4" htmlFor="picture">Image (URL)</label>
@@ -160,6 +164,7 @@ export default function UpdateAnimal() {
           id="picture"
           value={picture}
           onChange={(e) => setPicture(e.target.value)}
+          disabled={isSending}
         />
 
         <label className="form-label h4" htmlFor="postcode">Code Postal</label>
@@ -167,7 +172,10 @@ export default function UpdateAnimal() {
           id="postcode"
           className="form-control mb-3"
           value={postcode}
-          onChange={(e) => setPostcode(Number(e.target.value))}
+          onChange={(e) =>
+            setPostcode(e.target.value === "" ? "" : Number(e.target.value))
+          }
+          disabled={isSending}
         >
           <option value="">-- Choisir un code postal --</option>
           {postcodes.map((pc, i) => (
@@ -176,11 +184,12 @@ export default function UpdateAnimal() {
         </select>
 
         <label className="form-label h4" htmlFor="city">Ville</label>
-        <select
-          id="city"
-          className="form-control mb-3"
-          value={city}
+        <select 
+          id="city" 
+          className="form-control mb-3" 
+          value={city} 
           onChange={(e) => setCity(e.target.value)}
+          disabled={isSending}
         >
           <option value="">-- Choisir une ville --</option>
           {cities.map((c, i) => (
@@ -193,7 +202,10 @@ export default function UpdateAnimal() {
           id="species"
           className="form-control mb-3"
           value={speciesId}
-          onChange={(e) => setSpeciesId(Number(e.target.value))}
+          onChange={(e) => 
+            setSpeciesId(e.target.value === "" ? "" : Number(e.target.value))
+          }
+          disabled={isSending}
         >
           <option value="">-- Choisir une espèce --</option>
           {speciesList.map((s) => (
@@ -201,11 +213,11 @@ export default function UpdateAnimal() {
           ))}
         </select>
 
-        <input
-          type="submit"
-          className="btn btn-success d-block mx-auto"
-          value="Mettre à jour"
-          disabled={isSending}
+        <input 
+          type="submit" 
+          className="btn btn-success d-block mx-auto" 
+          value="Mettre à jour" 
+          disabled={isSending} 
         />
       </form>
     </div>

@@ -16,12 +16,12 @@ export default function Login() {
     emailInputRef.current?.focus();
   }, []);
 
-  const handleRegister = async (email: string, password: string) => {
+  const handleLogin = async (email: string, password: string) => {
     setFeedback("Connexion au compte en cours...");
     setIsSending(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // simule délai API
       const response = await loginFromApi({ email, password });
       login(response);
       setFeedback("Connexion réussie !");
@@ -29,10 +29,7 @@ export default function Login() {
         navigate("/");
       }, 1000);
     } catch (error) {
-      console.error("Erreur lors de la connexion :", error);
-      setFeedback(
-        error instanceof Error ? error.message : "Une erreur est survenue."
-      );
+      setFeedback(error instanceof Error ? error.message : "Une erreur est survenue.");
       setIsSending(false);
     }
   };
@@ -40,60 +37,63 @@ export default function Login() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!email || !password) {
-      setFeedback(" Veuillez remplir tous les champs.");
+      setFeedback("Veuillez remplir tous les champs.");
       return;
     }
-    await handleRegister(email, password);
+    await handleLogin(email, password);
   };
 
   return (
-    <>
-      <div className="container mt-5">
-        <h1>Veuillez vous authentifier</h1>
-        {feedback && (
-          <div className="alert alert-info text-center my-3" role="alert">
-            {feedback}
-          </div>
-        )}
-        <div>
-          <form method="post" onSubmit={handleSubmit}>
-            <label className="form-label h4" htmlFor="email">
-              Email
-            </label>
-            <input
-              className="form-control mb-4"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="email@domain.com"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <label className="form-label h4" htmlFor="password">
-              Mot de passe
-            </label>
-            <input
-              className="form-control"
-              type="password"
-              id="password"
-              name="password"
-              placeholder="*********"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <input
-              className="btn btn-primary d-block my-4 mx-auto"
-              type="submit"
-              value="Se connecter"
-              disabled={isSending}
-            />
-          </form>
+    <div className="container mt-5">
+      <h1>Veuillez vous authentifier</h1>
+      {feedback && (
+        <div
+          className="alert alert-info text-center my-3"
+          role="alert"
+          aria-live="polite"
+        >
+          {feedback}
         </div>
-      </div>
-    </>
+      )}
+      <form method="post" onSubmit={handleSubmit}>
+        <label className="form-label h4" htmlFor="email">
+          Email
+        </label>
+        <input
+          className="form-control mb-4"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="email@domain.com"
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          ref={emailInputRef}
+          disabled={isSending}
+        />
+
+        <label className="form-label h4" htmlFor="password">
+          Mot de passe
+        </label>
+        <input
+          className="form-control"
+          type="password"
+          id="password"
+          name="password"
+          placeholder="*********"
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isSending}
+        />
+
+        <input
+          className="btn btn-primary d-block my-4 mx-auto"
+          type="submit"
+          value={isSending ? "Connexion..." : "Se connecter"}
+          disabled={isSending}
+        />
+      </form>
+    </div>
   );
 }

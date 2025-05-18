@@ -124,7 +124,7 @@ export interface IUserStore {
   user: IUserT | null;
   login: (user: IUserT) => void;
   logout: () => void;
-  setUser: (user: IUserT) => void;
+  setUser: (updateUser: Partial<IUserT>) => void;
 }
 
 export interface IUserAnimal {
@@ -164,4 +164,20 @@ export interface IUserUpdateForm {
   localisation_id: number;
   password?: string;
   role_id: number;
+}
+
+export interface SelectProps {
+  label: string;
+  name: string;
+  value: string | number;
+  options: (string | number)[];
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+export interface InputProps {
+  label: string;
+  name: string;
+  value: string | number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
 }

@@ -26,13 +26,10 @@ export default function CreateAnimal() {
     nameInputRef.current?.focus();
   }, []);
 
-  //création de l'animal
   const handleRegister = async (animalData: INewAnimal) => {
     setFeedback("Création de l'animal en cours...");
     setIsSending(true);
 
-    // try {
-    // Simulation délai API
     await new Promise((res) => setTimeout(res, 1000));
     const response = await createAnimalFromApi(animalData);
 
@@ -55,9 +52,7 @@ export default function CreateAnimal() {
       setFeedback("Vous devez être connecté pour créer un animal.");
       return;
     }
-    const selectedLocalisation = localisations.find(
-      (loc) => loc.city === city && loc.postcode === postcode
-    );
+    const selectedLocalisation = localisations.find((loc) => loc.city === city && loc.postcode === postcode);
 
     if (!selectedLocalisation) {
       setFeedback("Localisation invalide.");
@@ -72,23 +67,27 @@ export default function CreateAnimal() {
       species_id: speciesId as number,
     };
 
-    const { error } = animalFormSchema.validate(newAnimal, {
-      abortEarly: true,
-    });
+    const { error } = animalFormSchema.validate(
+      {
+        ...newAnimal,
+        birthday: new Date(birthday), // converti en Date juste pour Joi
+      },
+      {
+        abortEarly: true,
+      }
+    );
 
     if (error) {
       setFeedback(error.details[0].message);
       return;
     }
 
-
     await handleRegister(newAnimal);
   };
 
   useEffect(() => {
     const loadData = async () => {
-      const localisationsData: ILocalisation[] =
-        await getLocalisationsFromApi();
+      const localisationsData: ILocalisation[] = await getLocalisationsFromApi();
       const species = await api.getSpeciesFromApi();
       setLocalisations(localisationsData);
       setSpeciesList(species);
@@ -97,9 +96,7 @@ export default function CreateAnimal() {
   }, []);
 
   const cities = Array.from(new Set(localisations.map((loc) => loc.city)));
-  const postcodes = Array.from(
-    new Set(localisations.map((loc) => loc.postcode))
-  );
+  const postcodes = Array.from(new Set(localisations.map((loc) => loc.postcode)));
 
   return (
     <div className="container mt-5">
@@ -130,7 +127,6 @@ export default function CreateAnimal() {
             type="date"
             id="birthday"
             value={birthday}
-            max={new Date().toISOString().split("T")[0]}
             onChange={(e) => setBirthday(e.target.value)}
           />
 
