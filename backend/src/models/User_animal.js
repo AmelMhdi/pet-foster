@@ -22,4 +22,3 @@ User_animal.init( {
   sequelize,
   tableName: "user_animal"
 });
-

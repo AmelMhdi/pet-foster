@@ -44,12 +44,3 @@ User.init(
     tableName: 'user', 
   }
 );
-
-/**
- * A User
- * @typedef  {object} User
- * @property {string} id.required - Identifier (géré automatiquement par Sequelize)
- * @property {string} username.required - Username
- * @property {string} password.required - Password
- * @property {string} email.required - Email
- */

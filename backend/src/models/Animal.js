@@ -3,13 +3,11 @@ import {sequelize} from './sequelizeClient.js';
 
 export class Animal extends Model {}
 
-// On se rappelle : pas besoin de mettre l'ID, le created_at, le updated_at => c'est géré par Sequelize
-
 Animal.init(
   {
     name: {
-      type: DataTypes.STRING, // VARCHAR(255)
-      allowNull: false, // NOT NULL
+      type: DataTypes.STRING, 
+      allowNull: false,
     },
     birthday: {
       type: DataTypes.DATE,

@@ -13,8 +13,6 @@ Localisation.init({
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-
-  
 }, {
   sequelize,
   tableName: "localisation"
