@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 export function isAuth(req, res, next) {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
     return res.status(401).json({ message: "Token manquant ou mal formé" });
   }
 
