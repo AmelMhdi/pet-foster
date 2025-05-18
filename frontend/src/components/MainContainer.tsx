@@ -1,30 +1,30 @@
 export default function MainContainer() {
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center border border-secondary-subtle border-1 rounded p-3">
-        
-      <div className="col-lg-10">
-        <h2 className="text-center mb-4 fw-bold text-primary">Bienvenue sur Pet Foster Connect</h2>
+    <main className="container mt-5">
+      <div className="main-container-border row justify-content-center border border-1 rounded p-2">
+        <div className="col-lg-10 text-center">
+          <h1 className="text-center mb-4 pt-2 fw-bold text-primary-red">
+            Bienvenue sur Pet Foster Connect
+          </h1>
 
-        <p className="text-center mb-3">
-          La plateforme qui révolutionne la protection animale en créant des ponts entre associations et familles d'accueil.
-        </p>
+          <h3 className="section-title fs-4">Une plateforme pour la protection animale</h3>
 
-        <p className="text-center">
-          Notre mission est simple mais essentielle : offrir une chance à chaque animal en attente d'un foyer définitif. 
-          En devenant famille d'accueil, vous transformez des vies, une patte à la fois.
-        </p>
+          <p>
+            Pet Foster Connect révolutionne la protection animale en créant des liens solides entre les associations et les familles d'accueil.
+          </p>
 
-        <p className="text-center">
-          Parcourez les profils des animaux qui ont besoin de vous et rejoignez notre communauté engagée.
-        </p>
+          <h3 className="section-title fs-4">Notre mission</h3>
+          <p>
+            Offrir une chance à chaque animal en attente d’un foyer définitif. En devenant famille d’accueil, vous transformez des vies — une patte à la fois.
+          </p>
 
-        <p className="text-center">
-          Pet Foster Connect n'est pas qu'une application, c'est un mouvement solidaire où chaque geste compte pour construire un monde plus bienveillant.
-        </p>
-        
+          <h3 className="section-title fs-4">Rejoignez notre communauté</h3>
+          <p>
+            Parcourez les profils des animaux, trouvez ceux qui ont besoin de vous et devenez acteur d’un monde plus bienveillant.
+            Pet Foster Connect est plus qu'une application : c'est un mouvement solidaire.
+          </p>
+        </div>
       </div>
-      </div>
-    </div>
+    </main>
   );
 }
