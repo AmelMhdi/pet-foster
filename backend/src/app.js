@@ -1,34 +1,38 @@
 import "dotenv/config";
 import express from "express";
 import path from "node:path";
-import { router } from "../src/routers/index.js";
-import { notFound, errorHandler } from "../src/middlewares/errorHandlers.js";
+import { router } from "./routers/index.js";
+import { notFound, errorHandler } from "./middlewares/errorHandlers.js";
 import cors from "cors";
 import { xss } from "express-xss-sanitizer";
+import compression from "compression";
+import { fileURLToPath } from 'url';
 
-// Create Express app
-const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Middleware
+export const app = express();
+
+app.use(compression());
+
+app.use(express.static(path.resolve(__dirname, "../pet-foster-connect/dist")));
+
+app.use('/images', express.static(path.resolve(__dirname, '../pet-foster-connect/public/images')));
+
 app.use(express.json());
+
 app.use(xss());
 
-app.use(cors({origin: process.env.ALLOWED_DOMAINS || "*"}));
+app.use(cors({origin: process.env.ALLOWED_DOMAINS,}));
 
-// API routes
 app.use("/api", router);
 
-// Error handling
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(
+    path.resolve(__dirname, "../pet-foster-connect/dist/index.html")
+  );
+});
+
 app.use(notFound);
+
 app.use(errorHandler);
-
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
-
-// Export for Vercel
-export default app;
