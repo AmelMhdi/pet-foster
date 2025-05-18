@@ -1,9 +1,5 @@
 import { User, User_animal } from "../models/index.js";
 
-/**
- * Fonction qui permet de récuperer les animaux en fonction d'une association
- */
-
 export async function getAllAnimalsByAssociation(req, res, next) {
   const userId = parseInt(req.params.id);
   if (!Number.isInteger(userId)) {
@@ -25,42 +21,6 @@ export async function getAllAnimalsByAssociation(req, res, next) {
   res.status(200).json(user.animals_asso);
 }
 
-// export async function getOneMessage( req, res, next )
-// {
-//   const userId = parseInt( req.params.id );
-//   if (!Number.isInteger(userId)) {
-//     return next;
-//   }
-
-//   const getMessageByAssociation = await User.findByPk( userId, {
-//     include: {
-//       association: "User_animal",
-//       include: [
-//         { association: 'user' },
-//         { association: 'animal' }
-//       ]
-//     }
-//   });
-
-//   if (!getMessageByAssociation) {
-//     return next();
-//   }
-
-//   return res.status( 200 ).json([
-//     {
-//       message: getMessageByAssociation.message,
-//       user: {
-//         firstname: getMessageByAssociation.user.firstname,
-//         lastname: getMessageByAssociation.user.lastname
-//       },
-//       animal: {
-//         name: getMessageByAssociation.animal.name
-//       },
-//       created_at: getMessageByAssociation.created_at
-//     }
-//   ]);
-// }
-
 export async function getMessagesForAssociation(req, res, next) {
   const user_id = req.user?.id;
   if (!user_id) {
@@ -73,10 +33,10 @@ export async function getMessagesForAssociation(req, res, next) {
     include: [
       {
         association: "animal",
-        where: { user_id: associationId }, // animaux de l'association
+        where: { user_id: associationId }, 
       },
       {
-        association: "user", // c’est la famille qui a envoyé la demande
+        association: "user", 
       },
     ],
   });
@@ -86,7 +46,6 @@ export async function getMessagesForAssociation(req, res, next) {
   }
 
   const formatted = getMessages.map((demande) => {
-    console.log("USER DEBUG:", demande.user);
 
     return {
       message: demande.message,
@@ -115,6 +74,7 @@ export async function getAllAssociations(req, res) {
           association: "localisation",
         },
       ],
+      attributes: { exclude: ["firstname", "password", "email", "address", "phone_number", "rma_number"]}
     });
     res.json(associations);
   } catch (error) {
