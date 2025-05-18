@@ -8,11 +8,18 @@ export default function DeleteProfileModal({
   onConfirm,
 }: DeleteProfileModalProps) {
   return (
-    <div className="modal fade show" style={{ display: "block" }} tabIndex={-1}>
+    <div 
+      className="modal fade show" 
+      style={{ display: "block" }} 
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Confirmation de suppression</h5>
+            <h5 className="modal-title" id="modalTitle">Confirmation de suppression</h5>
             <button
               type="button"
               className="btn-close"
