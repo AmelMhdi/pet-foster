@@ -31,19 +31,16 @@ const localisations = [
   { city: 'Le Havre', postcode: 76600 }
 ];
 
-// Création des rôles
 const roleInstances = [];
 for (const role of roles) {
   roleInstances.push(await Role.create(role));
 }
 
-// Création des espèces
 const speciesInstances = [];
 for (const s of species) {
   speciesInstances.push(await Species.create(s));
 }
 
-// Création des localisations
 const localisationInstances = [];
 for (const loc of localisations) {
   localisationInstances.push(await Localisation.create(loc));
@@ -159,7 +156,6 @@ const users = [
     localisation_id: localisationInstances[9].id,
     role_id: roleInstances[1].id
   }
-
 ];
 
 const userInstances = [];
@@ -181,7 +177,7 @@ const animals = [
     name: 'Luna',
     birthday: new Date('2019-06-15'),
     description: 'Chienne très affectueuse et joueuse, adore les longues balades.',
-    picture: 'https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: '/images/luna.webp',
     localisation_id: localisationInstances[0].id,
     user_id: userInstances[0].id,
     species_id: speciesInstances[0].id
@@ -190,7 +186,7 @@ const animals = [
     name: 'Milo',
     birthday: new Date('2020-03-22'),
     description: 'Chat calme et discret, aime observer depuis la fenêtre.',
-    picture: 'https://media.istockphoto.com/id/1443562748/fr/photo/mignon-chat-gingembre.jpg?s=612x612&w=0&k=20&c=ygNVVnqLk9V8BWu4VQ0D21u7-daIyHUoyKlCcx3K1E8=',
+    picture: '/images/milo.webp',
     localisation_id: localisationInstances[1].id,
     user_id: userInstances[2].id,
     species_id: speciesInstances[1].id
@@ -199,7 +195,7 @@ const animals = [
     name: 'Coco',
     birthday: new Date('2021-08-10'),
     description: 'Perroquet bavard, capable de répéter plusieurs mots.',
-    picture: 'https://images.pexels.com/photos/56733/pexels-photo-56733.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: '/images/coco.webp',
     localisation_id: localisationInstances[2].id,
     user_id: userInstances[2].id,
     species_id: speciesInstances[3].id
@@ -208,7 +204,7 @@ const animals = [
     name: 'Nala',
     birthday: new Date('2018-11-05'),
     description: 'Lapine curieuse qui adore grignoter des légumes frais.',
-    picture: 'https://images.pexels.com/photos/104373/pexels-photo-104373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: '/images/nala.webp',
     localisation_id: localisationInstances[3].id,
     user_id: userInstances[2].id,
     species_id: speciesInstances[2].id
@@ -217,7 +213,7 @@ const animals = [
     name: 'Oscar',
     birthday: new Date('2020-09-01'),
     description: 'Chien joueur et énergique, idéal pour famille avec enfants.',
-    picture: 'https://images.pexels.com/photos/220938/pexels-photo-220938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=17.jpeg',
+    picture: '/images/oscar.webp',
     localisation_id: localisationInstances[0].id,
     user_id: userInstances[4].id,
     species_id: speciesInstances[0].id
@@ -226,7 +222,7 @@ const animals = [
     name: 'Misty',
     birthday: new Date('2021-12-25'),
     description: 'Chatte douce et timide, aime les coins tranquilles.',
-    picture: 'https://images.pexels.com/photos/31917691/pexels-photo-31917691/free-photo-of-relaxed-black-and-white-cat-lying-on-pavement.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: '/images/misty.webp',
     localisation_id: localisationInstances[1].id,
     user_id: userInstances[0].id,
     species_id: speciesInstances[1].id
@@ -235,7 +231,7 @@ const animals = [
     name: 'Bubbles',
     birthday: new Date('2022-01-05'),
     description: 'Petit hamster vif et curieux.',
-    picture: 'https://images.pexels.com/photos/3362697/pexels-photo-3362697.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: '/images/bubbles.webp',
     localisation_id: localisationInstances[2].id,
     user_id: userInstances[6].id,
     species_id: speciesInstances[4].id
@@ -244,7 +240,7 @@ const animals = [
     name: 'Titi',
     birthday: new Date('2020-05-14'),
     description: 'Lapin nain doux, aime les câlins.',
-    picture: 'https://images.pexels.com/photos/3820509/pexels-photo-3820509.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: '/images/titi.webp',
     localisation_id: localisationInstances[3].id,
     user_id: userInstances[4].id,
     species_id: speciesInstances[2].id
@@ -253,7 +249,7 @@ const animals = [
     name: 'Simba',
     birthday: new Date('2019-11-30'),
     description: 'Chien croisé très sociable avec ses congénères.',
-    picture: 'https://images.pexels.com/photos/19333401/pexels-photo-19333401/free-photo-of-le-vieux-chien.jpeg?auto=compress&cs=tinysrgb&w=600',
+    picture: '/images/simba.webp',
     localisation_id: localisationInstances[4].id,
     user_id: userInstances[8].id,
     species_id: speciesInstances[0].id
@@ -262,7 +258,7 @@ const animals = [
     name: 'Nemo',
     birthday: new Date('2023-02-10'),
     description: 'Petit hamster très vif, adore courir dans sa roue.',
-    picture: 'https://images.pexels.com/photos/3432929/pexels-photo-3432929.jpeg?auto=compress&cs=tinysrgb&w=600',
+    picture: '/images/nemo.webp',
     localisation_id: localisationInstances[5].id,
     user_id: userInstances[4].id,
     species_id: speciesInstances[4].id
@@ -271,7 +267,7 @@ const animals = [
     name: 'Caramel',
     birthday: new Date('2018-07-07'),
     description: 'Lapin bélier très câlin.',
-    picture: 'https://images.pexels.com/photos/247373/pexels-photo-247373.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: '/images/caramel.webp',
     localisation_id: localisationInstances[6].id,
     user_id: userInstances[4].id,
     species_id: speciesInstances[2].id
@@ -280,7 +276,7 @@ const animals = [
     name: 'Rio',
     birthday: new Date('2021-04-16'),
     description: 'Perroquet aux couleurs éclatantes.',
-    picture: 'https://images.pexels.com/photos/1463295/pexels-photo-1463295.jpeg',
+    picture: '/images/rio.webp',
     localisation_id: localisationInstances[7].id,
     user_id: userInstances[6].id,
     species_id: speciesInstances[3].id
@@ -289,7 +285,7 @@ const animals = [
     name: 'Twix',
     birthday: new Date('2020-03-03'),
     description: 'Hamster curieux et actif la nuit.',
-    picture: 'https://images.pexels.com/photos/2013665/pexels-photo-2013665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    picture: '/images/twix.webp',
     localisation_id: localisationInstances[8].id,
     user_id: userInstances[6].id,
     species_id: speciesInstances[4].id
@@ -298,20 +294,18 @@ const animals = [
     name: 'Félix',
     birthday: new Date('2017-02-20'),
     description: 'Chat noir élégant et indépendant.',
-    picture: 'https://images.pexels.com/photos/1424687/pexels-photo-1424687.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    picture: '/images/felix.webp',
     localisation_id: localisationInstances[9].id,
     user_id: userInstances[8].id,
     species_id: speciesInstances[1].id
   }
 ];
-// pulled from react/bootstrap
 
 const animalInstances = [];
 for (const animal of animals) {
   animalInstances.push(await Animal.create(animal));
 }
 
-// Exemple d'association User_Animal
 const user_animals = [
   {
     message: "Je suis très proche de Luna.",
@@ -342,6 +336,5 @@ try {
 } catch (error) {
   console.error("Erreur lors de l'insertion des associations : ", error);
 }
-
 
 console.log('Données fictives insérées avec succès !');
