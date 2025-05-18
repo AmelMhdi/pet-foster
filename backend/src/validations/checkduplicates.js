@@ -9,14 +9,18 @@ export async function checkDuplicates(email, phone_number, userId = null) {
   });
 
   if (existingUser && existingUser.id !== userId) {
+    const conflicts = [];
+
     if (existingUser.email === email) {
-      const error = new Error("Cet email existe déjà.");
-      error.statusCode = 409;
-      throw error;
+      conflicts.push("Cet email est déjà utilisé.");
     }
 
     if (existingUser.phone_number === phone_number) {
-      const error = new Error("Ce numéro de téléphone existe déjà.");
+      conflicts.push("Ce numéro de téléphone est déjà utilisé.");
+    }
+
+    if (conflicts.length) {
+      const error = new Error(conflicts.join(" "));
       error.statusCode = 409;
       throw error;
     }
