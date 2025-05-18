@@ -10,7 +10,7 @@ Projet en cours...
 
 **Pet Foster Connect** est une plateforme web qui facilite la mise en relation entre :
 
-- des familles d’accueil temporaires souhaitant héberger un animal dans l’attente de son adoption ;
+- des familles d’accueil temporaires souhaitant héberger un animal dans l’attente de son adoption
 - des associations de protection animale proposant des animaux à placer.
 
 Notre objectif : **offrir une vie meilleure aux animaux**, en leur évitant les refuges surchargés, grâce à des hébergements temporaires dans des foyers aimants.
