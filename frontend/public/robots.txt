@@ -1,0 +1,6 @@
+# Allow all web crawlers full access
+User-agent: *
+Disallow:
+
+# Optional: link to your sitemap (replace with your real URL if you have one)
+Sitemap: https://petfoster.amelmhdi-server.eddi.cloud/sitemap.xml
