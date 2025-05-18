@@ -1,20 +1,25 @@
-interface DeleteAnimalModalProps {
-  animalName: string;
+interface DeleteProfileModalProps {
   onCancel: () => void;
   onConfirm: () => void;
 }
 
-export default function DeleteAnimalModal({
-  animalName,
+export default function DeleteProfileModal({
   onCancel,
   onConfirm,
-}: DeleteAnimalModalProps) {
+}: DeleteProfileModalProps) {
   return (
-    <div className="modal fade show" style={{ display: "block" }} tabIndex={-1}>
+    <div 
+      className="modal fade show" 
+      style={{ display: "block" }} 
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Confirmation de suppression</h5>
+            <h5 className="modal-title" id="modalTitle">Confirmation de suppression</h5>
             <button
               type="button"
               className="btn-close"
@@ -23,8 +28,8 @@ export default function DeleteAnimalModal({
           </div>
           <div className="modal-body">
             <p>
-              Êtes-vous sûr de vouloir supprimer l’animal{" "}
-              <strong>{animalName}</strong> ?
+              Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est
+              <strong> irréversible</strong>.
             </p>
           </div>
           <div className="modal-footer">
