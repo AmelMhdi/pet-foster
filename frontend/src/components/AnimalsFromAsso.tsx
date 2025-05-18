@@ -6,43 +6,31 @@ interface AnimalCardProps {
   onDelete: (animal: IUserAnimal) => void;
 }
 
-export default function AnimalsFromAsso({
-  animal,
-  onEdit,
-  onDelete,
-}: AnimalCardProps) {
+export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCardProps) {
   return (
     <div className="col-md-4">
-      <div className="card shadow-sm h-100">
+      <div className="card animal-card h-100 text-center shadow-sm">
         {animal.picture && (
           <img
             src={animal.picture}
             alt={animal.name}
-            className="card-img-top object-fit-cover"
+            className="card-img-top img-fluid rounded-top animal-img"
+            loading="lazy"
           />
         )}
         <div className="card-body">
           <h5 className="card-title">{animal.name}</h5>
           <p className="card-text">
-            Date de naissance :{" "}
-            <span className="fw-bold">
-              {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-            </span>
+            Date de naissance : <span className="fw-bold">{new Date(animal.birthday).toLocaleDateString("fr-FR")}</span>
           </p>
           <p className="card-text">
             Espèce : <span className="fw-bold">{animal.species.name}</span>
           </p>
           <div className="d-flex justify-content-between mt-3">
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={() => onEdit(animal.id)}
-            >
+            <button className="btn btn-primary btn-sm" onClick={() => onEdit(animal.id)}>
               Modifier
             </button>
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={() => onDelete(animal)}
-            >
+            <button className="btn btn-danger btn-sm" onClick={() => onDelete(animal)}>
               Supprimer
             </button>
           </div>
