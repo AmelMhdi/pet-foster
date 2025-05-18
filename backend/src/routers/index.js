@@ -10,7 +10,3 @@ router.use("/users",userRouter);
 router.use(animalRouter);
 
 router.use(associationRouter);
-
-
-
-

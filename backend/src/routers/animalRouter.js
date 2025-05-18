@@ -11,6 +11,5 @@ router.delete("/animals/:id", isAuth, animalController.deleteAnimal);
 router.post("/animals", isAuth, animalController.createAnimal);
 router.put("/animals/:id", isAuth, animalController.updateAnimal);
 
-router.get("/request/animals/users", animalController.getMessages);
 router.get("/request/animals/:animalId/users/:userId", animalController.getOneMessage);
 router.post("/request/animals/:animalId/users/:userId", isAuth, animalController.createOneMessage);
