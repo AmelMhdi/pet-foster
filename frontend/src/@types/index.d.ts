@@ -39,7 +39,7 @@ export interface IUser {
   address: string;
   phone_number: string;
   rma_number?: string | null;
-  role_id: number;
+  role_id: number | undefined;
   localisation_id: number;
 
   localisation?: ILocalisation;
@@ -124,6 +124,7 @@ export interface IUserStore {
   user: IUserT | null;
   login: (user: IUserT) => void;
   logout: () => void;
+  setUser: (user: IUserT) => void;
 }
 
 export interface IUserAnimal {
