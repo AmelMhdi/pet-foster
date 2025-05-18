@@ -5,7 +5,6 @@ interface MessageCardProps {
 }
 
 export default function MessagesForAsso({ message }: MessageCardProps) {
-  console.log(typeof message.createdAt, message.createdAt);
   return (
     <div className="col-md-6">
       <div className="card shadow-sm">

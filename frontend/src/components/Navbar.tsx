@@ -7,88 +7,73 @@ export default function Navbar() {
 
   return (
     <>
-      {/* menu toggler for mobile  */}
-      <button 
-        className="navbar-toggler custom-toggler ms-auto" 
-        type="button" 
-        data-bs-toggle="collapse" 
+      <button
+        className="navbar-toggler custom-toggler ms-auto"
+        type="button"
+        data-bs-toggle="collapse"
         data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Ouvrir le menu"
       >
-        <span className="navbar-toggler-icon"></span>
+        <span className="custom-toggler-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
       </button>
 
-      {/* collapsible navbar */}
-      <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
-
-        {/* left nav links */}
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
           <li className="nav-item mx-2">
-            <Link className="nav-link" to="/">Accueil</Link>
+            <Link className="nav-link" to="/">
+              Accueil
+            </Link>
           </li>
           <li className="nav-item mx-2">
-            <Link className="nav-link" to="/associations">Associations</Link>
+            <Link className="nav-link" to="/associations">
+              Associations
+            </Link>
           </li>
           <li className="nav-item mx-2">
-            <Link className="nav-link" to="/animals">Animaux</Link>
+            <Link className="nav-link" to="/animals">
+              Animaux
+            </Link>
           </li>
-          {/* affichage conditionnel pour les associations */}
           {user?.role?.name === "association" && (
+            <li className="nav-item mx-2">
+              <Link className="nav-link" to={`/profil-association/${user.id}`}>
+                Page de l'association
+              </Link>
+            </li>
+          )}
+          {user ? (
             <>
               <li className="nav-item mx-2">
-                <Link 
-                  className="nav-link" 
-                  to={`/profil-association/${user.id}`}
-                >
-                  Page de l'association
+                <p className="nav-link mb-0 no-hover">Bonjour, {user.firstname}.</p>
+              </li>
+              <li className="nav-item mx-2">
+                <button onClick={logout} className="btn btn-primary logout-btn">
+                  Déconnexion
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item mx-2 m-2">
+                <Link className="nav-btn" to="/se-connecter">
+                  <button className="btn btn-light me-2">Connexion</button>
+                </Link>
+              </li>
+              <li className="nav-item mx-2">
+                <Link className="nav-btn" to="/creer-compte">
+                  <button className="btn custom-inscription-btn me-2">Inscription</button>
                 </Link>
               </li>
             </>
           )}
         </ul>
-
-        {/* right nav links */}
-        <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex justify-content-center">
-          {user ? (
-            <>
-              <li className="nav-item mx-2">
-                <span className="nav-link no-hover">
-                  Bonjour, {user.firstname}.
-                </span>
-              </li>
-              <li className="nav-item mx-2">
-                <button onClick={logout} className="btn-primary logout-btn">
-                  Déconnexion
-                </button>
-              </li>              
-            </>
-          ) : null}
-        </ul>
-
-        {/* right nav links */}
-        <ul className="navbar-nav mb-2 mb-lg-0 ms-lg-4">
-          {user ? (
-            <>
-          </>
-          ) : (
-            <>
-              <div className="d-flex justify-content-center">
-                <li className="nav-item mx-2">
-                  <Link className="nav-btn" to="/se-connecter">
-                  <button className="btn btn-light me-2">Connexion</button> 
-                  </Link>
-                </li>
-                <li className="nav-item mx-2">
-                  <Link className="nav-btn" to="/creer-compte">
-                    <button className="btn custom-inscription-btn">
-                      Inscription
-                    </button>
-                  </Link>
-                </li>
-              </div>
-            </>
-          )}
-        </ul>
       </div>
     </>
-  )
+  );
 }
