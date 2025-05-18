@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchAssociationById } from "../services/api";
 import { IAssociationDetail } from "../@types";
+import { logError } from "../helpers/logError";
 
 export default function ContactAssociation() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ export default function ContactAssociation() {
 
       try {
         setLoading(true);
-        const associationId = parseInt(id);     
+        const associationId = parseInt(id);
         const oneAssociation = await fetchAssociationById(associationId);
         if (!oneAssociation) {
           setNotFound(true);
@@ -27,13 +28,12 @@ export default function ContactAssociation() {
           setAssociation(oneAssociation);
         }
       } catch (error) {
-        console.error("Erreur lors du chargement:", error);
+        logError("Erreur lors du chargement:", error);
         setNotFound(true);
       }
       setLoading(false);
-
     };
-  
+
     loadData();
   }, [id]);
 
@@ -49,17 +49,17 @@ export default function ContactAssociation() {
     <>
       <div className="container my-4">
         <div className="mb-4">
-          <h2 className="text-center">{association?.lastname}</h2>
-            <p className="text-center">
-              Contactez-nous au <span className="fw-bold">{association?.phone_number}</span>{' '}
-              ou par mail <span className="fw-bold">{association?.email}</span>
-            </p>
+          <h2 className="section-title">{association?.lastname}</h2>
+          <p className="text-center">
+            Contactez-nous au <span className="fw-bold">{association?.phone_number}</span> ou par mail{" "}
+            <span className="fw-bold">{association?.email}</span>
+          </p>
         </div>
         <div>
           {association?.animals_asso?.length ? (
             <>
               <h3 className="mb-4">Nos animaux</h3>
-              <div className="row g-4">
+              <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                 {association.animals_asso.map((animal) => (
                   <div key={animal.id} className="col-md-4">
                     <div className="card animal-card h-100 text-center shadow-sm">
@@ -67,15 +67,14 @@ export default function ContactAssociation() {
                         <img
                           src={animal.picture}
                           alt={animal.name}
-                          className="card-img-top object-fit-cover"
+                          className="animal-img card-img-top img-fluid rounded-top"
+                          loading="lazy"
                         />
                       )}
                       <div className="card-body">
                         <h5 className="card-title">{animal.name}</h5>
 
-                        <Link 
-                          to={`/animals/${animal.id}`} 
-                          className="btn btn-outline-primary mt-auto">
+                        <Link to={`/animals/${animal.id}`} className="btn btn-outline-primary mt-auto">
                           Voir détails
                         </Link>
                       </div>
@@ -92,4 +91,3 @@ export default function ContactAssociation() {
     </>
   );
 }
-
