@@ -1,32 +1,18 @@
 import Joi from "joi";
-import {
-  Animal,
-  Localisation,
-  Species,
-  User_animal,
-  User,
-} from "../models/index.js";
+import {Animal, Species, User_animal } from "../models/index.js";
 import { Sequelize } from "sequelize";
 
 export async function getAllAnimals(req, res) {
-  const { limit, random } = req.query;
+  const { limit, offset, random } = req.query;
   const queryOptions = {
-    include: [
-      {
-        model: Species,
-        as: "species",
-        attributes: ["id", "name"],
-      },
-      {
-        model: Localisation,
-        as: "localisation",
-        attributes: ["id", "city", "postcode"],
-      },
-    ],
-    attributes: { exclude: ["species_id", "localisation_id", "user_id"] },
+    attributes: { exclude: ["species_id", "localisation_id", "user_id", "birthday", "description"] },
   };
   if (limit) {
     queryOptions.limit = parseInt(limit, 10);
+  }
+
+  if (offset) {
+    queryOptions.offset = parseInt(offset, 10);
   }
 
   if (random && random === "true") {
@@ -34,13 +20,10 @@ export async function getAllAnimals(req, res) {
   }
   try {
     const animals = await Animal.findAll(queryOptions);
-    console.log(`Récupération d'animaux : ${animals.length}`);
     return res.json(animals);
   } catch (error) {
     console.error("Erreur lors de la récupération des animaux:", error);
-    res
-      .status(500)
-      .json({ error: "Erreur lors de la récupération des animaux" });
+    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
   }
 }
 
@@ -107,8 +90,7 @@ export async function createAnimal(req, res, next) {
       .pattern(/^\d{4}-\d{2}-\d{2}$/)
       .required()
       .messages({
-        "string.pattern.base":
-          "La date doit être au format AAAA-MM-JJ, par ex : 2025-05-01",
+        "string.pattern.base": "La date doit être au format AAAA-MM-JJ, par ex : 2025-05-01",
         "any.required": "La date est obligatoire",
       }),
     description: Joi.string().min(10).trim().required().messages({
@@ -128,8 +110,7 @@ export async function createAnimal(req, res, next) {
     return res.status(400).json({ error: error.details[0].message });
   }
 
-  const { name, birthday, description, picture, species_id, localisation_id } =
-    value;
+  const { name, birthday, description, picture, species_id, localisation_id } = value;
 
   const newAnimal = await Animal.create({
     name,
@@ -152,15 +133,7 @@ export async function updateAnimal(req, res, next) {
     return next(error);
   }
 
-  const {
-    name,
-    birthday: birthdayInput,
-    description,
-    picture,
-    localisation_id,
-    species_id,
-    user_id,
-  } = req.body;
+  const { name, birthday: birthdayInput, description, picture, localisation_id, species_id, user_id } = req.body;
 
   if (!name || !birthdayInput || !description || !picture || !localisation_id || !species_id || !user_id) {
     const error = new Error("Tous les champs sont requis");
@@ -176,7 +149,6 @@ export async function updateAnimal(req, res, next) {
       return next(error);
     }
 
-    // vérifier que l'utilisateur authentifié est le propriétaire
     if (req.user?.id !== animal.user_id) {
       return res.status(403).json({ message: "Action non autorisée" });
     }
@@ -202,17 +174,6 @@ export async function updateAnimal(req, res, next) {
   } catch (error) {
     error.statusCode = 500;
     error.message = "Erreur interne du serveur";
-    next(error);
-  }
-}
-
-export async function getMessages(req, res, next) {
-  try {
-    const messages = await User_animal.findAll({});
-    res.json(messages);
-  } catch (error) {
-    error.statusCode = 500;
-    error.message = "Erreur lors de la récupération des messages";
     next(error);
   }
 }
@@ -262,9 +223,6 @@ export async function createOneMessage(req, res, next) {
   }
 }
 
-/**
- * Fonction qui permet de récuperer un message de user en fonction de l'animal
- */
 export async function getOneMessage(req, res, next) {
   const { animalId, userId } = req.params;
   const getMessage = await User_animal.findOne({
@@ -292,18 +250,13 @@ export async function getOneMessage(req, res, next) {
   });
 }
 
-/**
- * Fonction qui permet de récuperer les espèces d'un animal
- */
 export async function getSpecies(req, res) {
   try {
     const messages = await Species.findAll({});
     res.json(messages);
   } catch (error) {
     console.error("Erreur lors de la récupération des animaux:", error);
-    res
-      .status(500)
-      .json({ error: "Erreur lors de la récupération des animaux" });
+    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
   }
 }
 
