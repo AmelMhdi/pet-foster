@@ -6,5 +6,5 @@ export const router = Router();
 
 router.get("/associations/:id/animals", associationController.getAllAnimalsByAssociation);
 router.get("/associations", associationController.getAllAssociations);
-router.get("/associations/request/users/:id",isAuth, associationController.getMessagesForAssociation);
+router.get("/associations/request/users/:id", isAuth, associationController.getMessagesForAssociation);
 router.get("/associations/:id", associationController.getOneAssociation);

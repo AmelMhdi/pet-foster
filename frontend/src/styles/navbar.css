@@ -1,4 +1,3 @@
-/* ===== NAVBAR STYLES ===== */
 .navbar {
   background-color: var(--dark-blue);
   padding: .8rem 1rem;
@@ -11,16 +10,6 @@
   color: var(--light-cream);
   font-size: 1.5rem;
   transition: color 0.3s ease;
-}
-
-.navbar-toggler {
-  border-color: var(--primary-red);
-  background-color: transparent;
-  padding: .5rem;
-}
-
-.navbar-toggler:focus {
-  box-shadow: 0 0 0 .2rem var(--primary-red);
 }
 
 .navbar-nav .nav-link {
@@ -39,4 +28,37 @@
 
 .navbar-brand:hover {
   color: var(--primary-red);
+}
+
+/* custom toggle icon */
+.custom-toggler {
+  border: none;
+  background-color: transparent;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-toggler:focus {
+  outline: none;
+  box-shadow: 0 0 0 .2rem var(--primary-red);
+}
+
+/* three bars (burger) */
+.custom-toggler-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 18px;
+}
+
+.custom-toggler-icon span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: var(--light-cream);
+  border-radius: 2px;
+  transition: all 0.3s ease;
 }

@@ -1,23 +1,26 @@
-/* Alertes */
 .alert {
   padding: 1rem 1.2rem;
   border: none;
 }
 
-/* success alert */
 .alert-success {
   background-color: var(--light-cream);
   color: var(--primary-red);
 }
 
-/* error alert */
 .alert-danger {
   background-color: var(--primary-red);
   color: var(--light-cream);
 }
 
-/* alert (unidentified user) */
 .alert-warning {
-  background-color: #fff3cd;
+  background-color: var(--warning-bg);
   color: var(--dark-blue);
+}
+
+.alert-success.custom-success {
+  background-color: var(--light-cream);
+  border: 1px solid var(--primary-red);
+  color: var(--primary-red);
+  font-weight: bold;
 }

@@ -1,0 +1,35 @@
+.custom-form {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: var(--light-cream);
+  border: 1px solid var(--medium-blue);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: box-shadow 0.3s ease;
+}
+
+label.form-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.form-check-label {
+  color: var(--dark-blue);
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.custom-login-link {
+  color: var(--dark-blue);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.custom-login-link:hover {
+  color: var(--medium-blue);
+  text-decoration: underline;
+}

@@ -1,51 +1,53 @@
-import "./App.css";
+import React, { Suspense } from "react";
 import "./main.css";
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import AnimalDetails from "./components/AnimalDetails";
 import AnimalsContainer from "./components/AnimalsContainer";
-import About from "./pages/About";
-import LegalMentions from "./pages/LegalMentions";
-import Contact from "./pages/Contact";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Profile from "./pages/Profile";
-import UpdateProfilAssociation from "./pages/UpdateProfilAssociation";
-import CreateAnimal from "./pages/CreateAnimal";
-import Associations from "./pages/Associations";
-import AssociationDetails from "./components/AssociationDetails";
-import NotFound404 from "./pages/NotFound404";
-import UpdateAnimal from "./pages/UpdateAnimal.tsx";
+const AnimalDetails = React.lazy(() => import("./components/AnimalDetails"));
+const About = React.lazy(() => import("./pages/About"));
+const LegalMentions = React.lazy(() => import("./pages/LegalMentions"));
+const Contact = React.lazy(() => import("./pages/Contact"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Register = React.lazy(() => import("./pages/Register"));
+const Profile = React.lazy(() => import("./pages/Profile"));
+const UpdateProfilAssociation = React.lazy(() => import("./pages/UpdateProfilAssociation"));
+const CreateAnimal = React.lazy(() => import("./pages/CreateAnimal"));
+const Associations = React.lazy(() => import("./pages/Associations"));
+const AssociationDetails = React.lazy(() => import("./components/AssociationDetails"));
+const UpdateAnimal = React.lazy(() => import("./pages/UpdateAnimal"));
+const NotFound404 = React.lazy(() => import("./pages/NotFound404"));
 
 function App() {
   return (
     <>
-      <div className="container-global">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/animals" element={<AnimalsContainer />} />
-          <Route path="/animals/:id" element={<AnimalDetails />} />
-          <Route path="/associations" element={<Associations />} />
-          <Route path="/associations/:id" element={<AssociationDetails />} />
-          <Route path="/se-connecter" element={<Login />} />
-          <Route path="/creer-compte" element={<Register />} />
-          <Route path="/profil-association/:id" element={<Profile />} />
-          <Route
-            path="/modifier-profil/:id"
-            element={<UpdateProfilAssociation />}
-          />
-          <Route path="/creer-animal/:id" element={<CreateAnimal />} />
-          <Route path="/modifier-animal/:id" element={<UpdateAnimal />} />
-          <Route path="/a-propos" element={<About />} />
-          <Route path="/mentions-legales" element={<LegalMentions />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound404 />} />
-        </Routes>
-        <Footer />
-      </div>
+      <Suspense fallback={<div className="loading">Loading...</div>}>
+        <div className="container-global">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/animals" element={<AnimalsContainer />} />
+            <Route path="/animals/:id" element={<AnimalDetails />} />
+            <Route path="/associations" element={<Associations />} />
+            <Route path="/associations/:id" element={<AssociationDetails />} />
+            <Route path="/se-connecter" element={<Login />} />
+            <Route path="/creer-compte" element={<Register />} />
+            <Route path="/profil-association/:id" element={<Profile />} />
+            <Route
+              path="/modifier-profil/:id"
+              element={<UpdateProfilAssociation />}
+            />
+            <Route path="/creer-animal/:id" element={<CreateAnimal />} />
+            <Route path="/modifier-animal/:id" element={<UpdateAnimal />} />
+            <Route path="/a-propos" element={<About />} />
+            <Route path="/mentions-legales" element={<LegalMentions />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound404 />} />
+          </Routes>
+          <Footer />
+        </div>
+      </Suspense>
     </>
   );
 }

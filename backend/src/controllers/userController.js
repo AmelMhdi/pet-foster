@@ -3,7 +3,7 @@ import Joi from "joi";
 import { hash, compare } from "../utils/crypto.js";
 import { Op } from "sequelize";
 import jwt from "jsonwebtoken";
-import { userRegisterSchema, userUpdateSchema } from "../validations/userShemas.js";
+import { userRegisterSchema, userUpdateSchema } from "../validations/userSchemas.js";
 
 export async function getRoles(req, res, next) {
   try {

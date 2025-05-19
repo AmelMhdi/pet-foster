@@ -1,55 +1,26 @@
-/* Animal cards */
-.animal-card {
-  border: none;
-  border-radius: .5rem;
-  background-color: var(--light-blue);
-  transition: transform .2s ease, box-shadow .2s ease;
+footer {
+  background-color: var(--dark-blue);
+  color: var(--light-cream);
+  padding: 1.5rem 1rem;
+  font-size: 0.9rem;
 }
 
-.animal-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px var(--grey);
-}
-
-.animal-card .card-body {
-  padding: 1.2rem;
-  background-color: var(--light-cream);
-  border-top: 1px solid var(--primary-red);
-}
-
-.animal-card .card-text {
-  color: var(--dark-blue);
+.footer-link {
+  color: var(--light-cream);
+  text-decoration: none;
+  padding: .5rem .6rem;
+  transition: all .3s ease;
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
-.association-card {
-  padding: 1.2rem;
-  background-color: var(--light-cream);
-  border-bottom: 1px solid var(--primary-red);
-  color: var(--dark-blue);
-  font-weight: 500;
-  font-size: 1.2rem;
+.footer-link:hover {
+  color: var(--light-blue);
+  background-color: var(--grey);
+  border-radius: .3rem;
 }
 
-/* Info & foster request cards */
-.info-card, .foster-request-card {
-  background-color: var(--light-blue);
-  border-radius: 0.5rem;
-  border: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.footer-navbar ul {
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
-
-.info-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px var(--grey);
-}
-
-.foster-request-title {
-  font-size: 1.2rem;
-  color: var(--medium-blue);
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-
