@@ -19,7 +19,7 @@ export default function AnimalsContainer({ limit, random, pagination = true }: P
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedAnimal = await api.fetchAnimals(animalsPerPage, random, page);
+        const fetchedAnimal = await api.fetchAnimals(animalsPerPage, random);
         setAnimals(fetchedAnimal);
         setHasMore(fetchedAnimal.length === animalsPerPage);
       } catch (error) {
