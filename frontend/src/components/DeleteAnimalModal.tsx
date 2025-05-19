@@ -1,4 +1,5 @@
 interface DeleteProfileModalProps {
+  animalName: string;
   onCancel: () => void;
   onConfirm: () => void;
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../store";
 import { getLocalisationsFromApi } from "../services/usersApi";
@@ -7,175 +7,177 @@ import { IAnimal, ILocalisation, ISpecies } from "../@types";
 
 export default function UpdateAnimal() {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const user = useUserStore((state) => state.user);
-
+  const [animal, setAnimal] = useState<IAnimal | null>(null);
   const [feedback, setFeedback] = useState("");
   const [isSending, setIsSending] = useState(false);
-  
-  const [name, setName] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [description, setDescription] = useState("");
-  const [picture, setPicture] = useState("");
-  const [postcode, setPostcode] = useState<number | "">("");
-  const [city, setCity] = useState("");
-  const [speciesId, setSpeciesId] = useState<number | "">("");
 
   const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
   const [speciesList, setSpeciesList] = useState<ISpecies[]>([]);
 
-  useEffect(() =>{
-    const fetchData = async () => {
-      if (!id) return;
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
 
-      try {
-        const [locs, species, animal] = await Promise.all([
-          getLocalisationsFromApi(),
-          api.getSpeciesFromApi(),
-          api.getAnimal(Number(id)),
-        ]);
+  const [form, setForm] = useState({
+    name: "",
+    birthday: "",
+    description: "",
+    picture: "",
+    postcode: "" as number | "",
+    city: "",
+    speciesId: "" as number | "",
+  });
 
-        if (!animal) {
-          setFeedback("Animal non trouvé.");
-          return
-        }
-
-        setLocalisations(locs);
-        setSpeciesList(species);
-
-        setName(animal.name);
-        setBirthday(animal.birthday);
-        setDescription(animal.description);
-        setPicture(animal.picture);
-        setSpeciesId(animal.species_id);
-
-        const localisation = locs.find((loc) => loc.id === animal.localisation_id);
-        if (localisation) {
-          setPostcode(localisation.postcode);
-          setCity(localisation.city);
-        }
-
-        nameInputRef.current?.focus();
-      } catch (error) {
-        console.error("Erreur lors du chargement des données :", error);
-        setFeedback("Une erreur est survenue lors du chargement des données.");        
+  useEffect(() => {
+    const loadAnimal = async () => {
+      if (id) {
+        const animalData = await getAnimal(Number(id));
+        setAnimal(animalData);
       }
     };
-    fetchData();
+    loadAnimal();
   }, [id]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (!animal) return;
 
+    nameInputRef.current?.focus();
+
+    const fetchData = async () => {
+      const [locs, species] = await Promise.all([
+        getLocalisationsFromApi(),
+        api.getSpeciesFromApi(),
+      ]);
+      setLocalisations(locs);
+      setSpeciesList(species);
+
+      if (id) {
+        const animal = await api.getAnimal(Number(id));
+        if (animal) {
+          const localisation = locs.find((loc: ILocalisation) => loc.id === animal.localisation_id);
+          setForm({
+            name: animal.name,
+            birthday: animal.birthday,
+            description: animal.description,
+            picture: animal.picture,
+            postcode: localisation?.postcode ?? "",
+            city: localisation?.city ?? "",
+            speciesId: animal.species_id,
+          });
+        } else {
+          setFeedback("Animal non trouvé.");
+        }
+      }
+    };
+
+    fetchData();
+  }, [id, animal]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "postcode" || name === "speciesId" ? (value ? Number(value) : "") : value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!user) {
       alert("Utilisateur non authentifié.");
       return;
     }
 
-    const selectedLoc = localisations.find((loc) => loc.city === city && loc.postcode === postcode);
+    const selectedLoc = localisations.find(
+      (loc) => loc.city === form.city && loc.postcode === form.postcode
+    );
 
-    if (!selectedLoc || !name || !birthday || !description || !picture || !speciesId) {
+    if (!selectedLoc || !form.name || !form.birthday || !form.description || !form.picture || !form.speciesId) {
       setFeedback("Veuillez remplir tous les champs.");
       return;
     }
 
     const updatedAnimal: IAnimal = {
       id: Number(id),
-      name,
-      birthday,
-      description,
-      picture,
+      name: form.name,
+      birthday: form.birthday,
+      description: form.description,
+      picture: form.picture,
       localisation_id: selectedLoc.id,
-      species_id: speciesId,
+      species_id: form.speciesId,
       user_id: user.id,
     };
 
-    setIsSending(true);
     setFeedback("Mise à jour en cours...");
+    setIsSending(true);
 
-    try {
-      const res = await api.updateAnimalFromApi(updatedAnimal, user.token);
-      if (res) {
-        setFeedback("Animal mis à jour avec succès !");
-        setTimeout(() => navigate(`/profil-association/${user.id}`), 1000);
-      } else {
-        setFeedback("Erreur lors de la mise à jour.");
-      }
-    } catch (error) {
-      console.error(error);
-      setFeedback("Une erreur est survenue.");
-    } finally {
-      setIsSending(false);
+    const res = await api.updateAnimalFromApi(updatedAnimal, user.token);
+    if (res) {
+      setFeedback("Animal mis à jour avec succès !");
+      setTimeout(() => {
+        navigate(`/profil-association/${user.id}`);
+      }, 1000);
+    } else {
+      setFeedback("Erreur lors de la mise à jour.");
     }
+    setIsSending(false);
   };
 
-  const cities = useMemo(
-    () => Array.from(new Set(localisations.map((loc) => loc.city))),
-    [localisations]
-  );
+  const cities = Array.from(new Set(localisations.map((l) => l.city)));
+  const postcodes = Array.from(new Set(localisations.map((l) => l.postcode)));
 
-  const postcodes = useMemo(
-    () => Array.from(new Set(localisations.map((loc) => loc.postcode))),
-    [localisations]
-  );
+  if (!animal) return <p>Chargement...</p>;
 
   return (
     <div className="container mt-5">
       <h1 className="mb-4">Modifier l’animal</h1>
-
-      {feedback && (
-        <div className="alert alert-info text-center my-3">{feedback}</div>
-      )}
-
+      {feedback && <div className="alert alert-info text-center my-3">{feedback}</div>}
       <form onSubmit={handleSubmit}>
         <label className="form-label h4" htmlFor="name">Nom</label>
         <input
           ref={nameInputRef}
           className="form-control mb-3"
           id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          disabled={isSending}
+          name="name"
+          value={form.name}
+          onChange={handleChange}
         />
 
         <label className="form-label h4" htmlFor="birthday">Date de naissance</label>
         <input
           className="form-control mb-3"
           id="birthday"
+          name="birthday"
           type="date"
-          value={birthday ? birthday.slice(0, 10) : ""}
-          onChange={(e) => setBirthday(e.target.value)}
-          disabled={isSending}
+          value={form.birthday.slice(0, 10)}
+          onChange={handleChange}
         />
 
         <label className="form-label h4" htmlFor="description">Description</label>
         <textarea
           className="form-control mb-3"
           id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          disabled={isSending}
+          name="description"
+          value={form.description}
+          onChange={handleChange}
         />
 
         <label className="form-label h4" htmlFor="picture">Image (URL)</label>
         <input
           className="form-control mb-3"
           id="picture"
-          value={picture}
-          onChange={(e) => setPicture(e.target.value)}
-          disabled={isSending}
+          name="picture"
+          value={form.picture}
+          onChange={handleChange}
         />
 
         <label className="form-label h4" htmlFor="postcode">Code Postal</label>
         <select
           id="postcode"
+          name="postcode"
           className="form-control mb-3"
-          value={postcode}
-          onChange={(e) =>
-            setPostcode(e.target.value === "" ? "" : Number(e.target.value))
-          }
-          disabled={isSending}
+          value={form.postcode}
+          onChange={handleChange}
         >
           <option value="">-- Choisir un code postal --</option>
           {postcodes.map((pc, i) => (
@@ -184,12 +186,12 @@ export default function UpdateAnimal() {
         </select>
 
         <label className="form-label h4" htmlFor="city">Ville</label>
-        <select 
-          id="city" 
-          className="form-control mb-3" 
-          value={city} 
-          onChange={(e) => setCity(e.target.value)}
-          disabled={isSending}
+        <select
+          id="city"
+          name="city"
+          className="form-control mb-3"
+          value={form.city}
+          onChange={handleChange}
         >
           <option value="">-- Choisir une ville --</option>
           {cities.map((c, i) => (
@@ -197,15 +199,13 @@ export default function UpdateAnimal() {
           ))}
         </select>
 
-        <label className="form-label h4" htmlFor="species">Espèce</label>
+        <label className="form-label h4" htmlFor="speciesId">Espèce</label>
         <select
-          id="species"
+          id="speciesId"
+          name="speciesId"
           className="form-control mb-3"
-          value={speciesId}
-          onChange={(e) => 
-            setSpeciesId(e.target.value === "" ? "" : Number(e.target.value))
-          }
-          disabled={isSending}
+          value={form.speciesId}
+          onChange={handleChange}
         >
           <option value="">-- Choisir une espèce --</option>
           {speciesList.map((s) => (
@@ -213,11 +213,11 @@ export default function UpdateAnimal() {
           ))}
         </select>
 
-        <input 
-          type="submit" 
-          className="btn btn-success d-block mx-auto" 
-          value="Mettre à jour" 
-          disabled={isSending} 
+        <input
+          type="submit"
+          className="btn btn-success d-block mx-auto"
+          value="Mettre à jour"
+          disabled={isSending}
         />
       </form>
     </div>
