@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use(xss());
 
-const allowedOrigins = process.env.ALLOWED_DOMAINS.split(',');
+const allowedOrigins = process.env.ALLOWED_DOMAINS.split(',').map(origin => origin.trim());
 
 app.use(cors({
   origin: function (origin, callback) {
