@@ -15,10 +15,6 @@ export const app = express();
 
 app.use(compression());
 
-app.use(express.static(path.resolve(__dirname, "../../frontend/dist")));
-
-app.use('/images', express.static(path.resolve(__dirname, '../../frontend/public/images')));
-
 app.use(express.json());
 
 app.use(xss());
@@ -27,12 +23,13 @@ const allowedOrigins = process.env.ALLOWED_DOMAINS.split(',');
 
 app.use(cors({
   origin: function (origin, callback) {
+    console.log("Request from origin:", origin);
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
-      callback(null, origin);
+      return callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      return callback(new Error('Not allowed by CORS'));
     }
   }
 }));
