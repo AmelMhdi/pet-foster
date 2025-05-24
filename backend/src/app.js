@@ -6,10 +6,6 @@ import { notFound, errorHandler } from "./middlewares/errorHandlers.js";
 import cors from "cors";
 import { xss } from "express-xss-sanitizer";
 import compression from "compression";
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export const app = express();
 
