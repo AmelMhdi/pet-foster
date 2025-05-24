@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express from "express";
-import path from "node:path";
 import { router } from "./routers/index.js";
 import { notFound, errorHandler } from "./middlewares/errorHandlers.js";
 import cors from "cors";
