@@ -15,21 +15,33 @@ export const app = express();
 
 app.use(compression());
 
-app.use(express.static(path.resolve(__dirname, "../pet-foster-connect/dist")));
+app.use(express.static(path.resolve(__dirname, "../../frontend/dist")));
 
-app.use('/images', express.static(path.resolve(__dirname, '../pet-foster-connect/public/images')));
+app.use('/images', express.static(path.resolve(__dirname, '../../frontend/public/images')));
 
 app.use(express.json());
 
 app.use(xss());
 
-app.use(cors({origin: process.env.ALLOWED_DOMAINS,}));
+const allowedOrigins = process.env.ALLOWED_DOMAINS.split(',');
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, origin);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 
 app.use("/api", router);
 
 app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(
-    path.resolve(__dirname, "../pet-foster-connect/dist/index.html")
+    path.resolve(__dirname, "../../frontend/dist/index.html")
   );
 });
 
