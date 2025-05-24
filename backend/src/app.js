@@ -36,12 +36,6 @@ app.use(cors({
 
 app.use("/api", router);
 
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(
-    path.resolve(__dirname, "../../frontend/dist/index.html")
-  );
-});
-
 app.use(notFound);
 
 app.use(errorHandler);
