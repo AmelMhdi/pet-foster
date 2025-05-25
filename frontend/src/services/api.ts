@@ -9,6 +9,8 @@ export const api = {
   getAnimal,
   getUserMessageFromApi,
   postUserMessageToApi,
+  createAnimalFromApi,
+  deleteAnimalApi,
   fetchAssociations,
   fetchAssociationById,
   updateAnimalFromApi
@@ -39,7 +41,7 @@ async function getSpeciesFromApi(): Promise<ISpecies[]> {
   return species;
 }
 
-export async function getAnimal(id: number): Promise<IAnimal> {
+async function getAnimal(id: number): Promise<IAnimal> {
   const response = await fetch(`${apiBaseUrl}/animals/${id}`)
 
   if (!response.ok) {
@@ -117,7 +119,7 @@ async function postUserMessageToApi(userId: number, animalId: number, message: s
   }
 }
 
-export async function createAnimalFromApi(
+async function createAnimalFromApi(
   animalData: INewAnimal
 ): Promise<IAnimal | { error: string }> {
   const token = useUserStore.getState().user?.token;
@@ -155,7 +157,7 @@ export async function createAnimalFromApi(
   }
 }
 
-export async function deleteAnimalApi(animalId: number) {
+async function deleteAnimalApi(animalId: number) {
   const token = useUserStore.getState().user?.token;
   if (!token) {
     console.error("Token non trouvé, utilisateur non connecté ?");
@@ -184,7 +186,7 @@ async function fetchAssociations(): Promise<IUser[]> {
   return associations;
 }
 
-export async function fetchAssociationById(
+async function fetchAssociationById(
   id: number
 ): Promise<IAssociationDetail> {
   const response = await fetch(`${apiBaseUrl}/associations/${id}`);

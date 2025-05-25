@@ -115,24 +115,32 @@ export default function AnimalDetails() {
           <div className="card-base card shadow-sm foster-request-card">
             <div className="card-body">
               <h5 className="card-title mb-3 fw-bold">Demande d'accueil</h5>
-              {successMessage && <div className="alert alert-success">{successMessage}</div>}
-              {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-              <div className="mb-3">
-                <label htmlFor="userMessageInput" className="form-label">
-                  Expliquez pourquoi vous souhaitez accueillir cet animal.
-                </label>
-                <textarea
-                  id="userMessageInput"
-                  className="form-control"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  rows={4}
-                />
-              </div>
 
-              <button className="btn btn-foster-request w-100" onClick={handleSubmit} disabled={!newMessage.trim()}>
-                Envoyer
-              </button>
+              {!user ? (
+                <div className="alert alert-warning">
+                  Vous devez être connecté pour envoyer une demande d'accueil.{" "}
+                </div>
+              ) : (
+                <>
+                  {successMessage && <div className="alert alert-success">{successMessage}</div>}
+                  {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+                  <div className="mb-3">
+                    <label htmlFor="userMessageInput" className="form-label">
+                      Expliquez pourquoi vous souhaitez accueillir cet animal.
+                    </label>
+                    <textarea
+                      id="userMessageInput"
+                      className="form-control"
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      rows={4}
+                    />
+                  </div>
+                  <button className="btn btn-foster-request w-100" onClick={handleSubmit} disabled={!newMessage.trim()}>
+                    Envoyer
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
