@@ -18,6 +18,26 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* Home text presentation */
+.main-container-custom {
+  background-color: var(--light-cream);
+  border-radius: 1rem; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.main-container-custom h3 {
+  color: var(--medium-blue); 
+  font-weight: 600;
+  margin-top: 2rem;
+}
+
+.main-container-custom p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+}
+
 /* Animal cards */
 .card-base {
   border: none;
