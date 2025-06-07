@@ -8,9 +8,9 @@ import compression from "compression";
 
 export const app = express();
 
-app.use(compression());
-
 app.use(express.json());
+
+app.use(compression());
 
 app.use(xss());
 

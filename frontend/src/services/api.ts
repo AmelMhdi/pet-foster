@@ -2,6 +2,7 @@ import { IAnimal, ISpecies, IUser, IAssociationDetail, INewAnimal } from "../@ty
 import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+console.log(apiBaseUrl)
 
 export const api = {
   fetchAnimals,
@@ -87,7 +88,7 @@ async function getUserMessageFromApi(
   }
 }
 
-async function postUserMessageToApi(userId: number, animalId: number, message: string): Promise<string | null> {
+export async function postUserMessageToApi(userId: number, animalId: number, message: string): Promise<string | null> {
   const token = useUserStore.getState().user?.token;
   if (!token) {
     console.error("Token non trouvé, utilisateur non connecté ?");
@@ -119,7 +120,7 @@ async function postUserMessageToApi(userId: number, animalId: number, message: s
   }
 }
 
-async function createAnimalFromApi(
+export async function createAnimalFromApi(
   animalData: INewAnimal
 ): Promise<IAnimal | { error: string }> {
   const token = useUserStore.getState().user?.token;
@@ -157,7 +158,7 @@ async function createAnimalFromApi(
   }
 }
 
-async function deleteAnimalApi(animalId: number) {
+export async function deleteAnimalApi(animalId: number) {
   const token = useUserStore.getState().user?.token;
   if (!token) {
     console.error("Token non trouvé, utilisateur non connecté ?");
@@ -176,7 +177,7 @@ async function deleteAnimalApi(animalId: number) {
   }
 }
 
-async function fetchAssociations(): Promise<IUser[]> {
+export async function fetchAssociations(): Promise<IUser[]> {
   const response = await fetch(`${apiBaseUrl}/associations`);
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
@@ -186,7 +187,7 @@ async function fetchAssociations(): Promise<IUser[]> {
   return associations;
 }
 
-async function fetchAssociationById(
+export async function fetchAssociationById(
   id: number
 ): Promise<IAssociationDetail> {
   const response = await fetch(`${apiBaseUrl}/associations/${id}`);
@@ -197,7 +198,7 @@ async function fetchAssociationById(
   return association;
 }
 
-async function updateAnimalFromApi(animalData: IAnimal, token: string): Promise<IAnimal | null> {
+export async function updateAnimalFromApi(animalData: IAnimal, token: string): Promise<IAnimal | null> {
   try {
     const response = await fetch(`${apiBaseUrl}/animals/${animalData.id}`, {
       method: "PUT",

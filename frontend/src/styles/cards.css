@@ -1,26 +1,80 @@
-footer {
-  background-color: var(--dark-blue);
-  color: var(--light-cream);
-  padding: 1.5rem 1rem;
-  font-size: 0.9rem;
+/* Home card */
+.hero-section {
+  background-image: url('../../public/images/home-cat-dog.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 60vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
-.footer-link {
-  color: var(--light-cream);
-  text-decoration: none;
-  padding: .5rem .6rem;
-  transition: all .3s ease;
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Animal cards */
+.card-base {
+  border: none;
+  border-radius: 0.5rem;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card-body-standard {
+  background-color: var(--light-cream);
+  font-size: 1.2rem;
   font-weight: 500;
-  font-size: 1rem;
+  color: var(--dark-blue);
 }
 
-.footer-link:hover {
-  color: var(--light-blue);
-  background-color: var(--grey);
-  border-radius: .3rem;
+.animal-card {
+  border-radius: 0.5rem;
 }
 
-.footer-navbar ul {
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.animal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.animal-card .card-body {
+  border-top: 1px solid var(--dark-blue);
+}
+
+.animal-card .card-text {
+  color: var(--dark-blue);
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.animal-img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.association-card {
+  padding: 1.2rem;
+  background-color: var(--light-cream);
+  border-bottom: 1px solid var(--dark-blue);
+  color: var(--dark-blue);
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+/* Info & foster request cards */
+.info-card,
+.foster-request-card {
+  background-color: var(--light-blue);
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }

@@ -3,12 +3,6 @@ export default function MainContainer() {
     <main className="container mt-5">
       <div className="main-container-border row justify-content-center border border-1 rounded p-2">
         <div className="col-lg-10 text-center">
-          <h1 className="text-center mb-4 pt-2 fw-bold text-primary-red">
-            Bienvenue sur Pet Foster Connect
-          </h1>
-
-          <h3 className="section-title fs-4">Une plateforme pour la protection animale</h3>
-
           <p>
             Pet Foster Connect révolutionne la protection animale en créant des liens solides entre les associations et les familles d'accueil.
           </p>
