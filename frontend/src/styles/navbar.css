@@ -26,6 +26,15 @@
   border-radius: .3rem;
 }
 
+.navbar-brand,
+.navbar-brand:visited,
+.navbar-brand:focus,
+.navbar-brand:active {
+  color: var(--light-cream);
+  text-decoration: none;
+}
+
+
 .navbar-brand:hover {
   color: var(--primary-red);
 }

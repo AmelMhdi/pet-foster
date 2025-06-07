@@ -11,19 +11,25 @@ export default function MainContainer() {
           />
 
           <p>
-            <strong>Pet Foster Connect</strong> révolutionne la protection animale en créant des liens solides entre les associations et les familles d'accueil.
+            <span className="main-container-pfc"><strong>Pet Foster Connect</strong> </span>révolutionne la protection animale en créant des liens solides entre les associations et les familles d'accueil.
           </p>
 
           <h3 className="fs-4">Notre mission</h3>
           <p>
-            Offrir une chance à chaque animal en attente d’un foyer définitif. En devenant famille d’accueil, vous transformez des vies — une patte à la fois.
+            Offrir une chance à chaque animal en attente d’un foyer définitif.
+            <br />
+            En devenant famille d’accueil, vous transformez des vies — une patte à la fois.
           </p>
 
           <h3 className="fs-4">Rejoignez notre communauté</h3>
           <p>
-            Parcourez les profils des animaux, trouvez ceux qui ont besoin de vous et devenez acteur d’un monde plus bienveillant.
+            Parcourez les profils des animaux, trouvez ceux qui ont besoin de vous
             <br />
-            <strong>Pet Foster Connect</strong>, c’est plus qu'une application : c'est un mouvement solidaire.
+            et devenez acteur d’un monde plus bienveillant.
+            <br />
+          </p>
+          <p>
+            <span className="main-container-pfc"><strong>Pet Foster Connect</strong></span>, c’est plus qu'une application : c'est un mouvement solidaire.
           </p>
         </div>
       </div>

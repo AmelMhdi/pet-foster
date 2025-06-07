@@ -38,6 +38,10 @@
   color: #444;
 }
 
+.main-container-pfc {
+  color: var(--primary-red);
+}
+
 /* Animal cards */
 .card-base {
   border: none;
