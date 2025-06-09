@@ -80,6 +80,7 @@ export async function getAllAssociations(req, res) {
       ],
       attributes: { exclude: ["firstname", "password", "email", "address", "phone_number", "rma_number"]}
     });
+    console.log("🚀 Associations :", getAllAssociations);
     res.json(associations);
   } catch (error) {
     console.error(error);
