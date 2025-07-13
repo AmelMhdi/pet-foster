@@ -4,13 +4,13 @@
 }
 
 .alert-success {
-  background-color: var(--light-cream);
+  background-color: var(--light-grey);
   color: var(--primary-red);
 }
 
 .alert-danger {
   background-color: var(--primary-red);
-  color: var(--light-cream);
+  color: var(--light-grey);
 }
 
 .alert-warning {
@@ -19,7 +19,7 @@
 }
 
 .alert-success.custom-success {
-  background-color: var(--light-cream);
+  background-color: var(--light-grey);
   border: 1px solid var(--primary-red);
   color: var(--primary-red);
   font-weight: bold;

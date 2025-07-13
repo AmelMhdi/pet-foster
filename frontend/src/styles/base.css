@@ -1,6 +1,6 @@
 /* Base styles */
 body {
-  background-color: var(--light-cream);
+  background-color: var(--light-grey);
   color: var(--dark-blue);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
@@ -17,7 +17,7 @@ body {
   border: 1px solid var(--medium-blue) !important;
   border-radius: 0.5rem;
   padding: 1rem;
-  background-color: var(--light-cream);
+  background-color: var(--light-grey);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 

@@ -1,7 +1,7 @@
 .custom-form {
   max-width: 700px;
   margin: 0 auto;
-  background-color: var(--light-cream);
+  background-color: var(--light-grey);
   border: 1px solid var(--medium-blue);
   border-radius: 8px;
   padding: 2rem;

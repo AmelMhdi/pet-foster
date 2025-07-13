@@ -42,7 +42,11 @@ export default function AnimalDetails() {
   }, [id]);
 
   if (loading) {
-    return <p>Chargement...</p>;
+    return <div className="text-center mt-5">
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Chargement...</span>
+      </div>
+    </div>
   }
 
   if (isNaN(Number(id)) || notFound) {
