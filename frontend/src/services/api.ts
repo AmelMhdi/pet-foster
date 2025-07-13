@@ -17,7 +17,7 @@ export const api = {
   updateAnimalFromApi
 };
 
-async function fetchAnimals(
+export async function fetchAnimals(
   limit?: number,
   random?: boolean
 ): Promise<IAnimal[]> {
@@ -32,7 +32,7 @@ async function fetchAnimals(
   return response.json();
 }
 
-async function getSpeciesFromApi(): Promise<ISpecies[]> {
+export async function getSpeciesFromApi(): Promise<ISpecies[]> {
   const response = await fetch(`${apiBaseUrl}/animals/species`);
   if (!response.ok) {
     throw new Error(`Erreur API: ${response.status}`);
@@ -42,7 +42,7 @@ async function getSpeciesFromApi(): Promise<ISpecies[]> {
   return species;
 }
 
-async function getAnimal(id: number): Promise<IAnimal> {
+export async function getAnimal(id: number): Promise<IAnimal> {
   const response = await fetch(`${apiBaseUrl}/animals/${id}`)
 
   if (!response.ok) {
@@ -54,7 +54,7 @@ async function getAnimal(id: number): Promise<IAnimal> {
   return animal;
 }
 
-async function getUserMessageFromApi(
+export async function getUserMessageFromApi(
   userId: number,
   animalId: number
 ): Promise<string | null> {
