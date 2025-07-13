@@ -20,7 +20,7 @@
 
 /* Home text presentation */
 .main-container-custom {
-  background-color: var(--light-grey);
+  background-color: var(--light-cream);
   border-radius: 1rem; 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 2rem;
@@ -52,7 +52,7 @@
 }
 
 .card-body-standard {
-  background-color: var(--light-grey);
+  background-color: var(--light-cream);
   font-size: 1.2rem;
   font-weight: 500;
   color: var(--dark-blue);
@@ -85,7 +85,7 @@
 
 .association-card {
   padding: 1.2rem;
-  background-color: var(--light-grey);
+  background-color: var(--light-cream);
   border-bottom: 1px solid var(--dark-blue);
   color: var(--dark-blue);
   font-weight: 500;

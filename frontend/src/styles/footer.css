@@ -1,12 +1,12 @@
 .footer-navbar {
   background-color: var(--dark-blue);
-  color: var(--light-grey);
+  color: var(--light-cream);
   font-size: 0.9rem;
   border-top: 1px solid var(--grey);
 }
 
 .footer-link {
-  color: var(--light-grey);
+  color: var(--light-cream);
   text-decoration: none;
   transition: color 0.3s ease;
   font-weight: 500;
@@ -20,7 +20,7 @@
 
 .footer-text {
   font-size: 0.85rem;
-  color: var(--light-grey);
+  color: var(--light-cream);
 }
 
 .footer-nav li {

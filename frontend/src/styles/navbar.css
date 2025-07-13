@@ -11,13 +11,13 @@
   display: flex;
   align-items: center;
   font-weight: 600;
-  color: var(--light-grey);
+  color: var(--light-cream);
   font-size: 1.5rem;
   transition: color 0.3s ease;
 }
 
 .nav-link {
-  color: var(--light-grey);
+  color: var(--light-cream);
   font-weight: 500;
   transition: color 0.2s ease;
 }
@@ -31,7 +31,7 @@
 .navbar-brand:visited,
 .navbar-brand:focus,
 .navbar-brand:active {
-  color: var(--light-grey);
+  color: var(--light-cream);
   text-decoration: none;
 }
 
@@ -68,6 +68,6 @@
   display: block;
   height: 3px;
   width: 100%;
-  background-color: var(--light-grey);
+  background-color: var(--light-cream);
   transition: all 0.3s ease;
 }
