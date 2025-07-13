@@ -35,13 +35,5 @@ export const sequelize = new Sequelize(process.env.PG_URL, {
     createdAt: "created_at",
     updatedAt: "updated_at"
   },
-  logging: console.log
+  logging: false
 });
-
-sequelize.authenticate()
-  .then(() => {
-    console.log('✅ Connexion à la base de données réussie');
-  })
-  .catch(err => {
-    console.error('❌ Impossible de se connecter à la base de données:', err);
-  });
