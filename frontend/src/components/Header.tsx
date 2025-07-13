@@ -4,17 +4,17 @@ import Navbar from "./Navbar";
 export default function Header() {
   return (
     <>
-      <nav className="navbar navbar-expand-lg">
-        <div className="container d-flex align-items-center">
-          <Link className="navbar-brand" to="/">
+      <nav className="navbar navbar-expand-lg shadow-sm py-3" aria-label="Navigation principale">
+        <div className="container d-flex justify-content-between align-items-center">
+          <Link className="navbar-brand d-flex align-items-center" to="/">
             <img
               src="/paw-print.svg"
-              alt="logo"
+              alt="Logo Pet Foster Connect"
               height="40"
               className="me-2"
               loading="lazy"
             />
-            <span className="brand-text">Pet Foster Connect</span>
+            <span className="fs-5 fw-semibold brand-text">Pet Foster Connect</span>
           </Link>
           <Navbar />
         </div>

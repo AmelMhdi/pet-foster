@@ -7,6 +7,12 @@ body {
   line-height: 1.5;
 }
 
+.brand-text {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
 .main-container-border {
   border: 1px solid var(--medium-blue) !important;
   border-radius: 0.5rem;
