@@ -14,6 +14,7 @@ export default function AnimalDetails() {
   const [newMessage, setNewMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -60,13 +61,16 @@ export default function AnimalDetails() {
     }
 
     try {
+      setIsSubmitting(true);
       await api.postUserMessageToApi(user.id, animal.id, trimmedMessage);
-
       setNewMessage("");
       setSuccessMessage("Votre demande d'accueil a été envoyée avec succès.");
+      setErrorMessage("");
     } catch (error) {
       logError("Erreur lors de l'envoi du message :", error);
       setErrorMessage("Une erreur est survenue lors de l'envoi.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -136,7 +140,12 @@ export default function AnimalDetails() {
                       rows={4}
                     />
                   </div>
-                  <button className="btn btn-foster-request w-100" onClick={handleSubmit} disabled={!newMessage.trim()}>
+                  <button 
+                    className="btn btn-foster-request w-100" 
+                    onClick={handleSubmit} 
+                    disabled={!newMessage.trim() || isSubmitting}
+                    aria-label="Envoyer la demande d'accueil"
+                  >
                     Envoyer
                   </button>
                 </>

@@ -12,18 +12,15 @@
   transition: color 0.3s ease;
 }
 
-.navbar-nav .nav-link {
+.nav-link {
   color: var(--light-cream);
-  padding: .5rem .6rem;
   font-weight: 500;
-  font-size: .9rem;
-  transition: all .3s ease;
+  transition: color 0.2s ease;
 }
 
-.navbar-nav .nav-link:hover {
-  color: var(--light-blue);
-  background-color: var(--grey);
-  border-radius: .3rem;
+.nav-link:hover {
+  color: var(--medium-blue);
+  text-decoration: none;
 }
 
 .navbar-brand,
@@ -51,7 +48,7 @@
 
 .custom-toggler:focus {
   outline: none;
-  box-shadow: 0 0 0 .2rem var(--primary-red);
+  box-shadow: 0 0 0 .1rem var(--medium-blue);
 }
 
 /* three bars (burger) */
@@ -68,6 +65,5 @@
   height: 3px;
   width: 100%;
   background-color: var(--light-cream);
-  border-radius: 2px;
   transition: all 0.3s ease;
 }
