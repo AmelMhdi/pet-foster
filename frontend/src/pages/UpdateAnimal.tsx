@@ -52,7 +52,7 @@ export default function UpdateAnimal() {
       setSpeciesList(species);
 
       if (id) {
-        const animal = await api.getAnimal(Number(id));
+        const animal = await getAnimal(Number(id));
         if (animal) {
           const localisation = locs.find((loc: ILocalisation) => loc.id === animal.localisation_id);
           setForm({
