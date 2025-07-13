@@ -39,6 +39,7 @@ export interface IUser {
   address: string;
   phone_number: string;
   rma_number?: string | null;
+  picture?: string | null;
   role_id: number | undefined;
   localisation_id: number;
 

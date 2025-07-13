@@ -4,7 +4,7 @@ export default function MainContainer() {
       <div className="row justify-content-center">
         <div className="col-lg-10 main-container-custom text-center fade-in">
           <img
-            src="../../public/images/cat-icon.svg"
+            src="/images/cat-icon.svg"
             alt="Mascotte Pet Foster Connect"
             className="mb-4"
             style={{ maxWidth: '120px', height: 'auto' }}

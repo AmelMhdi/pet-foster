@@ -56,7 +56,8 @@ const users = [
     phone_number: "0612345678",
     rma_number: 'W123456789',
     localisation_id: localisationInstances[0].id,
-    role_id: roleInstances[0].id 
+    role_id: roleInstances[0].id,
+    picture: '/images/alice.webp'
   },
   {
     firstname: 'Bruno',
@@ -67,7 +68,8 @@ const users = [
     phone_number: "0623456789",
     rma_number: 'W223456789',
     localisation_id: localisationInstances[1].id,
-    role_id: roleInstances[1].id
+    role_id: roleInstances[1].id,
+    picture: '/images/bruno.webp'
   },
   {
     firstname: 'Claire',

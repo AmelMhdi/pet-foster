@@ -5,6 +5,11 @@ import { Op } from "sequelize";
 import jwt from "jsonwebtoken";
 import { userRegisterSchema, userUpdateSchema } from "../validations/userSchemas.js";
 
+const BASE_URL = process.env.BASE_URL;
+if (!BASE_URL) {
+  throw new Error("BASE_URL is not defined");
+}
+
 export async function getRoles(req, res, next) {
   try {
     const roles = await Role.findAll();
@@ -30,6 +35,14 @@ export async function getAllUsers(req, res) {
     include: ["role", "localisation"],
     order: [["id", "ASC"]],
   });
+
+  const usersWithPicture = users.map(user => ({
+  ...user.toJSON(),
+  picture: user.picture 
+    ? `${BASE_URL}${user.picture}` 
+    : `${BASE_URL}/images/default-avatar.svg`
+  }));
+
   res.json(users);
 }
 
