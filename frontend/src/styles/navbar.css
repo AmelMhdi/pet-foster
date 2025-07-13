@@ -3,6 +3,10 @@
   padding: .8rem 1rem;
 }
 
+.navbar-nav {
+  padding-left: 0.5rem;
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;

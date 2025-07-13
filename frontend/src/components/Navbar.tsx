@@ -9,7 +9,6 @@ export default function Navbar() {
     const navbarCollapse = document.getElementById("navbarNav");
     const isShown = navbarCollapse?.classList.contains("show");
 
-    // Si le menu est ouvert, simule un clic sur le bouton pour le refermer
     if (isShown) {
       const toggler = document.querySelector(".navbar-toggler");
       (toggler as HTMLElement | null)?.click();
@@ -25,7 +24,7 @@ export default function Navbar() {
         data-bs-target="#navbarNav"
         aria-controls="navbarNav"
         aria-expanded="false"
-        aria-label="Basculer la navigation"
+        aria-label="Ouvrir le menu"
       >
         <span className="custom-toggler-icon">
           <span></span>
@@ -34,8 +33,8 @@ export default function Navbar() {
         </span>
       </button>
 
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center gap-2">
+      <div className="collapse navbar-collapse mt-3 mt-lg-0" id="navbarNav">
+        <ul className="navbar-nav w-100 flex-column flex-lg-row align-items-start align-items-lg-center justify-content-lg-end gap-2">
           <li className="nav-item">
             <Link className="nav-link" to="/" onClick={handleNavClick}>
               Accueil
@@ -51,17 +50,23 @@ export default function Navbar() {
               Animaux
             </Link>
           </li>
+
           {user?.role?.name === "association" && (
             <li className="nav-item">
-              <Link className="nav-link" to={`/profil-association/${user.id}`} onClick={handleNavClick}>
+              <Link
+                className="nav-link"
+                to={`/profil-association/${user.id}`}
+                onClick={handleNavClick}
+              >
                 Profil de l'association
               </Link>
             </li>
           )}
+
           {user ? (
             <>
               <li className="nav-item">
-                <p className="nav-link mb-0 no-hover">Bonjour, {user.firstname}.</p>
+                <span className="nav-link mb-0 no-hover">Bonjour, {user.firstname}.</span>
               </li>
               <li className="nav-item">
                 <button onClick={logout} className="btn btn-primary logout-btn">
@@ -73,12 +78,12 @@ export default function Navbar() {
             <>
               <li className="nav-item">
                 <Link className="nav-btn" to="/se-connecter" onClick={handleNavClick}>
-                  <button className="btn btn-light me-2">Connexion</button>
+                  <button className="btn btn-light">Connexion</button>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-btn" to="/creer-compte" onClick={handleNavClick}>
-                  <button className="btn custom-inscription-btn btn-inscription me-2">Inscription</button>
+                  <button className="btn custom-inscription-btn">Inscription</button>
                 </Link>
               </li>
             </>
