@@ -78,6 +78,12 @@
   font-size: 1.2rem;
 }
 
+.card-title-details {
+  font-size: 1.5rem;
+  color: var(--dark-blue);
+  font-weight: 600;
+}
+
 .animal-img {
   width: 100%;
   object-fit: cover;

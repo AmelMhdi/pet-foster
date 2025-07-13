@@ -102,7 +102,7 @@ export default function AnimalDetails() {
         <div className="col-md-6 mb-4">
           <div className="card-base card info-card shadow-sm mb-4">
             <div className="card-body d-flex flex-column justify-content-between">
-              <h5 className="card-title mb-3 fw-bold">Informations</h5>
+              <h5 className="card-title card-title-details mb-3 fw-bold">Informations</h5>
               <div className="card-text info-text">
                 <div className="info-grid">
                   <div >
@@ -124,7 +124,7 @@ export default function AnimalDetails() {
 
           <div className="card-base card shadow-sm foster-request-card">
             <div className="card-body">
-              <h5 className="card-title mb-3 fw-bold">Demande d'accueil</h5>
+              <h5 className="card-title card-title-details mb-3 fw-bold">Demande d'accueil</h5>
 
               {!user ? (
                 <div className="alert alert-warning">
