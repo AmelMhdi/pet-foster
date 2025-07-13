@@ -44,6 +44,7 @@
 
 /* Animal cards */
 .card-base {
+  background-color: var(--light-cream);
   border: none;
   border-radius: 0.5rem;
   transition:
