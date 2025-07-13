@@ -66,7 +66,7 @@ export default function Navbar() {
           {user ? (
             <>
               <li className="nav-item">
-                <span className="nav-link mb-0 no-hover">Bonjour, {user.firstname}.</span>
+                <span className="nav-link mb-0 no-hover cursor-pointer">Bonjour, {user.firstname}.</span>
               </li>
               <li className="nav-item">
                 <button onClick={logout} className="btn btn-primary logout-btn">

@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <HeroSection />
       <MainContainer />
-      <AnimalsContainer limit={3} random pagination={false}/>
+      <AnimalsContainer limit={3} random/>
     </>
   )
 }
