@@ -11,7 +11,7 @@ export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCard
 
   return (
     <div className="col-md-4 mb-4">
-      <div className="card animal-card h-100 text-center shadow-sm hover-effect">
+      <div className="card animal-card h-100 text-center shadow-sm">
         {animal.picture && (
           <img
             src={animal.picture}
@@ -21,21 +21,20 @@ export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCard
           />
         )}
 
-        <div className="card-body d-flex flex-column justify-content-between">
+        <div className="card-body d-flex flex-column">
           <h5 className="card-title fw-bold mb-2">{animal.name}</h5>
-          <p className="card-text text-muted mb-3">{animal.description}</p>
+          <p className="card-text mb-3">{animal.description}</p>
 
-          <div className="info-grid text-start mb-3">
-            <p>
-              <span className="fw-bold">Espèce :</span>{" "}
-              {animal.species?.name || "Information non disponible"}
+          <div className="text-start mb-3">
+            <p className="mb-1">
+              <strong>Espèce :</strong> {animal.species?.name || "Information non disponible"}
             </p>
-            <p>
-              <span className="fw-bold">Date de naissance :</span> {formattedDate}
+            <p className="mb-0">
+              <strong>Date de naissance :</strong> {formattedDate}
             </p>
           </div>
 
-          <div className="d-flex justify-content-between mt-auto">
+          <div className="d-flex justify-content-between mt-auto pt-3">
             <button
               className="btn btn-primary btn-sm"
               onClick={() => onEdit(animal.id)}
