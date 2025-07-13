@@ -7,9 +7,11 @@ interface AnimalCardProps {
 }
 
 export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCardProps) {
+  const formattedDate = new Date(animal.birthday).toLocaleDateString("fr-FR");
+
   return (
-    <div className="col-md-4">
-      <div className="card animal-card h-100 text-center shadow-sm">
+    <div className="col-md-4 mb-4">
+      <div className="card animal-card h-100 text-center shadow-sm hover-effect">
         {animal.picture && (
           <img
             src={animal.picture}
@@ -18,21 +20,35 @@ export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCard
             loading="lazy"
           />
         )}
-        <div className="card-body">
-          <h5 className="card-title">{animal.name}</h5>
-          <p className="card-text">{animal.description}</p>
-          <p className="card-text">
-            <span className="fw-bold">Espèce :</span> {animal.species?.name || "Information non disponible"}
-          </p>
-          <p className="card-text">
-            <span className="fw-bold">Date de naissance :</span> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-          </p>
-          <div className="d-flex justify-content-between mt-3">
-            <button className="btn btn-primary btn-sm" onClick={() => onEdit(animal.id)}>
-              Modifier
+
+        <div className="card-body d-flex flex-column justify-content-between">
+          <h5 className="card-title fw-bold mb-2">{animal.name}</h5>
+          <p className="card-text text-muted mb-3">{animal.description}</p>
+
+          <div className="info-grid text-start mb-3">
+            <p>
+              <span className="fw-bold">Espèce :</span>{" "}
+              {animal.species?.name || "Information non disponible"}
+            </p>
+            <p>
+              <span className="fw-bold">Date de naissance :</span> {formattedDate}
+            </p>
+          </div>
+
+          <div className="d-flex justify-content-between mt-auto">
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => onEdit(animal.id)}
+              aria-label={`Modifier ${animal.name}`}
+            >
+              ✏️ Modifier
             </button>
-            <button className="btn btn-danger btn-sm" onClick={() => onDelete(animal)}>
-              Supprimer
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={() => onDelete(animal)}
+              aria-label={`Supprimer ${animal.name}`}
+            >
+              🗑️ Supprimer
             </button>
           </div>
         </div>
