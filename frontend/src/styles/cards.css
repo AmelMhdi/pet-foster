@@ -95,9 +95,3 @@
 .info-grid > div {
   margin-bottom: 0.5rem;
 }
-
-/* Info & foster request cards */
-.info-card,
-.foster-request-card {
-  background-color: #f7f9fc; 
-}

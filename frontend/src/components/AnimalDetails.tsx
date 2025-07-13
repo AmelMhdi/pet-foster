@@ -101,8 +101,8 @@ export default function AnimalDetails() {
 
         <div className="col-md-6 mb-4">
           <div className="card-base card info-card shadow-sm mb-4">
-            <div className="card-body">
-              <h5 className="card-title mb-3 fw-bold">Informations</h5>
+            <div className="card-body d-flex flex-column justify-content-between">
+              <h5 className="card-title mb-2 fw-bold">Informations</h5>
               <div className="card-text info-text">
                 <div className="info-grid">
                   <div >
@@ -111,9 +111,9 @@ export default function AnimalDetails() {
                   <div>
                     <strong>Espèce :</strong> {animal.species?.name || "Information non disponible"}
                   </div>
-                  <div>
+                  <p className="card-text text-muted mb-2">
                     <strong>Description :</strong> {animal.description}
-                  </div>
+                  </p>
                   <div>
                     <strong>Ville :</strong> {animal.localisation?.city || "Information non disponible"}
                   </div>
