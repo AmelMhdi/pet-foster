@@ -58,18 +58,7 @@
   color: var(--dark-blue);
 }
 
-.card.animal-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card.animal-card.hover-effect:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.1);
-}
-
 .animal-card {
-  background-color: var(--light-cream);
-  border: 1px solid var(--medium-blue);
   border-radius: 0.5rem;
 }
 
@@ -89,7 +78,6 @@
 }
 
 .animal-img {
-  height: 200px;
   width: 100%;
   object-fit: cover;
   object-position: center;
@@ -106,9 +94,4 @@
 
 .info-grid > div {
   margin-bottom: 0.5rem;
-}
-
-.info-grid p {
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
 }
