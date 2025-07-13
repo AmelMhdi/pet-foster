@@ -3,7 +3,7 @@ import { app } from "./src/app.js";
 
 const server = createServer(app);
 
-const port = process.env.PORT || 3000;
-server.listen(port, () => {
-  console.log(`🚀 Server listening at http://localhost:${port}`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
