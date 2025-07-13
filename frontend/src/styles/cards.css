@@ -1,6 +1,6 @@
 /* Home card */
 .hero-section {
-  background-image: url('../../public/images/home-cat-dog.webp');
+  background-image: url('/images/home-cat-dog.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

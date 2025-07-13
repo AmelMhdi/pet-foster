@@ -120,10 +120,10 @@ export default function Profile() {
       )}
 
       <section id="animaux" className="mb-5">
-        <h2 className="mb-4">Animaux proposés :</h2>
+        <h2 className="mb-4">Animaux en attente d'un foyer</h2>
 
         {animals.length === 0 ? (
-          <p className="text-muted">Aucun animal pour le moment.</p>
+          <p className="text-muted">Aucun animal pour le moment</p>
         ) : (
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             {animals.map((animal) => (

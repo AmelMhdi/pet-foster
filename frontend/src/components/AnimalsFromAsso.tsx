@@ -20,11 +20,12 @@ export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCard
         )}
         <div className="card-body">
           <h5 className="card-title">{animal.name}</h5>
+          <p className="card-text">{animal.description}</p>
           <p className="card-text">
-            Date de naissance : <span className="fw-bold">{new Date(animal.birthday).toLocaleDateString("fr-FR")}</span>
+            <span className="fw-bold">Espèce :</span> {animal.species?.name || "Information non disponible"}
           </p>
           <p className="card-text">
-            Espèce : <span className="fw-bold">{animal.species.name}</span>
+            <span className="fw-bold">Date de naissance :</span> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
           </p>
           <div className="d-flex justify-content-between mt-3">
             <button className="btn btn-primary btn-sm" onClick={() => onEdit(animal.id)}>

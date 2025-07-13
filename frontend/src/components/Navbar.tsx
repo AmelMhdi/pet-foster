@@ -54,7 +54,7 @@ export default function Navbar() {
           {user?.role?.name === "association" && (
             <li className="nav-item mx-2">
               <Link className="nav-link" to={`/profil-association/${user.id}`} onClick={handleNavClick}>
-                Page de l'association
+                Profil de l'association
               </Link>
             </li>
           )}
