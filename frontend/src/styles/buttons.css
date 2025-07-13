@@ -114,6 +114,24 @@
 }
 
 /* ------------------------ */
+/* LOGOUT BUTTON */
+/* ------------------------ */
+
+.logout-btn {
+  background-color: var(--primary-red);
+  color: var(--light-cream);
+  font-size: 1rem;
+  border: none;
+}
+
+.logout-btn:hover,
+.logout-btn:focus,
+.logout-btn:active {
+  background-color: var(--primary-red);
+  color: var(--light-cream);
+}
+
+/* ------------------------ */
 /* DISABLED */
 /* ------------------------ */
 
