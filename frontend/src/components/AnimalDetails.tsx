@@ -95,22 +95,24 @@ export default function AnimalDetails() {
           />
         </div>
 
-        <div className="col-md-6">
+        <div className="col-md-6 mb-4">
           <div className="card-base card info-card shadow-sm mb-4">
             <div className="card-body">
               <h5 className="card-title mb-3 fw-bold">Informations</h5>
               <div className="card-text info-text">
-                <div>
-                  <strong>Date de naissance :</strong> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
-                </div>
-                <div>
-                  <strong>Espèce :</strong> {animal.species?.name || "Information non disponible"}
-                </div>
-                <div>
-                  <strong>Description :</strong> {animal.description}
-                </div>
-                <div>
-                  <strong>Ville :</strong> {animal.localisation?.city || "Information non disponible"}
+                <div className="info-grid">
+                  <div >
+                    <strong>Date de naissance :</strong> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
+                  </div>
+                  <div>
+                    <strong>Espèce :</strong> {animal.species?.name || "Information non disponible"}
+                  </div>
+                  <div>
+                    <strong>Description :</strong> {animal.description}
+                  </div>
+                  <div>
+                    <strong>Ville :</strong> {animal.localisation?.city || "Information non disponible"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -126,8 +128,8 @@ export default function AnimalDetails() {
                 </div>
               ) : (
                 <>
-                  {successMessage && <div className="alert alert-success">{successMessage}</div>}
-                  {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+                  {successMessage && <div className="alert alert-success" aria-live="polite">{successMessage}</div>}
+                  {errorMessage && <div className="alert alert-danger" aria-live="polite">{errorMessage}</div>}
                   <div className="mb-3">
                     <label htmlFor="userMessageInput" className="form-label">
                       Expliquez pourquoi vous souhaitez accueillir cet animal.
