@@ -1,26 +1,28 @@
-footer {
+.footer-navbar {
   background-color: var(--dark-blue);
   color: var(--light-cream);
-  padding: 1.5rem 1rem;
   font-size: 0.9rem;
+  border-top: 1px solid var(--grey);
 }
 
 .footer-link {
   color: var(--light-cream);
   text-decoration: none;
-  padding: .5rem .6rem;
-  transition: all .3s ease;
+  transition: color 0.3s ease;
   font-weight: 500;
-  font-size: 1rem;
 }
 
-.footer-link:hover {
-  color: var(--light-blue);
-  background-color: var(--grey);
-  border-radius: .3rem;
+.footer-link:hover,
+.footer-link:focus {
+  color: var(--primary-red);
+  text-decoration: underline;
 }
 
-.footer-navbar ul {
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.footer-text {
+  font-size: 0.85rem;
+  color: var(--light-cream);
+}
+
+.footer-nav li {
+  display: inline;
 }
