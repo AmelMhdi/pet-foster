@@ -2,7 +2,7 @@ export default function MainContainer() {
   return (
     <main className="container my-5">
       <div className="row justify-content-center">
-        <div className="col-lg-10 main-container-custom text-center fade-in">
+        <div className="col-lg-10 main-container-custom text-justify fade-in">
           <img
             src="/images/cat-icon.svg"
             alt="Mascotte Pet Foster Connect"
