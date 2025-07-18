@@ -11,10 +11,11 @@ export default function MainContainer() {
               className="img-fluid me-3"
               style={{ maxWidth: "100px" }}
             />
-            <h1 className="mb-0 text-center fw-bold mb-2 mt-2 container-title">
-              Qui sommes-nous ?
-            </h1>
           </div>
+          
+          <h1 className="mb-0 text-center fw-bold mt-2 mb-2 container-title">
+            Qui sommes-nous ?
+          </h1>
 
           {/* Intro */}
           <p className="lead text-center px-mobile-2">
