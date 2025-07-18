@@ -14,7 +14,7 @@ export default function Header() {
               className="me-2"
               loading="lazy"
             />
-            <span className="fs-5 fw-semibold brand-text">Pet Foster Connect</span>
+            <span className="fs-5 fw-semibold brand-text-header">Pet Foster Connect</span>
           </Link>
           <Navbar />
         </div>

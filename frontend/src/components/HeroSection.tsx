@@ -2,9 +2,13 @@ export default function HeroSection() {
   return (
     <section className="hero-section">
       <div className="hero-overlay"></div>
-      <div className="text-center position-relative">
-        <h1 className="display-4 fw-bold">Bienvenue sur Pet Foster Connect</h1>
-        <p className="lead">Ensemble pour un avenir meilleur pour les animaux</p>
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-10 col-lg-8 text-center position-relative">
+            <h1 className="display-4 fw-bold text-white mb-3 mb-md-4">Bienvenue sur Pet Foster Connect</h1>
+            <p className="lead text-white px-2 px-md-0">Ensemble pour un avenir meilleur pour les animaux</p>
+          </div>
+        </div>
       </div>
     </section>
   )

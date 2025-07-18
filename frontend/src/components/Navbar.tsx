@@ -83,7 +83,8 @@ export default function Navbar() {
               </li>
               <li className="nav-item">
                 <Link className="nav-btn" to="/creer-compte" onClick={handleNavClick}>
-                  <button className="btn custom-inscription-btn">Inscription</button>
+                  <button className="btn btn-primary btn-lg
+                  ">Inscription</button>
                 </Link>
               </li>
             </>
