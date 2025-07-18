@@ -4,7 +4,7 @@ export default function MainContainer() {
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8 main-container-custom fade-in text-start">
           {/* Logo et titre */}
-          <div className="d-flex align-items-center justify-content-center mb-4 container-cat-icon">
+          <div className="align-items-center justify-content-center mb-4 container-cat-icon d-flex flex-column flex-md-row">
             <img
               src="/images/cat-icon.svg"
               alt="Mascotte Pet Foster Connect"
