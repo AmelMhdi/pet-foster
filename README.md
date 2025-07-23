@@ -2,7 +2,7 @@
 
 <img src="./frontend/public/paw-print.svg" alt="Icône d'une patte d'animal, logo de Pet Foster Connect"/> Ce projet a été réalisé dans le cadre d’un projet académique.
 
-![Home](./frontend/public/images/Home.webp)
+![Home](./frontend/public/images/homepage.webp)
 
 ## Présentation
 
