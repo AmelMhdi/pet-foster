@@ -3,7 +3,7 @@ export default function MainContainer() {
     <main className="container my-5">
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8 main-container-custom fade-in">
-          <div className="text-center mb-5" id="main-about-us-section">
+          <div className="text-center mb-5">
             <div className="mb-4">
               <img
                 src="/images/cat-icon.svg"
@@ -65,36 +65,6 @@ export default function MainContainer() {
               </a>
             </div>
           </div>
-
-          {/* <section className="text-center">
-            <h1 className="mb-0 text-center fw-bold mb-2 mt-2 container-title">Notre mission</h1>
-            <div className="px-mobile-2">
-              <p className="mb-3">Offrir une chance à chaque animal en attente d'un foyer définitif. En devenant famille d'accueil, vous transformez des vies une patte à la fois.</p>
-            </div>
-          </section> */}
-
-          {/* Rejoindre la communauté */}
-          {/* <section className="text-center">
-            <h1 className="mb-0 text-center fw-bold mb-2 mt-2 container-title">Rejoindre la communauté</h1>            
-            <div className="px-mobile-2">
-              <p className="mb-3">
-                Parcourez les profils des animaux, <br />
-                trouvez ceux qui ont besoin de vous et devenez acteur d'un monde plus bienveillant.
-              </p>
-              <p>
-                <strong className="brand-text">Pet Foster Connect</strong> est plus qu'une application,
-                <br />
-                c'est un mouvement solidaire.
-              </p>
-            </div>
-          </section> */}
-
-          {/* Bouton d'appel à l'action */}
-          {/* <div className="text-center">
-            <a href="/creer-compte" className="btn btn-primary btn-lg">
-              Devenir famille d'accueil
-            </a>
-          </div> */}
         </div>
       </div>
     </main>

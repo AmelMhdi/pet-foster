@@ -1,147 +1,52 @@
-:root {
-  --primary-red: #E75561;
-  --light-cream: #FBFCF4;
-  --light-blue: #C4EEEF;
-  --medium-blue: #488EBA;
-  --medium-blue-2: #3b779c;
-  --dark-blue: #203656;
-  --grey: #FFFFFF26;
-  --warning-bg: #fff3cd;
-}
-
-/* ------------------------ */
-/* BASE BUTTON STYLES */
-/* ------------------------ */
-
 .btn {
   border-radius: 0.3rem;
   font-weight: 500;
   padding: 0.4rem 0.8rem;
   font-size: 0.9rem;
   transition: all 0.3s ease;
+  border: none;
 }
 
-/* Remove Bootstrap defaults for focus/active */
 .btn:focus,
-.btn:active,
-.btn:focus-visible,
-.btn:focus-within {
-  outline: none !important;
-  box-shadow: none !important;
-  color: inherit;
-  background-color: inherit;
-  border-color: inherit;
+.btn:active {
+  outline: none;
+  box-shadow: none;
 }
-
-/* ------------------------ */
-/* PRIMARY BUTTON */
-/* ------------------------ */
 
 .btn-primary {
   background-color: var(--medium-blue);
   color: var(--light-cream);
-  font-size: 1rem;
-  border: none;
 }
 
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active {
+.btn-primary:hover {
+  background-color: var(--medium-blue-2);
+}
+
+/* Variantes */
+.btn--foster,
+.btn--inscription {
   background-color: var(--medium-blue-2);
   color: var(--light-cream);
 }
 
+.btn--logout {
+  background-color: var(--primary-red);
+  color: var(--light-cream);
+}
 
-/* ------------------------ */
-/* OUTLINE PRIMARY */
-/* ------------------------ */
-
-.btn-outline-primary {
+.btn-outline {
   border: 1px solid var(--dark-blue);
   color: var(--dark-blue);
-  background-color: transparent;
+  background: transparent;
 }
 
-.btn-outline-primary:hover,
-.btn-outline-primary:focus,
-.btn-outline-primary:active {
+.btn-outline:hover {
   background-color: var(--dark-blue);
   color: white;
-  border-color: var(--dark-blue);
 }
 
-
-/* ------------------------ */
-/* FOSTER REQUEST BUTTON */
-/* ------------------------ */
-
-.btn-foster-request {
-  background-color: var(--medium-blue-2);
-  color: var(--light-cream);
-  font-size: 1rem;
-  border: none;
-}
-
-.btn-foster-request:hover,
-.btn-foster-request:focus,
-.btn-foster-request:active {
-  background-color: var(--medium-blue-2);
-  color: var(--light-cream);
-}
-
-/* ------------------------ */
-/* CUSTOM INSCRIPTION BUTTON */
-/* ------------------------ */
-
-.custom-inscription-btn {
-  background-color: var(--medium-blue);
-  color: var(--light-cream);
-  font-size: 1rem;
-  border: none;
-}
-
-.custom-inscription-btn:hover,
-.custom-inscription-btn:focus,
-.custom-inscription-btn:active {
-  background-color: var(--medium-blue-2);
-  color: var(--light-cream);
-}
-
-/* ------------------------ */
-/* LOGOUT BUTTON */
-/* ------------------------ */
-
-.logout-btn {
-  background-color: var(--primary-red);
-  color: var(--light-cream);
-  font-size: 1rem;
-  border: none;
-}
-
-.logout-btn:hover,
-.logout-btn:focus,
-.logout-btn:active {
-  background-color: var(--primary-red);
-  color: var(--light-cream);
-}
-
-/* ------------------------ */
-/* DISABLED */
-/* ------------------------ */
-
-/* état désactivé global pour tous les boutons */
-.btn:disabled,
-.btn.disabled {
+/* Disabled */
+.btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background-color: inherit;
-  color: inherit;
-  border: none;
-  pointer-events: none;
-}
-
-/* style spécifique pour le bouton de demande d'accueil */
-.btn-foster-request:disabled {
-  background-color: var(--medium-blue-2);
-  color: var(--light-cream);
 }

@@ -13,7 +13,12 @@
   font-weight: 600;
   color: var(--light-cream);
   font-size: 1.5rem;
+  text-decoration: none;
   transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: var(--primary-red);
 }
 
 .nav-link {
@@ -27,20 +32,7 @@
   text-decoration: none;
 }
 
-.navbar-brand,
-.navbar-brand:visited,
-.navbar-brand:focus,
-.navbar-brand:active {
-  color: var(--light-cream);
-  text-decoration: none;
-}
-
-
-.navbar-brand:hover {
-  color: var(--primary-red);
-}
-
-/* custom toggle icon */
+/* custom toggle */
 .custom-toggler {
   border: none;
   background-color: transparent;
@@ -55,7 +47,6 @@
   box-shadow: 0 0 0 .1rem var(--medium-blue);
 }
 
-/* three bars (burger) */
 .custom-toggler-icon {
   display: flex;
   flex-direction: column;
@@ -70,4 +61,29 @@
   width: 100%;
   background-color: var(--light-cream);
   transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.6rem;
+  }
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 768px) {
+  .navbar-nav .nav-link {
+    font-size: 1.1rem;
+  }
+}
+@media (min-width: 992px) {
+  .navbar-brand {
+    font-size: 2.2rem;
+  }
+}
+@media (min-width: 1200px) {
+  .navbar-brand {
+    font-size: 2.5rem;
+  }
 }
