@@ -3,9 +3,11 @@ import Navbar from "./Navbar";
 
 export default function Header() {
   return (
-    <>
-      <nav className="navbar navbar-expand-lg shadow-sm py-3" aria-label="Navigation principale">
-        <div className="container d-flex justify-content-between align-items-center">
+      <nav 
+        className="navbar navbar-expand-lg navbar-dark w-100" 
+        aria-label="Navigation principale"
+      >
+        <div className="container">
           <Link className="navbar-brand d-flex align-items-center" to="/">
             <img
               src="/paw-print.svg"
@@ -19,6 +21,5 @@ export default function Header() {
           <Navbar />
         </div>
       </nav>
-    </>
   );
 }

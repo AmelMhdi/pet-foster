@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import "./main.css";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import AnimalsContainer from "./components/AnimalsContainer";
 const AnimalDetails = React.lazy(() => import("./components/AnimalDetails"));
@@ -45,7 +44,6 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound404 />} />
           </Routes>
-          <Footer />
         </div>
       </Suspense>
     </>

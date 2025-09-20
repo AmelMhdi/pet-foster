@@ -1,4 +1,4 @@
-import AnimalsContainer from "../components/AnimalsContainer";
+import Footer from "../components/Footer";
 import HeroSection from "../components/HeroSection";
 import MainContainer from "../components/MainContainer";
 
@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <HeroSection />
       <MainContainer />
-      <AnimalsContainer limit={3} random/>
+      <Footer />
     </>
   )
 }

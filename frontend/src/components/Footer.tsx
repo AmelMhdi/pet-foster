@@ -17,8 +17,8 @@ export default function Footer() {
             </li>
           </ul>
         </nav>
-        <p className="footer-text text-center mt-3 mb-0">
-          &copy; {new Date().getFullYear()} Pet Foster Connect. Tous droits réservés.
+        <p className="footer-text text-center mt-3">
+          Pet Foster Connect
         </p>
       </div>
     </footer>

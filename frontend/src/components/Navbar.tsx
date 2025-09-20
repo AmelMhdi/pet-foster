@@ -36,17 +36,17 @@ export default function Navbar() {
       <div className="collapse navbar-collapse mt-3 mt-lg-0" id="navbarNav">
         <ul className="navbar-nav w-100 flex-column flex-lg-row align-items-start align-items-lg-center justify-content-lg-end gap-2">
           <li className="nav-item">
-            <Link className="nav-link" to="/" onClick={handleNavClick}>
+            <Link className="nav-link px-3" to="/" onClick={handleNavClick}>
               Accueil
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/associations" onClick={handleNavClick}>
+            <Link className="nav-link px-3" to="/associations" onClick={handleNavClick}>
               Associations
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/animals" onClick={handleNavClick}>
+            <Link className="nav-link px-3" to="/animals" onClick={handleNavClick}>
               Animaux
             </Link>
           </li>

@@ -4,7 +4,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 60vh;
+  height: 100vh;
   position: relative;
   display: flex;
   align-items: center;
@@ -22,15 +22,19 @@
 .container-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--dark-blue);
+  color: var(--medium-blue);
   margin-top: 1rem;
 }
 
 .main-container-custom {
-  background-color: var(--light-cream);
-  border-radius: .5rem; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 2rem;
+}
+
+.main-about-us-section {
+  background-color: var(--light-cream);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .main-container-custom h3 {
