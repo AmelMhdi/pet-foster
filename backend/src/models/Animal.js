@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from './sequelizeClient.js';
 
-export class Animal extends Model {}
+class Animal extends Model {}
 
 Animal.init(
   {
@@ -44,3 +44,5 @@ Animal.init(
     timestamps: true,
   }
 );
+
+export default Animal;

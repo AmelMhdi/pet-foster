@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "./sequelizeClient.js";
 
-export class Role extends Model {}
+class Role extends Model {}
 
 Role.init(
 {
@@ -21,3 +21,5 @@ Role.init(
   tableName: "role",
   timestamps: true,
 });
+
+export default Role;

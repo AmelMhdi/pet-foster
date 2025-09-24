@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import {sequelize} from './sequelizeClient.js';
 
-export class User extends Model {}
+class User extends Model {}
 
 User.init(
   {
@@ -70,3 +70,5 @@ User.init(
     timestamps: true,
   }
 );
+
+export default User;

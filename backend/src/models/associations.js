@@ -1,5 +1,9 @@
-import { Animal, User } from "./index.js";
 import { sequelize } from "./sequelizeClient.js";
+import User from "./User.js";
+import Animal from "./Animal.js";
+import Species from "./Species.js";
+import Role from "./Role.js";
+import Application from "./Application.js";
 
 // ROLE - USER
 Role.hasMany(User, {

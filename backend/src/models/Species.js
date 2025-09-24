@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "./sequelizeClient.js";
 
-export class Species extends Model {}
+class Species extends Model {}
 
 Species.init(
 {
@@ -21,3 +21,5 @@ Species.init(
   tableName: "species",
   timestamps: true,
 });
+
+export default Species;

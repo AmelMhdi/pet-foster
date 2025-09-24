@@ -1,6 +1,7 @@
+import { sequelize } from "./sequelizeClient.js";
 import { DataTypes, Model } from "sequelize";
 
-export class Application extends Model {}
+class Application extends Model {}
 
 Application.init(
 	{
@@ -35,4 +36,6 @@ Application.init(
 		tableName: "application",
 		timestamps: true,
 	}
-);	
+);
+
+export default Application;
