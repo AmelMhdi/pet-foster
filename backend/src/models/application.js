@@ -34,6 +34,5 @@ Application.init(
 		modelName: "Application",
 		tableName: "application",
 		timestamps: true,
-		underscored: true, // Pour que Sequelize utilise le snake_case pour les champs de timestamps (created_at, updated_at)
 	}
 );	

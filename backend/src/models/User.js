@@ -68,6 +68,5 @@ User.init(
     modelName: 'User',
     tableName: 'user',
     timestamps: true,
-    underscored: true, // Pour que Sequelize utilise le snake_case pour les champs de timestamps (created_at, updated_at) 
   }
 );
