@@ -3,7 +3,13 @@ import { sequelize } from "./sequelizeClient.js";
 
 export class Role extends Model {}
 
-Role.init({
+Role.init(
+{
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -11,5 +17,8 @@ Role.init({
   },
 }, {
   sequelize,
-  tableName: "role"
+  modelName: "Role",
+  tableName: "role",
+  timestamps: true,
+  underscored: true, // Pour que Sequelize utilise le snake_case pour les champs de timestamps (created_at, updated_at)
 });
