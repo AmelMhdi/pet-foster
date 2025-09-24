@@ -5,13 +5,22 @@ export class User extends Model {}
 
 User.init(
   {
-    firstname: {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    first_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
 
-    lastname: {
+    last_name: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phone_number: {  
+      type: DataTypes.STRING(20),
       allowNull: false,
     },
     password: {
@@ -27,24 +36,38 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-      
-    phone_number: {  
+    street_number: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+    },
+    address: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true, 
     },
-    rma_number: {   
+    city: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    zip_code: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+    },
+    rna_number: {
+      type: DataTypes.STRING(20),
       allowNull: true,
       unique: true,
     },
-    picture: {
-      type: DataTypes.STRING,
-      allowNull: true
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "role", key: "id" },
     },
   },
   {
     sequelize,
-    tableName: 'user', 
+    modelName: 'User',
+    tableName: 'user',
+    timestamps: true,
+    underscored: true, // Pour que Sequelize utilise le snake_case pour les champs de timestamps (created_at, updated_at) 
   }
 );
