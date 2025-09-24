@@ -13,8 +13,8 @@ INSERT INTO Species (id, name) VALUES
 
 -- Table User
 INSERT INTO User (id, first_name, last_name, phone_number, password, email, street_number, address, city, zip_code, rna_number, role_id) VALUES 
-  (1, 'Alice', 'Durand', '0123456789', 'hashed_pwd_1', 'alice@example.com', '10', 'rue des Lilas', 'Paris', '75000', 'RNA12345', 2),
-  (2, 'Bob', 'Martin', '0987654321', 'hashed_pwd_2', 'bob@example.com', '5', 'avenue de Lyon', 'Lyon', '69000', NULL, 3);
+  (1, 'Anya', 'Joy', '0123456789', 'hashed_pwd_1', 'anya@example.com', '10', 'rue des Lilas', 'Paris', '75000', 'RNA12345', 2),
+  (2, 'Joon', 'Kim', '0987654321', 'hashed_pwd_2', 'joon@example.com', '5', 'avenue de Lyon', 'Lyon', '69000', NULL, 3);
 
 -- Table Animal
 INSERT INTO Animal (id, name, date_of_birth, description, picture, user_id, species_id) VALUES 
