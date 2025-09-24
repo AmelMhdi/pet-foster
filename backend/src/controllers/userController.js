@@ -1,4 +1,4 @@
-import { User, Role, Localisation } from "../models/index.js";
+import { User, Role } from "../models/index.js";
 import Joi from "joi";
 import { hash, compare } from "../utils/crypto.js";
 import { Op } from "sequelize";
@@ -20,29 +20,11 @@ export async function getRoles(req, res, next) {
   }
 }
 
-export async function getLocalisations(req, res, next) {
-  try {
-    const localisations = await Localisation.findAll();
-    res.status(200).json(localisations);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des localisations :", error);
-    return next(error);
-  }
-}
-
 export async function getAllUsers(req, res) {
   const users = await User.findAll({
-    include: ["role", "localisation"],
+    include: ["role"],
     order: [["id", "ASC"]],
   });
-
-  const usersWithPicture = users.map(user => ({
-  ...user.toJSON(),
-  picture: user.picture 
-    ? `${BASE_URL}${user.picture}` 
-    : `${BASE_URL}/images/default-avatar.svg`
-  }));
-
   res.json(users);
 }
 
@@ -86,21 +68,23 @@ export async function register(req, res, next) {
     return null;
   }
 
-  const { firstname, lastname, email, password, address, phone_number, rma_number, role_id, localisation_id } =
+  const { first_name, last_name, email, password, address, phone_number, rna_number, role_id } =
     req.body;
 
-  await checkDuplicates(email, phone_number, rma_number);
+  await checkDuplicates(email, phone_number, rna_number);
 
   const user = await User.create({
-    firstname,
-    lastname,
+    first_name,
+    last_name,
     password: await hash(password),
     email,
-    address,
     phone_number,
-    rma_number,
+    street_number,
+    address,
+    city,
+    zip_code,
+    rna_number,
     role_id,
-    localisation_id,
   });
 
   res.status(201).json(user);
@@ -125,7 +109,7 @@ export async function login(req, res, next) {
   const { email, password } = req.body;
   const user = await User.findOne({
     where: { email },
-    include: ["role", "localisation"],
+    include: ["role"],
   });
   if (!user) {
     return res.status(401).json({ error: "Identifiants invalides" });
@@ -135,7 +119,7 @@ export async function login(req, res, next) {
   if (!validPassword) {
     return res.status(401).json({ error: "Identifiants invalides" });
   }
-  console.log("JWT_SECRET ===>", process.env.JWT_SECRET);
+  console.log("JWT_SECRET =>", process.env.JWT_SECRET);
 
   
   const token = jwt.sign(
@@ -148,12 +132,14 @@ export async function login(req, res, next) {
     token,
     expiresIn: "1d",
     id: user.id,
-    firstname: user.firstname,
-    lastname: user.lastname,
+    first_name: user.first_name,
+    last_name: user.last_name,
     email: user.email,
     address: user.address,
     phone_number: user.phone_number,
-    localisation: user.localisation,
+    street_number: user.street_number,
+    city: user.city,
+    zip_code: user.zip_code,
     role: {
       id: user.role.id,
       name: user.role.name,
@@ -191,50 +177,53 @@ export async function updateUser(req, res, next) {
     return next();
   }
 
-  const { firstname, lastname, email, password, address, phone_number, rma_number } = req.body;
+  const { first_name, last_name, email, password, street_number, address, city, zip_code, phone_number, rna_number } = req.body;
 
   await checkDuplicates(email, phone_number, userId);
   const user = await User.findByPk(userId, {
-    include: ["role", "localisation"],
+    include: ["role"],
   });
 
   if (!user) {
     return next();
   }
 
-  if (firstname) user.firstname = firstname;
-  if (lastname) user.lastname = lastname;
+  if (first_name) user.first_name = first_name;
+  if (last_name) user.last_name = last_name;
   if (password) user.password = await hash(password);
   if (email) user.email = email;
+  if (street_number) user.street_number = street_number;
+  if (city) user.city = city;
+  if (zip_code) user.zip_code = zip_code;
   if (address) user.address = address;
   if (phone_number) user.phone_number = phone_number;
-  if (rma_number) user.rma_number = rma_number;
+  if (rna_number) user.rna_number = rna_number;
 
   await user.save();
   res.status(200).json(user);
 }
 
-async function checkDuplicates(email, phone_number, userId) {
+async function checkDuplicates(email, phone_number, rna_number, userId) {
   const existingUser = await User.findOne({
     where: {
       [Op.or]: [
         { email },
         { phone_number },
+        { rna_number },
       ],
     },
   });
 
   if (existingUser && existingUser.id !== userId) {
-    if (existingUser.email === email) {
-      const error = new Error("Cet email existe déjà veuillez en choisir un autre ");
-      error.statusCode = 409;
-      throw error;
-    }
-    if (existingUser.phone_number === phone_number) {
-      const error = new Error("Ce numéro de téléphone existe déjà veuillez en choisir un autre");
-      error.statusCode = 409;
-      throw error;
-    }
+    if (existingUser.email === email) throw createConflictError("email");
+    if (existingUser.phone_number === phone_number) throw createConflictError("numéro de téléphone");
+    if (rna_number && existingUser.rna_number === rna_number) throw createConflictError("numéro RNA");
   }
   return null;
+}
+
+function createConflictError(field) {
+  const error = new Error(`Ce ${field} existe déjà, veuillez en choisir un autre.`);
+  error.statusCode = 409;
+  return error;
 }

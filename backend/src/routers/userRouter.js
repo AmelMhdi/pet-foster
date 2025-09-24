@@ -12,4 +12,4 @@ router.put("/:id", isAuth, userController.updateUser);
 router.delete("/:id", isAuth, userController.deleteUser);
 
 router.get("/roles", userController.getRoles);
-router.get("/localisations", userController.getLocalisations);
+// router.get("/localisations", userController.getLocalisations);

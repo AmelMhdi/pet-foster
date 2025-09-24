@@ -76,13 +76,13 @@ Application.belongsTo(Animal, {
 
 // USER - ANIMALE (many-to-many through application)
 User.belongsToMany(Animal, {
-  through: "application", // animals a user applied for
+  through: Application, // animals a user applied for
   as: "applied_animals",
   foreignKey: "user_id",
   otherKey: "animal_id",
 });
 Animal.belongsToMany(User, {
-  through: "application",
+  through: Application,
   as: "applicants", // users who applied for an animal
   foreignKey: "animal_id",
   otherKey: "user_id",

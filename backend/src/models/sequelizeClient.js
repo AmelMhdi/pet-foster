@@ -1,16 +1,19 @@
-import dotenv from 'dotenv'; // Chargement des variables d’environnement
+import dotenv from "dotenv"; // Pour charger les variables d’environnement depuis le fichier .env
 import { Sequelize } from "sequelize"; // Import de la classe Sequelize (le tunnel de connexion)
+dotenv.config(); // Charge les variables d’environnement depuis le fichier .env
 
-dotenv.config();
+if (!process.env.PG_URL) {
+  throw new Error("PG_URL is not defined");
+}
 
 export const sequelize = new Sequelize(process.env.PG_URL, { // Crée une instance connectée à la base Postgres, grâce à l’URL définie dans .env
   dialect: 'postgres', // précise qu'on utilise PostgreSQL
-  dialectOptions: {
-    ssl: { // Sécurise la connexion (utile sur des serveurs distants comme Render, Railway, Heroku)
-      require: true,
-      rejectUnauthorized: false
-    }
-  },
+  // dialectOptions: {
+  //   ssl: { // Sécurise la connexion (utile sur des serveurs distants comme Render, Railway, Heroku)
+  //     require: true,
+  //     rejectUnauthorized: false
+  //   }
+  // },
   pool: { // configure un pool de connexions
     max: 5, // nombre max de connexions dans le pool
     min: 0, // nombre min de connexions dans le pool

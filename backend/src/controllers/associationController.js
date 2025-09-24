@@ -1,4 +1,4 @@
-import { User, User_animal } from "../models/index.js";
+import { User } from "../models/index.js";
 
 /**
  * Fonction qui permet de récuperer les animaux en fonction d'une association
@@ -32,18 +32,6 @@ export async function getMessagesForAssociation(req, res, next) {
   }
 
   const associationId = parseInt(req.params.id);
-
-  const getMessages = await User_animal.findAll({
-    include: [
-      {
-        association: "animal",
-        where: { user_id: associationId }, 
-      },
-      {
-        association: "user", 
-      },
-    ],
-  });
 
   if (!getMessages) {
     return next();

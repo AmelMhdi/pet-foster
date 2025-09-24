@@ -108,7 +108,6 @@ const applications = [
     status: "pending"
   },
 ];
-
 try {
   await Promise.all(applications.map(application => Application.create(application)));
   console.log('Candidatures insérées avec succès !');
