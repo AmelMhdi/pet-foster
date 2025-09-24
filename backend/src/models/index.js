@@ -1,1 +1,1 @@
-export { Animal, User, Localisation, Species, Role, User_animal, sequelize } from "./associations.js";
+export { Animal, User, Species, Role, Application, sequelize } from "./associations.js";

@@ -15,7 +15,7 @@ User.belongsTo(Role, {
   foreignKey: "role_id",
 });
 
-// USER (as association) - ANIMAL
+// USER (as association) - ANIMAL (owned by association)
 User.hasMany(Animal, {
   as: "animals",
   foreignKey: {
@@ -25,7 +25,7 @@ User.hasMany(Animal, {
   onDelete: "CASCADE",
 });
 Animal.belongsTo(User, {
-  as: "user",
+  as: "association",
   foreignKey: "user_id",
 });
 
@@ -43,7 +43,7 @@ Animal.belongsTo(Species, {
   foreignKey: "species_id",
 });
 
-// APPLICATION (un utilisateur fait plusieurs demandes d'adoption)
+// APPLICATION (standalone applications made by users for animals)
 User.hasMany(Application, {
   as: "applications",
   foreignKey: {
@@ -70,4 +70,18 @@ Application.belongsTo(Animal, {
   foreignKey: "animal_id",
 });
 
-export { Animal, User, Localisation, Species, Role, Application, sequelize };
+// USER - ANIMALE (many-to-many through application)
+User.belongsToMany(Animal, {
+  through: "application", // animals a user applied for
+  as: "applied_animals",
+  foreignKey: "user_id",
+  otherKey: "animal_id",
+});
+Animal.belongsToMany(User, {
+  through: "application",
+  as: "applicants", // users who applied for an animal
+  foreignKey: "animal_id",
+  otherKey: "user_id",
+});
+
+export { Animal, User, Species, Role, Application, sequelize };
