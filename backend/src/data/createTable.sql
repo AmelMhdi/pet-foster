@@ -1,5 +1,5 @@
 -- Table: Role
-CREATE TABLE Role (
+CREATE TABLE role (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL UNIQUE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -7,7 +7,7 @@ CREATE TABLE Role (
 );
 
 -- Table: User
-CREATE TABLE User (
+CREATE TABLE user (
   id INT PRIMARY KEY AUTO_INCREMENT,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE User (
 );
 
 -- Table: Species
-CREATE TABLE Species (
+CREATE TABLE species (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL UNIQUE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -34,7 +34,7 @@ CREATE TABLE Species (
 );
 
 -- Table: Animal
-CREATE TABLE Animal (
+CREATE TABLE animal (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
   date_of_birth DATE NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE Animal (
 );
 
 -- Table: Application (demande d’accueil)
-CREATE TABLE Application (
+CREATE TABLE application (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
   animal_id INT NOT NULL,
@@ -61,8 +61,6 @@ CREATE TABLE Application (
   FOREIGN KEY (animal_id) REFERENCES Animal(id),
   UNIQUE (user_id, animal_id)
 );
-
-
 
 -- OLD SQL SCRIPT ---
 --  Table: Role
