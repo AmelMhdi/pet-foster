@@ -4,6 +4,7 @@ import { hash, compare } from "../utils/crypto.js";
 import { Op } from "sequelize";
 import jwt from "jsonwebtoken";
 import { userRegisterSchema, userUpdateSchema } from "../validations/userSchemas.js";
+import { parse } from "dotenv";
 
 const BASE_URL = process.env.BASE_URL;
 if (!BASE_URL) {
@@ -27,6 +28,84 @@ export async function getAllUsers(req, res) {
     order: [["id", "ASC"]],
   });
   res.json(users);
+}
+
+export async function getOneUser(req, res, next) {
+  const userId = parseInt(req.params.id);
+  if (!Number.isInteger(userId)) {
+    return res.status(400).json({ error: "ID utilisateur invalide." });
+  }
+
+  try {
+    const user = await User.findByPk(userId, {
+      attributes: ["id", "first_name", "last_name", "role_id", "street_number", "address", "zip_code", "city", "phone_number"],
+      include: ["role"],
+      exclude: ["password", "email", "rna_number"],
+    });
+
+    if (!user) return res.status(404).json({ error: "Utilisateur non trouvé." });
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", error);
+    return next(error);
+  }
+}
+
+export async function getAllAssociations(req, res, next) {
+  try {
+    const associations = await User.findAll({
+      include: [
+        {
+          association: "role",
+          where: { id: 1 }, // 1 = role association
+        },
+        { association: "localisation" },
+      ],
+      attributes: {
+        exclude: ["password", "email", "phone_number", "rna_number", "street_number", "address", "city", "zip_code"],
+      },
+      order: [["id", "ASC"]],
+    });
+    res.status(200).json(associations);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des associations :", error);
+    return next(error);
+  }
+}
+
+export async function getOneAssociation(req, res, next) {
+  const associationId = parseInt(req.params.id);
+  if (!Number.isInteger(associationId)) {
+    return res.status(400).json({ error: "ID invalide." });
+  }
+
+  try {
+    const association = await User.findOne({
+      attributes: ["id", "first_name", "last_name", "email", "phone_number"],
+      include: [
+        {
+          association: "animals_association",
+          attributes: ["id", "name", "picture"],
+          include: [
+            {
+              association: "species",
+              attributes: ["id", "name"],
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!association) {
+      return res.status(404).json({ error: "Association non trouvée." });
+    }
+
+    res.status(200).json(association);
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'association :", error);
+    return next(error);
+  }
 }
 
 // Authentification (register, login)

@@ -22,7 +22,7 @@ export async function getAllAnimals(req, res) {
     const animals = await Animal.findAll(queryOptions);
     return res.json(animals);
   } catch (error) {
-    console.error("Erreur lors de la récupération des animaux : ", error);
+    console.error("Erreur lors de la récupération des animaux :", error);
     res.status(500).json({ error: "Erreur lors de la récupération des animaux." });
   }
 }
@@ -99,7 +99,7 @@ export async function updateAnimal(req, res, next) {
     animal.species_id = species_id;
 
     await animal.save();
-    res.status(200).json({ message: "Animal mis à jour avec succès : ", animal });
+    res.status(200).json({ message: "Animal mis à jour avec succès :", animal });
   } catch (error) {
     error.statusCode = 500;
     error.message = "Erreur interne du serveur.";
@@ -152,13 +152,13 @@ export async function createOneMessage(req, res, next) {
     });
 
     if (req.user.id !== messageInstance.user_id)
-      return res.status(403).json({ message: "Action non autorisée" });
+      return res.status(403).json({ message: "Action non autorisée." });
 
-    res.status(201).json({ message: "Message créé avec succès", data: messageInstance });
+    res.status(201).json({ message: "Message créé avec succès.", data: messageInstance });
   } catch (error) {
     console.error(error);
     error.statusCode = 500;
-    error.message = "Erreur serveur";
+    error.message = "Erreur serveur.";
     next(error);
   }
 }
@@ -197,7 +197,7 @@ export async function getSpecies(req, res) {
     const species = await Species.findAll();
     res.json(species);
   } catch (error) {
-    console.error("Erreur lors de la récupération des espèces : ", error);
+    console.error("Erreur lors de la récupération des espèces :", error);
     res.status(500).json({ error: "Erreur lors de la récupération des espèces." });
   }
 }

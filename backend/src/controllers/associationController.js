@@ -28,7 +28,7 @@ export async function getAllAnimalsByAssociation(req, res, next) {
 export async function getMessagesForAssociation(req, res, next) {
   const user_id = req.user?.id;
   if (!user_id) {
-    return res.status(401).json({ error: "Utilisateur non authentifié" });
+    return res.status(401).json({ error: "Utilisateur non authentifié." });
   }
 
   const associationId = parseInt(req.params.id);
