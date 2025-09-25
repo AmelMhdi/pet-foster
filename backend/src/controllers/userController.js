@@ -10,6 +10,7 @@ if (!BASE_URL) {
   throw new Error("BASE_URL is not defined");
 }
 
+// Roles & Users
 export async function getRoles(req, res, next) {
   try {
     const roles = await Role.findAll();
@@ -28,37 +29,13 @@ export async function getAllUsers(req, res) {
   res.json(users);
 }
 
-export async function deleteUser(req, res, next) {
-  const user_id = req.user?.id;
-  if (!user_id) {
-    return res.status(401).json({ error: "Utilisateur non authentifié" });
-  }
-  const userId = parseInt(req.params.id);
-
-  if (!Number.isInteger(userId)) {
-    return next();
-  }
-  
-  const user = await User.findByPk(userId);
-  if (!user) {
-    return next();
-  }
-
-  await user.destroy();
-  console.log(`User ${userId} supprimé`);
-  res.status(204).end();
-}
-
+// Authentification (register, login)
 export async function register(req, res, next) {
   const error = validate(req);
-  if (error) {
-    return next(error);
-  }
+  if (error) return next(error);
 
   function validate(req) {
-    const { error } = userRegisterSchema.validate(req.body, {
-      abortEarly: false,
-    });
+    const { error } = userRegisterSchema.validate(req.body, { abortEarly: false });
     if (error) {
       return {
         statusCode: 400,
@@ -68,8 +45,19 @@ export async function register(req, res, next) {
     return null;
   }
 
-  const { first_name, last_name, email, password, address, phone_number, rna_number, role_id } =
-    req.body;
+  const { 
+    first_name, 
+    last_name, 
+    email, 
+    password, 
+    street_number, 
+    address, 
+    zip_code, 
+    city, 
+    phone_number, 
+    rna_number, 
+    role_id 
+  } = req.body;
 
   await checkDuplicates(email, phone_number, rna_number);
 
@@ -93,11 +81,11 @@ export async function register(req, res, next) {
 export async function login(req, res, next) {
   const schema = Joi.object({
     email: Joi.string().email().required().messages({
-      "string.empty": "L'email doit être renseigné",
-      "string.email": "Le format de l'email est invalide",
+      "string.empty": "L'email doit être renseigné.",
+      "string.email": "Le format de l'email est invalide.",
     }),
     password: Joi.string().required().messages({
-      "string.empty": "Le mot de passe doit être renseigné",
+      "string.empty": "Le mot de passe doit être renseigné.",
     }),
   });
   const { error } = schema.validate(req.body);
@@ -112,21 +100,15 @@ export async function login(req, res, next) {
     include: ["role"],
   });
   if (!user) {
-    return res.status(401).json({ error: "Identifiants invalides" });
+    return res.status(401).json({ error: "Identifiants invalides." });
   }
 
   const validPassword = await compare(password, user.password);
   if (!validPassword) {
-    return res.status(401).json({ error: "Identifiants invalides" });
+    return res.status(401).json({ error: "Identifiants invalides." });
   }
-  console.log("JWT_SECRET =>", process.env.JWT_SECRET);
 
-  
-  const token = jwt.sign(
-    { id: user.id }, 
-    process.env.JWT_SECRET, 
-    { expiresIn: "1d" } 
-  );
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
   return res.json({
     token,
@@ -147,21 +129,18 @@ export async function login(req, res, next) {
   });
 }
 
+// Update & Delete User
 export async function updateUser(req, res, next) {
-  const user_id = req.user?.id;
-  if (!user_id) {
-    return res.status(401).json({ error: "Utilisateur non authentifié" });
+  const currentUserId = req.user?.id;
+  if (!currentUserId) {
+    return res.status(401).json({ error: "Utilisateur non authentifié." });
   }
 
   const error = validateUpdatedFields(req);
-  if (error) {
-    return next(error);
-  }
+  if (error) return next(error);
 
   function validateUpdatedFields(req) {
-    const { error } = userUpdateSchema.validate(req.body, {
-      abortEarly: false,
-    });
+    const { error } = userUpdateSchema.validate(req.body, { abortEarly: false });
     if (error) {
       return {
         statusCode: 400,
@@ -174,18 +153,32 @@ export async function updateUser(req, res, next) {
   const userId = parseInt(req.params.id);
 
   if (!Number.isInteger(userId)) {
-    return next();
+    return res.status(400).json({ error: "ID utilisateur invalide." });
   }
 
-  const { first_name, last_name, email, password, street_number, address, city, zip_code, phone_number, rna_number } = req.body;
+  // Only allow users to update their own profile unless they are admin
+  if (req.user.id !== userId && req.user.role?.name !== "admin") {
+    return res.status(403).json({ error: "Action non autorisée." });
+  }
 
-  await checkDuplicates(email, phone_number, userId);
-  const user = await User.findByPk(userId, {
-    include: ["role"],
-  });
+  const { 
+    first_name, 
+    last_name, 
+    email, 
+    password, 
+    street_number, 
+    address, 
+    zip_code, 
+    city, 
+    phone_number, 
+    rna_number 
+  } = req.body;
 
+  await checkDuplicates(email, phone_number, rna_number, userId);
+
+  const user = await User.findByPk(userId, { include: ["role"] });
   if (!user) {
-    return next();
+    return res.status(404).json({ error: "Utilisateur non trouvé." });
   }
 
   if (first_name) user.first_name = first_name;
@@ -193,8 +186,8 @@ export async function updateUser(req, res, next) {
   if (password) user.password = await hash(password);
   if (email) user.email = email;
   if (street_number) user.street_number = street_number;
-  if (city) user.city = city;
   if (zip_code) user.zip_code = zip_code;
+  if (city) user.city = city;
   if (address) user.address = address;
   if (phone_number) user.phone_number = phone_number;
   if (rna_number) user.rna_number = rna_number;
@@ -203,14 +196,36 @@ export async function updateUser(req, res, next) {
   res.status(200).json(user);
 }
 
+export async function deleteUser(req, res, next) {
+  const currentUserId = req.user?.id;
+  if (!currentUserId) {
+    return res.status(401).json({ error: "Utilisateur non authentifié." });
+  }
+  const userId = parseInt(req.params.id);
+  if (!Number.isInteger(userId)) {
+    return res.status(400).json({ error: "ID utilisateur invalide." });
+  }
+  
+  const user = await User.findByPk(userId);
+  if (!user) {
+    return res.status(404).json({ error: "Utilisateur non trouvé." });
+  }
+
+  // Only allow users to delete their own profile unless they are admin
+  if (req.user.id !== userId && req.user.role?.name !== "admin") {
+    return res.status(403).json({ error: "Action non autorisée." });
+  }
+
+  await user.destroy();
+  console.log(`User ${userId} supprimé`);
+  res.status(204).end();
+}
+
+// Helper functions
 async function checkDuplicates(email, phone_number, rna_number, userId) {
   const existingUser = await User.findOne({
     where: {
-      [Op.or]: [
-        { email },
-        { phone_number },
-        { rna_number },
-      ],
+      [Op.or]: [{ email }, { phone_number }, { rna_number }],
     },
   });
 

@@ -2,7 +2,7 @@ import Joi from "joi";
 import { Animal, Application, Species, User } from "../models/index.js";
 import { Sequelize } from "sequelize";
 
-// Animals
+// Animals CRUD
 export async function getAllAnimals(req, res) {
   const { limit, offset, random } = req.query;
 
@@ -16,77 +16,40 @@ export async function getAllAnimals(req, res) {
 
   if (limit) queryOptions.limit = parseInt(limit, 10);
   if (offset) queryOptions.offset = parseInt(offset, 10);
-
   if (random === "true") queryOptions.order = [Sequelize.literal("RANDOM()")];
+
   try {
     const animals = await Animal.findAll(queryOptions);
     return res.json(animals);
   } catch (error) {
-    console.error("Erreur lors de la récupération des animaux:", error);
-    res.status(500).json({ error: "Erreur lors de la récupération des animaux" });
+    console.error("Erreur lors de la récupération des animaux : ", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des animaux." });
   }
 }
 
 export async function getOneAnimal(req, res, next) {
   const animalId = validateAnimalId(req.params.id);
-  if (!animalId) return res.status(404).json({ error: "ID invalide" });
+  if (!animalId) return res.status(404).json({ error: "ID invalide." });
 
   try {
     const animal = await Animal.findByPk(animalId, { include: ["species"] });
-    if (!animal) return res.status(404).json({ error: "Animal introuvable" });
+    if (!animal) return res.status(404).json({ error: "Animal introuvable." });
     res.json(animal);
   } catch (error) {
     error.statusCode = 500;
-    error.message = "Erreur serveur";
-    next(error);
-  }
-}
-
-export async function deleteAnimal(req, res, next) {
-  const user_id = req.user?.id;
-  if (!user_id) return res.status(401).json({ error: "Utilisateur non authentifié" });
-
-  const animalId = validateAnimalId(req.params.id);
-  if (!animalId) return next(new Error("ID invalide"));
-
-  try {
-    const animal = await Animal.findByPk(animalId);
-    if (!animal) return next(Object.assign(new Error("L'animal n'existe pas"), { statusCode: 404 }));
-    if (animal.user_id !== user_id) {
-      return res.status(403).json({ message: "Action non autorisée" });
-    }
-
-    await animal.destroy();
-    res.status(204).end();
-  } catch (error) {
-    error.statusCode = 500;
-    error.message = "Erreur lors de la suppression de l'animal";
+    error.message = "Erreur serveur.";
     next(error);
   }
 }
 
 export async function createAnimal(req, res, next) {
   const user_id = req.user?.id;
-  if (!user_id) return res.status(401).json({ error: "Utilisateur non authentifié" });
+  if (!user_id) return res.status(401).json({ error: "Utilisateur non authentifié." });
 
   const animalSchema = Joi.object({
-    name: Joi.string().min(3).max(30).trim().required().messages({
-      "string.base": "Le nom doit être une chaîne de caractères",
-      "string.min": "Le nom doit contenir au moins 3 caractères",
-      "string.max": "Le nom doit contenir au maximum 30 caractères",
-    }),
-    date_of_birth: Joi.string()
-      .pattern(/^\d{4}-\d{2}-\d{2}$/)
-      .required()
-      .messages({
-        "string.pattern.base": "La date doit être au format AAAA-MM-JJ, par ex : 2025-05-01",
-      }),
-    description: Joi.string().min(10).trim().required().messages({
-      "string.base": "La description doit être un texte.",
-      "string.empty": "La description est obligatoire.",
-      "string.min": "La description doit contenir au moins 10 caractères.",
-      "any.required": "La description est obligatoire.",
-    }),
+    name: Joi.string().min(3).max(30).trim().required(),
+    date_of_birth: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).required(),
+    description: Joi.string().min(10).trim().required(),
     picture: Joi.string().uri().required(),
     species_id: Joi.number().integer().required(),
   });
@@ -108,23 +71,23 @@ export async function createAnimal(req, res, next) {
     res.status(201).json(newAnimal);
   } catch (error) {
     error.statusCode = 500;
-    error.message = "Erreur lors de la création de l'animal";
+    error.message = "Erreur lors de la création de l'animal.";
     next(error);
   }
 }
 
 export async function updateAnimal(req, res, next) {
   const animalId = validateAnimalId(req.params.id);
-  if (!animalId) return res.status(404).json({ error: "ID invalide" });
+  if (!animalId) return res.status(404).json({ error: "ID invalide." });
 
   const { name, date_of_birth, description, picture, species_id } = req.body;
-  if (!name || !date_of_birth || !description || !picture || !species_id) return res.status(400).json({ error: "Tous les champs sont requis" });
+  if (!name || !date_of_birth || !description || !picture || !species_id) return res.status(400).json({ error: "Tous les champs sont requis." });
 
   try {
     const animal = await Animal.findByPk(animalId);
-    if (!animal) return res.status(404).json({ error: "Animal introuvable" });
+    if (!animal) return res.status(404).json({ error: "Animal introuvable." });
 
-    if (req.user.id !== animal.user_id) return res.status(403).json({ message: "Action non autorisée" });
+    if (req.user.id !== animal.user_id) return res.status(403).json({ message: "Action non autorisée." });
 
     const parsedDate = new Date(date_of_birth);
     if (isNaN(parsedDate.getTime()))
@@ -136,10 +99,34 @@ export async function updateAnimal(req, res, next) {
     animal.species_id = species_id;
 
     await animal.save();
-    res.status(200).json({ message: "Animal mis à jour avec succès", animal });
+    res.status(200).json({ message: "Animal mis à jour avec succès : ", animal });
   } catch (error) {
     error.statusCode = 500;
-    error.message = "Erreur interne du serveur";
+    error.message = "Erreur interne du serveur.";
+    next(error);
+  }
+}
+
+export async function deleteAnimal(req, res, next) {
+  const user_id = req.user?.id;
+  if (!user_id) return res.status(401).json({ error: "Utilisateur non authentifié." });
+
+  const animalId = validateAnimalId(req.params.id);
+  if (!animalId) return next(new Error("ID invalide."));
+
+  try {
+    const animal = await Animal.findByPk(animalId);
+    if (!animal) return next(Object.assign(new Error("L'animal n'existe pas."), { statusCode: 404 }));
+
+    if (animal.user_id !== user_id) {
+      return res.status(403).json({ message: "Action non autorisée." });
+    }
+
+    await animal.destroy();
+    res.status(204).end();
+  } catch (error) {
+    error.statusCode = 500;
+    error.message = "Erreur lors de la suppression de l'animal.";
     next(error);
   }
 }
@@ -151,10 +138,10 @@ export async function createOneMessage(req, res, next) {
   const { message } = req.body;
 
   if (!Number.isInteger(animalId) || !Number.isInteger(userId))
-    return next(Object.assign(new Error("ID invalide"), { statusCode: 400 }));
+    return res.status(400).json({ message: "ID invalide." });
 
   if (!message || message.trim().length === 0)
-    return next(Object.assign(new Error("Le message ne peut pas être vide"), { statusCode: 400 }));
+    return res.status(400).json({ message: "Le message ne peut pas être vide." });
 
   try {
     const [messageInstance] = await Application.upsert({
@@ -199,7 +186,7 @@ export async function getOneMessage(req, res, next) {
   } catch (error) {
     console.error(error);
     error.statusCode = 500;
-    error.message = "Erreur interne du serveur";
+    error.message = "Erreur interne du serveur.";
     next(error);
   }
 }
@@ -210,12 +197,12 @@ export async function getSpecies(req, res) {
     const species = await Species.findAll();
     res.json(species);
   } catch (error) {
-    console.error("Erreur lors de la récupération des espèces:", error);
-    res.status(500).json({ error: "Erreur lors de la récupération des espèces" });
+    console.error("Erreur lors de la récupération des espèces : ", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des espèces." });
   }
 }
 
-// Utility function to validate and parse animal ID
+// Helper to validate animal ID
 function validateAnimalId(id) {
   const animalId = Number(id);
   return Number.isInteger(animalId) ? animalId : null;
