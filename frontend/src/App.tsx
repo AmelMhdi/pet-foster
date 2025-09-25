@@ -25,6 +25,7 @@ function App() {
         <div className="container-global">
           <Header />
           <Routes>
+            {/* Pages publiques */}
             <Route path="/" element={<Home />} />
             <Route path="/animals" element={<AnimalsContainer />} />
             <Route path="/animals/:id" element={<AnimalDetails />} />
@@ -32,6 +33,11 @@ function App() {
             <Route path="/associations/:id" element={<AssociationDetails />} />
             <Route path="/se-connecter" element={<Login />} />
             <Route path="/creer-compte" element={<Register />} />
+            <Route path="/a-propos" element={<About />} />
+            <Route path="/mentions-legales" element={<LegalMentions />} />
+            <Route path="/contact" element={<Contact />} />
+
+            {/* Pages protégées */}
             <Route path="/profil-association/:id" element={<Profile />} />
             <Route
               path="/modifier-profil/:id"
@@ -39,9 +45,8 @@ function App() {
             />
             <Route path="/creer-animal/:id" element={<CreateAnimal />} />
             <Route path="/modifier-animal/:id" element={<UpdateAnimal />} />
-            <Route path="/a-propos" element={<About />} />
-            <Route path="/mentions-legales" element={<LegalMentions />} />
-            <Route path="/contact" element={<Contact />} />
+
+            {/* Fallback */}
             <Route path="*" element={<NotFound404 />} />
           </Routes>
         </div>
