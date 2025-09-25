@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { Animal, Application, Species, User } from "../models/index.js";
+import { Animal, Species, User } from "../models/index.js";
 import { Sequelize } from "sequelize";
 
 // Animals CRUD

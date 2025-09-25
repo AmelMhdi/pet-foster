@@ -1,8 +1,7 @@
 import { Router } from "express";
-import { isAuth } from "../middlewares/authentication.middleware";
-import * as applicationController from "../controllers/applicationController";
+import * as applicationController from "../controllers/applicationController.js";
 
 export const router = Router();
 
-router.post("/:animalId/:userId", isAuth, applicationController.createOneMessage);
-router.get("/:animalId/:userId", isAuth, applicationController.getOneMessage);
+router.post("/applications/:animalId/:userId", applicationController.createOneMessage);
+router.get("/applications/:animalId/:userId", applicationController.getOneMessage);

@@ -1,4 +1,4 @@
-import { Application, Animal, User } from "../models";
+import { Application } from "../models/Application.js";
 
 // Create a foster request
 export async function createOneMessage(req, res, next) {

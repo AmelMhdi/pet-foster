@@ -1,7 +1,7 @@
 import { sequelize } from "./sequelizeClient.js";
 import { DataTypes, Model } from "sequelize";
 
-class Application extends Model {}
+export class Application extends Model {}
 
 Application.init(
 	{
