@@ -9,7 +9,7 @@ type Props = {
   random?: boolean;
 };
 
-export default function AnimalsContainer({ limit = 3, random }: Props) {
+export default function AnimalsContainer({ limit = 3, }: Props) {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
   const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ export default function AnimalsContainer({ limit = 3, random }: Props) {
   const loadAnimals = async (all: boolean) => {
     try {
       setLoading(true);
-      const fetched = await api.fetchAnimals(all ? undefined : limit, random);
+      const fetched = await api.fetchAnimals();
       setAnimals(fetched);
     } catch (error) {
       logError("Erreur lors du chargement des animaux :", error);
@@ -28,7 +28,7 @@ export default function AnimalsContainer({ limit = 3, random }: Props) {
 
   useEffect(() => {
     loadAnimals(false);
-  }, [random]);
+  }, []);
 
   const handleShowAll = () => {
     setShowAll(true);
