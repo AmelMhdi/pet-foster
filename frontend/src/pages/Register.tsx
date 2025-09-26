@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
-import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/usersApi";
+import { createUser, getLocalisationsFromApi, getRolesFromApi } from "../services/userApi";
 import { ILocalisation, IRole, IUser } from "../@types";
 import { userRegisterSchema } from "../validators/users.schemas";
 

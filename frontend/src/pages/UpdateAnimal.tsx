@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../store";
-import { getLocalisationsFromApi } from "../services/usersApi";
+import { getLocalisationsFromApi } from "../services/userApi";
 import { api, getAnimal } from "../services/api";
 import { IAnimal, ILocalisation, ISpecies } from "../@types";
 

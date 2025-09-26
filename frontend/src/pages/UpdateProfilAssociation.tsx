@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { getLocalisationsFromApi } from "../services/usersApi";
+import { getLocalisationsFromApi } from "../services/userApi";
 import { updateAssociation } from "../services/associationsApi";
 import { useUserStore } from "../store";
 import { ILocalisation, IUserUpdateForm } from "../@types";

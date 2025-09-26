@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { getAnimalsByAssociationFromApi, getUserMessagesApi } from "../services/associationsApi";
 import { deleteAnimalApi } from "../services/api";
-import { deleteUserFromApi } from "../services/usersApi";
+import { deleteUserFromApi } from "../services/userApi";
 import DeleteAnimalModal from "../components/DeleteAnimalModal";
 import DeleteProfileModal from "../components/DeleteProfilModal";
 import AnimalsFromAsso from "../components/AnimalsFromAsso";

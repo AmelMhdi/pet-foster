@@ -1,4 +1,4 @@
-import { loginFromApi } from "../services/usersApi";
+import { loginFromApi } from "../services/userApi";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useUserStore } from "../store";

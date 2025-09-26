@@ -1,7 +1,7 @@
 import { useUserStore } from "../store";
 import { useNavigate } from "react-router";
 import { useEffect, useState, useRef } from "react";
-import { getLocalisationsFromApi } from "../services/usersApi";
+import { getLocalisationsFromApi } from "../services/userApi";
 import { api, createAnimalFromApi } from "../services/api";
 import { animalFormSchema } from "../validators/animal.shema";
 import { ILocalisation, INewAnimal, ISpecies } from "../@types";
