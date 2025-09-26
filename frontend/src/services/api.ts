@@ -4,6 +4,17 @@ import { useUserStore } from "../store";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 console.log(apiBaseUrl);
 
+export const api = {
+  fetchAnimals,
+  getAnimal,
+  getSpeciesFromApi,
+  createAnimalFromApi,
+  updateAnimalFromApi,
+  deleteAnimalApi,
+  getUserMessageFromApi,
+  postUserMessageToApi,
+}
+
 // --- Animals ---
 export async function fetchAnimals(): Promise<IAnimal[]> {
   const response = await fetch(`${apiBaseUrl}/animals`);
