@@ -1,4 +1,4 @@
-import { IAnimal, INewAnimal } from "../@types";
+import { IAnimal, INewAnimal, ISpecies } from "../@types";
 import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -44,6 +44,17 @@ export async function getAnimalsByUserIdFromApi(userId: number): Promise<IAnimal
 		console.error(`Erreur lors de la récupération des animaux pour l'utilisateur avec l'ID ${userId} :`, error);
 		return [];
 	}
+}
+
+// Récupérer toutes les espèces
+export async function getSpeciesFromApi(): Promise<ISpecies[]> {
+  const response = await fetch(`${apiBaseUrl}/animals/species`);
+  if (!response.ok) {
+    throw new Error(`Erreur API : ${response.status}`);
+  }
+
+  const species: ISpecies[] = await response.json();
+  return species;
 }
 
 // Créer un nouvel animal (utilisateur authentifié)

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { IAnimal } from "../@types";
-import { api } from "../services/api";
 import { useUserStore } from "../store";
 import { logError } from "../helpers/logError";
+import { getAnimalByIdFromApi } from "../services/animalApi";
+import { postUserMessageToApi } from "../services/api";
 
 export default function AnimalDetails() {
   const { id } = useParams();
@@ -26,7 +27,7 @@ export default function AnimalDetails() {
       try {
         setLoading(true);
         const animalId = parseInt(id, 10);
-        const fetchedAnimal = await api.getAnimal(animalId);
+        const fetchedAnimal = await getAnimalByIdFromApi(animalId);
         if (!fetchedAnimal) {
           setNotFound(true);
         } else {
@@ -66,7 +67,7 @@ export default function AnimalDetails() {
 
     try {
       setIsSubmitting(true);
-      await api.postUserMessageToApi(user.id, animal.id, trimmedMessage);
+      await postUserMessageToApi(user.id, animal.id, trimmedMessage);
       setNewMessage("");
       setSuccessMessage("Votre demande d'accueil a été envoyée avec succès.");
       setErrorMessage("");
@@ -106,16 +107,13 @@ export default function AnimalDetails() {
               <div className="card-text info-text">
                 <div className="info-grid">
                   <div >
-                    <strong>Date de naissance :</strong> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
+                    <strong>Date de naissance :</strong> {new Date(animal.date_of_birth).toLocaleDateString("fr-FR")}
                   </div>
                   <div>
                     <strong>Espèce :</strong> {animal.species?.name || "Information non disponible"}
                   </div>
                   <div>
                     <strong>Description :</strong> {animal.description}
-                  </div>
-                  <div>
-                    <strong>Ville :</strong> {animal.localisation?.city || "Information non disponible"}
                   </div>
                 </div>
               </div>

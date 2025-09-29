@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { api } from "../services/api";
 import { Link } from "react-router-dom";
 import { IAnimal } from "../@types";
 import { logError } from "../helpers/logError";
+import { getAnimalsFromApi } from "../services/animalApi";
 
 type Props = {
   limit?: number;
@@ -17,7 +17,7 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
   const loadAnimals = async (all: boolean) => {
     try {
       setLoading(true);
-      const fetched = await api.fetchAnimals();
+      const fetched = await getAnimalsFromApi();
       setAnimals(fetched);
     } catch (error) {
       logError("Erreur lors du chargement des animaux :", error);

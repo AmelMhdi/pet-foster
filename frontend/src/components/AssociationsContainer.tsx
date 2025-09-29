@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { api } from "../services/api";
 import { IUser } from "../@types";
 import { Link } from "react-router-dom";
 import { logError } from "../helpers/logError";
+import { fetchAssociations } from "../services/api";
 
 export default function AssociationsContainer() {
   const [associations, setAssociations] = useState<IUser[]>([]);
@@ -10,7 +10,7 @@ export default function AssociationsContainer() {
   useEffect(() => {
     async function getAssociations() {
       try {
-        const fetchedAssociations = await api.fetchAssociations();
+        const fetchedAssociations = await fetchAssociations();
         setAssociations(fetchedAssociations);
       } catch (error) {
         logError("Erreur lors de la récupération des associations :", error);
@@ -34,9 +34,9 @@ export default function AssociationsContainer() {
                   <div className="association-card h-100 text-center shadow-sm">
                     
                     <div className="association-text">
-                      <div>{association.lastname}</div>
-                      <div>{association.localisation?.postcode || "Code postal inconnu"}</div>
-                      <div>{association.localisation?.city || "Ville inconnue"}</div>
+                      <div>{association.last_name}</div>
+                      <div>{association.zip_code || "Code postal inconnu"}</div>
+                      <div>{association.city || "Ville inconnue"}</div>
                       <Link 
                         to={`/associations/${association.id}`} 
                         className="btn btn-outline-primary mt-auto"

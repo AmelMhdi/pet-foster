@@ -5,6 +5,6 @@ import { router as applicationRouter } from "./applicationRouter.js";
 
 export const router = Router();
 
-router.use("/users",userRouter);
-router.use(animalRouter);
-router.use(applicationRouter);
+router.use("/users", userRouter);
+router.use("/animals", animalRouter);
+router.use("/applications", applicationRouter);
