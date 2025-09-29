@@ -74,6 +74,10 @@ export interface IPublicUser {
   zip_code: string;
 }
 
+export interface IAssociation extends IPublicUser {
+  animals: IAnimal[];
+}
+
 // --- AUTH ---
 export interface ILoginRequest {
   email: string;
