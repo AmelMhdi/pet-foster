@@ -69,7 +69,7 @@ const animals = [
     name: "Rex",
     date_of_birth: new Date("2020-01-01"),
     description: "Chien très gentil",
-    picture: "rex.jpg",
+    picture: "rex",
     user_id: userInstances[0].id,  // Anya (Association)
     species_id: speciesInstances[0].id  // Chien
   },
@@ -77,7 +77,7 @@ const animals = [
     name: "Mimi",
     date_of_birth: new Date("2019-02-15"),
     description: "Chat câlin",
-    picture: "mimi.jpg",
+    picture: "mimi",
     user_id: userInstances[0].id,  // Anya (Association)
     species_id: speciesInstances[1].id  // Chat
   },
