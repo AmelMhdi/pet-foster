@@ -31,7 +31,7 @@ export const userRegisterSchema = Joi.object({
         "Le numéro de téléphone doit être composé de 10 chiffres. Exemple : 0612345678",
     }),
   street_number: Joi.string()
-    .pattern(/^[0-9]{1,5}$/)
+    .pattern(/^[0-9a-zA-ZÀ-ÿ\s,'-]{1,5}$/)
     .required()
     .messages({
       "string.empty": "Le numéro de rue est requis.",
@@ -50,25 +50,27 @@ export const userRegisterSchema = Joi.object({
     .required()
     .messages({
       "string.empty": "Le code postal est requis.",
-      "string.pattern.base": "Le code postal doit être composé de 5 chiffres.",
+      "string.pattern.base": "Le code postal doit être composé de 5 chiffres. Exemple : 75001",
     }),
   city: Joi.string()
     .pattern(/^[a-zA-ZÀ-ÿ\s-]{2,}$/)
     .required()
     .messages({
       "string.empty": "La ville est requise.",
-      "string.pattern.base":
-        "La ville doit contenir au moins 2 caractères et ne peut pas contenir de chiffres ou de caractères spéciaux.",
+      "string.pattern.base": "La ville doit contenir au moins 2 caractères et ne peut pas contenir de chiffres ou de caractères spéciaux.",
     }),
-  rna_number: Joi.string()
-    .pattern(/^W\d{9}$/)
-    .optional() // Champ optionnel pour associations
-    .messages({
-      "string.pattern.base":
-        "Le numéro RNA doit commencer par 'W' suivi de 9 chiffres.",
-      "string.base": "Le numéro RNA doit être une chaîne de caractères.",
-      "any.required": "Le numéro RNA est requis.",
-    }),
+  rna_number: Joi.when("role_id", {
+    is: 2, // Si role_id vaut 2 (association)
+    then: Joi.string()
+      .pattern(/^W\d{9}$/)
+      .required() // Peut être vide pour les familles d'accueil
+      .messages({
+        "any.required": "Le numéro RNA est requis pour les associations.",
+        "string.pattern.base": "Le numéro RNA doit commencer par 'W' suivi de 9 chiffres.",
+        "string.base": "Le numéro RNA doit être une chaîne de caractères.",
+        "string.empty": "Le numéro RNA est requis.",
+      }),
+  }),
   role_id: Joi.number().integer().required(), // Entier, obligatoire (lien avec table Role en base)
 });
 
@@ -94,16 +96,14 @@ export const userUpdateSchema = Joi.object({
     .pattern(/^\d{10}$/)
     .optional()
     .messages({
-      "string.pattern.base":
-        "Le numéro de téléphone doit être composé de 10 chiffres.",
+      "string.pattern.base": "Le numéro de téléphone doit être composé de 10 chiffres.",
     }),
   street_number: Joi.string()
-    .pattern(/^[0-9]{1,5}$/)
-    .required()
+    .pattern(/^[0-9a-zA-ZÀ-ÿ\s,'-]{1,5}$/)
+    .optional()
     .messages({
       "string.empty": "Le numéro de rue est requis.",
-      "string.pattern.base":
-        "Le numéro de rue doit être un nombre entre 1 et 5 chiffres.",
+      "string.pattern.base": "Le numéro de rue doit être un nombre entre 1 et 5 chiffres.",
     }),
   address: Joi.string()
     .pattern(/^[0-9a-zA-ZÀ-ÿ\s,'-]{3,}$/)
@@ -115,14 +115,13 @@ export const userUpdateSchema = Joi.object({
     .pattern(/^\d{5}$/)
     .optional()
     .messages({
-      "string.pattern.base": "Le code postal doit être composé de 5 chiffres.",
+      "string.pattern.base": "Le code postal doit être composé de 5 chiffres. Exemple : 75001",
     }),
   city: Joi.string()
     .pattern(/^[a-zA-ZÀ-ÿ\s-]{2,}$/)
     .optional()
     .messages({
-      "string.pattern.base":
-        "La ville doit contenir au moins 2 caractères et ne peut pas contenir de chiffres ou de caractères spéciaux.",
+      "string.pattern.base": "La ville doit contenir au moins 2 caractères et ne peut pas contenir de chiffres ou de caractères spéciaux.",
     }),
   rna_number: Joi.string()
     .pattern(/^W\d{9}$/)
@@ -138,8 +137,8 @@ export const userUpdateSchema = Joi.object({
 /**
  * Exemple d’objet valide pour l’inscription (userRegisterSchema) :
 {
-  "firstname": "Marie",
-  "lastname": "Dupont",
+  "first_name": "Marie",
+  "last_name": "Dupont",
   "password": "SuperPass!123",
   "email": "marie.dupont@example.com",
   "address": "12 rue des Lilas",
@@ -150,8 +149,8 @@ export const userUpdateSchema = Joi.object({
   
   * Exemple d’objet invalide :
 {
-  "firstname": "Al",
-  "lastname": "D",
+  "first_name": "Al",
+  "last_name": "D",
   "password": "12345",
   "email": "mauvaismail",
   "phone_number": "123",

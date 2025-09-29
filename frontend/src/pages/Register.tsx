@@ -102,7 +102,9 @@ export default function Register() {
         errors[field] = detail.message;
       });
       setFieldErrors(errors);
-      setFeedback("Veuillez corriger les erreurs dans le formulaire.");
+
+      const errorMessages = Object.values(errors).join(" | ");
+      setFeedback(`Erreur de validation : ${errorMessages}`);
       return;
     }
 
