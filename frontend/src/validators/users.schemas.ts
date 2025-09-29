@@ -14,7 +14,7 @@ export const userRegisterSchema = Joi.object({
     "string.min": "Le nom doit contenir au moins 3 caractères.",
     "string.max": "Le nom doit contenir au maximum 30 caractères.",
   }),
-  email: Joi.string().email().required().messages({
+  email: Joi.string().email({ tlds: { allow: false } }).required().messages({
     "string.base": "L'email doit être une chaîne de caractères.",
     "string.empty": "L'email est requis.",
     "string.email": "L'email doit être une adresse email valide.",
@@ -81,7 +81,7 @@ export const userUpdateSchema = Joi.object({
     "string.min": "Le nom doit contenir au moins 3 caractères.",
     "string.max": "Le nom doit contenir au maximum 30 caractères.",
   }),
-  email: Joi.string().email().messages({
+  email: Joi.string().email({ tlds: { allow: false } }).messages({
     "string.base": "L'email doit être une chaîne de caractères.",
     "string.email": "L'email doit être une adresse email valide.",
   }),
@@ -99,7 +99,7 @@ export const userUpdateSchema = Joi.object({
   address: Joi.string()
     .pattern(/^[0-9a-zA-ZÀ-ÿ\s,'-]{3,}$/)
     .messages({
-      "string.pattern.base": "L'adresse contient des caractères non autorisés",
+      "string.pattern.base": "L'adresse contientê des caractères non autorisés",
     }),
   zip_code: Joi.string()
     .pattern(/^\d{5}$/)

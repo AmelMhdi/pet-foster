@@ -1,12 +1,14 @@
 import { Navigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchAssociationById } from "../services/api";
-import { IAssociationDetail } from "../@types";
+import { getUserById } from "../services/userApi";
+import { IAssociation } from "../@types";
 import { logError } from "../helpers/logError";
+
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 export default function ContactAssociation() {
   const { id } = useParams();
-  const [association, setAssociation] = useState<IAssociationDetail>();
+  const [association, setAssociation] = useState<IAssociation>();
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -17,10 +19,15 @@ export default function ContactAssociation() {
       try {
         setLoading(true);
         const associationId = parseInt(id);
-        const oneAssociation = await fetchAssociationById(associationId);
-        oneAssociation ? setAssociation(oneAssociation) : setNotFound(true);
+        const oneAssociation = await getUserById(associationId);
+
+        if (oneAssociation?.role.name === "association") {
+          setAssociation(oneAssociation as IAssociation);
+        } else {
+          setNotFound(true);
+        }
       } catch (error) {
-        logError("Erreur lors du chargement:", error);
+        logError("Erreur lors du chargement :", error);
         setNotFound(true);
       } finally {
         setLoading(false);
@@ -36,24 +43,34 @@ export default function ContactAssociation() {
   return (
     <div className="container my-4 fade-in">
       <div className="text-center mb-4">
-        <h2 className="section-title">{association?.lastname}</h2>
+        <h2 className="section-title">
+          {association?.last_name} {association?.first_name}
+        </h2>
         <p>
-          Contactez-nous au <span className="fw-bold">{association?.phone_number}</span> ou par mail{" "}
-          <span className="fw-bold">{association?.email}</span>
+          Contactez-nous au{" "}
+          <span className="fw-bold">{association?.phone_number}</span> ou par
+          mail <span className="fw-bold">{association?.email}</span>
         </p>
+        <p className="text-muted">
+          📍 {association?.street_number} {association?.address},{" "}
+          {association?.zip_code} {association?.city}
+        </p>
+        {association?.rna_number && (
+          <p className="text-muted">N° RNA : {association.rna_number}</p>
+        )}
       </div>
 
       <div>
-        {association?.animals_asso?.length ? (
+        {association?.animals?.length ? (
           <>
             <h3 className="mb-4 text-center">Nos animaux</h3>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-              {association.animals_asso.map((animal) => (
+              {association.animals.map((animal) => (
                 <div key={animal.id} className="col">
                   <div className="card animal-card h-100 text-center shadow-sm">
                     {animal.picture && (
                       <img
-                        src={animal.picture}
+                        src={`${apiBaseUrl}/images/${animal.picture}.webp`}
                         alt={animal.name}
                         className="animal-img card-img-top img-fluid rounded-top"
                         loading="lazy"

@@ -16,7 +16,7 @@ export const userRegisterSchema = Joi.object({
     "string.min": "Le nom doit contenir au moins 3 caractères.",
     "string.max": "Le nom doit contenir au maximum 30 caractères.",
   }),
-  email: Joi.string().email().required().messages({
+  email: Joi.string().email({ tlds: { allow: false } }).required().messages({
     "string.base": "L'email doit être une chaîne de caractères.",
     "string.empty": "L'email est requis.",
     "string.email": "L'email doit être une adresse email valide.",
@@ -87,7 +87,7 @@ export const userUpdateSchema = Joi.object({
     "string.min": "Le nom doit contenir au moins 3 caractères.",
     "string.max": "Le nom doit contenir au maximum 30 caractères.",
   }),
-  email: Joi.string().email().optional().messages({
+  email: Joi.string().email({ tlds: { allow: false } }).optional().messages({
     "string.base": "L'email doit être une chaîne de caractères.",
     "string.email": "L'email doit être une adresse email valide.",
   }),
