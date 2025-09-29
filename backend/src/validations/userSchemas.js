@@ -31,7 +31,7 @@ export const userRegisterSchema = Joi.object({
         "Le numéro de téléphone doit être composé de 10 chiffres. Exemple : 0612345678",
     }),
   street_number: Joi.string()
-    .pattern(/^[0-9a-zA-ZÀ-ÿ\s,'-]{1,5}$/)
+    .pattern(/^[0-9a-zA-ZÀ-ÿ\s,'-]{1,5}$/) // Accepte les numéros avec des lettres (ex: 1 bis)
     .required()
     .messages({
       "string.empty": "Le numéro de rue est requis.",
@@ -63,7 +63,7 @@ export const userRegisterSchema = Joi.object({
     is: 2, // Si role_id vaut 2 (association)
     then: Joi.string()
       .pattern(/^W\d{9}$/)
-      .required() // Peut être vide pour les familles d'accueil
+      .required()
       .messages({
         "any.required": "Le numéro RNA est requis pour les associations.",
         "string.pattern.base": "Le numéro RNA doit commencer par 'W' suivi de 9 chiffres.",

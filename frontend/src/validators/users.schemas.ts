@@ -14,7 +14,7 @@ export const userRegisterSchema = Joi.object({
     "string.min": "Le nom doit contenir au moins 3 caractères.",
     "string.max": "Le nom doit contenir au maximum 30 caractères.",
   }),
-  email: Joi.string().email({ tlds: { allow: false } }).required().messages({
+  email: Joi.string().email().required().messages({
     "string.base": "L'email doit être une chaîne de caractères.",
     "string.empty": "L'email est requis.",
     "string.email": "L'email doit être une adresse email valide.",
@@ -59,7 +59,7 @@ export const userRegisterSchema = Joi.object({
     is: 2, // Si role_id vaut 2 (association)
     then: Joi.string()
       .pattern(/^W\d{9}$/)
-      .required() // Peut être vide pour les familles d'accueil
+      .required()
       .messages({
         "any.required": "Le numéro RNA est requis pour les associations.",
         "string.pattern.base": "Le numéro RNA doit commencer par 'W' suivi de 9 chiffres.",
@@ -92,7 +92,7 @@ export const userUpdateSchema = Joi.object({
       "string.pattern.base": "Le numéro de téléphone doit être composé de 10 chiffres.",
     }),
   street_number: Joi.string()
-    .pattern(/^[0-9a-zA-ZÀ-ÿ\s,'-]{1,5}$/)
+    .pattern(/^[0-9a-zA-ZÀ-ÿ\s,'-]{1,5}$/) // Accepte les numéros avec des lettres (ex: 1 bis)
     .messages({
       "string.pattern.base": "Le numéro de rue doit être un nombre entre 1 et 5 chiffres",
     }),
