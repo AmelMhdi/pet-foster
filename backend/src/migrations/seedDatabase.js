@@ -81,6 +81,38 @@ const animals = [
     user_id: userInstances[0].id,  // Anya (Association)
     species_id: speciesInstances[1].id  // Chat
   },
+  {
+    name: "Luna",
+    date_of_birth: new Date("2021-06-10"),
+    description: "Jeune chienne joueuse",
+    picture: "luna",
+    user_id: userInstances[0].id,  // Anya (Association)
+    species_id: speciesInstances[1].id  // Chat
+  },
+  {
+    name: "Félix",
+    date_of_birth: new Date("2018-11-20"),
+    description: "Chat indépendant",
+    picture: "felix",
+    user_id: userInstances[0].id,  // Anya (Association)
+    species_id: speciesInstances[1].id  // Chat
+  },
+  {
+    name: "Misty",
+    date_of_birth: new Date("2017-05-05"),
+    description: "Chat énergique",
+    picture: "misty",
+    user_id: userInstances[0].id,  // Anya (Association)
+    species_id: speciesInstances[1].id  // Chat
+  },
+  {
+    name: "Oscar",
+    date_of_birth: new Date("2016-09-30"),
+    description: "Chien fidèle",
+    picture: "oscar",
+    user_id: userInstances[0].id,  // Anya (Association)
+    species_id: speciesInstances[0].id  // Chien
+  },
 ];
 
 const animalInstances = [];
