@@ -6,6 +6,8 @@ import { logError } from "../helpers/logError";
 import { getAnimalByIdFromApi } from "../services/animalApi";
 import { postUserMessageToApi } from "../services/api";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+
 export default function AnimalDetails() {
   const { id } = useParams();
   const user = useUserStore((state) => state.user);
@@ -88,14 +90,10 @@ export default function AnimalDetails() {
       <div className="row">
         <div className="col-md-6 mb-3">
           <img
-            src={animal?.picture}
-            alt={animal?.name}
+            src={`${apiBaseUrl}/images/${animal.picture}.webp`}
+            alt={animal.name}
             className="card-img-top img-fluid rounded-top"
             loading="lazy"
-            srcSet={`
-            ${animal.picture}?width=400 400w,
-            ${animal.picture}?width=800 800w
-          `}
             sizes="(min-width: 768px) 33vw, 100vw"
           />
         </div>

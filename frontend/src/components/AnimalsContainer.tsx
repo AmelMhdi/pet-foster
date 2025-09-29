@@ -6,8 +6,9 @@ import { getAnimalsFromApi } from "../services/animalApi";
 
 type Props = {
   limit?: number;
-  random?: boolean;
 };
+
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 export default function AnimalsContainer({ limit = 3, }: Props) {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
@@ -51,7 +52,7 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
                 <div key={animal.id} className="col">
                   <div className="card-base card animal-card card-body-standard h-100 text-center shadow-sm">
                     <img
-                      src={animal.picture}
+                      src={`${apiBaseUrl}/images/${animal.picture}.webp`}
                       alt={animal.name}
                       className="animal-img card-img-top img-fluid rounded-top"
                       loading="lazy"
