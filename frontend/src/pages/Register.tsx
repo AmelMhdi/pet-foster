@@ -9,8 +9,8 @@ export default function Register() {
   const lastnameInputRef = useRef<HTMLInputElement>(null);
   const [feedback, setFeedback] = useState<string>("");
   const [isSending, setIsSending] = useState(false);
-  const [roles, setRoles] = useState<IRole[]>([]);
   const [roleId, setRoleId] = useState<number>();
+  const [roles, setRoles] = useState<IRole[]>([]);
 
   const [last_name, setLastName] = useState("");
   const [first_name, setFirstName] = useState("");
@@ -26,6 +26,10 @@ export default function Register() {
 
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
+  const selectedRole = roles.find((role) => role.id === roleId);
+  const isAssociation = selectedRole?.name === "Association";
+  const isFamilleAccueil = selectedRole?.name === "FamilleAccueil";
+
   useEffect(() => {
     lastnameInputRef.current?.focus();
   }, [roleId]);
@@ -33,6 +37,7 @@ export default function Register() {
   useEffect(() => {
     const loadData = async () => {
       const rolesData = await getRolesFromApi();
+      console.log("Rôles disponibles :", rolesData);
       setRoles(rolesData);
     };
     loadData();
@@ -88,8 +93,12 @@ export default function Register() {
       city,
       phone_number,
       role_id: roleId,
-      ...(roleId === 1 && rna_number.trim() !== "" && { rna_number }),
+      rna_number: isAssociation ? (rna_number.trim() || null) : null,
     };
+
+    console.log("Données envoyées:", userData);
+    console.log("Role ID sélectionné:", roleId);
+    console.log("Role sélectionné:", selectedRole);
 
     const { error } = userRegisterSchema.validate(userData, {
       abortEarly: true,
@@ -110,9 +119,6 @@ export default function Register() {
 
     await handleRegister(userData);
   };
-
-  const selectedRole = roles.find((role) => role.id === roleId);
-  const isAssociation = selectedRole?.name === "Association";
 
   return (
     <div className="container mt-5">

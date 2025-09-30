@@ -6,7 +6,11 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 // Création d'un nouvel utilisateur
 export async function createUser(userData: IUser): Promise<IUser | { error: string }> {
   try {
-    const response = await fetch(apiBaseUrl + "/users/register", {
+    const url = apiBaseUrl + "/users/register";
+    console.log("URL complète appelée:", url);
+    console.log("apiBaseUrl:", apiBaseUrl);
+
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

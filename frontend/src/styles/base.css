@@ -59,7 +59,6 @@ body {
   animation: fadeInUp 1s ease-out forwards;
 }
 
-
 @keyframes fadeInUp {
   0% {
     opacity: 0;

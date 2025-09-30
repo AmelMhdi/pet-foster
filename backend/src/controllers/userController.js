@@ -23,7 +23,23 @@ export async function getRoles(req, res, next) {
 }
 
 export async function getAllUsers(req, res) {
+  // récupérer le paramètre de requête "role"
+  const { role } = req.query;
+
+  // créer les options de filtre
+  const whereClause = {};
+
+  if (role && role.toLowerCase() === "admin") {
+    whereClause.role_id = 1;
+  } else if (role && role.toLowerCase() === "association") {
+    whereClause.role_id = 2;
+  } else if (role && role.toLowerCase() === "familleaccueil") {
+    whereClause.role_id = 3;
+  }
+
+  // récupérer les utilisateurs avec le filtre
   const users = await User.findAll({
+    where: whereClause,
     include: ["role"],
     order: [["id", "ASC"]],
   });
@@ -110,6 +126,10 @@ export async function getOneAssociation(req, res, next) {
 
 // Authentification (register, login)
 export async function register(req, res, next) {
+  console.log("=== DÉBUT REGISTER ===");
+  console.log("req.body reçu:", req.body);
+  console.log("role_id avant validation:", req.body.role_id);
+
   const error = validate(req);
   if (error) return next(error);
 
@@ -138,6 +158,20 @@ export async function register(req, res, next) {
     role_id 
   } = req.body;
 
+  console.log("role_id après destructuration:", role_id);
+  console.log("Données avant création User:", {
+    first_name,
+    last_name,
+    email,
+    street_number,
+    address,
+    zip_code,
+    city,
+    phone_number,
+    rna_number,
+    role_id
+  });
+
   await checkDuplicates(email, phone_number, rna_number);
 
   const user = await User.create({
@@ -153,6 +187,9 @@ export async function register(req, res, next) {
     rna_number,
     role_id,
   });
+
+  console.log("User créé:", user);
+  console.log("=== FIN REGISTER ===");
 
   res.status(201).json(user);
 }

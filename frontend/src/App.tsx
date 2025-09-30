@@ -21,7 +21,15 @@ const NotFound404 = React.lazy(() => import("./pages/NotFound404"));
 function App() {
   return (
     <>
-      <Suspense fallback={<div className="loading">Loading...</div>}>
+      <Suspense 
+        fallback={
+          <div className="d-flex justify-content-center align-items-center min-vh-100">
+            <div className="spinner-border text-primary" role="status">
+              <span className="sr-only visually-hidden">Chargement en cours...</span>
+            </div>
+          </div>
+        }
+      >
         <div className="container-global">
           <Header />
           <Routes>
