@@ -30,18 +30,19 @@ export async function getUserMessageFromApi(
 }
 
 export async function postUserMessageToApi(
-  userId: number,
   animalId: number,
   message: string
 ): Promise<string> {
   const token = useUserStore.getState().user?.token;
+  console.log("Payload du message :", { animalId, message });
+
   if (!token) {
     console.error("Token non trouvé, utilisateur non connecté ?");
     throw new Error("Authentification requise.");
   }
 
   try {
-    const response = await fetch(`${apiBaseUrl}/applications/${animalId}/${userId}`, {
+    const response = await fetch(`${apiBaseUrl}/applications/${animalId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

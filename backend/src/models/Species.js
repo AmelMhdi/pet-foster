@@ -19,7 +19,6 @@ Species.init(
   sequelize,
   modelName: "Species",
   tableName: "species",
-  timestamps: true,
 });
 
 export default Species;

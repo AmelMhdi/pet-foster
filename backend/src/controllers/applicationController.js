@@ -1,31 +1,56 @@
+import { parse } from "dotenv";
 import { Application } from "../models/Application.js";
 
 // Create a foster request
 export async function createOneMessage(req, res, next) {
   const animalId = parseInt(req.params.animalId, 10);
-  const userId = parseInt(req.params.userId, 10);
+  const userId = req.user.id;
+
+  console.log("req.body reçu:", req.body);
+  console.log("req.user:", req.user);
+  console.log("animalId:", animalId);
+  console.log("userId:", userId);
+  
   const { message } = req.body;
 
-  if (!Number.isInteger(animalId) || !Number.isInteger(userId))
-    return res.status(400).json({ message: "ID invalide." });
+  // Vérifier que l'utilisateur est authentifié
+  if (!userId) {
+    return res.status(401).json({ message: "Vous devez être connecté." });
+  }
+
+  // Vérifier que animalId est un entier valide
+  if (!Number.isInteger(animalId) || isNaN(animalId)) {
+    return res.status(400).json({ message: "ID de l'animal invalide." });
+  }
+
+  if (typeof message !== "string") {
+    return res.status(400).json({ message: "Le message doit être une chaîne de caractères." });
+  }
 
   if (!message || message.trim().length === 0)
     return res.status(400).json({ message: "Le message ne peut pas être vide." });
 
   try {
-    const [messageInstance] = await Application.upsert({
-      animal_id: animalId,
-      user_id: userId,
-      message,
-      status: "pending",
+    // Vérifier si une demande existe déjà pour cet utilisateur et cet animal
+    const existing = await Application.findOne({
+      where: { user_id: userId, animal_id: animalId }
     });
 
-    if (req.user.id !== messageInstance.user_id)
-      return res.status(403).json({ message: "Action non autorisée." });
+    if (existing) {
+      return res.status(400).json({ message: "Vous avez déjà postulé pour cet animal." });
+    }
 
-    res.status(201).json({ message: "Message créé avec succès.", data: messageInstance });
+    // Créer la demande
+    const application = await Application.create({
+      user_id: userId,
+      animal_id: animalId,
+      message,
+      status: "pending"
+    })
+
+    res.status(201).json({ message: "Demande d'accueil créée avec succès.", application });
   } catch (error) {
-    console.error(error);
+    console.error("Erreur lors de la création de l'application", error);
     error.statusCode = 500;
     error.message = "Erreur serveur.";
     next(error);

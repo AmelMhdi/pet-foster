@@ -38,8 +38,7 @@ export const sequelize = new Sequelize(process.env.PG_URL, { // Crée une instan
     createdAt: "created_at",
     updatedAt: "updated_at",
     underscored: true // Pour que Sequelize utilise le snake_case pour les champs de timestamps (created_at, updated_at)
-  },
-  logging: false // désactive l’affichage des requêtes SQL dans la console
+  }
 });
 
 /*

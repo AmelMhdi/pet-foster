@@ -69,7 +69,7 @@ export default function AnimalDetails() {
 
     try {
       setIsSubmitting(true);
-      await postUserMessageToApi(user.id, animal.id, trimmedMessage);
+      await postUserMessageToApi(animal.id, trimmedMessage);
       setNewMessage("");
       setSuccessMessage("Votre demande d'accueil a été envoyée avec succès.");
       setErrorMessage("");

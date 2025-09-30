@@ -41,7 +41,6 @@ Animal.init(
     sequelize,
     modelName: "Animal",
     tableName: "animal",
-    timestamps: true,
   }
 );
 

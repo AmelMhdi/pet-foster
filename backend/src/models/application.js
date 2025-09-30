@@ -34,7 +34,6 @@ Application.init(
 		sequelize,
 		modelName: "Application",
 		tableName: "application",
-		timestamps: true,
 	}
 );
 
