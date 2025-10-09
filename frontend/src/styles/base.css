@@ -21,7 +21,7 @@ body {
 }
 
 .card-body {
-  background-color: var(--light-blue);
+  background-color: var(--dark-blue);
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -38,7 +38,7 @@ body {
 
 .card-text {
   font-size: 1rem;
-  color: var(--dark-blue);
+  color: var(--light-cream);
   line-height: 1.6;
 }
 

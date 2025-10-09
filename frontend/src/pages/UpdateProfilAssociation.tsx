@@ -4,6 +4,7 @@ import { useUserStore } from "../store";
 import { IUserUpdateForm } from "../@types";
 import { logError } from "../helpers/logError";
 import { userUpdateSchema } from "../validators/users.schemas";
+import { updateUserFromApi } from "../services/userApi";
 
 export default function UpdateProfilAssociation() {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ export default function UpdateProfilAssociation() {
     setIsSending(true);
 
     try {
-      const response = await updateAssociation(dataWithId);
+      const response = await updateUserFromApi(dataWithId);
 
       if ("error" in response) {
         setFeedback(response.error);

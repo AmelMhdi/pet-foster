@@ -14,7 +14,6 @@ export default function MainContainer() {
             <span style={{ fontSize: "2rem" }}>🐾</span>
           </div>
           
-          <div className="flex">
             <div className="col-12 mb-2">
                 <div className="card-body text-center p-4">
                   <h2 className="container-title">Notre mission</h2>
@@ -23,7 +22,6 @@ export default function MainContainer() {
                   </p>
                 </div>
             </div>
-          </div>
 
           <div className="text-center my-4">
             <span style={{ fontSize: "2rem" }}>🐾</span>
@@ -48,7 +46,7 @@ export default function MainContainer() {
           </div>
 
           <div className="text-center">
-            <div className="p-4 mb-2">
+            <div className="card-body text-center p-4">
               <h2 className="container-title">Prêt à faire la différence ?</h2>
               <p className="mb-4">Rejoignez notre communauté de familles d'accueil bienveillantes</p>
               <div className="d-flex flex-column flex-md-row justify-content-center gap-3">

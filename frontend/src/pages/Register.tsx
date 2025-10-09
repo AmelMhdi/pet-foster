@@ -28,7 +28,7 @@ export default function Register() {
 
   const selectedRole = roles.find((role) => role.id === roleId);
   const isAssociation = selectedRole?.name === "Association";
-  const isFamilleAccueil = selectedRole?.name === "FamilleAccueil";
+  // const isFamilleAccueil = selectedRole?.name === "FamilleAccueil";
 
   useEffect(() => {
     lastnameInputRef.current?.focus();

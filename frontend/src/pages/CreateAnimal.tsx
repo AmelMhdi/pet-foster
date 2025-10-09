@@ -1,10 +1,9 @@
 import { useUserStore } from "../store";
 import { useNavigate } from "react-router";
 import { useEffect, useState, useRef } from "react";
-import { getLocalisationsFromApi } from "../services/userApi";
-import { api, createAnimalFromApi } from "../services/api";
 import { animalFormSchema } from "../validators/animal.shema";
-import { ILocalisation, INewAnimal, ISpecies } from "../@types";
+import { INewAnimal, ISpecies } from "../@types";
+import { createAnimalFromApi } from "../services/animalApi";
 
 export default function CreateAnimal() {
   const navigate = useNavigate();
@@ -16,7 +15,6 @@ export default function CreateAnimal() {
   const [birthday, setBirthday] = useState("");
   const [description, setDescription] = useState("");
   const [picture, setPicture] = useState("");
-  const [localisations, setLocalisations] = useState<ILocalisation[]>([]);
   const [postcode, setPostcode] = useState<number | "">("");
   const [city, setCity] = useState<string>("");
   const [speciesList, setSpeciesList] = useState<ISpecies[]>([]);
@@ -52,18 +50,13 @@ export default function CreateAnimal() {
       setFeedback("Vous devez être connecté pour créer un animal.");
       return;
     }
-    const selectedLocalisation = localisations.find((loc) => loc.city === city && loc.postcode === postcode);
 
-    if (!selectedLocalisation) {
-      setFeedback("Localisation invalide.");
-      return;
-    }
     const newAnimal: INewAnimal = {
       name,
-      birthday,
+      date_of_birth: birthday,
       description,
       picture,
-      localisation_id: selectedLocalisation.id,
+      user_id: user.id,
       species_id: speciesId as number,
     };
 
@@ -84,19 +77,6 @@ export default function CreateAnimal() {
 
     await handleRegister(newAnimal);
   };
-
-  useEffect(() => {
-    const loadData = async () => {
-      const localisationsData: ILocalisation[] = await getLocalisationsFromApi();
-      const species = await api.getSpeciesFromApi();
-      setLocalisations(localisationsData);
-      setSpeciesList(species);
-    };
-    loadData();
-  }, []);
-
-  const cities = Array.from(new Set(localisations.map((loc) => loc.city)));
-  const postcodes = Array.from(new Set(localisations.map((loc) => loc.postcode)));
 
   return (
     <div className="container mt-5">
@@ -160,12 +140,12 @@ export default function CreateAnimal() {
             value={postcode}
             onChange={(e) => setPostcode(Number(e.target.value))}
           >
-            <option value="">-- Choisir un code postal --</option>
-            {postcodes.map((pc, index) => (
+            {/* <option value="">-- Choisir un code postal --</option>
+            {zip_code.map((pc, index) => (
               <option key={index} value={pc}>
                 {pc}
               </option>
-            ))}
+            ))} */}
           </select>
 
           <label className="form-label h4" htmlFor="city">
@@ -177,12 +157,12 @@ export default function CreateAnimal() {
             value={city}
             onChange={(e) => setCity(e.target.value)}
           >
-            <option value="">-- Choisir une ville --</option>
+            {/* <option value="">-- Choisir une ville --</option>
             {cities.map((c, index) => (
               <option key={index} value={c}>
                 {c}
               </option>
-            ))}
+            ))} */}
           </select>
 
           <label className="form-label h4" htmlFor="species">

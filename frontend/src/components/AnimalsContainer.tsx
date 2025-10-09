@@ -15,7 +15,7 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
   const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const loadAnimals = async (all: boolean) => {
+  const loadAnimals = async () => {
     try {
       setLoading(true);
       const fetched = await getAnimalsFromApi();
@@ -28,12 +28,12 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
   };
 
   useEffect(() => {
-    loadAnimals(false);
+    loadAnimals();
   }, []);
 
   const handleShowAll = () => {
     setShowAll(true);
-    loadAnimals(true);
+    loadAnimals();
   };
 
   return (
