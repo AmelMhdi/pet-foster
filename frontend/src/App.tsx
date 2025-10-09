@@ -10,7 +10,7 @@ const LegalMentions = React.lazy(() => import("./pages/LegalMentions"));
 const Contact = React.lazy(() => import("./pages/Contact"));
 const Login = React.lazy(() => import("./pages/Login"));
 const Register = React.lazy(() => import("./pages/Register"));
-const Profile = React.lazy(() => import("./pages/Profile"));
+const Profile = React.lazy(() => import("./pages/AssociationProfile"));
 const UpdateProfilAssociation = React.lazy(() => import("./pages/UpdateProfilAssociation"));
 const CreateAnimal = React.lazy(() => import("./pages/CreateAnimal"));
 const Associations = React.lazy(() => import("./pages/Associations"));
@@ -35,8 +35,8 @@ function App() {
           <Routes>
             {/* Pages publiques */}
             <Route path="/" element={<Home />} />
-            <Route path="/animals" element={<AnimalsContainer />} />
-            <Route path="/animals/:id" element={<AnimalDetails />} />
+            <Route path="/animaux" element={<AnimalsContainer />} />
+            <Route path="/animaux/:id" element={<AnimalDetails />} />
             <Route path="/associations" element={<Associations />} />
             <Route path="/associations/:id" element={<AssociationDetails />} />
             <Route path="/se-connecter" element={<Login />} />

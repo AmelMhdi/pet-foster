@@ -2,26 +2,22 @@ export default function MainContainer() {
   return (
     <main className="container my-5">
       <div className="row justify-content-center">
-        <div className="col-12 col-md-10 col-lg-8 main-container-custom fade-in">
-          <div className="text-center mb-5">
-            <div className="mb-4">
-              <img
-                src="/images/cat-icon.svg"
-                alt="Mascotte Pet Foster Connect"
-                className="img-fluid"
-                style={{ maxWidth: "120px" }}
-              />
-            </div>
-            <h1 className="fw-bold mb-4 container-title">Qui sommes-nous ?</h1>
+        <div className="col-12 col-md-10 col-lg-8 fade-in container-text">
+          <div className="card-body text-center p-4">
+            <h2 className="container-title">Qui sommes-nous ?</h2>
             <p className="lead px-3">
               <strong className="brand-text">Pet Foster Connect</strong> révolutionne la protection animale en créant des liens solides entre les associations et les familles d'accueil.
             </p>
           </div>
+
+          <div className="text-center my-4">
+            <span style={{ fontSize: "2rem" }}>🐾</span>
+          </div>
           
           <div className="flex">
-            <div className="col-12 mb-4">
+            <div className="col-12 mb-2">
                 <div className="card-body text-center p-4">
-                  <h3 className="h4 fw-bold mb-3 container-title">Notre mission</h3>
+                  <h2 className="container-title">Notre mission</h2>
                   <p className="mb-0">
                     Offrir une chance à chaque animal en attente d'un foyer définitif. En devenant famille d'accueil, vous transformez des vies une patte à la fois.
                   </p>
@@ -29,10 +25,14 @@ export default function MainContainer() {
             </div>
           </div>
 
-          <div className="col-12 mb-4">
+          <div className="text-center my-4">
+            <span style={{ fontSize: "2rem" }}>🐾</span>
+          </div>
+
+          <div className="col-12 mb-2">
               <div className="card-body text-center p-4">
-                <h3 className="h4 fw-bold mb-3 container-title">Rejoindre la communauté</h3>
-                <p className="mb-3">
+                <h2 className="container-title">Rejoindre la communauté</h2>
+                <p className="mb-2">
                   Parcourez les profils des animaux, trouvez ceux qui ont besoin de vous et devenez acteur d'un monde
                   plus bienveillant.
                 </p>
@@ -43,26 +43,28 @@ export default function MainContainer() {
               </div>
           </div>
 
+          <div className="text-center my-4">
+            <span style={{ fontSize: "2rem" }}>🐾</span>
+          </div>
+
           <div className="text-center">
-            <div className="p-4 mb-4">
-              <h3 className="h4 fw-bold mb-3">Prêt à faire la différence ?</h3>
+            <div className="p-4 mb-2">
+              <h2 className="container-title">Prêt à faire la différence ?</h2>
               <p className="mb-4">Rejoignez notre communauté de familles d'accueil bienveillantes</p>
-              <a href="/creer-compte" className="btn btn-primary btn-lg px-5 py-3">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="me-2"
+              <div className="d-flex flex-column flex-md-row justify-content-center gap-3">
+                <a 
+                  href="/creer-compte" 
+                  className="btn btn-primary btn-lg px-5 py-3"
                 >
-                  <path
-                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Devenir famille d'accueil
-              </a>
+                  Devenir famille d'accueil
+                </a>
+                <a 
+                  href="/animaux" 
+                  className="btn btn-primary btn-lg px-5 py-3"
+                >
+                  Voir les animaux à adopter
+                </a>
+              </div>
             </div>
           </div>
         </div>

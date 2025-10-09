@@ -1,10 +1,9 @@
-import { User, Role } from "../models/index.js";
+import { User, Role, Animal } from "../models/index.js";
 import Joi from "joi";
 import { hash, compare } from "../utils/crypto.js";
 import { Op } from "sequelize";
 import jwt from "jsonwebtoken";
 import { userRegisterSchema, userUpdateSchema } from "../validations/userSchemas.js";
-import { parse } from "dotenv";
 
 const BASE_URL = process.env.BASE_URL;
 if (!BASE_URL) {
@@ -55,7 +54,9 @@ export async function getOneUser(req, res, next) {
   try {
     const user = await User.findByPk(userId, {
       attributes: ["id", "first_name", "last_name", "role_id", "street_number", "address", "zip_code", "city", "phone_number"],
-      include: ["role"],
+      include: [
+        { model: Role, as: "role" }, { model: Animal, as: "animals" }
+      ],
       exclude: ["password", "email", "rna_number"],
     });
 
@@ -215,6 +216,7 @@ export async function login(req, res, next) {
     where: { email },
     include: ["role"],
   });
+  
   if (!user) {
     return res.status(401).json({ error: "Identifiants invalides." });
   }

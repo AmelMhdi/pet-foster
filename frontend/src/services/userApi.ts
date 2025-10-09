@@ -60,9 +60,9 @@ export async function getUsersFromApi(): Promise<IPublicUser[]> {
 }
 
 // Récupération d'un utilisateur par son ID
-export async function getUserById(userId: number): Promise<IPublicUser | null> {
+export async function getUserById(id: number): Promise<IPublicUser | null> {
   try {
-    const response = await fetch(`${apiBaseUrl}/users/${userId}`);
+    const response = await fetch(`${apiBaseUrl}/users/${id}`);
     if (response.status === 404) return null;
     if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
     return response.json();

@@ -8,6 +8,7 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 export default function ContactAssociation() {
   const { id } = useParams();
+
   const [association, setAssociation] = useState<IAssociation>();
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);

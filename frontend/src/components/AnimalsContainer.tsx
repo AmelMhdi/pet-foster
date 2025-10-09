@@ -62,7 +62,7 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
                         <strong>{animal.name}</strong>
                       </p>
                       <Link
-                        to={`/animals/${animal.id}`}
+                        to={`/animaux/${animal.id}`}
                         className="btn btn-outline-primary mt-auto"
                       >
                         Voir détails

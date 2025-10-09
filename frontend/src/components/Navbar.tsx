@@ -46,7 +46,7 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link px-3" to="/animals" onClick={handleNavClick}>
+            <Link className="nav-link px-3" to="/animaux" onClick={handleNavClick}>
               Animaux
             </Link>
           </li>

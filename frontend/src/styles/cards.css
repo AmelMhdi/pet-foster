@@ -22,12 +22,15 @@
 .container-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--medium-blue);
+  color: var(--dark-blue);
   margin-top: 1rem;
+  font-weight: 700;
 }
 
-.main-container-custom {
-  padding: 2rem;
+.container-text {
+  font-size: 1.2rem;
+  color: var(--dark-blue);
+  line-height: 1.6;
 }
 
 .main-about-us-section {
@@ -35,19 +38,6 @@
   border-radius: 0.5rem;
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.main-container-custom h3 {
-  color: var(--medium-blue); 
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-top: 2rem;
-}
-
-.main-container-custom p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #444;
 }
 
 .main-container-pfc {
