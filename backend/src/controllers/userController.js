@@ -13,15 +13,16 @@ if (!BASE_URL) {
 // Roles & Users
 export async function getRoles(req, res, next) {
   try {
-    const roles = await Role.findAll();
+    const roles = await Role.findAll({ attributes: ["id", "name"] });
+    console.log("✅ Rôles trouvés :", roles);
     res.status(200).json(roles);
   } catch (error) {
-    console.error("Erreur lors de la récupération des rôles :", error);
+    console.error("❌ Erreur lors de la récupération des rôles :", error);
     return next(error);
   }
 }
 
-export async function getAllUsers(req, res) {
+export async function getAllUsers(req, res, next) {
   // récupérer le paramètre de requête "role"
   const { role } = req.query;
 

@@ -10,6 +10,7 @@ import compression from "compression"; // pour compresser les réponses HTTP
 // instancier l'application Express et l'exporter
 // est utilisée pour lancer le serveur
 export const app = express();
+console.log("✅ app.js chargé et routes montées");
 
 // recevoir req.body en JSON
 app.use(express.json()); // pour parser le JSON envoyé dans le corps des requêtes

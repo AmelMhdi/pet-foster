@@ -5,6 +5,8 @@ import { router as applicationRouter } from "./applicationRouter.js";
 
 export const router = Router();
 
+console.log("✅ index router chargé");
+
 router.use("/users", userRouter);
 router.use("/animals", animalRouter);
 router.use("/applications", applicationRouter);
