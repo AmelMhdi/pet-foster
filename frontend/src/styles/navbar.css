@@ -32,6 +32,12 @@
   text-decoration: none;
 }
 
+.nav-hello {
+  color: var(--light-cream);
+  font-weight: 500;
+  cursor: default;
+}
+
 /* custom toggle */
 .custom-toggler {
   border: none;

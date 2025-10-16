@@ -2,6 +2,7 @@ import { IAnimal, INewAnimal, ISpecies } from "../@types";
 import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+console.log(apiBaseUrl);
 
 // Récupérer tous les animaux
 export async function getAnimalsFromApi(): Promise<IAnimal[]> {

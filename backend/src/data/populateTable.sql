@@ -13,8 +13,8 @@ INSERT INTO Species (id, name) VALUES
 
 -- Table User
 INSERT INTO User (id, first_name, last_name, phone_number, password, email, street_number, address, city, zip_code, rna_number, role_id) VALUES 
-  (1, 'Anya', 'Joy', '0123456789', '$argon2id$v=19$m=65536,t=3,p=4$qj8X6OQXdtqQcV7FczWYrA$JQn67/jVmcM+MuRyBQZDk+in9dQgK+EXknG0uCFxUqk', 'anya@gmail.com', '10', 'rue des Lilas', 'Paris', '75000', 'RNA12345', 2),
-  (2, 'Joon', 'Kim', '0987654321', '$argon2id$v=19$m=65536,t=3,p=4$ysE0S+eyqyEU3Wu4B58PlA$PsA+ikPdOg68rypJQiziuUc2XN+ttw3q4UVspUAy7/M', 'joon@gmail.com', '5', 'avenue de Lyon', 'Lyon', '69000', NULL, 3);
+  (1, 'Anya', 'Joy', '0123456789', '$argon2id$v=19$m=65536,t=3,p=4$pEGdTUafUgmrGZNflbKQrg$LX0o98/zYzjBJN5N8aqjO3AQhmmTHXPn7kAw8A49L+o', 'anya@gmail.com', '10', 'rue des Lilas', 'Paris', '75000', 'RNA12345', 2),
+  (2, 'Joon', 'Kim', '0987654321', '$argon2id$v=19$m=65536,t=3,p=4$2oS68uxJNPsQ6MdkdIhOTw$KBwdsdfQNANReT5WIsUbintwdnUf1aNZ64+YsNOCThU', 'joon@gmail.com', '5', 'avenue de Lyon', 'Lyon', '69000', NULL, 3);
 
 -- Table Animal
 INSERT INTO Animal (id, name, date_of_birth, description, picture, user_id, species_id) VALUES 

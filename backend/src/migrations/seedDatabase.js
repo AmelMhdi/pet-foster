@@ -26,8 +26,8 @@ const users = [
   {
     first_name: "Anya",
     last_name: "Joy",
-    password: "V6kRsd#defszeffr",
-    email: "anya@example.com",
+    password: "hashed_pwd_1",
+    email: "anya@gmail.com",
     phone_number: "0123456789",
     street_number: "10",
     address: "rue des Lilas",
@@ -39,8 +39,8 @@ const users = [
   {
     first_name: "Joon",
     last_name: "Kim",
-    password: "V6kRsd#defszeffr",
-    email: "joon@example.com",
+    password: "hashed_pwd_2",
+    email: "joon@gmail.com",
     phone_number: "0987654321",
     street_number: "5",
     address: "avenue de Lyon",

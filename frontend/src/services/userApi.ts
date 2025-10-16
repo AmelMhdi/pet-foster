@@ -2,6 +2,7 @@ import { ILoginRequest, ILoginResponse, IPublicUser, IUser, IUserUpdateForm } fr
 import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+console.log(apiBaseUrl);
 
 // Création d'un nouvel utilisateur
 export async function createUser(userData: IUser): Promise<IUser | { error: string }> {

@@ -196,6 +196,9 @@ export async function register(req, res, next) {
 }
 
 export async function login(req, res) {
+  console.log("=== Route /login appelée ===");
+  console.log("Corps reçu :", req.body);
+
   const schema = Joi.object({
     email: Joi.string().email().required().messages({
       "string.empty": "L'email doit être renseigné.",
@@ -205,7 +208,9 @@ export async function login(req, res) {
       "string.empty": "Le mot de passe doit être renseigné.",
     }),
   });
+  
   const { error } = schema.validate(req.body);
+  console.log("Résultat validation Joi :", error?.details?.[0]?.message || "OK");
 
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
@@ -216,35 +221,47 @@ export async function login(req, res) {
     where: { email },
     include: ["role"],
   });
-  
+
+  console.log("Utilisateur trouvé :", user ? user.email : "Aucun utilisateur trouvé");
+
   if (!user) {
     return res.status(401).json({ error: "Identifiants invalides." });
   }
 
-  const validPassword = await compare(password, user.password);
-  if (!validPassword) {
-    return res.status(401).json({ error: "Identifiants invalides." });
+  console.log("Mot de passe reçu:", password);
+  console.log("Hash en base:", user.password);
+
+  try {
+    const validPassword = await compare(password, user.password);
+    console.log("Résultat comparaison mot de passe:", validPassword);
+
+    if (!validPassword) {
+      return res.status(401).json({ error: "Identifiants invalides." });
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+
+    return res.json({
+      token,
+      expiresIn: "1d",
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      address: user.address,
+      phone_number: user.phone_number,
+      street_number: user.street_number,
+      city: user.city,
+      zip_code: user.zip_code,
+      role: {
+        id: user.role.id,
+        name: user.role.name,
+      },
+    });
+  } catch (error) {
+    console.error("Erreur lors de la comparaison de mot de passe :", error);
+    return res.status(500).json({ error: "Erreur serveur." });
   }
-
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-
-  return res.json({
-    token,
-    expiresIn: "1d",
-    id: user.id,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    address: user.address,
-    phone_number: user.phone_number,
-    street_number: user.street_number,
-    city: user.city,
-    zip_code: user.zip_code,
-    role: {
-      id: user.role.id,
-      name: user.role.name,
-    },
-  });
 }
 
 // Update & Delete User

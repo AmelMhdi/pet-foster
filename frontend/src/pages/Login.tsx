@@ -21,7 +21,7 @@ export default function Login() {
     setIsSending(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // simule délai API
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // simule délai API
       const response = await loginFromApi({ email, password });
       login(response);
       setFeedback("Connexion réussie !");
