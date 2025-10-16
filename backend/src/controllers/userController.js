@@ -195,7 +195,7 @@ export async function register(req, res, next) {
   res.status(201).json(user);
 }
 
-export async function login(req, res, next) {
+export async function login(req, res) {
   const schema = Joi.object({
     email: Joi.string().email().required().messages({
       "string.empty": "L'email doit être renseigné.",

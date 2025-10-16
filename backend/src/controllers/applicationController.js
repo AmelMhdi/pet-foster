@@ -1,4 +1,3 @@
-import { parse } from "dotenv";
 import { Application } from "../models/Application.js";
 
 // Create a foster request

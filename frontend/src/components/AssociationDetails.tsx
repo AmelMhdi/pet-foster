@@ -73,7 +73,7 @@ export default function ContactAssociation() {
                       <img
                         src={`${apiBaseUrl}/images/${animal.picture}.webp`}
                         alt={animal.name}
-                        className="animal-img card-img-top img-fluid rounded-top"
+                        className="animal-img img-fluid rounded-top"
                         loading="lazy"
                       />
                     )}

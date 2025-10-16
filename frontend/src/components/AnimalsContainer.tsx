@@ -31,14 +31,14 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
     loadAnimals();
   }, []);
 
-  const handleShowAll = () => {
-    setShowAll(true);
-    loadAnimals();
-  };
+  // const handleShowAll = () => {
+  //   setShowAll(true);
+  //   loadAnimals();
+  // };
 
   return (
     <main>
-      <div className="container mt-5 fade-in">
+      <div className="container mt-5 mb-5 fade-in">
         <div className="d-flex justify-content-center mb-4">
           <h1 className="section-title">Les animaux</h1>
         </div>
@@ -50,7 +50,7 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
               {animals.map((animal) => (
                 <div key={animal.id} className="col">
-                  <div className="card-base card animal-card card-body-standard h-100 text-center shadow-sm">
+                  <div className="card-base card animal-card card-body-standard text-center shadow-sm">
                     <img
                       src={`${apiBaseUrl}/images/${animal.picture}.webp`}
                       alt={animal.name}
@@ -58,12 +58,12 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
                       loading="lazy"
                     />
                     <div className="card-body d-flex flex-column justify-content-between">
-                      <p className="card-text mb-3">
+                      <p className="card-text">
                         <strong>{animal.name}</strong>
                       </p>
                       <Link
                         to={`/animaux/${animal.id}`}
-                        className="btn btn-outline-primary mt-auto"
+                        className="details-btn btn btn-outline-primary mt-auto"
                       >
                         Voir détails
                       </Link>
@@ -73,13 +73,13 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
               ))}
             </div>
 
-            {!showAll && animals.length >= limit && (
+            {/* {!showAll && animals.length >= limit && (
               <div className="d-flex justify-content-center mt-4">
                 <button className="btn btn-primary" onClick={handleShowAll}>
                   Afficher tous les animaux
                 </button>
               </div>
-            )}
+            )} */}
           </>
         )}
       </div>

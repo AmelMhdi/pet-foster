@@ -121,7 +121,7 @@ export default function Register() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container">
       <div className="card-base card-body-standard fade-in">
         <h1>Créer un compte</h1>
         {feedback && (

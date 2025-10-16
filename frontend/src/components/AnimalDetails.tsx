@@ -102,7 +102,7 @@ export default function AnimalDetails() {
           <div className="card-base card info-card shadow-sm mb-4">
             <div className="card-body d-flex flex-column justify-content-between">
               <h5 className="card-title card-title-details mb-3 fw-bold">Informations</h5>
-              <div className="card-text info-text">
+              <div className="info-text">
                 <div className="info-grid">
                   <div >
                     <strong>Date de naissance :</strong> {new Date(animal.date_of_birth).toLocaleDateString("fr-FR")}

@@ -70,10 +70,6 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.animal-card .card-body {
-  border-top: 1px solid var(--dark-blue);
-}
-
 .animal-card .card-text {
   color: var(--dark-blue);
   font-weight: 500;
@@ -103,4 +99,10 @@
 
 .info-grid > div {
   margin-bottom: 0.5rem;
+}
+
+.details-btn {
+  background-color: var(--dark-blue) !important;
+  color: var(--light-cream) !important;
+  transition: background-color 0.3s, color 0.3s;
 }
