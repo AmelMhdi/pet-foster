@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import AnimalsContainer from "./components/AnimalsContainer";
+import Footer from "./components/Footer";
 const AnimalDetails = React.lazy(() => import("./components/AnimalDetails"));
 const About = React.lazy(() => import("./pages/About"));
 const LegalMentions = React.lazy(() => import("./pages/LegalMentions"));
@@ -57,6 +58,7 @@ function App() {
             {/* Fallback */}
             <Route path="*" element={<NotFound404 />} />
           </Routes>
+          <Footer />
         </div>
       </Suspense>
     </>

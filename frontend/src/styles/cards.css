@@ -18,12 +18,6 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.card-body {
-  color: var(--dark-blue);
-  background-color: var(--light-cream);
-  border-radius: 1.5rem;
-}
-
 /* Animal cards */
 .animals-container {
   max-width: 1200px;
@@ -136,6 +130,129 @@
   border-color: var(--medium-blue-2);
   color: var(--light-cream);
   transform: translateY(-2px);
+}
+
+.animal-details-title {
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: -1px;
+}
+
+.animal-image-container {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.animal-image-container:hover {
+  transform: translateY(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.animal-details-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.animal-info-card {
+  background-color: var(--medium-blue-2);
+  border: 1px solid rgba(32, 54, 86, 0.1);;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.foster-request-card {
+  background-color: var(--light-cream);
+  border: 1px solid rgba(32, 54, 86, 0.1);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.foster-request-card {
+  background-color: var(--light-cream);
+  border: 1px solid rgba(32, 54, 86, 0.1);
+  border-radius: 0.5rem;
+}
+
+.foster-textarea {
+  border: 1px solid var(--medium-blue);
+  border-radius: 0.3rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0.75rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.foster-textarea:focus {
+  background-color: var(--medium-blue);
+  color: var(--light-cream);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease;
+}
+
+.btn-foster-request {
+  background-color: var(--medium-blue);
+  color: var(--light-cream);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease;
+}
+
+.btn-foster-request:hover:not(:disabled) {
+  background-color: var(--medium-blue-2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 142, 186, 0.3);
+}
+
+.btn-foster-request:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(32, 54, 86, 0.1);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: var(--dark-blue);
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  color: var(--dark-blue);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.serif-heading-card {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: var(--dark-blue);
 }
 
 /* Association card */

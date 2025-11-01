@@ -54,7 +54,7 @@ export default function Navbar() {
           {user?.role?.name === "association" && (
             <li className="nav-item">
               <Link
-                className="nav-link"
+                className="nav-link px-3"
                 to={`/profil-association/${user.id}`}
                 onClick={handleNavClick}
               >
@@ -66,10 +66,10 @@ export default function Navbar() {
           {user ? (
             <>
               <li className="nav-item">
-                <span className="nav-hello mb-0">Bonjour, {user.first_name}.</span>
+                <span className="nav-hello mb-0">Bonjour, <strong>{user.first_name}</strong>.</span>
               </li>
               <li className="nav-item">
-                <button onClick={logout} className="btn btn-primary logout-btn">
+                <button onClick={logout} className="btn btn--logout logout-btn">
                   Déconnexion
                 </button>
               </li>
@@ -83,8 +83,7 @@ export default function Navbar() {
               </li>
               <li className="nav-item">
                 <Link className="nav-btn" to="/creer-compte" onClick={handleNavClick}>
-                  <button className="btn btn-primary btn-lg
-                  ">Inscription</button>
+                  <button className="btn btn--inscription">Inscription</button>
                 </Link>
               </li>
             </>
