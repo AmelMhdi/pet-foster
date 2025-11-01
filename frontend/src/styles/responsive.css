@@ -1,4 +1,4 @@
-/* Responsive styles */
+/* Responsive styles
 @media (max-width: 380px) {
   .brand-text-header {
     display: none;
@@ -38,6 +38,48 @@
   .footer-link {
     padding: 0.3rem 0.8rem;
   }
+
+  .animals-container {
+    padding: 0 0.75rem;
+    margin: 2rem auto;
+  }
+
+  .animals-title {
+    font-size: 1.8rem;
+  }
+
+  .animals-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .animals-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .animal-card-name {
+    font-size: 1.3rem;
+  }
+
+  .associations-title {
+    font-size: 2rem;
+  }
+
+  .associations-subtitle {
+    font-size: 1rem;
+  }
+
+  .association-name {
+    font-size: 1.3rem;
+  }
+
+  .association-header {
+    padding: 1.2rem;
+  }
+
+  .association-body {
+    padding: 1.2rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -47,6 +89,23 @@
 
   .animal-card .card-body {
     padding: 1.4rem;
+  }
+
+  .animals-title {
+    font-size: 2.2rem;
+  }
+
+  .animals-subtitle {
+    font-size: 1rem;
+  }
+
+  .animals-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .associations-title {
+    font-size: 2.2rem;
   }
 }
 
@@ -64,6 +123,145 @@
   }
 }
 
+@media (min-width: 1200px) {
+  .navbar-brand {
+    font-size: 2.5rem;
+  }
+
+  h2.text-center.mb-4.fw-bold.text-primary {
+    font-size: 2.5rem;
+  }
+} */
+
+/* ============================
+    Mobile first styles
+   ============================ */
+
+body {
+  font-size: 16px;
+}
+
+.brand-text-header {
+  display: none;
+}
+
+.navbar-brand {
+  font-size: 1.6rem;
+}
+
+.navbar-nav .nav-link {
+  font-size: 1rem;
+}
+
+h2.text-center.mb-4.fw-bold.text-primary {
+  font-size: 2rem;
+}
+
+main h1 {
+  font-size: 2rem;
+}
+
+.footer-navbar ul {
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-link {
+  padding: 0.3rem 0.8rem;
+}
+
+.animals-container {
+  padding: 0 0.75rem;
+  margin: 2rem auto;
+}
+
+.animals-title {
+  font-size: 1.8rem;
+}
+
+.animals-subtitle {
+  font-size: 0.95rem;
+}
+
+.animals-grid {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.animal-card-name {
+  font-size: 1.3rem;
+}
+
+.associations-title {
+  font-size: 2rem;
+}
+
+.associations-subtitle {
+  font-size: 1rem;
+}
+
+.association-name {
+  font-size: 1.3rem;
+}
+
+.association-header,
+.association-body {
+  padding: 1.2rem;
+}
+
+/* ============================
+  Breakpoint (min-width)
+  ============================ */
+
+/* Phones */
+@media (min-width: 576px) {
+  /* Tu peux éventuellement ajuster ici des styles pour téléphones plus larges */
+}
+
+/* Tablets  */
+@media (min-width: 768px) {
+  .navbar-nav .nav-link {
+    font-size: 1.1rem;
+  }
+
+  .animal-card .card-body {
+    padding: 1.4rem;
+  }
+
+  .animals-title {
+    font-size: 2.2rem;
+  }
+
+  .animals-subtitle {
+    font-size: 1rem;
+  }
+
+  .animals-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .associations-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* Laptops */
+@media (min-width: 992px) {
+  body {
+    font-size: 17px;
+  }
+
+  .navbar-brand {
+    font-size: 2.2rem;
+  }
+
+  h2.text-center.mb-4.fw-bold.text-primary {
+    font-size: 2.3rem;
+  }
+}
+
+/* Large screens */
 @media (min-width: 1200px) {
   .navbar-brand {
     font-size: 2.5rem;

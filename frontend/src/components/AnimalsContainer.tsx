@@ -10,9 +10,8 @@ type Props = {
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
-export default function AnimalsContainer({ limit = 3, }: Props) {
+export default function AnimalsContainer({ limit = 3 }: Props) {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
-  const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const loadAnimals = async () => {
@@ -31,39 +30,34 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
     loadAnimals();
   }, []);
 
-  // const handleShowAll = () => {
-  //   setShowAll(true);
-  //   loadAnimals();
-  // };
-
   return (
     <main>
-      <div className="container mt-5 mb-5 fade-in">
-        <div className="d-flex justify-content-center mb-4">
-          <h1 className="section-title">Les animaux</h1>
+      <div className="animals-container fade-in">
+        <div className="animals-header">
+          <h1 className="animals-title">Les animaux</h1>
+          <p className="animals-subtitle">Découvrez nos adorables compagnons à quatre pattes</p>
         </div>
 
         {loading ? (
-          <p className="text-center">Chargement...</p>
+          <p className="animals-loading">Chargement...</p>
         ) : (
           <>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div className="animals-grid">
               {animals.map((animal) => (
-                <div key={animal.id} className="col">
-                  <div className="card-base card animal-card card-body-standard text-center shadow-sm">
+                <div key={animal.id} className="animal-card-wrapper">
+                  <div className="animal-card-modern">
                     <img
                       src={`${apiBaseUrl}/images/${animal.picture}.webp`}
                       alt={animal.name}
-                      className="animal-img card-img-top img-fluid rounded-top"
+                      className="animal-img"
                       loading="lazy"
                     />
-                    <div className="card-body d-flex flex-column justify-content-between">
-                      <p className="card-text">
-                        <strong>{animal.name}</strong>
-                      </p>
+
+                    <div className="animal-card-content">
+                      <h2 className="animal-card-name">{animal.name}</h2>
                       <Link
                         to={`/animaux/${animal.id}`}
-                        className="details-btn btn btn-outline-primary mt-auto"
+                        className="animal-details-btn"
                       >
                         Voir détails
                       </Link>
@@ -72,14 +66,6 @@ export default function AnimalsContainer({ limit = 3, }: Props) {
                 </div>
               ))}
             </div>
-
-            {/* {!showAll && animals.length >= limit && (
-              <div className="d-flex justify-content-center mt-4">
-                <button className="btn btn-primary" onClick={handleShowAll}>
-                  Afficher tous les animaux
-                </button>
-              </div>
-            )} */}
           </>
         )}
       </div>

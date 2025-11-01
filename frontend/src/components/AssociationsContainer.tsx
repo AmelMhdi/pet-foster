@@ -23,26 +23,41 @@ export default function AssociationsContainer() {
     <>
       <main>
         <div className="container mt-5">
-          <div className="d-flex justify-content-center mb-4">
-            <h1 className="section-title">Les associations</h1>
+          <div className="text-center mb-5">
+            <h1 className="associations-title">Les associations</h1>
+            <p className="associations-subtitle">Découvrez les organisations qui protègent nos animaux</p>
           </div>
 
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
             {associations.map((association) => (
               <div key={association.id} className="col">
-                <div className="card card-body-standard border-0 bg-transparent text-center">
-                  <div className="association-card h-100 text-center shadow-sm">
-                    
-                    <div className="association-text">
-                      <div>{association.last_name}</div>
-                      <div>{association.zip_code || "Code postal inconnu"}</div>
-                      <div>{association.city || "Ville inconnue"}</div>
-                      <Link 
-                        to={`/associations/${association.id}`} 
-                        className="btn btn-outline-primary mt-auto"
-                      >
-                        Voir détails
-                      </Link>
+                <div className="association-card-wrapper h-100">
+                  <div className="association-card h-100">
+                    <div className="association-header">
+                      <div className="association-name">
+                        {association.last_name || "Nom inconnu"}
+                      </div>
+
+                      <div className="association-body">
+                        <div className="association-info">
+                          <div className="info-item">
+                            <span className="info-label">Localité : </span>
+                            <span className="info-value">{association.city || "Ville inconnue"}</span>
+                          </div>
+
+                          <div className="info-item">
+                            <span className="info-label">Code postal : </span>
+                            <span className="info-value">{association.zip_code || "Code postal inconnu"}</span>
+                          </div>
+                        </div>
+
+                        <Link
+                          to={`/associations/${association.id}`}
+                          className="btn btn-details mt-auto"
+                        >
+                          Voir détails
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

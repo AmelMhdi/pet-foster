@@ -18,91 +18,246 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Home text presentation */
-.container-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--light-cream);
-  margin-top: 1rem;
-  font-weight: 700;
-}
-
-.container-text {
-  font-size: 1.2rem;
-  color: var(--light-cream);
-  line-height: 1.6;
-}
-
-.main-about-us-section {
+.card-body {
+  color: var(--dark-blue);
   background-color: var(--light-cream);
-  border-radius: 0.5rem;
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.main-container-pfc {
-  color: var(--primary-red);
+  border-radius: 1.5rem;
 }
 
 /* Animal cards */
-.card-base {
+.animals-container {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.animals-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.animals-subtitle {
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.animals-loading {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--medium-blue);
+  padding: 2rem;
+}
+
+.animals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.animal-card-wrapper {
+  height: 100%;
+}
+
+.animal-card-modern {
+  height: 100%;
   background-color: var(--light-cream);
-  border: none;
-  border-radius: 0.5rem;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
 }
 
-.card-body-standard {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: var(--dark-blue);
-  margin: 2rem auto;
+.animal-card-modern:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
-.animal-card {
-  border-radius: 0.5rem;
-}
-
-.animal-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.animal-card .card-text {
-  color: var(--dark-blue);
-  font-weight: 500;
-  font-size: 1.2rem;
-}
-
-.card-title-details {
-  font-size: 1.5rem;
-  color: var(--dark-blue);
-  font-weight: 600;
+.animal-card-image {
+  width: 100%;
+  height: 240px;
+  object-fit: hidden;
+  background-color: var(--light-blue);
 }
 
 .animal-img {
   width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.animal-card-modern:hover .animal-img {
+  transform: scale(1.05);
+}
+
+.animal-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.animal-card-name {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+}
+
+.animal-details-btn {
+  display: inline-block;
+  background-color: var(--medium-blue);
+  color: var(--light-cream);
+  text-decoration: none;
+  padding: 0.65rem 1.2rem;
+  border-radius: 0.4rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid var(--medium-blue);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.animal-details-btn:hover {
+  background-color: var(--medium-blue-2);
+  border-color: var(--medium-blue-2);
+  color: var(--light-cream);
+  transform: translateY(-2px);
+}
+
+/* Association card */
+.associations-title {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.associations-subtitle {
+  font-family: "Segoe UI", "Inter", sans-serif;
+  font-size: 1.1rem;
+  color: var(--dark-blue);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
+.association-card-wrapper {
+  display: flex;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.association-card-wrapper:hover {
+  transform: translateY(-4px);
 }
 
 .association-card {
-  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
   background-color: var(--light-cream);
-  border-bottom: 1px solid var(--dark-blue);
-  color: var(--dark-blue);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  border: 1px solid rgba(32, 54, 86, 0.1);
+  height: 100%;
+}
+
+.association-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.association-header {
+  background: linear-gradient(135deg, var(--medium-blue) 0%, var(--medium-blue-2) 100%);
+  padding: 1.5rem;
+  flex-shrink: 0;
+}
+
+.association-name {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--light-cream);
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+
+.association-body {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex-grow: 1;
+  gap: 1.2rem;
+}
+
+.association-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info-label {
+  font-family: "Segoe UI", "Inter", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--light-cream);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-family: "Segoe UI", "Inter", sans-serif;
+  font-size: 1rem;
   font-weight: 500;
-  font-size: 1.2rem;
+  color: var(--dark-blue);
 }
 
-.info-grid > div {
-  margin-bottom: 0.5rem;
+.btn-details {
+  background-color: var(--medium-blue);
+  color: var(--light-cream);
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.7rem 1.2rem;
+  font-family: "Segoe UI", "Inter", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
 }
 
-.details-btn {
-  background-color: var(--dark-blue) !important;
-  color: var(--light-cream) !important;
-  transition: background-color 0.3s, color 0.3s;
+.btn-details:hover {
+  background-color: var(--medium-blue-2);
+  color: var(--light-cream);
+  text-decoration: none;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(72, 142, 186, 0.25);
+}
+
+.btn-details:active {
+  transform: scale(0.98);
 }
