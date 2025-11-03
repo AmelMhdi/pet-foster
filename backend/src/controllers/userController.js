@@ -23,27 +23,38 @@ export async function getRoles(req, res, next) {
 }
 
 export async function getAllUsers(req, res, next) {
-  // récupérer le paramètre de requête "role"
-  const { role } = req.query;
-
-  // créer les options de filtre
-  const whereClause = {};
-
-  if (role && role.toLowerCase() === "admin") {
-    whereClause.role_id = 1;
-  } else if (role && role.toLowerCase() === "association") {
-    whereClause.role_id = 2;
-  } else if (role && role.toLowerCase() === "familleaccueil") {
-    whereClause.role_id = 3;
+  try {
+    
+    // récupérer le paramètre de requête "role"
+    const { role } = req.query;
+  
+    // créer les options de filtre
+    const whereClause = {};
+  
+    if (role === "association") {
+      const associations = await User.findAll({
+        include: [
+          {
+            association: "role",
+            where: { name: "Association" },
+          },
+        ],
+        attributes: { exclude: ["password"] },
+      });
+      return res.status(200).json(associations);
+    }
+  
+      // récupérer les utilisateurs avec le filtre
+    const users = await User.findAll({
+      where: whereClause,
+      include: ["role"],
+      order: [["id", "ASC"]],
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des utilisateurs :", error);
+    return next(error);
   }
-
-  // récupérer les utilisateurs avec le filtre
-  const users = await User.findAll({
-    where: whereClause,
-    include: ["role"],
-    order: [["id", "ASC"]],
-  });
-  res.json(users);
 }
 
 export async function getOneUser(req, res, next) {
@@ -76,7 +87,7 @@ export async function getAllAssociations(req, res, next) {
       include: [
         {
           association: "role",
-          where: { id: 1 }, // 1 = role association
+          where: { id: 2 }, // 1 = role association
         },
         { association: "localisation" },
       ],

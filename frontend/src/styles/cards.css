@@ -300,7 +300,7 @@
 }
 
 .association-header {
-  background: linear-gradient(135deg, var(--medium-blue) 0%, var(--medium-blue-2) 100%);
+  background: var(--medium-blue);
   padding: 1.5rem;
   flex-shrink: 0;
 }
