@@ -38,6 +38,7 @@ export interface IUser {
   rna_number?: string | null;
   picture?: string | null;
   role_id: number | undefined;
+  role?: IRole;
 }
 
 export interface IUserUpdateForm {
@@ -52,6 +53,7 @@ export interface IUserUpdateForm {
   phone_number: string;
   password?: string;
   role_id: number;
+  role?: IRole;
 }
 
 // Public user info (no sensitive data)
@@ -74,7 +76,7 @@ export interface IPublicUser {
   zip_code: string;
 }
 
-export interface IAssociation extends IPublicUser {
+export interface IAssociation extends IUser {
   animals: IAnimal[];
 }
 
