@@ -112,7 +112,7 @@ export async function getOneAssociation(req, res, next) {
   try {
     const association = await User.findOne({
       where: { id: associationId },
-      attributes: ["id", "first_name", "last_name", "email", "phone_number"],
+      attributes: ["id", "first_name", "last_name", "email", "phone_number", "street_number", "address", "zip_code", "city"],
       include: [
         {
           association: "role",
