@@ -66,7 +66,7 @@ export async function postUserMessageToApi(
 // --- Associations (users) ---
 export async function fetchAssociations(): Promise<IUser[]> {
   try {
-    const response = await fetch(`${apiBaseUrl}/users?role=association`);
+    const response = await fetch(`${apiBaseUrl}/associations`);
     if (!response.ok) {
       throw new Error(`Erreur lors de la récupération des associations : ${response.status}`);
     }
@@ -74,5 +74,19 @@ export async function fetchAssociations(): Promise<IUser[]> {
   } catch (error) {
     console.error("Erreur lors de la récupération des associations :", error);
     return [];
+  }
+}
+
+export async function fetchAssociationById(id: number): Promise<IUser | null> {
+  try {
+    const response = await fetch(`${apiBaseUrl}/associations/${id}`);
+    if (response.status === 404) return null;
+    if (!response.ok) {
+      throw new Error(`Erreur lors de la récupération de l'association : ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'association :", error);
+    return null;
   }
 }

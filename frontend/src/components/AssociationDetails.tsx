@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { getUserById } from "../services/userApi";
 import { IAssociation } from "../@types";
 import { logError } from "../helpers/logError";
+import { fetchAssociationById } from "../services/api";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 export default function ContactAssociation() {
   const { id } = useParams();
-
   const [association, setAssociation] = useState<IAssociation>();
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
@@ -20,9 +20,9 @@ export default function ContactAssociation() {
       try {
         setLoading(true);
         const associationId = parseInt(id);
-        const oneAssociation = await getUserById(associationId);
+        const oneAssociation = await fetchAssociationById(associationId);
 
-        if (oneAssociation?.role.name === "association") {
+        if (oneAssociation && oneAssociation.role?.name === "Association") {
           setAssociation(oneAssociation as IAssociation);
         } else {
           setNotFound(true);

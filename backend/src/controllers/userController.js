@@ -87,12 +87,12 @@ export async function getAllAssociations(req, res, next) {
       include: [
         {
           association: "role",
-          where: { id: 2 }, // 1 = role association
+          where: { name: "Association" },
+          attributes: ["id", "name"]
         },
-        { association: "localisation" },
       ],
       attributes: {
-        exclude: ["password", "email", "phone_number", "rna_number", "street_number", "address", "city", "zip_code"],
+        exclude: ["password"],
       },
       order: [["id", "ASC"]],
     });
@@ -111,16 +111,21 @@ export async function getOneAssociation(req, res, next) {
 
   try {
     const association = await User.findOne({
+      where: { id: associationId },
       attributes: ["id", "first_name", "last_name", "email", "phone_number"],
       include: [
         {
-          association: "animals_association",
-          attributes: ["id", "name", "picture"],
+          association: "role",
+          attributes: ["id", "name"],
+        },
+        {
+          association: "animals",
+          attributes: ["id", "name", "date_of_birth", "description", "picture"],
           include: [
             {
               association: "species",
-              attributes: ["id", "name"],
-            },
+              attributes: ["id", "name"]
+            }
           ],
         },
       ],
