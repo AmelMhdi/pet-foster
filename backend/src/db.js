@@ -11,9 +11,10 @@ const { Pool } = pkg;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL, // contient les infos nécessaires à la connexion : host, port, user, password, database.
-  ssl: {
-    rejectUnauthorized: false, // option souvent nécessaire si on déploie sur un service cloud comme Heroku ou Railway (ils imposent SSL).
-  },
+  // ssl: {
+  //   rejectUnauthorized: false, // option souvent nécessaire si on déploie sur un service cloud comme Heroku ou Railway (ils imposent SSL).
+  // },
+  ssl: process.env.DATABASE_URL ? true : false, // active SSL uniquement si on a une DATABASE_URL (ex: sur Heroku)
 });
 
 // test de la connexion

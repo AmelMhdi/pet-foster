@@ -15,14 +15,14 @@
 
 .btn-primary {
   background-color: var(--medium-blue);
-  color: var(--light-cream);
+  color: var(--dark-blue);
 }
 
 .btn-primary:hover {
   background-color: var(--medium-blue-2);
 }
 
-/* Variantes */
+/* Variants */
 .btn--foster,
 .btn--inscription {
   background-color: var(--medium-blue-2);
@@ -31,6 +31,11 @@
 
 .btn--logout {
   background-color: var(--primary-red);
+  color: var(--light-cream);
+}
+
+.btn--logout:hover {
+  background-color: var(--secondary-red);
   color: var(--light-cream);
 }
 

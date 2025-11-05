@@ -3,13 +3,22 @@ import { sequelize } from "./sequelizeClient.js";
 
 export class Species extends Model {}
 
-Species.init({
+Species.init(
+{
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique : true
+    unique : true,
   },
 }, {
   sequelize,
-  tableName: "species"
+  modelName: "Species",
+  tableName: "species",
 });
+
+export default Species;

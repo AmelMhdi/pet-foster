@@ -35,67 +35,71 @@ export default function Contact() {
   };  
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center">Contact</h1>
+    <main className="info-pages-container">
+      <div className="container py-5">
+        <h1 className="info-page-title">Nous Contacter</h1>
 
-      <form className="mt-4" onSubmit={sendEmail}>
-        {successMessage && 
-          <div className="alert alert-success custom-success">{successMessage}</div>
-        }
-        {errorMessage && 
-          <div className="alert alert-danger">{errorMessage}</div>
-        }
+        <div className="contact-form-wrapper">
+          <form className="contact-form" onSubmit={sendEmail}>
+            {successMessage && 
+              <div className="alert alert-success custom-success">{successMessage}</div>
+            }
+            {errorMessage && 
+              <div className="alert alert-danger">{errorMessage}</div>
+            }
 
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">Nom</label>
-          <input 
-            type="text"
-            name="name"
-            placeholder="Votre nom"
-            className="form-control"
-            value={name} 
-            id="name" 
-            onChange={(event) => setName(event.target.value)} 
-            required 
-          />
+            <div className="form-group">
+              <label htmlFor="name" className="form-label">Nom</label>
+              <input 
+                type="text"
+                name="name"
+                placeholder="Votre nom"
+                className="form-control"
+                value={name} 
+                id="name" 
+                onChange={(event) => setName(event.target.value)} 
+                required 
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">Email</label>
+              <input 
+                type="email"
+                name="email"
+                placeholder="Votre email"
+                className="form-control" 
+                value={email} 
+                id="email" 
+                onChange={(event) => setEmail(event.target.value)} 
+                required 
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="message" className="form-label">Message</label>
+              <textarea
+                name="message"
+                placeholder="Écrivez votre message ici..."
+                className="form-control"
+                value={message}
+                id="message"
+                onChange={(event) => setMessage(event.target.value)}
+                rows={4}
+                required
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              className={`btn btn-submit ${isSending ? "btn-sending" : "btn-primary"}`}
+              disabled={isSending}
+            >
+              {isSending ? "Envoi en cours..." : "Envoyer"}
+            </button>
+          </form>
         </div>
-
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input 
-            type="email"
-            name="email"
-            placeholder="Votre email"
-            className="form-control" 
-            value={email} 
-            id="email" 
-            onChange={(event) => setEmail(event.target.value)} 
-            required 
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="message" className="form-label">Message</label>
-          <textarea
-            name="message"
-            placeholder="Écrivez votre message ici..."
-            className="form-control"
-            value={message}
-            id="message"
-            onChange={(event) => setMessage(event.target.value)}
-            rows={4}
-            required
-          ></textarea>
-        </div>
-
-        <button 
-          type="submit" 
-          className={`btn ${isSending ? "btn-sending" : "btn-primary"}`}
-          disabled={isSending}
-        >
-          {isSending ? "Envoi en cours..." : "Envoyer"}
-        </button>
-      </form>
-    </div>
+      </div>
+    </main>
   );
 }

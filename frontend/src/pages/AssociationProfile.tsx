@@ -2,23 +2,23 @@ import { useUserStore } from "../store";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { getAnimalsByAssociationFromApi, getUserMessagesApi } from "../services/associationsApi";
-import { deleteAnimalApi } from "../services/api";
-import { deleteUserFromApi } from "../services/usersApi";
+import { deleteUserFromApi } from "../services/userApi";
 import DeleteAnimalModal from "../components/DeleteAnimalModal";
 import DeleteProfileModal from "../components/DeleteProfilModal";
 import AnimalsFromAsso from "../components/AnimalsFromAsso";
 import MessagesForAsso from "../components/MessagesForAsso";
-import { IUserAnimal, IUserAnimalMessage } from "../@types";
+import { IAnimal, IUserAnimalMessage } from "../@types";
 import { logError } from "../helpers/logError";
+import { getAnimalsByUserIdFromApi } from "../services/animalApi";
+import { getUserMessageFromApi } from "../services/api";
 
 export default function Profile() {
   const navigate = useNavigate();
   const [feedback, setFeedback] = useState<string>("");
   const user = useUserStore((state) => state.user);
-  const [animals, setAnimals] = useState<IUserAnimal[]>([]);
+  const [animals, setAnimals] = useState<IAnimal[]>([]);
   const [messages, setMessages] = useState<IUserAnimalMessage[]>([]);
-  const [animalToDelete, setAnimalToDelete] = useState<IUserAnimal | null>(null);
+  const [animalToDelete, setAnimalToDelete] = useState<IAnimal | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
   const { id } = useParams();
@@ -39,7 +39,7 @@ export default function Profile() {
     const loadAnimals = async () => {
       if (!user) return;
       try {
-        const newAnimals = await getAnimalsByAssociationFromApi(user.id);
+        const newAnimals = await getAnimalsByUserIdFromApi(user.id);
         setAnimals(newAnimals);
       } catch (error) {
         logError("Erreur lors du chargement des animaux", error);
@@ -52,7 +52,7 @@ export default function Profile() {
     const loadMessages = async () => {
       if (!user) return;
       try {
-        const newMessages = await getUserMessagesApi(user.id);
+        const newMessages = await getUserMessageFromApi(user.id);
         setMessages(newMessages);
       } catch (error) {
         logError("Erreur lors du chargement des messages", error);

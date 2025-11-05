@@ -9,9 +9,11 @@ export default function Footer() {
             <li>
               <Link className="footer-link" to="/a-propos">À propos</Link>
             </li>
+            <li className="footer-divider">•</li>
             <li>
               <Link className="footer-link" to="/mentions-legales">Mentions légales</Link>
             </li>
+            <li className="footer-divider">•</li>
             <li>
               <Link className="footer-link" to="/contact">Contact</Link>
             </li>

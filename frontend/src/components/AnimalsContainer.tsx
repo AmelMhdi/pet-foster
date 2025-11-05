@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
-import { api } from "../services/api";
 import { Link } from "react-router-dom";
 import { IAnimal } from "../@types";
 import { logError } from "../helpers/logError";
+import { getAnimalsFromApi } from "../services/animalApi";
 
 type Props = {
   limit?: number;
-  random?: boolean;
 };
 
-export default function AnimalsContainer({ limit = 3, random }: Props) {
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+
+export default function AnimalsContainer({ limit = 3 }: Props) {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
-  const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const loadAnimals = async (all: boolean) => {
+  const loadAnimals = async () => {
     try {
       setLoading(true);
-      const fetched = await api.fetchAnimals(all ? undefined : limit, random);
+      const fetched = await getAnimalsFromApi();
       setAnimals(fetched);
     } catch (error) {
       logError("Erreur lors du chargement des animaux :", error);
@@ -27,42 +27,37 @@ export default function AnimalsContainer({ limit = 3, random }: Props) {
   };
 
   useEffect(() => {
-    loadAnimals(false);
-  }, [random]);
-
-  const handleShowAll = () => {
-    setShowAll(true);
-    loadAnimals(true);
-  };
+    loadAnimals();
+  }, []);
 
   return (
     <main>
-      <div className="container mt-5 fade-in">
-        <div className="d-flex justify-content-center mb-4">
-          <h1 className="section-title">Les animaux</h1>
+      <div className="animals-container fade-in">
+        <div className="animals-header">
+          <h1 className="animals-title">Les animaux</h1>
+          <p className="animals-subtitle">Découvrez nos adorables compagnons à quatre pattes</p>
         </div>
 
         {loading ? (
-          <p className="text-center">Chargement...</p>
+          <p className="animals-loading">Chargement...</p>
         ) : (
           <>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div className="animals-grid">
               {animals.map((animal) => (
-                <div key={animal.id} className="col">
-                  <div className="card-base card animal-card card-body-standard h-100 text-center shadow-sm">
+                <div key={animal.id} className="animal-card-wrapper">
+                  <div className="animal-card-modern">
                     <img
-                      src={animal.picture}
+                      src={`${apiBaseUrl}/images/${animal.picture}.webp`}
                       alt={animal.name}
-                      className="animal-img card-img-top img-fluid rounded-top"
+                      className="animal-img"
                       loading="lazy"
                     />
-                    <div className="card-body d-flex flex-column justify-content-between">
-                      <p className="card-text mb-3">
-                        <strong>{animal.name}</strong>
-                      </p>
+
+                    <div className="animal-card-content">
+                      <h2 className="animal-card-name">{animal.name}</h2>
                       <Link
-                        to={`/animals/${animal.id}`}
-                        className="btn btn-outline-primary mt-auto"
+                        to={`/animaux/${animal.id}`}
+                        className="animal-details-btn"
                       >
                         Voir détails
                       </Link>
@@ -71,14 +66,6 @@ export default function AnimalsContainer({ limit = 3, random }: Props) {
                 </div>
               ))}
             </div>
-
-            {!showAll && animals.length >= limit && (
-              <div className="d-flex justify-content-center mt-4">
-                <button className="btn btn-primary" onClick={handleShowAll}>
-                  Afficher tous les animaux
-                </button>
-              </div>
-            )}
           </>
         )}
       </div>

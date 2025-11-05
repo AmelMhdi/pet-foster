@@ -4,13 +4,14 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import AnimalsContainer from "./components/AnimalsContainer";
+import Footer from "./components/Footer";
 const AnimalDetails = React.lazy(() => import("./components/AnimalDetails"));
 const About = React.lazy(() => import("./pages/About"));
 const LegalMentions = React.lazy(() => import("./pages/LegalMentions"));
 const Contact = React.lazy(() => import("./pages/Contact"));
 const Login = React.lazy(() => import("./pages/Login"));
 const Register = React.lazy(() => import("./pages/Register"));
-const Profile = React.lazy(() => import("./pages/Profile"));
+const Profile = React.lazy(() => import("./pages/AssociationProfile"));
 const UpdateProfilAssociation = React.lazy(() => import("./pages/UpdateProfilAssociation"));
 const CreateAnimal = React.lazy(() => import("./pages/CreateAnimal"));
 const Associations = React.lazy(() => import("./pages/Associations"));
@@ -21,17 +22,31 @@ const NotFound404 = React.lazy(() => import("./pages/NotFound404"));
 function App() {
   return (
     <>
-      <Suspense fallback={<div className="loading">Loading...</div>}>
+      <Suspense 
+        fallback={
+          <div className="d-flex justify-content-center align-items-center min-vh-100">
+            <div className="spinner-border text-primary" role="status">
+              <span className="sr-only visually-hidden">Chargement en cours...</span>
+            </div>
+          </div>
+        }
+      >
         <div className="container-global">
           <Header />
           <Routes>
+            {/* Pages publiques */}
             <Route path="/" element={<Home />} />
-            <Route path="/animals" element={<AnimalsContainer />} />
-            <Route path="/animals/:id" element={<AnimalDetails />} />
+            <Route path="/animaux" element={<AnimalsContainer />} />
+            <Route path="/animaux/:id" element={<AnimalDetails />} />
             <Route path="/associations" element={<Associations />} />
             <Route path="/associations/:id" element={<AssociationDetails />} />
             <Route path="/se-connecter" element={<Login />} />
             <Route path="/creer-compte" element={<Register />} />
+            <Route path="/a-propos" element={<About />} />
+            <Route path="/mentions-legales" element={<LegalMentions />} />
+            <Route path="/contact" element={<Contact />} />
+
+            {/* Pages protégées */}
             <Route path="/profil-association/:id" element={<Profile />} />
             <Route
               path="/modifier-profil/:id"
@@ -39,11 +54,11 @@ function App() {
             />
             <Route path="/creer-animal/:id" element={<CreateAnimal />} />
             <Route path="/modifier-animal/:id" element={<UpdateAnimal />} />
-            <Route path="/a-propos" element={<About />} />
-            <Route path="/mentions-legales" element={<LegalMentions />} />
-            <Route path="/contact" element={<Contact />} />
+
+            {/* Fallback */}
             <Route path="*" element={<NotFound404 />} />
           </Routes>
+          <Footer />
         </div>
       </Suspense>
     </>

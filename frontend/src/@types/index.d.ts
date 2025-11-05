@@ -1,124 +1,126 @@
+// --- ANIMALS ---
 export type IAnimals = IAnimal[];
 
 export interface IAnimal {
   id: number;
   name: string;
-  birthday: string;
+  date_of_birth: string; // ISO string format
   description: string;
   picture: string;
-  localisation_id: number;
   species_id: number;
   user_id: number;
 
   species?: ISpecies;
-  localisation?: ILocalisation;
   user?: IUser;
 }
 
 export interface INewAnimal {
   name: string;
-  birthday: string;
+  date_of_birth: string; // format YYYY-MM-DD attendu
   description: string;
-  picture: string;
-  localisation_id: number;
+  picture?: string;
   species_id: number;
+  user_id: number;
 }
 
-export interface ILocalisation {
-  id: number;
-  city: string;
-  postcode: string;
-}
-
+// --- USER ---
 export interface IUser {
   id?: number;
-  firstname: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
   email: string;
   password: string;
+  street_number: string;
   address: string;
-  phone_number: string;
-  rma_number?: string | null;
+  city: string;
+  zip_code: string;
+  rna_number?: string | null;
   picture?: string | null;
   role_id: number | undefined;
-  localisation_id: number;
-
-  localisation?: ILocalisation;
+  role?: IRole;
 }
 
-export interface IRole {
+export interface IUserUpdateForm {
+  id?: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  street_number: string;
+  address: string;
+  city: string;
+  zip_code: string;
+  phone_number: string;
+  password?: string;
+  role_id: number;
+  role?: IRole;
+}
+
+// Public user info (no sensitive data)
+export interface IPublicUser {
   id: number;
-  name: string;
-}
-
-export interface ISpecies {
-  id: number;
-  name: string;
-}
-
-export interface IAssociationDetail {
-  firstname: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone_number: string;
+  rna_number?: string | null;
 
-  animals_asso: IAnimal[];
+  role: {
+    id: number;
+    name: string;
+  }
+
+  street_number: string;
+  address: string;
+  city: string;
+  zip_code: string;
 }
 
+export interface IAssociation extends IUser {
+  animals: IAnimal[];
+}
+
+// --- AUTH ---
 export interface ILoginRequest {
   email: string;
   password: string;
 }
 
 export interface ILoginResponse {
-  firstname: string;
-  expiresIn: string;
-  token: string;
-  email: string;
   id: number;
-  role: {
-    id: number;
-    name: string;
-  };
-}
-
-export interface IPublicUser {
-  id: number;
-  firstname: string;
-  lastname: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  address: string;
   phone_number: string;
-  rma_number?: string;
+  token: string;
+  expiresIn: string;
 
   role: {
     id: number;
     name: string;
   };
 
-  localisation: {
-    id: number;
-    city: string;
-    postcode: number;
-  };
+  street_number: string;
+  address: string;
+  city: string;
+  zip_code: string;
 }
 
 export interface IUserT {
   email: string;
   token: string;
-  firstname: string;
+  first_name: string;
+  last_name: string;
   id: number;
   role: {
     id: number;
     name: string;
   };
-  lastname?: string;
-  address?: string;
   phone_number?: string;
-  localisation?: {
-    postcode?: string;
-    city?: string;
-  };
+  street_number?: string;
+  address?: string;
+  city?: string;
+  zip_code?: string;
 }
 
 export interface IUserStore {
@@ -128,45 +130,44 @@ export interface IUserStore {
   setUser: (updateUser: Partial<IUserT>) => void;
 }
 
-export interface IUserAnimal {
-  user_id: number;
+// --- ROLES ---
+export interface IRole {
   id: number;
   name: string;
-  birthday: string;
-  description: string;
-  picture: string;
+}
+
+// --- SPECIES ---
+export interface ISpecies {
+  id: number;
+  name: string;
+}
+
+// --- APPLICATIONS (messages) ---
+export interface IApplication {
+  id: number;
+  user_id: number;
+  animal_id: number;
+  message: string;
+  status: "pending" | "accepted" | "rejected";
   created_at: string;
   updated_at: string;
-  localisation_id: number;
-  species_id: number;
-  species: {
-    name: string;
-  };
+
+  user?: IUser;
+  animal?: IAnimal;
 }
 
 export interface IUserAnimalMessage {
   message: string;
   userId: number;
-  firstname: string;
-  name: string;
-  phone: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
   email: string;
   animal: string;
   createdAt: string;
 }
 
-export interface IUserUpdateForm {
-  id?: number;
-  firstname: string;
-  lastname: string;
-  email: string;
-  address: string;
-  phone_number: string;
-  localisation_id: number;
-  password?: string;
-  role_id: number;
-}
-
+// --- FORM INPUTS ---
 export interface SelectProps {
   label: string;
   name: string;

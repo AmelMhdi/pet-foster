@@ -26,3 +26,8 @@
 .footer-nav li {
   display: inline;
 }
+
+.footer-divider {
+  color: var(--light-cream);
+  opacity: 0.5;
+}

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { IAnimal } from "../@types";
-import { api } from "../services/api";
 import { useUserStore } from "../store";
 import { logError } from "../helpers/logError";
+import { getAnimalByIdFromApi } from "../services/animalApi";
+import { postUserMessageToApi } from "../services/api";
+
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
 export default function AnimalDetails() {
   const { id } = useParams();
@@ -26,7 +29,7 @@ export default function AnimalDetails() {
       try {
         setLoading(true);
         const animalId = parseInt(id, 10);
-        const fetchedAnimal = await api.getAnimal(animalId);
+        const fetchedAnimal = await getAnimalByIdFromApi(animalId);
         if (!fetchedAnimal) {
           setNotFound(true);
         } else {
@@ -66,13 +69,13 @@ export default function AnimalDetails() {
 
     try {
       setIsSubmitting(true);
-      await api.postUserMessageToApi(user.id, animal.id, trimmedMessage);
+      await postUserMessageToApi(animal.id, trimmedMessage);
       setNewMessage("");
-      setSuccessMessage("Votre demande d'accueil a été envoyée avec succès.");
+      setSuccessMessage("Votre demande a été envoyée avec succès.");
       setErrorMessage("");
     } catch (error) {
-      logError("Erreur lors de l'envoi du message :", error);
-      setErrorMessage("Une erreur est survenue lors de l'envoi.");
+      logError("Une erreur s'est produite lors de l'envoi du message :", error);
+      setErrorMessage("Une erreur s'est produite lors de l'envoi du message.");
     } finally {
       setIsSubmitting(false);
     }
@@ -81,69 +84,76 @@ export default function AnimalDetails() {
   return (
     <div className="container mt-5 fade-in">
       <div className="d-flex justify-content-center mb-4">
-        <h1 className="section-title">{animal.name}</h1>
+        <h1 className="animal-details-title">{animal.name}</h1>
       </div>
 
-      <div className="row">
-        <div className="col-md-6 mb-3">
-          <img
-            src={animal?.picture}
-            alt={animal?.name}
-            className="card-img-top img-fluid rounded-top"
-            loading="lazy"
-            srcSet={`
-            ${animal.picture}?width=400 400w,
-            ${animal.picture}?width=800 800w
-          `}
-            sizes="(min-width: 768px) 33vw, 100vw"
-          />
+      <div className="row g-4">
+        <div className="col-lg-6 mb-3">
+          <div className="animal-image-container">
+            <img
+              src={`${apiBaseUrl}/images/${animal.picture}.webp`}
+              alt={animal.name}
+              className="animal-details-img"
+              loading="lazy"
+              sizes="(min-width: 768px) 50vw, 100vw"
+            />
+          </div>
         </div>
 
-        <div className="col-md-6 mb-4">
-          <div className="card-base card info-card shadow-sm mb-4">
-            <div className="card-body d-flex flex-column justify-content-between">
-              <h5 className="card-title card-title-details mb-3 fw-bold">Informations</h5>
-              <div className="card-text info-text">
+        <div className="col-lg-6 mb-4">
+          <div className="animal-info-card shadow-sm mb-4">
+            <div className="d-flex flex-column justify-content-between">
+              <h2 className="card-title-details serif-heading-card mb-4">Informations</h2>
+              <div className="info-text">
                 <div className="info-grid">
-                  <div >
-                    <strong>Date de naissance :</strong> {new Date(animal.birthday).toLocaleDateString("fr-FR")}
+                  <div className="info-item">
+                    <strong className="info-label">Date de naissance :</strong>
+                    <span className="info-value">{new Date(animal.date_of_birth).toLocaleDateString("fr-FR")}</span>
                   </div>
-                  <div>
-                    <strong>Espèce :</strong> {animal.species?.name || "Information non disponible"}
+                  <div className="info-item">
+                    <strong className="info-label">Espèce :</strong>
+                    <span className="info-value">{animal.species?.name || "Information non disponible"}</span>
                   </div>
-                  <div>
-                    <strong>Description :</strong> {animal.description}
-                  </div>
-                  <div>
-                    <strong>Ville :</strong> {animal.localisation?.city || "Information non disponible"}
+                  <div className="info-item">
+                    <strong className="info-label">Description :</strong>
+                    <span className="info-value">{animal.description}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="card-base card shadow-sm foster-request-card">
+          <div className="card-base foster-request-card shadow-sm">
             <div className="card-body">
-              <h5 className="card-title card-title-details mb-3 fw-bold">Demande d'accueil</h5>
+              <h5 className="card-title-details serif-heading-card mb-4">Demande d'accueil</h5>
 
               {!user ? (
-                <div className="alert alert-warning">
-                  Vous devez être connecté pour envoyer une demande d'accueil.{" "}
+                <div className="alert alert-warning" role="alert" aria-live="polite">
+                  Vous devez être connecté pour envoyer une demande d'accueil.
                 </div>
               ) : (
                 <>
-                  {successMessage && <div className="alert alert-success" aria-live="polite">{successMessage}</div>}
-                  {errorMessage && <div className="alert alert-danger" aria-live="polite">{errorMessage}</div>}
-                  <div className="mb-3">
+                  {successMessage && (
+                    <div className="alert alert-success" role="alert" aria-live="polite">
+                      {successMessage}
+                    </div>
+                  )}
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert" aria-live="polite">
+                      {errorMessage}
+                    </div>
+                  )}
+                  <div className="mb-4">
                     <label htmlFor="userMessageInput" className="form-label">
                       Expliquez pourquoi vous souhaitez accueillir cet animal.
                     </label>
                     <textarea
                       id="userMessageInput"
-                      className="form-control"
+                      className="form-control foster-textarea"
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       rows={4}
+                      placeholder="Partager votre motivation..."
                     />
                   </div>
                   <button 
@@ -152,7 +162,7 @@ export default function AnimalDetails() {
                     disabled={!newMessage.trim() || isSubmitting}
                     aria-label="Envoyer la demande d'accueil"
                   >
-                    Envoyer
+                    {isSubmitting ? "Envoi en cours..." : "Envoyer"}
                   </button>
                 </>
               )}

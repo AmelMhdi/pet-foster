@@ -1,10 +1,7 @@
 import { Router } from "express";
-import * as associationController from "../controllers/associationController.js";
-import { isAuth } from "../middlewares/authentication.middleware.js";
+import * as userController from "../controllers/userController.js";
 
 export const router = Router();
 
-router.get("/associations/:id/animals", associationController.getAllAnimalsByAssociation);
-router.get("/associations", associationController.getAllAssociations);
-router.get("/associations/request/users/:id", isAuth, associationController.getMessagesForAssociation);
-router.get("/associations/:id", associationController.getOneAssociation);
+router.get("/", userController.getAllAssociations);
+router.get("/:id", userController.getOneAssociation);

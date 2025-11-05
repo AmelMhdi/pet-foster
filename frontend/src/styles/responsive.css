@@ -1,45 +1,134 @@
-/* Responsive styles */
-@media (max-width: 380px) {
-  .brand-text-header {
-    display: none;
-  }
+/* ============================
+    Mobile first styles
+   ============================ */
+
+body {
+  font-size: 16px;
 }
 
-@media (max-width: 576px) {
-  body {
-    font-size: 16px;
-  }
-  
-  .brand-text-header {
-    display: none;
-  }
-  
-  .navbar-brand {
-    font-size: 1.6rem;
-  }
-
-  .navbar-nav .nav-link {
-    font-size: 1rem;
-  }
-  
-  h2.text-center.mb-4.fw-bold.text-primary {
-    font-size: 2rem;
-  }
-
-  main h1 {
-    font-size: 2rem;
-  }
-
-  .footer-navbar ul {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .footer-link {
-    padding: 0.3rem 0.8rem;
-  }
+.navbar-brand {
+  font-size: 1.6rem;
 }
 
+.navbar-nav .nav-link {
+  font-size: 1rem;
+}
+
+h2.text-center.mb-4.fw-bold.text-primary {
+  font-size: 2rem;
+}
+
+main h1 {
+  font-size: 2rem;
+}
+
+.footer-navbar ul {
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-link {
+  padding: 0.3rem 0.8rem;
+}
+
+.animals-container {
+  padding: 0 0.75rem;
+  margin: 2rem auto;
+}
+
+.animals-title {
+  font-size: 1.8rem;
+}
+
+.animal-details-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.animals-subtitle {
+  font-size: 0.95rem;
+}
+
+.animals-grid {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.animal-card-name {
+  font-size: 1.3rem;
+}
+
+.animal-image-container {
+  margin-bottom: 1.5rem;
+}
+
+.associations-title {
+  font-size: 2rem;
+}
+
+.associations-subtitle {
+  font-size: 1rem;
+}
+
+.association-name {
+  font-size: 1.3rem;
+}
+
+.association-header,
+.association-body {
+  padding: 1.2rem;
+}
+
+.serif-heading {
+  font-size: 1.4rem;
+}
+
+.info-label {
+  font-size: 0.95rem;
+}
+
+.info-page-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-content {
+  padding: 1rem;
+}
+
+.about-subtitle,
+.legal-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.about-text,
+.legal-text {
+  font-size: 1rem;
+}
+
+.info-item {
+  grid-template-columns: 1fr;
+}
+
+.values-grid {
+  grid-template-columns: 1fr;
+}
+
+.contact-form {
+  padding: 1.5rem;
+}
+
+.form-label {
+  font-size: 1rem;
+}
+
+.form-control {
+  padding: 0.6rem;
+  font-size: 16px;
+}
+
+/* Tablets  */
 @media (min-width: 768px) {
   .navbar-nav .nav-link {
     font-size: 1.1rem;
@@ -48,8 +137,56 @@
   .animal-card .card-body {
     padding: 1.4rem;
   }
+
+  .animals-title {
+    font-size: 2.2rem;
+  }
+
+  .animals-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .animals-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .animal-details-title {
+    font-size: 2.5rem;
+  }
+
+  .associations-title {
+    font-size: 2.2rem;
+  }
+
+  .info-page-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .info-content {
+    padding: 1.5rem;
+  }
+
+  .about-subtitle,
+  .legal-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .info-item {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-form {
+    padding: 1.5rem;
+  }
 }
 
+/* Laptops */
 @media (min-width: 992px) {
   body {
     font-size: 17px;
@@ -62,8 +199,18 @@
   h2.text-center.mb-4.fw-bold.text-primary {
     font-size: 2.3rem;
   }
+
+  .animal-details-title {
+    font-size: 3rem;
+  }
+
+  .row > .col-lg-6 {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
+/* Large screens */
 @media (min-width: 1200px) {
   .navbar-brand {
     font-size: 2.5rem;
@@ -71,5 +218,9 @@
 
   h2.text-center.mb-4.fw-bold.text-primary {
     font-size: 2.5rem;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

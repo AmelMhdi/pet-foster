@@ -5,16 +5,16 @@ export default function NotFound404() {
     <main className="container mt-5 fade-in" role="main">
       <div className="row align-items-center">
         <div className="col-md-6">
-          <div className="p-4">
-            <h1 className="mb-5 fs-1 fw-bold">Oups !</h1>
-            <h5 className="mb-5 fw-bold fs-1">Curly est certain que vous vous êtes égaré...</h5>
-            <p className="mb-5 fs-4">La page que vous cherchez est introuvable.</p>
+          <div className="p-4 not-found-content">
+            <h1 className="not-found-title mb-4">Oups !</h1>
+            <h2 className="not-found-subtitle">Curly est certain que vous vous êtes égaré...</h2>
+            <p className="not-found-description mb-4">La page que vous cherchez est introuvable.</p>
             <div className="d-flex mb-5">
-              <Link to="/" className="btn btn-primary fs-1 mt-3 mb-5 px-5 py-3">
+              <Link to="/" className="btn btn-primary fs-5 px-5 py-3">
                 Retour à l'accueil
               </Link>
             </div>
-            <p className="fs-5">
+            <p className="not-found-note">
               PS : Si vous voulez faire un don de carottes pour notre âne préféré, l’adresse est dans la page contact.
             </p>
           </div>

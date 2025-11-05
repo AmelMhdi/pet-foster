@@ -10,6 +10,7 @@ import compression from "compression"; // pour compresser les réponses HTTP
 // instancier l'application Express et l'exporter
 // est utilisée pour lancer le serveur
 export const app = express();
+console.log("✅ app.js chargé et routes montées");
 
 // recevoir req.body en JSON
 app.use(express.json()); // pour parser le JSON envoyé dans le corps des requêtes
@@ -47,19 +48,24 @@ console.log("Parsed allowed origins:", allowedOrigins);
 */
 app.use(cors({
   origin: function (origin, callback) {
-    console.log("Request from origin:", origin);
-    console.log("Allowed origins:", allowedOrigins);
-    
+    console.log("Requête depuis l'origine :", origin);
+    console.log("Origines autorisées :", allowedOrigins);
+
     // Permettre les requêtes sans origin (Postman, apps mobiles, etc.)
     if (!origin) return callback(null, true);
     
     // Vérifier si l'origin est dans la liste autorisée
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
-    } else {
-      console.log("Origin not allowed:", origin);
-      return callback(new Error('Not allowed by CORS'));
     }
+
+    // En dev → on peut être un peu plus permissif
+    if (process.env.NODE_ENV === "development") {
+      console.warn(`⚠️ Origin ${origin} non listé, mais autorisé en dev`);
+      return callback(null, true);
+    }
+    
+    return callback(new Error("Non autorisé par CORS"));
   },
   credentials: true, // Important pour les cookies/sessions
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

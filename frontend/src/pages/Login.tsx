@@ -1,4 +1,4 @@
-import { loginFromApi } from "../services/usersApi";
+import { loginFromApi } from "../services/userApi";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useUserStore } from "../store";
@@ -21,7 +21,7 @@ export default function Login() {
     setIsSending(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // simule délai API
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // simule délai API
       const response = await loginFromApi({ email, password });
       login(response);
       setFeedback("Connexion réussie !");
@@ -45,17 +45,13 @@ export default function Login() {
 
   return (
     <div className="container mt-5">
-      <h1>Veuillez vous authentifier</h1>
+      <h1 className="login-title">Se connecter</h1>
       {feedback && (
-        <div
-          className="alert alert-info text-center my-3"
-          role="alert"
-          aria-live="polite"
-        >
+        <div className="alert alert-info text-center my-3" role="alert" aria-live="polite">
           {feedback}
         </div>
       )}
-      <form method="post" onSubmit={handleSubmit}>
+      <form className="custom-form" method="post" onSubmit={handleSubmit}>
         <label className="form-label h4" htmlFor="email">
           Email
         </label>
@@ -76,7 +72,7 @@ export default function Login() {
           Mot de passe
         </label>
         <input
-          className="form-control"
+          className="form-control mb-4"
           type="password"
           id="password"
           name="password"
@@ -88,7 +84,7 @@ export default function Login() {
         />
 
         <input
-          className="btn btn-primary d-block my-4 mx-auto"
+          className="btn btn-primary d-block my-4 mx-auto px-5 py-2"
           type="submit"
           value={isSending ? "Connexion..." : "Se connecter"}
           disabled={isSending}

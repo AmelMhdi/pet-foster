@@ -1,13 +1,13 @@
-import { IUserAnimal } from "../@types";
+import { IAnimal } from "../@types";
 
 interface AnimalCardProps {
-  animal: IUserAnimal;
+  animal: IAnimal;
   onEdit: (id: number) => void;
-  onDelete: (animal: IUserAnimal) => void;
+  onDelete: (animal: IAnimal) => void;
 }
 
 export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCardProps) {
-  const formattedDate = new Date(animal.birthday).toLocaleDateString("fr-FR");
+  const formattedDate = new Date(animal.date_of_birth).toLocaleDateString("fr-FR");
 
   return (
     <div className="col-md-4 mb-4">
