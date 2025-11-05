@@ -87,6 +87,47 @@ main h1 {
   font-size: 0.95rem;
 }
 
+.info-page-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-content {
+  padding: 1rem;
+}
+
+.about-subtitle,
+.legal-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.about-text,
+.legal-text {
+  font-size: 1rem;
+}
+
+.info-item {
+  grid-template-columns: 1fr;
+}
+
+.values-grid {
+  grid-template-columns: 1fr;
+}
+
+.contact-form {
+  padding: 1.5rem;
+}
+
+.form-label {
+  font-size: 1rem;
+}
+
+.form-control {
+  padding: 0.6rem;
+  font-size: 16px;
+}
+
 /* Tablets  */
 @media (min-width: 768px) {
   .navbar-nav .nav-link {
@@ -116,6 +157,32 @@ main h1 {
 
   .associations-title {
     font-size: 2.2rem;
+  }
+
+  .info-page-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .info-content {
+    padding: 1.5rem;
+  }
+
+  .about-subtitle,
+  .legal-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .info-item {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-form {
+    padding: 1.5rem;
   }
 }
 
@@ -151,5 +218,9 @@ main h1 {
 
   h2.text-center.mb-4.fw-bold.text-primary {
     font-size: 2.5rem;
+  }
+
+  .values-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

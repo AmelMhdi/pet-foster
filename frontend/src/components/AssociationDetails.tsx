@@ -1,9 +1,9 @@
 import { Navigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUserById } from "../services/userApi";
 import { IAssociation } from "../@types";
 import { logError } from "../helpers/logError";
 import { fetchAssociationById } from "../services/api";
+import "../styles/association.css";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
@@ -42,44 +42,59 @@ export default function ContactAssociation() {
   if (isNaN(Number(id)) || notFound) return <Navigate to="/404" replace />;
 
   return (
-    <div className="container my-4 fade-in">
-      <div className="text-center mb-4">
-        <h2 className="section-title">
-          {association?.last_name} {association?.first_name}
-        </h2>
-        <p>
-          Contactez-nous au{" "}
-          <span className="fw-bold">{association?.phone_number}</span> ou par
-          mail <span className="fw-bold">{association?.email}</span>
-        </p>
-        <p className="text-muted">
-          📍 {association?.street_number} {association?.address},{" "}
-          {association?.zip_code} {association?.city}
-        </p>
+    <div className="container my-5 fade-in">
+      <div className="association-header mb-5 pb-4">
+        <h1 className="association-title">
+          {association?.last_name}
+        </h1>
+        <div className="association-info-section">
+          <div className="info-card">
+            <p className="info-label">Téléphone</p>
+            <p className="info-value">{association?.phone_number}</p>
+          </div>
+          <div className="info-card">
+            <p className="info-label">Email</p>
+            <p className="info-value">{association?.email}</p>
+          </div>
+        </div>
+
+        <div className="address-section">
+          <p className="address-title">Adresse</p>
+          <p className="address-text">
+            {association?.street_number} {association?.address}
+          </p>
+          <p className="address-text">
+            {association?.zip_code} {association?.city}
+          </p>
+        </div>
+
         {association?.rna_number && (
-          <p className="text-muted">N° RNA : {association.rna_number}</p>
+          <div className="rna-section">
+            <p className="rna-label">N° RNA :</p>
+            <p className="rna-value">{association.rna_number}</p>
+          </div>
         )}
       </div>
 
-      <div>
+      <div className="animals-section">
         {association?.animals?.length ? (
           <>
-            <h3 className="mb-4 text-center">Nos animaux</h3>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <h2 className="animals-section-title">Animaux de l&apos;association</h2>
+            <div className="animals-grid">
               {association.animals.map((animal) => (
-                <div key={animal.id} className="col">
-                  <div className="card animal-card h-100 text-center shadow-sm">
+                <div key={animal.id} className="animal-card-wrapper">
+                  <div className="animal-card-details">
                     {animal.picture && (
                       <img
                         src={`${apiBaseUrl}/images/${animal.picture}.webp`}
                         alt={animal.name}
-                        className="animal-img img-fluid rounded-top"
+                        className="animal-img-details"
                         loading="lazy"
                       />
                     )}
-                    <div className="card-body d-flex flex-column justify-content-between">
-                      <h5 className="card-title fw-bold mb-2">{animal.name}</h5>
-                      <Link to={`/animals/${animal.id}`} className="btn btn-outline-primary mt-auto" aria-label={`Voir les détails de ${animal.name}`}>
+                    <div className="animal-card-content">
+                      <h5 className="animal-name-details">{animal.name}</h5>
+                      <Link to={`/animals/${animal.id}`} className="btn btn-primary btn-details" aria-label={`Voir les détails de ${animal.name}`}>
                         Voir détails
                       </Link>
                     </div>
@@ -89,7 +104,9 @@ export default function ContactAssociation() {
             </div>
           </>
         ) : (
-          <h3 className="text-center text-muted">Pas d’animaux pour le moment.</h3>
+          <div className="no-animals">
+            <h3>Pas d&apos;animaux pour le moment.</h3>
+          </div>
         )}
       </div>
     </div>

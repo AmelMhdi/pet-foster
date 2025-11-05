@@ -1,0 +1,291 @@
+.association-header {
+  background: linear-gradient(135deg, var(--light-cream) 0%, #ffffff 100%);
+  border-radius: 0.75rem;
+  padding: 3rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid var(--medium-blue);
+}
+
+.association-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.association-info-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.info-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--medium-blue);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(72, 142, 186, 0.15);
+}
+
+.info-label {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--medium-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.info-value {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--dark-blue);
+  margin: 0;
+  word-break: break-word;
+}
+
+.address-section {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid var(--primary-red);
+}
+
+.address-title {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-red);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+.address-text {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1rem;
+  color: var(--dark-blue);
+  margin: 0.3rem 0;
+  line-height: 1.6;
+}
+
+.rna-section {
+  background-color: var(--light-blue);
+  padding: 1.2rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+
+.rna-label {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.rna-value {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--dark-blue);
+  margin: 0;
+}
+
+.animals-section {
+  margin-top: 3rem;
+}
+
+.animals-section-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.animals-section-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--medium-blue);
+  border-radius: 2px;
+}
+
+.animals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.animal-card-wrapper {
+  height: 100%;
+}
+
+.animal-card-details {
+  background-color: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.animal-card-details:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.animal-img-details {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.animal-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: var(--light-cream);
+}
+
+.animal-name-details {
+  font-family: "Playfair Display", serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.btn-details {
+  background-color: var(--medium-blue);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-family: "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.no-animals {
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: var(--light-cream);
+  border-radius: 0.75rem;
+  border: 2px dashed var(--medium-blue);
+}
+
+.no-animals h3 {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 1.3rem;
+  color: var(--medium-blue);
+  margin: 0;
+  font-weight: 500;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .association-header {
+    padding: 2rem 1.5rem;
+  }
+
+  .association-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .association-info-section {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .animals-section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .animals-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .animal-img-details {
+    height: 180px;
+  }
+
+  .animal-card-content {
+    padding: 1rem;
+  }
+
+  .animal-name-details {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .association-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .association-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .info-card {
+    padding: 1rem;
+  }
+
+  .info-value {
+    font-size: 1rem;
+  }
+
+  .animals-section-title {
+    font-size: 1.3rem;
+  }
+
+  .animals-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .animal-card-details {
+    border-radius: 0.5rem;
+  }
+
+  .animal-img-details {
+    height: 300px;
+  }
+}

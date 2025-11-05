@@ -83,19 +83,223 @@ body {
   margin-bottom: 0.8rem;
 }
 
-/* .section-title {
-  font-size: 1.8rem;
-  color: var(--medium-blue);
-  padding-bottom: 0.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1rem;
-} */
-
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Info pages */
+.info-pages-container {
+  background-color: var(--background);
+  min-height: calc(100vh - 200px);
+  padding: 2rem 0;
+}
+
+.info-page-title {
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  text-align: center;
+  margin-bottom: 3rem;
+  text-transform: capitalize;
+}
+
+.info-content {
+  background-color: var(--light-cream);
+  border-radius: 0.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* About Page */
+.about-section {
+  margin-bottom: 2.5rem;
+}
+
+.about-section:last-child {
+  margin-bottom: 0;
+}
+
+.about-subtitle {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--medium-blue);
+  margin-bottom: 1rem;
+}
+
+.about-text {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--dark-blue);
+  margin-bottom: 1rem;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.value-card {
+  background-color: #ffffff;
+  border-left: 4px solid var(--medium-blue);
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.value-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--primary-red);
+  margin-bottom: 0.5rem;
+}
+
+.value-card p {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--dark-blue);
+}
+
+/* Legal Page */
+.legal-section {
+  margin-bottom: 2.5rem;
+}
+
+.legal-section:last-child {
+  margin-bottom: 0;
+}
+
+.legal-subtitle {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--medium-blue);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-red);
+}
+
+.legal-info {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: start;
+}
+
+.legal-info-label {
+  color: var(--medium-blue);
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  color: var(--medium-blue);
+  font-size: 1rem;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-value {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--dark-blue);
+  font-size: 1rem;
+}
+
+.legal-text {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--dark-blue);
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+/* Contact Page */
+.contact-form-wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.contact-form {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+  margin-bottom: 2rem;
+}
+
+.form-label {
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.form-control {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--medium-blue);
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: var(--dark-blue);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--medium-blue);
+  box-shadow: 0 0 0 3px rgba(72, 142, 186, 0.1);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.btn-sending {
+  background-color: var(--medium-blue-2);
+  opacity: 0.7;
 }
 
 @keyframes fadeInUp {

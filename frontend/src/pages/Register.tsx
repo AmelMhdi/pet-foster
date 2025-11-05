@@ -28,7 +28,6 @@ export default function Register() {
 
   const selectedRole = roles.find((role) => role.id === roleId);
   const isAssociation = selectedRole?.name === "Association";
-  // const isFamilleAccueil = selectedRole?.name === "FamilleAccueil";
 
   useEffect(() => {
     lastnameInputRef.current?.focus();
@@ -121,9 +120,9 @@ export default function Register() {
   };
 
   return (
-    <div className="container">
+    <div className="container mt-5">
       <div className="card-base card-body-standard fade-in">
-        <h1>Créer un compte</h1>
+        <h1 className="register-title mb-4">Créer un compte</h1>
         {feedback && (
           <div 
             className={`alert ${fieldErrors && Object.keys(fieldErrors).length 
@@ -137,7 +136,7 @@ export default function Register() {
         )}
 
         <fieldset className="mb-4">
-          <legend className="form-label h4 fw-bold my-2">Sélectionnez votre statut</legend>
+          <legend className="form-label">Sélectionnez votre statut</legend>
           {roles.map((role) => (
             <div key={role.id} className="form-check">
               <input
