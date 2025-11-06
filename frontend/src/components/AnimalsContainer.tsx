@@ -4,13 +4,9 @@ import { IAnimal } from "../@types";
 import { logError } from "../helpers/logError";
 import { getAnimalsFromApi } from "../services/animalApi";
 
-type Props = {
-  limit?: number;
-};
-
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
-export default function AnimalsContainer({ limit = 3 }: Props) {
+export default function AnimalsContainer() {
   const [animals, setAnimals] = useState<IAnimal[]>([]);
   const [loading, setLoading] = useState(true);
 

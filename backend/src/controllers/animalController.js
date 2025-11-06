@@ -142,8 +142,28 @@ export async function getSpecies(req, res) {
   }
 }
 
+export async function getAnimalsByUserId(req, res, next) {
+  const userId = parseInt(req.params.userId, 10);
+  try {
+    const animals = await Animal.findAll({
+      where: { user_id: userId },
+      include: [
+        {
+          association: "species",
+          attributes: ["id", "name"]
+        },
+      ],
+    });
+    res.status(200).json(animals);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des animaux :", error);
+    next(error);
+  }
+}
+
 // Helper to validate animal ID
 function validateAnimalId(id) {
   const animalId = Number(id);
   return Number.isInteger(animalId) ? animalId : null;
 }
+

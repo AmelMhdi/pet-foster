@@ -9,23 +9,62 @@ export async function getUserMessageFromApi(
   userId: number,
   animalId: number
 ): Promise<string | null> {
-  try {
-    const response = await fetch(`${apiBaseUrl}/applications/${animalId}/${userId}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (response.status === 404) return null;
-
-  if (!response.ok) {
-    throw new Error(`Erreur lors de la récupération du message : ${response.status}`);
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    return null;
   }
 
-  const data = await response.json();
-  return data.message || null;
+  try {
+    const url = `${apiBaseUrl}/applications/${animalId}/${userId}`;
+    console.log("➡️ getUserMessageFromApi URL:", url);
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    });
+
+    if (!animalId) {
+      console.warn("⚠️ animalId est invalide :", animalId);
+      return null;
+    }
+
+    if (response.status === 404) return null;
+
+    if (!response.ok) {
+      throw new Error(`Erreur lors de la récupération du message : ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.message || [];
   } catch (error) {
     console.error("Erreur lors de la récupération du message :", error);
     return null;
+  }
+}
+
+export async function getMessageForAssociationFromApi(userId: number) {
+  const token = useUserStore.getState().user?.token;
+  if (!token) {
+    console.error("Token non trouvé, utilisateur non connecté ?");
+    return [];
+  }
+
+  try {
+    const response = await fetch (`${apiBaseUrl}/applications/association/${userId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur lors de la récupération des messages : ${response.status}`);
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error("Erreur lors de la récupération des messages :", error);
+    return [];
   }
 }
 

@@ -4,13 +4,13 @@ import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { deleteUserFromApi } from "../services/userApi";
 import DeleteAnimalModal from "../components/DeleteAnimalModal";
-import DeleteProfileModal from "../components/DeleteProfilModal";
 import AnimalsFromAsso from "../components/AnimalsFromAsso";
 import MessagesForAsso from "../components/MessagesForAsso";
 import { IAnimal, IUserAnimalMessage } from "../@types";
 import { logError } from "../helpers/logError";
-import { getAnimalsByUserIdFromApi } from "../services/animalApi";
-import { getUserMessageFromApi } from "../services/api";
+import { deleteAnimalFromApi, getAnimalsByUserIdFromApi } from "../services/animalApi";
+import { getMessageForAssociationFromApi } from "../services/api";
+import DeleteProfileModal from "../components/DeleteProfilModal";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ export default function Profile() {
     const loadMessages = async () => {
       if (!user) return;
       try {
-        const newMessages = await getUserMessageFromApi(user.id);
+        const newMessages = await getMessageForAssociationFromApi(user.id);
         setMessages(newMessages);
       } catch (error) {
         logError("Erreur lors du chargement des messages", error);
@@ -71,7 +71,7 @@ export default function Profile() {
 
   const handleDeleteAnimal = async (animalId: number) => {
     try {
-      await deleteAnimalApi(animalId);
+      await deleteAnimalFromApi(animalId);
       setAnimals((prev) => prev.filter((animal) => animal.id !== animalId));
       setFeedback("Animal supprimé avec succès !");
     } catch (error) {

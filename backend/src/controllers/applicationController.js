@@ -58,14 +58,21 @@ export async function createOneMessage(req, res, next) {
 
 // Get a user's request to foster an animal
 export async function getOneMessage(req, res, next) {
-  const { animalId, userId } = req.params;
-  
+  const { userId, animalId } = req.params;
+
+  if (!Number.isInteger(parseInt(userId)) || !Number.isInteger(parseInt(animalId))) {
+    console.warn("❌ Mauvais paramètres pour getOneMessage :", { userId, animalId });
+    return res.status(400).json({ error: "Paramètres invalides." });
+  }
+
   try {
     const getMessage = await Application.findOne({
       where: { user_id: userId, animal_id: animalId },
       include: ["user", "animal"],
     });
 
+    if (!message) return res.status(404).json({ error: "Message introuvable." });
+    
     if (!getMessage) return next();
 
     res.status(200).json({
