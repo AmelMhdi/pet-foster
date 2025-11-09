@@ -162,10 +162,11 @@
 }
 
 .animal-info-card {
-  background-color: var(--medium-blue-2);
+  background-color: var(--light-pink);
   border: 1px solid rgba(32, 54, 86, 0.1);;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
+  color: var(--light-pink);
 }
 
 .foster-request-card {
@@ -191,8 +192,6 @@
 }
 
 .foster-textarea:focus {
-  background-color: var(--medium-blue);
-  color: var(--light-cream);
   font-weight: 600;
   padding: 0.75rem 1.5rem;
   border-radius: 0.3rem;
@@ -210,6 +209,7 @@
 
 .btn-foster-request:hover:not(:disabled) {
   background-color: var(--medium-blue-2);
+  color: var(--light-cream);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(72, 142, 186, 0.3);
 }
@@ -231,7 +231,7 @@
   border-bottom: none;
 }
 
-.info-label {
+.animal-info-label {
   color: var(--dark-blue);
   font-weight: 600;
   font-size: 0.95rem;
@@ -241,10 +241,11 @@
   letter-spacing: 0.5px;
 }
 
-.info-value {
+.animal-info-value {
   color: var(--dark-blue);
   font-weight: 400;
   font-size: 1.05rem;
+  font-family: "Segoe UI", "Inter", sans-serif;
   line-height: 1.5;
 }
 

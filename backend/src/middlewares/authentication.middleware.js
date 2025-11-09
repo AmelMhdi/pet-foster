@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken"; // librairie jsonwebtoken pour vérifier les tok
 // Elle sert à vérifier si l’utilisateur est authentifié avant d’autoriser l’accès à la ressource
 export function isAuth(req, res, next) {
   const authHeader = req.headers.authorization;
+  console.log("🔐 Header reçu :", req.headers.authorization);
 
   // Les tokens JWT sont envoyés dans l’en-tête HTTP : Authorization: Bearer <token>
   // Si l’en-tête est manquant ou mal formé, on renvoie une erreur 401 Unauthorized
@@ -16,9 +17,11 @@ export function isAuth(req, res, next) {
   // vérification et décodage du token
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // vérifie la signature du token avec la clé secrète (JWT_SECRET)
+    console.log("✅ Token valide, utilisateur :", decoded);
     req.user = decoded; // Si validé, le contenu du token (payload, ex. { id: 12, role: "admin" }) est stocké dans req.user
     next(); // on appelle next() pour passer au middleware ou à la route suivante
   } catch (err) {
+    console.error("❌ Token invalide :", err.message);
     res.status(401).json({ message: "Token invalide" }); // Si le token est invalide ou expiré, on renvoie une erreur 401 Unauthorized
   }
 }

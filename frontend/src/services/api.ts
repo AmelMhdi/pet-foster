@@ -2,7 +2,7 @@ import { IUser } from "../@types";
 import { useUserStore } from "../store";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-console.log(apiBaseUrl);
+console.log("baseurl:", apiBaseUrl);
 
 // --- Applications (messages) ---
 export async function getUserMessageFromApi(
@@ -72,13 +72,25 @@ export async function postUserMessageToApi(
   animalId: number,
   message: string
 ): Promise<string> {
+  const user = useUserStore.getState().user;
+  if (!user) {
+    throw new Error("Utilisateur non authentifié.");
+  }
+
+  const userId = user.id;
+  if (!userId) {
+    console.error("ID utilisateur manquant.");
+    throw new Error("Impossible d'envoyer le message sans ID utilisateur.");
+  }
+
   const token = useUserStore.getState().user?.token;
   console.log("Payload du message :", { animalId, message });
-
   if (!token) {
     console.error("Token non trouvé, utilisateur non connecté ?");
     throw new Error("Authentification requise.");
   }
+
+  console.log("Payload du message :", { animalId, message, userId });
 
   try {
     const response = await fetch(`${apiBaseUrl}/applications/${animalId}`, {
