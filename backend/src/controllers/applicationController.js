@@ -94,3 +94,31 @@ export async function getOneMessage(req, res, next) {
     next(error);
   }
 }
+
+export async function getMessagesByAssociation(req, res) {
+  try {
+    const associationId = parseInt(req.params.id, 10);
+
+    if (!Number.isInteger(associationId) || isNaN(associationId)) {
+      return res.status(400).json({ message: "ID de l'association invalide." });
+    }
+
+    const applications = await Application.findAll({
+      include: [
+        {
+          model: Animal,
+          where: { user_id: associationId },
+        },
+        {
+          model: User,
+          attributes: ['id', 'first_name', 'last_name', 'email'],
+        },
+      ],
+    });
+
+    res.status(200).json(applications);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des demandes :", error);
+    res.status(500).json({ message: "Erreur interne du serveur." });
+  }
+}

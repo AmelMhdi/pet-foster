@@ -12,3 +12,4 @@ router.use((req, res, next) => {
 
 router.post("/:animalId", isAuth, applicationController.createOneMessage);
 router.get("/user/:userId/animal/:animalId", isAuth, applicationController.getOneMessage);
+router.get("/association/:id", isAuth, applicationController.getMessagesByAssociation);

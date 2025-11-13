@@ -11,6 +11,7 @@ import { logError } from "../helpers/logError";
 import { deleteAnimalFromApi, getAnimalsByUserIdFromApi } from "../services/animalApi";
 import { getMessageForAssociationFromApi } from "../services/api";
 import DeleteProfileModal from "../components/DeleteProfilModal";
+import "../styles/association-profile.css";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -98,8 +99,105 @@ export default function Profile() {
   };
 
   return (
-    <div className="container my-4">
-      <section className="my-5">
+    <div className="profile-container">
+      <section className="profile-section">
+        <div className="profile-header-content">
+          <h1 className="profile-header-title">Mon Profil Association</h1>
+          <p className="profile-header-subtitle">Gérez votre profil, vos animaux et vos messages</p>
+
+        </div>
+
+        <section className="profile-section">
+          <div className="actions-grid">
+            <Link className="action-btn action-btn--primary" to={`/modifier-profil/${user.id}`}>
+              Modifier mon profil
+            </Link>
+            <Link className="action-btn action-btn--secondary" to={`/creer-animal/${user.id}`}>
+            <span className="action-icon">+</span>
+              Ajouter un animal
+            </Link>
+            <button className="action-btn action-btn--danger" onClick={() => setShowDeleteProfileModal(true)}>
+              <span className="action-icon">×</span>
+              Supprimer mon profil
+            </button>
+          </div>
+        </section>
+
+        {feedback && (
+          <div className="alert alert-success custom-success text-center" role="alert">
+            {feedback}
+          </div>
+        )}
+
+        <section id="animaux" className="profile-section">
+          <div className="section-header">
+            <h2 className="section-title">Animaux en attente d'un foyer</h2>
+            <span className="animals-count">{animals.length}</span>
+          </div>
+
+          {animals.length === 0 ? (
+            <div className="empty-state">
+              <p className="empty-state-text">Aucun animal pour le moment</p>
+              <Link to={`/creer-animal/${user.id}`} className="empty-state-link">
+                Ajouter votre premier animal
+              </Link>
+            </div>
+          ) : (
+            <div className="animals-grid">
+              {animals.map((animal) => (
+                <AnimalsFromAsso
+                  key={animal.id}
+                  animal={animal}
+                  onEdit={(id) => navigate(`/modifier-animal/${id}`)}
+                  onDelete={(animal) => {
+                    setAnimalToDelete(animal);
+                    setShowDeleteModal(true);
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section id="messages" className="profile-section">
+          <div className="section-header">
+            <h2 className="section-title">Messages reçus</h2>
+            <span className="messages-count">{messages.length}</span>
+          </div>
+
+          {messages.length === 0 ? (
+            <div className="empty-state">
+              <p className="empty-state-text">Aucun message pour le moment.</p>
+            </div>
+          ) : (
+            <div className="messages-grid">
+              {messages.map((message) => (
+                <MessagesForAsso key={`${message.userId}-${message.animal}`} message={message} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {animalToDelete && showDeleteModal && (
+          <DeleteAnimalModal
+            animalName={animalToDelete.name}
+            onCancel={() => {
+              setShowDeleteModal(false);
+              setAnimalToDelete(null);
+            }}
+            onConfirm={() => handleDeleteAnimal(animalToDelete.id)}
+          />
+        )}
+
+        {showDeleteProfileModal && (
+          <DeleteProfileModal
+            onCancel={() => setShowDeleteProfileModal(false)}
+            onConfirm={() => handleDeleteProfil(user.id)}
+          />
+        )}
+      </section>
+
+{/*       
         <div className="d-flex flex-wrap gap-3">
           <Link className="btn btn-primary" to={`/modifier-profil/${user.id}`}>
             Modifier mon profil
@@ -169,7 +267,7 @@ export default function Profile() {
           onCancel={() => setShowDeleteProfileModal(false)}
           onConfirm={() => handleDeleteProfil(user.id)}
         />
-      )}
+      )} */}
     </div>
   );
 }
