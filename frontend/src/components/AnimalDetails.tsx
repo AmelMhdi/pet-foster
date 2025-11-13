@@ -74,9 +74,16 @@ export default function AnimalDetails() {
       setNewMessage("");
       setSuccessMessage("Votre demande a été envoyée avec succès.");
       setErrorMessage("");
-    } catch (error) {
+    } catch (error: any) {
       logError("Une erreur s'est produite lors de l'envoi du message :", error);
-      setErrorMessage("Une erreur s'est produite lors de l'envoi du message.");
+      
+      if (error.message.includes("400")) {
+        setErrorMessage("Vous avez déjà envoyé une demande pour cet animal.");
+      } else {
+        setErrorMessage("Une erreur s'est produite lors de l'envoi du message.");
+      }
+
+      setSuccessMessage("");
     } finally {
       setIsSubmitting(false);
     }

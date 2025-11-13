@@ -103,7 +103,8 @@ export async function postUserMessageToApi(
   });
   
   if (!response.ok) {
-    throw new Error(`Erreur lors de l'envoi du message : ${response.status}`);
+    const errData = await response.json();
+    throw new Error(errData.message || `Erreur lors de l'envoi du message : ${response.status}`);
   }
 
   const data = await response.json();

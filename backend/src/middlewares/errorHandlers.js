@@ -5,6 +5,8 @@
 // puis la transmet au middleware de gestion des erreurs suivant (errorHandler)
 // Si je vais sur /api/chien mais que la route n’existe pas, notFound va générer une erreur 404
 const notFound = (req, res, next) => {
+  console.error("💥 Middleware d’erreur global attrapé :", err);
+
   const error = new Error("Not Found");
   error.statusCode = 404;
   next(error);

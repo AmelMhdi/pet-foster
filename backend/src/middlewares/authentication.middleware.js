@@ -3,19 +3,19 @@ import jwt from "jsonwebtoken"; // librairie jsonwebtoken pour vérifier les tok
 // isAuth est une fonction middleware : elle s’intercale entre la requête HTTP et la route
 // Elle sert à vérifier si l’utilisateur est authentifié avant d’autoriser l’accès à la ressource
 export function isAuth(req, res, next) {
-  const authHeader = req.headers.authorization;
-  console.log("🔐 Header reçu :", req.headers.authorization);
-
-  // Les tokens JWT sont envoyés dans l’en-tête HTTP : Authorization: Bearer <token>
-  // Si l’en-tête est manquant ou mal formé, on renvoie une erreur 401 Unauthorized
-  if (!authHeader || !authHeader.startsWith("Bearer")) {
-    return res.status(401).json({ message: "Token manquant ou mal formé" });
-  }
-
-  const token = authHeader.split(" ")[1]; // on découpe la chaîne "Bearer <token>" et on récupère uniquement la partie <token>
-
-  // vérification et décodage du token
   try {
+    const header = req.headers.authorization;
+    console.log("🔐 Header reçu :", header);
+  
+    // Les tokens JWT sont envoyés dans l’en-tête HTTP : Authorization: Bearer <token>
+    // Si l’en-tête est manquant ou mal formé, on renvoie une erreur 401 Unauthorized
+    if (!header || !header.startsWith("Bearer")) {
+      return res.status(401).json({ message: "Token manquant ou mal formé" });
+    }
+  
+    const token = header.split(" ")[1]; // on découpe la chaîne "Bearer <token>" et on récupère uniquement la partie <token>
+  
+    // vérification et décodage du token
     const decoded = jwt.verify(token, process.env.JWT_SECRET); // vérifie la signature du token avec la clé secrète (JWT_SECRET)
     console.log("✅ Token valide, utilisateur :", decoded);
     req.user = decoded; // Si validé, le contenu du token (payload, ex. { id: 12, role: "admin" }) est stocké dans req.user

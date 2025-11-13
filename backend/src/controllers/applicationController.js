@@ -2,15 +2,13 @@ import { Application } from "../models/Application.js";
 
 // Create a foster request
 export async function createOneMessage(req, res, next) {
+  console.log("🔥 createOneMessage a été appelé !");
+
+  const { message } = req.body;
   const animalId = parseInt(req.params.animalId, 10);
   const userId = req.user.id;
 
-  console.log("req.body reçu:", req.body);
-  console.log("req.user:", req.user);
-  console.log("animalId:", animalId);
-  console.log("userId:", userId);
-  
-  const { message } = req.body;
+  console.log("📩 createOneMessage reçu :", { userId, animalId, message });
 
   // Vérifier que l'utilisateur est authentifié
   if (!userId) {
@@ -20,6 +18,11 @@ export async function createOneMessage(req, res, next) {
   // Vérifier que animalId est un entier valide
   if (!Number.isInteger(animalId) || isNaN(animalId)) {
     return res.status(400).json({ message: "ID de l'animal invalide." });
+  }
+
+  if (!message || !userId || !animalId) {
+    console.warn("❌ Données manquantes pour createOneMessage :", { userId, animalId, message });
+    return res.status(400).json({ error: "Données manquantes." });
   }
 
   if (typeof message !== "string") {
@@ -40,19 +43,19 @@ export async function createOneMessage(req, res, next) {
     }
 
     // Créer la demande
-    const application = await Application.create({
+    const newApplication = await Application.create({
       user_id: userId,
       animal_id: animalId,
       message,
       status: "pending"
     })
 
-    res.status(201).json({ message: "Demande d'accueil créée avec succès.", application });
+    console.log("✅ Nouvelle demande d'accueil créée :", newApplication);
+
+    return res.status(201).json({ message: "Demande d'accueil créée avec succès.", application: newApplication });
   } catch (error) {
     console.error("Erreur lors de la création de l'application", error);
-    error.statusCode = 500;
-    error.message = "Erreur serveur.";
-    next(error);
+    return res.status(500).json({ error: "Erreur interne du serveur." });
   }
 }
 
