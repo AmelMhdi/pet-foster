@@ -236,7 +236,11 @@ export async function login(req, res) {
   const { email, password } = req.body;
   const user = await User.findOne({
     where: { email },
-    include: ["role"],
+    include: [{
+      model: Role,
+      as: "role",
+      attributes: ["id", "name"],
+    }],
   });
 
   console.log("Utilisateur trouvé :", user ? user.email : "Aucun utilisateur trouvé");
