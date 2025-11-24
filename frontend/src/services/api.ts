@@ -84,13 +84,11 @@ export async function postUserMessageToApi(
   }
 
   const token = useUserStore.getState().user?.token;
-  console.log("Payload du message :", { animalId, message });
+  console.log("Payload du message :", { animalId, message, userId });
   if (!token) {
     console.error("Token non trouvé, utilisateur non connecté ?");
     throw new Error("Authentification requise.");
   }
-
-  console.log("Payload du message :", { animalId, message, userId });
 
   try {
     const response = await fetch(`${apiBaseUrl}/applications/${animalId}`, {
