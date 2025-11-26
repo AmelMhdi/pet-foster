@@ -42,14 +42,14 @@ export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCard
               onClick={() => onEdit(animal.id)}
               aria-label={`Modifier ${animal.name}`}
             >
-              ✏️ Modifier
+              Modifier
             </button>
             <button
               className="btn btn-danger btn-sm"
               onClick={() => onDelete(animal)}
               aria-label={`Supprimer ${animal.name}`}
             >
-              🗑️ Supprimer
+              Supprimer
             </button>
           </div>
         </div>
