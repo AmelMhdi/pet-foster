@@ -166,8 +166,8 @@ export interface IUserAnimalMessage {
   animal: {
     id: number;
     name: string;
-  }
-  createdAt: string;
+    }
+  created_at: string;
 }
 
 // --- FORM INPUTS ---

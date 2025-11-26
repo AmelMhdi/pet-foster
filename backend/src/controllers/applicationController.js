@@ -174,7 +174,6 @@ export async function getMessagesByAssociation(req, res) {
           attributes: ["id", "first_name", "last_name", "phone_number", "email"],
         },
       ],
-      order: [["createdAt", "DESC"]],
     });
 
     const formattedApplications = applications.map((app) => ({
@@ -185,7 +184,6 @@ export async function getMessagesByAssociation(req, res) {
       phone_number: app.applicant.phone_number,
       email: app.applicant.email,
       animal: app.animal,
-      createdAt: app.createdAt,
     }));
 
     res.status(200).json(formattedApplications);

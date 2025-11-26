@@ -10,7 +10,7 @@ export default function MessagesForAsso({ message }: MessageCardProps) {
       <div className="card shadow-sm">
         <div className="card-body">
           <p className="card-title card-title-details fs-3">
-            {message.first_name} {message.last_name} a envoyé un message le {new Date(message.createdAt).toLocaleDateString("fr-FR")} pour {message.animal}
+            {message.first_name} {message.last_name} a envoyé un message le {new Date(message.created_at).toLocaleDateString("fr-FR")} pour {message.animal.name}
           </p>
           <p className="card-text fs-5">{message.message}</p>
           <p className="card-text fs-5">

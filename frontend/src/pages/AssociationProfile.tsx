@@ -174,7 +174,7 @@ export default function Profile() {
             <div className="messages-grid">
               {messages.map((message) => (
                 <MessagesForAsso 
-                  key={`${message.userId}-${message.animal.id}`} 
+                  key={`${message.userId}-${message.animal.name}`} 
                   message={message}
                 />
               ))}
