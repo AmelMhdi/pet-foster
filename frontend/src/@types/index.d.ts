@@ -163,7 +163,10 @@ export interface IUserAnimalMessage {
   last_name: string;
   phone_number: string;
   email: string;
-  animal: string;
+  animal: {
+    id: number;
+    name: string;
+  }
   createdAt: string;
 }
 

@@ -110,6 +110,7 @@ export default function Profile() {
         <section className="profile-section">
           <div className="actions-grid">
             <Link className="action-btn action-btn--primary" to={`/modifier-profil/${user.id}`}>
+            <span className="action-icon">✏</span>
               Modifier mon profil
             </Link>
             <Link className="action-btn action-btn--secondary" to={`/creer-animal/${user.id}`}>
@@ -172,7 +173,10 @@ export default function Profile() {
           ) : (
             <div className="messages-grid">
               {messages.map((message) => (
-                <MessagesForAsso key={`${message.userId}-${message.animal}`} message={message} />
+                <MessagesForAsso 
+                  key={`${message.userId}-${message.animal.id}`} 
+                  message={message}
+                />
               ))}
             </div>
           )}
@@ -196,78 +200,6 @@ export default function Profile() {
           />
         )}
       </section>
-
-{/*       
-        <div className="d-flex flex-wrap gap-3">
-          <Link className="btn btn-primary" to={`/modifier-profil/${user.id}`}>
-            Modifier mon profil
-          </Link>
-          <button className="btn btn-danger btn-sm" onClick={() => setShowDeleteProfileModal(true)}>
-            Supprimer mon profil
-          </button>
-          <Link className="btn btn-primary" to={`/creer-animal/${user.id}`}>
-            Ajouter un animal
-          </Link>
-        </div>
-      </section>
-
-      {feedback && (
-        <div className="alert alert-info text-center my-3" role="alert">
-          {feedback}
-        </div>
-      )}
-
-      <section id="animaux" className="mb-5">
-        <h2 className="mb-4">Animaux en attente d'un foyer</h2>
-
-        {animals.length === 0 ? (
-          <p className="text-muted">Aucun animal pour le moment</p>
-        ) : (
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-            {animals.map((animal) => (
-              <AnimalsFromAsso
-                key={animal.id}
-                animal={animal}
-                onEdit={(id) => navigate(`/modifier-animal/${id}`)}
-                onDelete={(animal) => {
-                  setAnimalToDelete(animal);
-                  setShowDeleteModal(true);
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section id="messages" className="mb-5">
-        <h4 className="mb-4">Messages reçus</h4>
-        {messages.length === 0 ? (
-          <p className="text-muted">Aucun message pour le moment.</p>
-        ) : (
-          <div className="row g-3">
-            {messages.map((message) => (
-              <MessagesForAsso key={`${message.userId}-${message.animal}`} message={message} />
-            ))}
-          </div>
-        )}
-      </section>
-      {animalToDelete && showDeleteModal && (
-        <DeleteAnimalModal
-          animalName={animalToDelete.name}
-          onCancel={() => {
-            setShowDeleteModal(false);
-            setAnimalToDelete(null);
-          }}
-          onConfirm={() => handleDeleteAnimal(animalToDelete.id)}
-        />
-      )}
-
-      {showDeleteProfileModal && (
-        <DeleteProfileModal
-          onCancel={() => setShowDeleteProfileModal(false)}
-          onConfirm={() => handleDeleteProfil(user.id)}
-        />
-      )} */}
     </div>
   );
 }

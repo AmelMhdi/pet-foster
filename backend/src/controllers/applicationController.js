@@ -158,6 +158,7 @@ export async function getMessagesByAssociation(req, res) {
         {
           model: Animal,
           as: "animal",
+          attributes: ["id", "name"],
           include: [
             {
               model: User,
@@ -170,12 +171,24 @@ export async function getMessagesByAssociation(req, res) {
         {
           model: User,
           as: "applicant",
-          attributes: ["id", "first_name", "last_name", "email"],
+          attributes: ["id", "first_name", "last_name", "phone_number", "email"],
         },
       ],
+      order: [["createdAt", "DESC"]],
     });
 
-    res.status(200).json(applications);
+    const formattedApplications = applications.map((app) => ({
+      message: app.message,
+      userId: app.applicant.id,
+      first_name: app.applicant.first_name,
+      last_name: app.applicant.last_name,
+      phone_number: app.applicant.phone_number,
+      email: app.applicant.email,
+      animal: app.animal,
+      createdAt: app.createdAt,
+    }));
+
+    res.status(200).json(formattedApplications);
   } catch (error) {
     console.error("Erreur lors de la récupération des demandes :", error);
     res.status(500).json({ message: "Erreur interne du serveur." });
