@@ -29,7 +29,7 @@ User.hasMany(Animal, {
   onDelete: "CASCADE",
 });
 Animal.belongsTo(User, {
-  as: "association",
+  as: "owner",
   foreignKey: "user_id",
 });
 
@@ -57,7 +57,7 @@ User.hasMany(Application, {
   onDelete: "CASCADE",
 });
 Application.belongsTo(User, {
-  as: "user",
+  as: "applicant",
   foreignKey: "user_id",
 });
 
@@ -74,7 +74,7 @@ Application.belongsTo(Animal, {
   foreignKey: "animal_id",
 });
 
-// USER - ANIMALE (many-to-many through application)
+// USER - ANIMAL (many-to-many through application)
 User.belongsToMany(Animal, {
   through: Application, // animals a user applied for
   as: "applied_animals",

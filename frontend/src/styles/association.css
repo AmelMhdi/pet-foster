@@ -1,34 +1,38 @@
+/* ------------------------------
+   BASE (Mobile First)
+------------------------------ */
+
 .association-header {
   background: linear-gradient(135deg, var(--light-cream) 0%, #ffffff 100%);
   border-radius: 0.75rem;
-  padding: 3rem 2rem;
+  padding: 1.5rem 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-left: 4px solid var(--medium-blue);
 }
 
 .association-title {
   font-family: "Playfair Display", serif;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--dark-blue);
-  margin-bottom: 2rem;
-  text-align: center;
   letter-spacing: -0.5px;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .association-info-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 .info-card {
   background-color: white;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   border-left: 3px solid var(--medium-blue);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .info-card:hover {
@@ -48,10 +52,9 @@
 
 .info-value {
   font-family: "Segoe UI", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--dark-blue);
-  margin: 0;
   word-break: break-word;
 }
 
@@ -64,7 +67,6 @@
 }
 
 .address-title {
-  font-family: "Segoe UI", sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--primary-red);
@@ -88,21 +90,16 @@
   display: inline-block;
 }
 
-.rna-label {
-  font-family: "Segoe UI", sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--dark-blue);
-  text-transform: uppercase;
-  margin-bottom: 0.3rem;
-}
-
+.rna-label,
 .rna-value {
   font-family: "Segoe UI", sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
   color: var(--dark-blue);
-  margin: 0;
+}
+
+.rna-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .animals-section {
@@ -111,11 +108,11 @@
 
 .animals-section-title {
   font-family: "Playfair Display", serif;
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--dark-blue);
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   position: relative;
   padding-bottom: 1rem;
 }
@@ -134,22 +131,16 @@
 
 .animals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.animal-card-wrapper {
-  height: 100%;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 .animal-card-details {
   background-color: white;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -161,26 +152,24 @@
 
 .animal-img-details {
   width: 100%;
-  height: 220px;
+  height: 300px;
   object-fit: cover;
-  object-position: center;
 }
 
 .animal-card-content {
-  padding: 1.5rem;
+  padding: 1rem;
+  background-color: var(--light-cream);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-color: var(--light-cream);
 }
 
 .animal-name-details {
   font-family: "Playfair Display", serif;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--dark-blue);
-  margin-bottom: 1rem;
-  margin-top: 0;
+  margin-bottom: 0.75rem;
 }
 
 .btn-details {
@@ -189,7 +178,6 @@
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
-  font-family: "Segoe UI", sans-serif;
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
@@ -197,6 +185,7 @@
   margin-top: auto;
 }
 
+/* Empty state */
 .no-animals {
   text-align: center;
   padding: 3rem 2rem;
@@ -206,314 +195,98 @@
 }
 
 .no-animals h3 {
-  font-family: "Segoe UI", sans-serif;
   font-size: 1.3rem;
   color: var(--medium-blue);
-  margin: 0;
-  font-weight: 500;
 }
 
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .association-header {
-    padding: 2rem 1.5rem;
-  }
-
-  .association-title {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .association-info-section {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .animals-section-title {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .animals-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .animal-img-details {
-    height: 180px;
-  }
-
-  .animal-card-content {
-    padding: 1rem;
-  }
-
-  .animal-name-details {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-  }
-}
-
-/* Profile Container */
+/* Profile */
 .profile-container {
   min-height: 100vh;
   background-color: var(--background);
   padding: 2rem 1rem;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: auto;
 }
 
-/* Header Section */
 .profile-header-section {
-  margin-bottom: 3rem;
   text-align: center;
   border-bottom: 3px solid var(--medium-blue);
   padding-bottom: 2rem;
-}
-
-.profile-header-content {
-  animation: fadeInUp 0.6s ease-out;
+  margin-bottom: 3rem;
 }
 
 .profile-title {
   font-family: "Playfair Display", serif;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--dark-blue);
-  margin: 0 0 0.5rem 0;
-  letter-spacing: -0.5px;
 }
 
 .profile-subtitle {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--medium-blue);
   font-weight: 500;
-  margin: 0;
 }
 
-/* Actions Section */
+/* Actions */
 .profile-actions-section {
-  margin-bottom: 3rem;
   padding: 2rem;
-  background: linear-gradient(135deg, var(--light-cream) 0%, rgba(196, 238, 239, 0.3) 100%);
-  border-radius: 12px;
+  background: linear-gradient(135deg, var(--light-cream), rgba(196, 238, 239, 0.3));
   border-left: 5px solid var(--medium-blue);
+  border-radius: 12px;
+  margin-bottom: 3rem;
 }
 
 .actions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
 }
 
 .action-btn {
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
   display: flex;
-  align-items: center;
   justify-content: center;
   gap: 0.8rem;
-  padding: 1rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-flex;
-  width: 100%;
-}
-
-.action-icon {
-  font-size: 1.3rem;
+  transition: .3s;
 }
 
 .action-btn--primary {
-  background-color: var(--medium-blue);
+  background: var(--medium-blue);
   color: var(--light-cream);
 }
 
-.action-btn--primary:hover {
-  background-color: var(--medium-blue-2);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(59, 119, 156, 0.3);
-}
-
-.action-btn--secondary {
-  background-color: var(--medium-green);
-  color: var(--light-cream);
-}
-
-.action-btn--secondary:hover {
-  background-color: var(--medium-green);
-  opacity: 0.85;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(139, 190, 178, 0.3);
-}
-
-.action-btn--danger {
-  background-color: var(--primary-red);
-  color: var(--light-cream);
-}
-
-.action-btn--danger:hover {
-  background-color: var(--secondary-red);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(231, 85, 97, 0.3);
-}
-
-/* Profile Sections */
+/* Profile sections */
 .profile-section {
-  margin-bottom: 3rem;
   padding: 2rem;
-  background-color: var(--light-cream);
+  background: var(--light-cream);
   border-radius: 12px;
+  margin-bottom: 3rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  animation: fadeInUp 0.6s ease-out;
 }
 
 .section-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
   border-bottom: 2px solid var(--medium-blue);
+  padding-bottom: 1rem;
 }
 
 .section-title {
   font-family: "Playfair Display", serif;
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: var(--dark-blue);
-  margin: 0;
-  flex: 1;
 }
 
-.animals-count,
-.messages-count {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: var(--medium-blue);
-  color: var(--light-cream);
-  border-radius: 50%;
-  font-weight: 700;
-  font-size: 1.1rem;
-}
+/* ------------------------------
+   BREAKPOINTS
+------------------------------ */
 
-/* Grid Layouts */
-.animals-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-}
-
-.messages-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-}
-
-/* Empty States */
-.empty-state {
-  text-align: center;
-  padding: 3rem 2rem;
-  background-color: rgba(196, 238, 239, 0.2);
-  border-radius: 8px;
-  border: 2px dashed var(--medium-blue);
-}
-
-.empty-state-text {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1.1rem;
-  color: var(--dark-blue);
-  margin: 0 0 1rem 0;
-}
-
-.empty-state-link {
-  display: inline-block;
-  padding: 0.8rem 1.5rem;
-  background-color: var(--medium-blue);
-  color: var(--light-cream);
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.empty-state-link:hover {
-  background-color: var(--medium-blue-2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(59, 119, 156, 0.3);
-}
-
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive Design */
-  .association-header {
-    padding: 1.5rem 1rem;
-  }
-
-  .association-title {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .association-info-section {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .info-card {
-    padding: 1rem;
-  }
-
-  .info-value {
-    font-size: 1rem;
-  }
-
-  .animals-section-title {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .animals-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    width: 100%;
-  }
-
-  .animal-card-details {
-    border-radius: 0.5rem;
-  }
-
-  .animal-img-details {
-    height: 300px;
-  }
-
-  .animal-card-content {
-    padding: 1rem;
-  }
-
-  .animal-name-details {
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
-}
-
+/* >= 576px */
 @media (min-width: 576px) {
   .association-header {
     padding: 2rem 1.5rem;
@@ -521,11 +294,6 @@
 
   .association-title {
     font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .animals-section-title {
-    font-size: 1.5rem;
   }
 
   .animals-grid {
@@ -538,7 +306,8 @@
   }
 }
 
-@media (min-width: 769px) {
+/* >= 768px */
+@media (min-width: 768px) {
   .association-info-section {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
@@ -556,8 +325,17 @@
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
   }
+
+  .animal-img-details {
+    height: 220px;
+  }
+
+  .association-title {
+    font-size: 2.5rem;
+  }
 }
 
+/* >= 1200px */
 @media (min-width: 1200px) {
   .animals-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

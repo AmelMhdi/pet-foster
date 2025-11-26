@@ -1,4 +1,4 @@
-import { Application } from "../models/Application.js";
+import { Animal, Application, User } from "../models/index.js";
 import { createApplicationSchema } from "../validations/applicationSchemas.js";
 
 // Create a foster request
@@ -149,19 +149,28 @@ export async function getMessagesByAssociation(req, res) {
   try {
     const associationId = parseInt(req.params.id, 10);
 
-    if (!Number.isInteger(associationId) || isNaN(associationId)) {
-      return res.status(400).json({ message: "ID de l'association invalide." });
+    if (isNaN(associationId)) {
+      return res.status(400).json({ message: "ID d'association invalide." });
     }
 
     const applications = await Application.findAll({
       include: [
         {
           model: Animal,
-          where: { user_id: associationId },
+          as: "animal",
+          include: [
+            {
+              model: User,
+              as: "owner",
+              where: { id: associationId },
+              attributes: ["id", "first_name", "last_name", "email"],
+            },
+          ],
         },
         {
           model: User,
-          attributes: ['id', 'first_name', 'last_name', 'email'],
+          as: "applicant",
+          attributes: ["id", "first_name", "last_name", "email"],
         },
       ],
     });

@@ -257,16 +257,6 @@
 }
 
 /* Association card */
-.associations-title {
-  font-family: "Playfair Display", "Georgia", serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--dark-blue);
-  letter-spacing: -0.5px;
-  margin-bottom: 0.5rem;
-  line-height: 1.2;
-}
-
 .associations-subtitle {
   font-family: "Segoe UI", "Inter", sans-serif;
   font-size: 1.1rem;
