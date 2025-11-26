@@ -69,13 +69,21 @@ export default function AnimalDetails() {
 
     try {
       setIsSubmitting(true);
+      console.log("🧩 Token utilisateur :", user?.token);
       await postUserMessageToApi(animal.id, trimmedMessage);
       setNewMessage("");
       setSuccessMessage("Votre demande a été envoyée avec succès.");
       setErrorMessage("");
-    } catch (error) {
+    } catch (error: any) {
       logError("Une erreur s'est produite lors de l'envoi du message :", error);
-      setErrorMessage("Une erreur s'est produite lors de l'envoi du message.");
+      
+      if (error.message.includes("400")) {
+        setErrorMessage("Vous avez déjà envoyé une demande pour cet animal.");
+      } else {
+        setErrorMessage("Une erreur s'est produite lors de l'envoi du message.");
+      }
+
+      setSuccessMessage("");
     } finally {
       setIsSubmitting(false);
     }
@@ -107,16 +115,16 @@ export default function AnimalDetails() {
               <div className="info-text">
                 <div className="info-grid">
                   <div className="info-item">
-                    <strong className="info-label">Date de naissance :</strong>
-                    <span className="info-value">{new Date(animal.date_of_birth).toLocaleDateString("fr-FR")}</span>
+                    <strong className="animal-info-label">Date de naissance :</strong>
+                    <span className="animal-info-value">{new Date(animal.date_of_birth).toLocaleDateString("fr-FR")}</span>
                   </div>
                   <div className="info-item">
-                    <strong className="info-label">Espèce :</strong>
-                    <span className="info-value">{animal.species?.name || "Information non disponible"}</span>
+                    <strong className="animal-info-label">Espèce :</strong>
+                    <span className="animal-info-value">{animal.species?.name || "Information non disponible"}</span>
                   </div>
                   <div className="info-item">
-                    <strong className="info-label">Description :</strong>
-                    <span className="info-value">{animal.description}</span>
+                    <strong className="animal-info-label">Description :</strong>
+                    <span className="animal-info-value">{animal.description}</span>
                   </div>
                 </div>
               </div>

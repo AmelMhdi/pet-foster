@@ -302,6 +302,46 @@ body {
   opacity: 0.7;
 }
 
+/* Not Found 404 Page */
+.not-found-content {
+  background-color: var(--light-cream);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.not-found-title {
+  font-family: "Playfair Display", serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--primary-red);
+  margin-bottom: 1rem;
+}
+
+.not-found-subtitle {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  line-height: 1.4;
+}
+
+.not-found-description {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.1rem;
+  color: var(--dark-blue);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.not-found-note {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.95rem;
+  color: var(--medium-blue);
+  font-style: italic;
+  line-height: 1.5;
+}
+
 @keyframes fadeInUp {
   0% {
     opacity: 0;

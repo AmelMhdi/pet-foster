@@ -36,7 +36,7 @@ export async function getAnimalByIdFromApi(id: number): Promise<IAnimal | null> 
 // Récupérer les animaux d'un utilisateur (association)
 export async function getAnimalsByUserIdFromApi(userId: number): Promise<IAnimal[]> {
 	try {
-		const response = await fetch(`${apiBaseUrl}/users/${userId}/animals`);
+		const response = await fetch(`${apiBaseUrl}/animals/user/${userId}`);
 		if (!response.ok) {
 			throw new Error(`Erreur lors de la récupération des animaux pour l'utilisateur avec l'ID ${userId} : ${response.status}`);
 		}

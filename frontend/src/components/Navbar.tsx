@@ -51,7 +51,7 @@ export default function Navbar() {
             </Link>
           </li>
 
-          {user?.role?.name === "association" && (
+          {user && user.role?.name === "Association" && (
             <li className="nav-item">
               <Link
                 className="nav-link px-3"

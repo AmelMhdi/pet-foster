@@ -29,6 +29,12 @@
   color: var(--light-cream);
 }
 
+.btn--inscription:hover,
+.btn--foster:hover {
+  background-color: var(--medium-blue);
+  color: var(--light-cream);
+}
+
 .btn--logout {
   background-color: var(--primary-red);
   color: var(--light-cream);

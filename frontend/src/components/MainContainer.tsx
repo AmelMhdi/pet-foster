@@ -13,7 +13,7 @@ export default function MainContainer() {
           </div>
 
           {/* mission section */}
-          <div className="my-5 py-4">
+          <div className="my-5 py-4 border-bottom border-2">
             <div className="text-center">
               <span style={{ fontSize: "2rem" }}>🐾</span>
             </div>
@@ -27,7 +27,7 @@ export default function MainContainer() {
           </div>
 
           {/* community section */}
-          <div className="my-5 py-4">
+          <div className="my-5 py-4 border-bottom border-2">
             <div className="text-center">
               <span style={{ fontSize: "2rem" }}>🐾</span>
             </div>
@@ -49,7 +49,7 @@ export default function MainContainer() {
             <div className="text-center">
               <span style={{ fontSize: "2rem" }}>🐾</span>
             </div>
-
+            
             <div className="card-body text-center p-5 mt-4 cta-section">
               <h2 className="section-heading serif-heading">Prêt à faire la différence ?</h2>
               <p className="cta-description">Rejoignez notre communauté de familles d'accueil bienveillantes</p>

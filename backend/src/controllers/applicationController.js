@@ -1,71 +1,131 @@
 import { Application } from "../models/Application.js";
+import { createApplicationSchema } from "../validations/applicationSchemas.js";
 
 // Create a foster request
+// export async function createOneMessage(req, res, next) {
+//   console.log("🔥 createOneMessage a été appelé !");
+
+//   const { message } = req.body;
+//   const animalId = parseInt(req.params.animalId, 10);
+//   const userId = req.user.id;
+
+//   console.log("📩 createOneMessage reçu :", { userId, animalId, message });
+
+//   // Vérifier que l'utilisateur est authentifié
+//   if (!userId) {
+//     return res.status(401).json({ message: "Vous devez être connecté." });
+//   }
+
+//   // Vérifier que animalId est un entier valide
+//   if (!Number.isInteger(animalId) || isNaN(animalId)) {
+//     return res.status(400).json({ message: "ID de l'animal invalide." });
+//   }
+
+//   if (!message || !userId || !animalId) {
+//     console.warn("❌ Données manquantes pour createOneMessage :", { userId, animalId, message });
+//     return res.status(400).json({ error: "Données manquantes." });
+//   }
+
+//   if (typeof message !== "string") {
+//     return res.status(400).json({ message: "Le message doit être une chaîne de caractères." });
+//   }
+
+//   if (!message || message.trim().length === 0)
+//     return res.status(400).json({ message: "Le message ne peut pas être vide." });
+
+//   try {
+//     // Vérifier si une demande existe déjà pour cet utilisateur et cet animal
+//     const existing = await Application.findOne({
+//       where: { user_id: userId, animal_id: animalId }
+//     });
+
+//     if (existing) {
+//       return res.status(400).json({ message: "Vous avez déjà postulé pour cet animal." });
+//     }
+
+//     // Créer la demande
+//     const newApplication = await Application.create({
+//       user_id: userId,
+//       animal_id: animalId,
+//       message,
+//       status: "pending"
+//     })
+
+//     console.log("✅ Nouvelle demande d'accueil créée :", newApplication);
+
+//     return res.status(201).json({ message: "Demande d'accueil créée avec succès.", application: newApplication });
+//   } catch (error) {
+//     console.error("Erreur lors de la création de l'application", error);
+//     return res.status(500).json({ error: "Erreur interne du serveur." });
+//   }
+// }
+
 export async function createOneMessage(req, res, next) {
-  const animalId = parseInt(req.params.animalId, 10);
-  const userId = req.user.id;
-
-  console.log("req.body reçu:", req.body);
-  console.log("req.user:", req.user);
-  console.log("animalId:", animalId);
-  console.log("userId:", userId);
-  
-  const { message } = req.body;
-
-  // Vérifier que l'utilisateur est authentifié
-  if (!userId) {
-    return res.status(401).json({ message: "Vous devez être connecté." });
+  // Validation avec Joi
+  const { error } = createApplicationSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ 
+      message: error.details.map((detail) => detail.message) 
+    });
   }
 
-  // Vérifier que animalId est un entier valide
+  const animalId = parseInt(req.params.animalId, 10);
+  const userId = req.user.id; // Récupéré du token JWT via isAuth
+  const { message } = req.body;
+
+  // Vérification de l'animalId
   if (!Number.isInteger(animalId) || isNaN(animalId)) {
     return res.status(400).json({ message: "ID de l'animal invalide." });
   }
 
-  if (typeof message !== "string") {
-    return res.status(400).json({ message: "Le message doit être une chaîne de caractères." });
-  }
-
-  if (!message || message.trim().length === 0)
-    return res.status(400).json({ message: "Le message ne peut pas être vide." });
-
+  // Vérifier si une demande existe déjà
   try {
-    // Vérifier si une demande existe déjà pour cet utilisateur et cet animal
     const existing = await Application.findOne({
       where: { user_id: userId, animal_id: animalId }
     });
 
     if (existing) {
-      return res.status(400).json({ message: "Vous avez déjà postulé pour cet animal." });
+      return res.status(400).json({ 
+        message: "Vous avez déjà postulé pour cet animal." 
+      });
     }
 
     // Créer la demande
-    const application = await Application.create({
+    const newApplication = await Application.create({
       user_id: userId,
       animal_id: animalId,
       message,
       status: "pending"
-    })
+    });
 
-    res.status(201).json({ message: "Demande d'accueil créée avec succès.", application });
+    return res.status(201).json({ 
+      message: "Demande d'accueil créée avec succès.", 
+      application: newApplication 
+    });
+
   } catch (error) {
     console.error("Erreur lors de la création de l'application", error);
-    error.statusCode = 500;
-    error.message = "Erreur serveur.";
-    next(error);
+    return res.status(500).json({ error: "Erreur interne du serveur." });
   }
 }
 
 // Get a user's request to foster an animal
 export async function getOneMessage(req, res, next) {
-  const { animalId, userId } = req.params;
-  
+  const { userId, animalId } = req.params;
+
+  if (!Number.isInteger(parseInt(userId)) || !Number.isInteger(parseInt(animalId))) {
+    console.warn("❌ Mauvais paramètres pour getOneMessage :", { userId, animalId });
+    return res.status(400).json({ error: "Paramètres invalides." });
+  }
+
   try {
     const getMessage = await Application.findOne({
       where: { user_id: userId, animal_id: animalId },
       include: ["user", "animal"],
     });
 
+    if (!message) return res.status(404).json({ error: "Message introuvable." });
+    
     if (!getMessage) return next();
 
     res.status(200).json({
@@ -82,5 +142,33 @@ export async function getOneMessage(req, res, next) {
     error.statusCode = 500;
     error.message = "Erreur interne du serveur.";
     next(error);
+  }
+}
+
+export async function getMessagesByAssociation(req, res) {
+  try {
+    const associationId = parseInt(req.params.id, 10);
+
+    if (!Number.isInteger(associationId) || isNaN(associationId)) {
+      return res.status(400).json({ message: "ID de l'association invalide." });
+    }
+
+    const applications = await Application.findAll({
+      include: [
+        {
+          model: Animal,
+          where: { user_id: associationId },
+        },
+        {
+          model: User,
+          attributes: ['id', 'first_name', 'last_name', 'email'],
+        },
+      ],
+    });
+
+    res.status(200).json(applications);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des demandes :", error);
+    res.status(500).json({ message: "Erreur interne du serveur." });
   }
 }
