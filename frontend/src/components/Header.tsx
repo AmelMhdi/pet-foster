@@ -10,7 +10,6 @@
               <img
                 src="/paw-print.svg"
                 alt="Logo Pet Foster Connect"
-                height="40"
                 className="me-2"
                 loading="lazy"
               />
