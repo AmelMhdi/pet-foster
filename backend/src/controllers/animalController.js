@@ -1,22 +1,22 @@
 import Joi from "joi";
 import { Animal, Species, User } from "../models/index.js";
-import { Sequelize } from "sequelize";
+// import { Sequelize } from "sequelize";
 
 // Animals CRUD
 export async function getAllAnimals(req, res) {
-  const { limit, offset, random } = req.query;
+  // const { limit, offset, random } = req.query;
 
   const queryOptions = {
     include: [
-      "species", 
-      { model: User, as: "association", attributes: ["id", "first_name", "last_name"] }
+      { model: Species, as: "species", attributes: ["id", "name"] },
+      { model: User, as: "owner", attributes: ["id", "first_name", "last_name"] }
     ],
     order: [["id", "ASC"]],
   };
 
-  if (limit) queryOptions.limit = parseInt(limit, 10);
-  if (offset) queryOptions.offset = parseInt(offset, 10);
-  if (random === "true") queryOptions.order = [Sequelize.literal("RANDOM()")];
+  // if (limit) queryOptions.limit = parseInt(limit, 10);
+  // if (offset) queryOptions.offset = parseInt(offset, 10);
+  // if (random === "true") queryOptions.order = [Sequelize.literal("RANDOM()")];
 
   try {
     const animals = await Animal.findAll(queryOptions);
@@ -32,8 +32,10 @@ export async function getOneAnimal(req, res, next) {
   if (!animalId) return res.status(404).json({ error: "ID invalide." });
 
   try {
-    const animal = await Animal.findByPk(animalId, { include: ["species"] });
+    const animal = await Animal.findByPk(animalId);
+
     if (!animal) return res.status(404).json({ error: "Animal introuvable." });
+    
     res.json(animal);
   } catch (error) {
     error.statusCode = 500;

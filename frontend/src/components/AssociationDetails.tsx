@@ -94,7 +94,7 @@ export default function ContactAssociation() {
                     )}
                     <div className="animal-card-content">
                       <h5 className="animal-name-details">{animal.name}</h5>
-                      <Link to={`/animals/${animal.id}`} className="btn btn-primary btn-details" aria-label={`Voir les détails de ${animal.name}`}>
+                      <Link to={`/animaux/${animal.id}`} className="btn btn-primary btn-details" aria-label={`Voir les détails de ${animal.name}`}>
                         Voir détails
                       </Link>
                     </div>

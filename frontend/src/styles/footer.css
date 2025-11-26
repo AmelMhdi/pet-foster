@@ -3,6 +3,7 @@
   color: var(--light-cream);
   font-size: 0.9rem;
   border-top: 1px solid var(--grey);
+  font-family: "Playfair Display", "Georgia", "serif";
 }
 
 .footer-link {
@@ -14,13 +15,14 @@
 
 .footer-link:hover,
 .footer-link:focus {
-  color: var(--primary-red);
+  color: var(--light-pink);
   text-decoration: underline;
 }
 
 .footer-text {
   font-size: 0.85rem;
   color: var(--light-cream);
+  cursor: default;
 }
 
 .footer-nav li {
