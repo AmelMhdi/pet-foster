@@ -1,5 +1,7 @@
 import { IAnimal } from "../@types";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+
 interface AnimalCardProps {
   animal: IAnimal;
   onEdit: (id: number) => void;
@@ -14,7 +16,7 @@ export default function AnimalsFromAsso({ animal, onEdit, onDelete }: AnimalCard
       <div className="card animal-card h-100 text-center shadow-sm">
         {animal.picture && (
           <img
-            src={animal.picture}
+            src={`${apiBaseUrl}/images/${animal.picture}.webp`}
             alt={animal.name}
             className="card-img-top img-fluid rounded-top animal-img"
             loading="lazy"
